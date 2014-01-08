@@ -126,8 +126,6 @@ class Mapper(VRT):
         dst = {'wkv': 'angle_of_incidence',
                'PixelFunctionType': 'BetaSigmaToIncidence',
                'SourceTransferType': gdal.GetDataTypeName(dtype),
-               '_FillValue': -10000,   # NB: this is also hard-coded in
-                                       #     pixelfunctions.c
                'dataType': 6,
                'name': 'incidence_angle'}
 
