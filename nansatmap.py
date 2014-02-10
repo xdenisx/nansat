@@ -22,10 +22,10 @@ class Nansatmap(Basemap):
     '''Perform opeartions with graphical files: create,
     add legend and geolocation_grids, save.
 
-    NansatMap instance is created in the Nansat.write_map method.
-    The methods below are applied consequently in order to get projection,
-    generate a basemap from array(s), add legend and geolocation grids,
-    save to a file.
+    | NansatMap instance is created in the Nansat.write_map method.
+    | The methods below are applied consequently in order to get projection,
+      generate a basemap from array(s), add legend and geolocation grids,
+      save to a file.
 
     '''
     # general attributes
@@ -57,6 +57,7 @@ class Nansatmap(Basemap):
 
     def __init__(self, domain, **kwargs):
         ''' Set attributes
+
         Get proj4 from the given domain and convert the proj4 projection to
         the basemap projection.
 
@@ -66,21 +67,43 @@ class Nansatmap(Basemap):
         kwargs : dictionary
             parameters that are used for all operations.
 
-        Modifies
-        ---------
-        self.fig : figure
+        Attributes
+        ----------
+        fig : figure
             matplotlib.pyplot.figure
-        self.colorbar : boolean
-            if colorbar is True, it is possible to put colorbar.
-            e.g. contour_plots(contour_style='fill'), put_color()
-        self.mpl : list
+        colorbar : boolean
+            | if colorbar is True, it is possible to put colorbar.
+            | e.g. contour_plots(contour_style='fill'), put_color()
+        mpl : list
             elements are matplotlib.contour.QuadContourSet instance,
                          matplotlib.quiver.Quiver instance or
                          matplotlib.collections.QuadMesh object
+        cmap : default cm.jet
+        colorbar : default None
+        mpl : default []
+        lon : default None
+        lat : default None
+        x : default None
+        y : default None
+        convolve_weightSize : default 7
+        convolve_weights : default None
+        convolve_mode : default 'reflect'
+        convolve_cval : default 0.0
+        convolve_origin : default 0
+        fourier_sigma : default 1.0
+        fourier_n : default -1
+        fourier_axis : default -1
+        spline_order : default 3
+        spline_axis : default -1
+        gaussian_sigma : default 2.5
+        gaussian_order : default 0
+        gaussian_mode : default 'reflect'
+        gaussian_cval : default 0.0
+        DEFAULT_EXTENSION : default '.png'
 
-        See also
+        References
         ----------
-        http://matplotlib.org/basemap/api/basemap_api.html
+        basemap() : http://matplotlib.org/basemap/api/basemap_api.html
 
         '''
         self.domain = domain
@@ -187,9 +210,10 @@ class Nansatmap(Basemap):
         ---------
         odata : numpy 2D array
 
-        See also
+        References
         ----------
-        http://docs.scipy.org/doc/scipy/reference/ndimage.html
+        scipy.ndimage() :
+            http://docs.scipy.org/doc/scipy/reference/ndimage.html
 
         '''
         # modify default parameter
@@ -232,10 +256,12 @@ class Nansatmap(Basemap):
     def _do_contour(self, bmfunc, data, v, smooth, mode, **kwargs):
         ''' Prepare data and make contour or contourf plots
 
-        1. Smooth data
-        1. Add colormap
-        1. Append contour or contourf plot to self.mpl
+        | Smooth data
+        | Add colormap
+        | Append contour or contourf plot to self.mpl
 
+        Parameters
+        -----------
         bmfunc : Basemap function
             Basemap.contour, Basemap.contourf
         data : numpy 2D array
@@ -285,9 +311,9 @@ class Nansatmap(Basemap):
         label : boolean
             Add lables?
         **kwargs:
-            Optional parameters for Nansatmap.smooth()
-            Optional parameters for pyplot.contour().
-            Optional parameters for pyplot.clabel()
+            | Optional parameters for Nansatmap.smooth()
+            | Optional parameters for pyplot.contour().
+            | Optional parameters for pyplot.clabel()
 
         Modifies
         ---------
@@ -319,9 +345,9 @@ class Nansatmap(Basemap):
             'gaussian', 'spline', 'fourier', 'convolve'
             mname of smoothing algorithm to apply
         **kwargs:
-            cmap : colormap (e.g. cm.jet)
-            Optional parameters for Nansatmap.smooth()
-            Optional parameters for pyplot.contourf().
+            | cmap : colormap (e.g. cm.jet)
+            | Optional parameters for Nansatmap.smooth()
+            | Optional parameters for pyplot.contourf().
 
         Modifies
         ---------
@@ -341,7 +367,7 @@ class Nansatmap(Basemap):
             Input data
         validValues : list with two scalars (e.g. [min, max])
             minimum and maximum valid values
-        Parameters for Basemap.pcolormesh
+        Parameters of Basemap.pcolormesh
 
         Modifies
         ---------
@@ -368,7 +394,7 @@ class Nansatmap(Basemap):
             Input data with Y-component
         quivectors : int
             Number of vectors along both dimentions
-        Parameters for Basemap.quiver()
+        Parameters of Basemap.quiver()
 
         Modifies
         ---------
@@ -441,7 +467,12 @@ class Nansatmap(Basemap):
         lon_labels : list of Bool
             Location of longitude labels
 
-        See also: Basemap.drawparallels(), Basemap.drawmeridians()
+        References
+        ----------
+        Basemap.drawparallels() :
+            http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawparallels
+        Basemap.drawmeridians() :
+            http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawmeridians
 
         '''
         self.drawparallels(np.arange(self.latMin, self.latMax,
@@ -458,10 +489,9 @@ class Nansatmap(Basemap):
 
         Parameters
         ----------
-        Parameters for basemap.fillcontinents
+        Parameters of basemap.fillcontinents
 
         '''
-
         if kwargs is None:
             kwargs = {}
         if not ('color' in kwargs.keys()):
@@ -481,7 +511,7 @@ class Nansatmap(Basemap):
             name of outputfile
         landmask : Boolean
             Draw landmask?
-        Parameters for basemap.fillcontinents
+        Parameters of basemap.fillcontinents
 
         '''
         if landmask:
@@ -505,7 +535,7 @@ class Nansatmap(Basemap):
 
         Modifies
         ---------
-            default self attributes
+        default self attributes
 
         '''
         for key in idict:
@@ -519,6 +549,7 @@ class Nansatmap(Basemap):
         ---------
         self.lon : numpy array with lon coordinates
         self.lat : numpy array with lat coordinates
+
         '''
         if self.lon is None or self.lat is None:
             self.lon, self.lat = self.domain.get_geolocation_grids()
@@ -530,6 +561,7 @@ class Nansatmap(Basemap):
         ---------
         self.x : numpy array with X coordinates
         self.y : numpy array with Y coordinates
+
         '''
         self._create_lonlat_grids()
         if self.x is None or self.y is None:

@@ -148,80 +148,67 @@ try:
 except:
     warnings.warn('Cannot generate latlongSRS. Nansat will not work!')
 
+obpg = {'red': [(0.00, 0.56, 0.56),
+                (0.19, 0.00, 0.00),
+                (0.38, 0.00, 0.00),
+                (0.50, 0.00, 0.00),
+                (0.63, 1.00, 1.00),
+                (0.88, 1.00, 1.00),
+                (1.00, 0.40, 0.40)],
+        'green': [(0.00, 0.00, 0.00),
+                  (0.19, 0.00, 0.00),
+                  (0.38, 1.00, 1.00),
+                  (0.50, 1.00, 1.00),
+                  (0.63, 1.00, 1.00),
+                  (0.88, 0.00, 0.00),
+                  (1.00, 0.00, 0.00)],
+        'blue': [(0.00, 0.43, 0.43),
+                 (0.19, 1.00, 1.00),
+                 (0.38, 1.00, 1.00),
+                 (0.50, 0.00, 0.00),
+                 (0.63, 0.00, 0.00),
+                 (0.88, 0.00, 0.00),
+                 (1.00, 0.00, 0.00)], }
 
-
-obpg = {
-'red': [  (0.00, 0.56, 0.56),
-          (0.19, 0.00, 0.00),
-          (0.38, 0.00, 0.00),
-          (0.50, 0.00, 0.00),
-          (0.63, 1.00, 1.00),
-          (0.88, 1.00, 1.00),
-          (1.00, 0.40, 0.40)],
-'green': [(0.00, 0.00, 0.00),
-          (0.19, 0.00, 0.00),
-          (0.38, 1.00, 1.00),
-          (0.50, 1.00, 1.00),
-          (0.63, 1.00, 1.00),
-          (0.88, 0.00, 0.00),
-          (1.00, 0.00, 0.00)],
-'blue': [ (0.00, 0.43, 0.43),
-          (0.19, 1.00, 1.00),
-          (0.38, 1.00, 1.00),
-          (0.50, 0.00, 0.00),
-          (0.63, 0.00, 0.00),
-          (0.88, 0.00, 0.00),
-          (1.00, 0.00, 0.00)],
-}
-
-ak01 = {
-
-'red': [  (0,0.1,0.1,),
-(0.1,0.56,0.56,),
-(0.22,0,0,),
-(0.27,0,0,),
-(0.37,0.3,0.3,),
-(0.47,0,0,),
-(0.52,0,0,),
-(0.64,1,1,),
-(0.76,1,1,),
-(0.88,0.4,0.4,),
-(1,1,1,)],
-
-
-'green': [(0,0,0,),
-(0.1,0,0,),
-(0.22,0,0,),
-(0.27,0,0,),
-(0.37,0.6,0.6,),
-(0.47,0.6,0.6,),
-(0.52,1,1,),
-(0.64,1,1,),
-(0.76,0,0,),
-(0.88,0,0,),
-(1,0.5,0.5,)],
-
-
-'blue': [ (0,0.1,0.1,),
-(0.1,0.5,0.5,),
-(0.22,0.5,0.5,),
-(0.27,1,1,),
-(0.37,1,1,),
-(0.47,0,0,),
-(0.52,0,0,),
-(0.64,0,0,),
-(0.76,0,0,),
-(0.88,0,0,),
-(1,0.5,0.5,)],
-
-
-
-}
+ak01 = {'red': [(0, 0.1, 0.1,),
+                (0.1, 0.56, 0.56,),
+                (0.22, 0, 0,),
+                (0.27, 0, 0,),
+                (0.37, 0.3, 0.3,),
+                (0.47, 0, 0,),
+                (0.52, 0, 0,),
+                (0.64, 1, 1,),
+                (0.76, 1, 1,),
+                (0.88, 0.4, 0.4,),
+                (1, 1, 1,)],
+        'green': [(0, 0, 0,),
+                  (0.1, 0, 0,),
+                  (0.22, 0, 0,),
+                  (0.27, 0, 0,),
+                  (0.37, 0.6, 0.6,),
+                  (0.47, 0.6, 0.6,),
+                  (0.52, 1, 1,),
+                  (0.64, 1, 1,),
+                  (0.76, 0, 0,),
+                  (0.88, 0, 0,),
+                  (1, 0.5, 0.5,)],
+        'blue': [(0, 0.1, 0.1,),
+                 (0.1, 0.5, 0.5,),
+                 (0.22, 0.5, 0.5,),
+                 (0.27, 1, 1,),
+                 (0.37, 1, 1,),
+                 (0.47, 0, 0,),
+                 (0.52, 0, 0,),
+                 (0.64, 0, 0,),
+                 (0.76, 0, 0,),
+                 (0.88, 0, 0,),
+                 (1, 0.5, 0.5,)], }
 try:
     cm.register_cmap(name='obpg', data=obpg, lut=256)
     cm.register_cmap(name='ak01', data=ak01, lut=256)
 except:
     warnings.warn('Cannot generate and register the OBPG colormap!')
+
 
 class Error(Exception):
     '''Base class for exceptions in this module.'''
@@ -376,7 +363,6 @@ class Node(object):
                 ielm += 1
         return False
 
-
     def replaceNode(self, tag, elemNum=0, newNode=None):
         ''' Find the first subnode with this tag and replace with given node.
 
@@ -425,7 +411,7 @@ class Node(object):
         '''Recoursively find child of the dom'''
         children = dom.childNodes
         theChild = None
-        
+
         chn = 0
         for child in children:
             print child, child.nodeType, chn
@@ -436,15 +422,14 @@ class Node(object):
                     if chn == n:
                         theChild = child
                     chn += 1
-    
+
             if theChild is not None:
                 break
-    
+
             if child.hasChildNodes():
                 print 'has childs'
                 theChild = self.find_dom_child(child, tagName, n)
-            
-        
+
         return theChild
 
     def _replace_dom_Node(self, tag, nodeNumber, contents):
@@ -454,7 +439,7 @@ class Node(object):
         oldChild = self.find_dom_child(dom0, tag, nodeNumber)
         newChild = xdm.parseString(contents).childNodes[0]
         dom0.replaceChild(newChild, oldChild)
-        
+
         return Node.create(dom0)
 
     def nodeList(self, tag):
@@ -643,20 +628,22 @@ def initial_bearing(lon1, lat1, lon2, lat2):
                              np.cos(rlon2 - rlon1))
         return mod(np.degrees(bearing) + 360, 360)
 
+
 def haversine(lon1, lat1, lon2, lat2):
-    """ 
-    Calculate the great circle distance between two points 
+    """
+    Calculate the great circle distance between two points
     on the spherical earth (specified in decimal degrees)
-    """                      
-    # convert decimal degrees to radians  
+    """
+    # convert decimal degrees to radians
     lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
-    # haversine formula 
+    # haversine formula
     dlon = lon2 - lon1
     dlat = lat2 - lat1
     a = np.sin(dlat/2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2)**2
     c = 2 * np.arcsin(np.sqrt(a))
     distance_meters = 6367000 * c
     return distance_meters
+
 
 def add_logger(logName='', logLevel=None):
     ''' Creates and returns logger with default formatting for Nansat

@@ -29,96 +29,101 @@ except ImportError:
 class Domain():
     '''Container for geographical reference of a raster
 
-    A Domain object describes all attributes of geographical
-    reference of a raster:
-      * width and height (number of pixels)
-      * pixel size (e.g. in decimal degrees or in meters)
-      * relation between pixel/line coordinates and geographical
-        coordinates (e.g. a linear relation)
-      * type of data projection (e.g. geographical or stereographic)
-
-    The core of Domain is a GDAL Dataset. It has no bands, but only
-    georeference information: rasterXsize, rasterYsize, GeoTransform and
-    Projection or GCPs, etc. which fully describe dimentions and spatial
-    reference of the grid.
-
-    There are three ways to store geo-reference in a GDAL dataset:
-      * Using GeoTransfrom to define linear relationship between raster
-        pixel/line and geographical X/Y coordinates
-      * Using GCPs (set of Ground Control Points) to define non-linear
-        relationship between pixel/line and X/Y
-      * Using Geolocation Array - full grids of X/Y coordinates for
-        each pixel of a raster
-    The relation between X/Y coordinates of the raster and latitude/longitude
-    coordinates is defined by projection type and projection parameters.
-    These pieces of information are therefore stored in Domain:
-      * Type and parameters of projection +
-        * GeoTransform, or
-        * GCPs, or
-        * GeolocationArrays
-
-    Domain has methods for basic operations with georeference information:
-      * creating georeference from input options;
-      * fetching corner, border or full grids of X/Y coordinates;
-      * making map of the georeferenced grid in a PNG or KML file;
-      * and some more...
-
-    The main attribute of Domain is a VRT object self.vrt.
-    Nansat inherits from Domain and adds bands to self.vrt
+    | A Domain object describes all attributes of geographical
+      reference of a raster:
+    |   - width and height (number of pixels)
+    |   - pixel size (e.g. in decimal degrees or in meters)
+    |   - relation between pixel/line coordinates and geographical
+       coordinates (e.g. a linear relation)
+    |   - type of data projection (e.g. geographical or stereographic)
+    |
+    | The core of Domain is a GDAL Dataset. It has no bands, but only
+      georeference information: rasterXsize, rasterYsize, GeoTransform and
+    | Projection or GCPs, etc. which fully describe dimentions and spatial
+      reference of the grid.
+    | There are three ways to store geo-reference in a GDAL dataset:
+    |   - Using GeoTransfrom to define linear relationship between raster
+      pixel/line and geographical X/Y coordinates
+    |   - Using GCPs (set of Ground Control Points) to define non-linear
+      relationship between pixel/line and X/Y
+    |   -Using Geolocation Array - full grids of X/Y coordinates for
+      each pixel of a raster
+    | The relation between X/Y coordinates of the raster and latitude/longitude
+      coordinates is defined by projection type and projection parameters.
+    | These pieces of information are therefore stored in Domain:
+    | Type and parameters of projection +
+    |   - GeoTransform, or
+    |   - GCPs, or
+    |   - GeolocationArrays
+    |
+    | Domain has methods for basic operations with georeference information:
+    |   - creating georeference from input options;
+    |   - fetching corner, border or full grids of X/Y coordinates;
+    |   - making map of the georeferenced grid in a PNG or KML file;
+    |   - and some more...
+    |
+    | The main attribute of Domain is a VRT object self.vrt.
+    | Nansat inherits from Domain and adds bands to self.vrt
 
     '''
     def __init__(self, srs=None, ext=None, ds=None, lon=None,
                  lat=None, name='', logLevel=None):
         '''Create Domain from GDALDataset or string options or lat/lon grids
 
-        d = Domain(srs, ext)
-            Size, extent and spatial reference is given by strings
-        d = Domain(ds=GDALDataset):
-            Size, extent and spatial reference is copied from input
-            GDAL dataset
-        d = Domain(srs, ds=GDALDataset):
-            Spatial reference is given by srs, but size and extent is
-            determined
-            from input GDAL dataset
-        d = Domain(lon=lonGrid, lat=latGrid)
-            Size, extent and spatial reference is given by two grids
+        Size, extent and spatial reference is given by strings
+
+        >>> d = Domain(srs, ext)
+
+        Size, extent and spatial reference is copied from input
+        GDAL dataset
+
+        >>> d = Domain(ds=GDALDataset)
+
+        Spatial reference is given by srs, but size and extent is
+        determined from input GDAL dataset
+
+        >>> d = Domain(srs, ds=GDALDataset)
+
+        Size, extent and spatial reference is given by two grids
+
+        >>> d = Domain(lon=lonGrid, lat=latGrid)
 
         Parameters
         ----------
         srs : PROJ4 or EPSG or WKT
-            Specifies spatial reference system (SRS)
-            PROJ4:
-            string with proj4 options [http://trac.osgeo.org/proj/] e.g.:
-            '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
-            '+proj=stere +datum=WGS84 +ellps=WGS84 +lat_0=75 +lon_0=10
-             +no_defs'
-            EPSG:
-            integer with EPSG number, [http://spatialreference.org/],
-            e.g. 4326
-            WKT:
-            string with Well Know Text of SRS. E.g.:
-            'GEOGCS["WGS 84",
-                DATUM["WGS_1984",
-                    SPHEROID["WGS 84",6378137,298.257223563,
-                        AUTHORITY["EPSG","7030"]],
-                    TOWGS84[0,0,0,0,0,0,0],
-                    AUTHORITY["EPSG","6326"]],
-                PRIMEM["Greenwich",0,
-                    AUTHORITY["EPSG","8901"]],
-                UNIT["degree",0.0174532925199433,
-                    AUTHORITY["EPSG","9108"]],
-                AUTHORITY["EPSG","4326"]]'
+            | Specifies spatial reference system (SRS)
+            | PROJ4:
+            | string with proj4 options [http://trac.osgeo.org/proj/] e.g.:
+            | '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
+            | '+proj=stere +datum=WGS84 +ellps=WGS84 +lat_0=75 +lon_0=10
+              +no_defs'
+            | EPSG:
+            | integer with EPSG number, [http://spatialreference.org/],
+            | e.g. 4326
+            | WKT:
+            | string with Well Know Text of SRS. E.g.:
+            | 'GEOGCS["WGS 84",
+            |     DATUM["WGS_1984",
+            |         SPHEROID["WGS 84",6378137,298.257223563,
+            |             AUTHORITY["EPSG","7030"]],
+            |         TOWGS84[0,0,0,0,0,0,0],
+            |         AUTHORITY["EPSG","6326"]],
+            |     PRIMEM["Greenwich",0,
+            |         AUTHORITY["EPSG","8901"]],
+            |     UNIT["degree",0.0174532925199433,
+            |         AUTHORITY["EPSG","9108"]],
+            |     AUTHORITY["EPSG","4326"]]'
         ext : string
-            some gdalwarp options + additional options
-            [http://www.gdal.org/gdalwarp.html]
-            Specifies extent, resolution / size
-            Available options: (('-te' or '-lle') and ('-tr' or '-ts'))
-            (e.g. '-lle -10 30 55 60 -ts 1000 1000' or
-            '-te 100 2000 300 10000 -tr 300 200')
-            -tr resolutionx resolutiony
-            -ts sizex sizey
-            -te xmin ymin xmax ymax
-            -lle lonmin latmin lonmax latmax
+            | some gdalwarp options + additional options
+            | http://www.gdal.org/gdalwarp.html
+            | Specifies extent, resolution / size
+            | Available options: (('-te' or '-lle') and ('-tr' or '-ts'))
+            | (e.g. '-lle -10 30 55 60 -ts 1000 1000' or
+              '-te 100 2000 300 10000 -tr 300 200')
+            | -tr resolutionx resolutiony
+            | -ts sizex sizey
+            | -te xmin ymin xmax ymax
+            | -lle lonmin latmin lonmax latmax
         ds : GDAL dataset
         lat : Numpy array
             Grid with latitudes
@@ -131,22 +136,22 @@ class Domain():
 
         Raises
         -------
-        ProjectionError : occurs when Projection() is empty
-            despite it is required for creating extentDic.
+        ProjectionError : occurs when Projection() is empty despite
+            it is required for creating extentDic.
         OptionError : occures when the arguments are not proper.
 
         Modifies
         ---------
-        self.vrt.datasetset : dataset in memory
-            dataset is created based on the input arguments
+        self.vrt.datasetset : dataset in memory dataset is created
+        based on the input arguments
 
-        See Also
-        ---------
-        Nansat.reproject()
-        [http://www.gdal.org/gdalwarp.html]
-        [http://trac.osgeo.org/proj/]
-        [http://spatialreference.org/]
-        [http://www.gdal.org/ogr/osr_tutorial.html]
+        References
+        ----------
+        | Nansat.reproject()
+        | http://www.gdal.org/gdalwarp.html
+        | http://trac.osgeo.org/proj/
+        | http://spatialreference.org/
+        | http://www.gdal.org/ogr/osr_tutorial.html
 
         '''
         # set default attributes
@@ -281,7 +286,6 @@ class Domain():
         xmlFileName : string, optional
             Name of the XML-file to convert. If only this value is given
             - kmlFileName=xmlFileName+'.kml'
-
         kmlFileName : string, optional
             Name of the KML-file to generate from the current Domain
 
@@ -348,26 +352,27 @@ class Domain():
 
         Examples
         ---------
-        # First of all, reproject an image into Lat/Lon WGS84
-          (Simple Cylindrical) projection
-        # 1. Cancel previous reprojection
-        # 2. Get corners of the image and the pixel resolution
-        # 3. Create Domain with stereographic projection,
-        #    corner coordinates and resolution 1000m
-        # 4. Reproject
-        # 5. Write image
-        # 6. Write KML for the image
-        n.reproject() # 1.
-        lons, lats = n.get_corners() # 2.
-        srsString = '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
-        extentString = '-lle %f %f %f %f -ts 3000 3000'
-        % (min(lons), min(lats), max(lons), max(lats))
-        d = Domain(srs=srsString, ext=extentString) # 3.
-        n.reproject(d) # 4.
-        n.write_figure(fileName=figureName, bands=[3], clim=[0,0.15],
-                       cmapName='gray', transparency=0) # 5.
-        n.write_kml_image(kmlFileName=oPath + fileName + '.kml',
-                          kmlFigureName=figureName) # 6.
+        Create projected a KML image ::
+
+            # 1. First of all, reproject an image into Lat/Lon WGS84
+            # (Simple Cylindrical) projection.
+            # Cancel previous reprojection
+            n.reproject()
+            # 2. Get corners of the image and the pixel resolution
+            # lons, lats = n.get_corners()
+            # 3. Create Domain with stereographic projection,
+            #    corner coordinates and resolution 1000m
+            srsString = '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
+            extentString = '-lle %f %f %f %f -ts 3000 3000' %(min(lons), min(lats), max(lons), max(lats))
+            d = Domain(srs=srsString, ext=extentString)
+            # 4. Reproject
+            n.reproject(d)
+            # 5. Write image
+            n.write_figure(fileName=figureName, bands=[3], clim=[0,0.15],
+                           cmapName='gray', transparency=0)
+            # 6. Write KML for the image
+            n.write_kml_image(kmlFileName=oPath + fileName + '.kml',
+                              kmlFigureName=figureName)
 
         '''
         # test input options
@@ -415,10 +420,10 @@ class Domain():
     def get_geolocation_grids(self, stepSize=1):
         '''Get longitude and latitude grids representing the full data grid
 
-        If GEOLOCATION is not present in the self.vrt.dataset then grids
-        are generated by converting pixel/line of each pixel into lat/lon
-        If GEOLOCATION is present in the self.vrt.dataset then grids are read
-        from the geolocation bands.
+        | If GEOLOCATION is not present in the self.vrt.dataset then grids
+          are generated by converting pixel/line of each pixel into lat/lon
+        | If GEOLOCATION is present in the self.vrt.dataset then grids are
+          read from the geolocation bands.
 
         Parameters
         -----------
@@ -431,12 +436,12 @@ class Domain():
             grid with longitudes
         latitude : numpy array
             grid with latitudes
-        '''
 
+        '''
         X = range(0, self.vrt.dataset.RasterXSize, stepSize)
         Y = range(0, self.vrt.dataset.RasterYSize, stepSize)
         Xm, Ym = np.meshgrid(X, Y)
-        
+
         if len(self.vrt.geolocationArray.d) > 0:
             # if the vrt dataset has geolocationArray
             # read lon,lat grids from geolocationArray
@@ -453,11 +458,11 @@ class Domain():
     def _convert_extentDic(self, dstWKT, extentDic):
         '''Convert -lle option (lat/lon) to -te (proper coordinate system)
 
-        Source SRS from LAT/LON projection and target SRS from dstWKT.
-        Create osr.CoordinateTransformation based on these SRSs and
-        convert given values in degrees to the destination coordinate
-        system given by WKT.
-        Add key 'te' and the converted values into the extentDic.
+        | Source SRS from LAT/LON projection and target SRS from dstWKT.
+        | Create osr.CoordinateTransformation based on these SRSs and
+          convert given values in degrees to the destination coordinate
+          system given by WKT.
+        | Add key 'te' and the converted values into the extentDic.
 
         Parameters
         -----------
@@ -501,20 +506,20 @@ class Domain():
     def _create_extentDic(self, extentString):
         '''Create a dictionary from extentString
 
-        Check if extentString is proper.
-            * '-te' and '-lle' take 4 numbers.
-            * '-ts' and '-tr' take 2 numbers.
-            * the combination should be ('-te' or '-lle') and ('-ts' or '-tr')
-        If it is proper, create a dictionary
-        Otherwise, raise the error.
+        | Check if extentString is proper.
+        |   - '-te' and '-lle' take 4 numbers.
+        |   - '-ts' and '-tr' take 2 numbers.
+        |   -  the combination should be ('-te' or '-lle') and ('-ts' or '-tr')
+        | If it is proper, create a dictionary
+        | Otherwise, raise the error.
 
         Parameters
         -----------
         extentString : string
-            '-te xMin yMin xMax yMax',
-            '-tr xResolution yResolution',
-            '-ts width height',
-            '-lle minlon minlat maxlon maxlat'
+            | '-te xMin yMin xMax yMax',
+            | '-tr xResolution yResolution',
+            | '-ts width height',
+            | '-lle minlon minlat maxlon maxlat'
 
         Returns
         --------
@@ -729,7 +734,7 @@ class Domain():
         '''Generate Placemark entry for KML
 
         Returns
-        --------
+        -------
         kmlEntry : String
             String with the Placemark entry
 
@@ -787,10 +792,9 @@ class Domain():
 
         Returns
         -------
-        OGR Geometry, type Polygon
-        
-        '''
+        OGR Geometry : type Polygon
 
+        '''
         return ogr.CreateGeometryFromWkt(self.get_border_wkt())
 
     def get_border_postgis(self):
@@ -801,7 +805,6 @@ class Domain():
         str : 'PolygonFromText(PolygonWKT)'
 
         '''
-
         return "PolygonFromText('%s')" % self.get_border_wkt()
 
     def get_corners(self):
@@ -813,7 +816,6 @@ class Domain():
             vectors with lon/lat values for each corner
 
         '''
-
         colVector = [0, 0, self.vrt.dataset.RasterXSize,
                      self.vrt.dataset.RasterXSize]
         rowVector = [0, self.vrt.dataset.RasterYSize, 0,
@@ -823,25 +825,27 @@ class Domain():
     def get_pixelsize_meters(self):
         '''Returns the pixelsize (deltaX, deltaY) of the domain
 
-        For projected domains, the exact result which is constant
-        over the domain is returned.
-        For geographic (lon-lat) projections, or domains with no geotransform,
-        the haversine formula is used to calculate the pixel size
-        in the center of the domain.
+        | For projected domains, the exact result which is constant
+          over the domain is returned.
+        | For geographic (lon-lat) projections,
+          or domains with no geotransform,
+          the haversine formula is used to calculate the pixel size
+          in the center of the domain.
+
         Returns
         --------
-        deltaX, deltaY : float
-        pixel size in X and Y directions given in meters
+            deltaX, deltaY : float
+            pixel size in X and Y directions given in meters
+
         '''
-                
-        srs=osr.SpatialReference(self.vrt.dataset.GetProjection())
+        srs = osr.SpatialReference(self.vrt.dataset.GetProjection())
         if srs.IsProjected:
             if srs.GetAttrValue('unit') == 'metre':
                 geoTransform = self.vrt.dataset.GetGeoTransform()
                 deltaX = abs(geoTransform[1])
                 deltaY = abs(geoTransform[5])
                 return deltaX, deltaY
-        
+
         # Estimate pixel size in center of domain using haversine formula
         centerCol = round(self.vrt.dataset.RasterXSize/2)
         centerRow = round(self.vrt.dataset.RasterYSize/2)
@@ -873,7 +877,6 @@ class Domain():
         --------
         coordinate : list with 6 float
             GeoTransform
-
         rasterSize : list with two int
             rasterXSize and rasterYSize
 
@@ -912,7 +915,6 @@ class Domain():
         return coordinates, int(rasterXSize), int(rasterYSize)
 
     def transform_points(self, colVector, rowVector, DstToSrc=0):
-
         '''Transform given lists of X,Y coordinates into lon/lat or inverse
 
         Parameters
@@ -920,8 +922,8 @@ class Domain():
         colVector : lists
             X and Y coordinates in pixel/line or lon/lat  coordinate system
         DstToSrc : 0 or 1
-            0 - forward transform (pix/line => lon/lat)
-            1 - inverse transformation
+            * 0 - forward transform (pix/line => lon/lat)
+            * 1 - inverse transformation
 
         Returns
         --------
@@ -942,12 +944,15 @@ class Domain():
         bearing_center : float
             The upwards azimuth direction (bearing) in the center of
             the domain.
-            NOTE: for longer domains especially at high latitudes
-            the azimuth direction may vary a lot over the domain,
-            and using the center angle will be a coarse approximation.
-            This function should be updated to return a matrix
-            of bearings interpolated to each pixel of the domain.
-            This method should probably also get a better name.
+
+        Notes
+        -----
+        | For longer domains especially at high latitudes
+          the azimuth direction may vary a lot over the domain,
+          and using the center angle will be a coarse approximation.
+        | This function should be updated to return a matrix
+          of bearings interpolated to each pixel of the domain.
+          This method should probably also get a better name.
 
         '''
         mid_x = self.vrt.dataset.RasterXSize / 2
@@ -982,16 +987,16 @@ class Domain():
 
     def azimuth_up(self, reductionFactor=1):
         '''Calculate the azimuth of 'upward' direction in each pixel
-        
-        Generaly speaking, azimuth is angle from the reference vector
-        (direction to North) to the chosen direction. Azimuth increases
-        clockwise from direction to North. http://en.wikipedia.org/wiki/Azimuth
-        
-        Here we calcluate azimuth of 'upward' direction.
-        'Upward' direction coincides with Y-axis direction (and hence is
-        opposite to the ROW-axis direction). For lon-lat (cylindrical,
-        Plate Caree) and Mercator projections 'upward' direction coincides with
-        direction to North, hence azimuth is 0. 
+
+        | Generaly speaking, azimuth is angle from the reference vector
+          (direction to North) to the chosen direction. Azimuth increases
+          clockwise from direction to North.
+          http://en.wikipedia.org/wiki/Azimuth
+        | Here we calcluate azimuth of 'upward' direction.
+          'Upward' direction coincides with Y-axis direction (and hence is
+          opposite to the ROW-axis direction). For lon-lat (cylindrical,
+          Plate Caree) and Mercator projections 'upward' direction coincides
+          with direction to North, hence azimuth is 0.
 
         Parameters
         -----------
@@ -1000,11 +1005,10 @@ class Domain():
 
         Returns
         -------
-        azimuth        : numpy array
+        azimuth : numpy array
             Values of azimuth in degrees in range 0 - 360
 
         '''
-
         lon, lat = self.get_geolocation_grids(reductionFactor)
         a = initial_bearing(lon[1:, :], lat[1:, :],
                             lon[:-1:, :], lat[:-1:, :])
@@ -1030,9 +1034,9 @@ class Domain():
                   pColor='r', pLine='k', pAlpha=0.5, padding=0.):
         ''' Create an image with a map of the domain
 
-        Uses Basemap to create a World Map
-        Adds a semitransparent patch with outline of the Domain
-        Writes to an image file
+        | Uses Basemap to create a World Map.
+        | Adds a semitransparent patch with outline of the Domain
+        | Writes to an image file.
 
         Parameters
         -----------
@@ -1050,11 +1054,11 @@ class Domain():
         projection : string, one of Basemap projections
             'cyl', projection of the map
         resolution : string, resolution of the map
-            'c', crude
-            'l', low
-            'i', intermediate
-            'h', high
-            'f', full
+            | 'c', crude
+            | 'l', low
+            | 'i', intermediate
+            | 'h', high
+            | 'f', full
         continetsColor : string or any matplotlib color representation
             'coral', color of continets
         meridians : int
@@ -1134,9 +1138,9 @@ class Domain():
     def reproject_GCPs(self, srsString):
         '''Reproject all GCPs to a new spatial reference system
 
-        Necessary before warping an image if the given GCPs
-        are in a coordinate system which has a singularity
-        in (or near) the destination area (e.g. poles for lonlat GCPs)
+        | Necessary before warping an image if the given GCPs
+          are in a coordinate system which has a singularity
+          in (or near) the destination area (e.g. poles for lonlat GCPs)
 
         Parameters
         ----------
@@ -1146,5 +1150,6 @@ class Domain():
         Modifies
         --------
             Reprojects all GCPs to new SRS and updates GCPProjection
+
         '''
         self.vrt.reproject_GCPs(srsString)
