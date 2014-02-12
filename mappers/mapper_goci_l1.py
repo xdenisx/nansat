@@ -12,8 +12,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for MODIS Level 1 (QKM, HKM, 1KM) '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create MODIS_L1 VRT '''
+        ''' Create VRT for MODIS_L1
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         # raise error in case of not GOCI L1B
         title = gdalMetadata['HDFEOS_POINTS_Scene_Header_Scene_Title']
         assert title == 'GOCI Level-1B Data'

@@ -17,7 +17,7 @@ class Mapper(VRT):
                  GCP_COUNT=10,
                  bandNames=['VNIR_Band1', 'VNIR_Band2', 'VNIR_Band3N'],
                  bandWaves=[560, 660, 820], **kwargs):
-        ''' Create VRT
+        ''' Create VRT for ASTER L1A
 
         Parameters
         -----------
@@ -26,12 +26,13 @@ class Mapper(VRT):
         bandNames : list of string (band name)
         bandWaves : list of integer (waves corresponding to band name)
 
+        Notes
+        ------
         Band name and waves
-        --------------------
-        'VNIR_Band3B' : 820, 'SWIR_Band4' : 1650, 'SWIR_Band5' : 2165,
-        'SWIR_Band6' : 2205, 'SWIR_Band7' : 2260, 'SWIR_Band8' : 2330,
-        'SWIR_Band9' : 2395, 'TIR_Band10' : 8300, 'TIR_Band11' : 8650,
-        'TIR_Band12' : 9100, 'TIR_Band13' : 10600, 'TIR_Band14' : 11300
+        | 'VNIR_Band3B' : 820, 'SWIR_Band4' : 1650, 'SWIR_Band5' : 2165,
+        | 'SWIR_Band6' : 2205, 'SWIR_Band7' : 2260, 'SWIR_Band8' : 2330,
+        | 'SWIR_Band9' : 2395, 'TIR_Band10' : 8300, 'TIR_Band11' : 8650,
+        | 'TIR_Band12' : 9100, 'TIR_Band13' : 10600, 'TIR_Band14' : 11300
 
         '''
         # check if it is ASTER L1A

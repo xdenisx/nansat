@@ -18,8 +18,19 @@ class Mapper(VRT):
     def __init__(self, fileName, gdalDataset, gdalMetadata,
                  GCP_COUNT0=5, GCP_COUNT1=20, pixelStep=1,
                  lineStep=1, **kwargs):
-        ''' Create VIIRS VRT '''
+        '''Create vrt for VIIRS Level 1B
 
+        Parameters
+        ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+        GCP_COUNT0 : int
+        GCP_COUNT1 : int
+        pixelStep : int
+        lineStep : int
+
+        '''
         assert 'GMTCO_npp_' in fileName, 'viirs_l1 BAD MAPPER'
         ifiledir = os.path.split(fileName)[0]
         ifiles = glob.glob(ifiledir + 'SVM??_npp_d*_obpg_ops.h5')

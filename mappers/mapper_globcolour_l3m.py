@@ -21,8 +21,15 @@ class Mapper(VRT, Globcolour):
     ''' Mapper for GLOBCOLOR L3M products'''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' GLOBCOLOR L3M VRT '''
+        ''' Create VRT for GLOBCOLOR L3M
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         print "=>%s<=" % gdalMetadata['NC_GLOBAL#title']
 
         if 'GlobColour' not in gdalMetadata['NC_GLOBAL#title']:

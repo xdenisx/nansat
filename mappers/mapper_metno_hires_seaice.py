@@ -31,8 +31,15 @@ class Mapper(VRT):
     ''' Create VRT with mapping of WKV for Met.no seaice '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create VRT '''
+        ''' Create VRT for Met.no seaice
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         ThreddsBase = 'http://thredds.met.no/thredds/dodsC/myocean/siw-tac/siw-metno-svalbard/'
         # First check if mapper is called with keyword syntax: filename = metno_hires_seaice:YYYYmmdd
         keywordBase = 'metno_hires_seaice'
@@ -62,7 +69,7 @@ class Mapper(VRT):
         else:
             timestr = fileName[-15:-3]
             validTime = datetime.datetime.strptime(timestr, '%Y%m%d%H%M')
-        
+
         fileName = fileName + '?ice_concentration[0][y][x]'
         srcProjection = osr.SpatialReference()
         srcProjection.ImportFromProj4('+proj=stere lon_0=0.0 +lat_0=90 +datum=WGS84 +ellps=WGS84 +units=km +no_defs')
@@ -71,7 +78,7 @@ class Mapper(VRT):
         srcGeotransform = (-1243.008 - 1, 1, 0, -3190.026 - 7, 0, 1) # From thredds web, with manual shift
 
         # create empty VRT dataset with geolocation only
-        VRT.__init__(self, 
+        VRT.__init__(self,
                     srcGeoTransform=srcGeotransform,
                     srcProjection=srcProjection,
                     srcRasterXSize=3812,
@@ -81,7 +88,7 @@ class Mapper(VRT):
                                 'sourceBand': 1},
                     'dst': {'name': 'sea_ice_area_fraction',
                             'wkv': 'sea_ice_area_fraction'}}]
-                            
+
         # Add band
         self._create_bands(metaDict)
 

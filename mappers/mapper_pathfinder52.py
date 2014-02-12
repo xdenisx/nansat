@@ -15,14 +15,24 @@ from nansat_tools import latlongSRS
 class Mapper(vrt.VRT):
     ''' Mapper PATHFINDER (local files)
 
-    TODO:
-    * remote files
+    Notes
+    ------
+    **TODO**
+        | remote files
     '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, minQual=4,
                  **kwargs):
-        ''' Create VRT '''
+        '''Create vrt for NOAA AVHRR PATHFINDER52 DATA
 
+        Parameters
+        ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+        minQual : int
+
+        '''
         assert 'AVHRR_Pathfinder-PFV5.2' in fileName, 'pathfinder52 BAD MAPPER'
 
         subDatasets = gdalDataset.GetSubDatasets()

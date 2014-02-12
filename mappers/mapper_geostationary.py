@@ -151,7 +151,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for Geostationary satellite data '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
+        ''' Create VRT for all geostationary satellites in Eumetcast format
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         satellite = gdalDataset.GetDescription().split(",")[2]
 
         for sat in satDict:

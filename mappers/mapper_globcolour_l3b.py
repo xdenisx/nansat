@@ -21,7 +21,6 @@ class Mapper(VRT, Globcolour):
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, latlonGrid=None,
                  mask='', **kwargs):
-
         ''' Create MER2 VRT
 
         Parameters
@@ -30,6 +29,7 @@ class Mapper(VRT, Globcolour):
         gdalDataset : gdal dataset
         gdalMetadata : gdal metadata
         latlonGrid : numpy 2 layered 2D array with lat/lons of desired grid
+
         '''
         #import pdb;pdb.set_trace()
         # test if input files is GLOBCOLOUR L3B

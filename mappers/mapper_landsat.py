@@ -21,7 +21,15 @@ class Mapper(VRT):
     ''' Mapper for LANDSAT3,4,5,6,7,8.tar.gz files'''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create LANDSAT VRT '''
+        ''' Create VRT for LANDSAT 3, 4, 5, 6, 7 and 8
+
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         # try to open .tar or .tar.gz or .tgz file with tar
         tarFile = tarfile.open(fileName)
 

@@ -14,24 +14,18 @@ class Mapper(VRT, Envisat):
 
     def __init__(self, fileName, gdalDataset, gdalMetadata,
                  geolocation=False, zoomSize=500, step=1, **kwargs):
-
-        ''' Create MER1 VRT
+        ''' Create VRT for MERIS L1
 
         Parameters
         -----------
         fileName : string
-
         gdalDataset : gdal dataset
-
         gdalMetadata : gdal metadata
-
         geolocation : bool (default is False)
             if True, add gdal geolocation
-
         zoomSize: int (used in envisat.py)
             size, to which the ADS array will be zoomed using scipy
             array of this size will be stored in memory
-
         step: int (used in envisat.py)
             step of pixel and line in GeolocationArrays. lat/lon grids are
             generated at that step

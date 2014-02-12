@@ -31,8 +31,15 @@ class Mapper(VRT):
                  }
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' OBPG L3 VRT '''
+        ''' Create VRT for L3 data from the OBPG web-site
 
+        Parameters
+        ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         if 'Level-3 Standard Mapped Image' not in gdalMetadata['Title']:
             raise AttributeError("OBPG L3 Standard Mapped Image BAD MAPPER")
 

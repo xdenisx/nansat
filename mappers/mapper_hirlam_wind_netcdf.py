@@ -1,5 +1,5 @@
 # Name:         mapper_hirlam2nc.py
-# Purpose:      Mapper for Hirlam wind data converted from felt to netCDF 
+# Purpose:      Mapper for Hirlam wind data converted from felt to netCDF
 # Authors:      Knut-Frode Dagestad
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -9,9 +9,16 @@ from vrt import *
 
 
 class Mapper(VRT):
-    def __init__(self, fileName, gdalDataset, gdalMetadata, logLevel=30,
-                 **kwargs):
+    def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
+        ''' Create VRT for Hirlam wind data converted from felt to netCDF
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         isHirlam = False
         for key in gdalMetadata.keys():
             if 'creation by fimex from file' in gdalMetadata[key]:
@@ -31,7 +38,7 @@ class Mapper(VRT):
         #         'SourceBand': 1,
         #         'ScaleRatio': 1,
         #         'ScaleOffset': 0},
-        #     'dst': {}}] 
+        #     'dst': {}}]
 
         subDataset = gdal.Open('NETCDF:"' + fileName + '":x_wind_10m')
         #self.GeolocVRT = VRT(srcRasterXSize=subDataset.RasterXSize,
@@ -45,7 +52,7 @@ class Mapper(VRT):
         #    lineStep=1, pixelStep=1)
 
         ## create empty VRT dataset with geolocation only
-        #VRT.__init__(self, srcRasterXSize = subDataset.RasterXSize, 
+        #VRT.__init__(self, srcRasterXSize = subDataset.RasterXSize,
         #                   srcRasterYSize = subDataset.RasterYSize,
         #                geolocationArray = GeolocObject,
         #                srcProjection = GeolocObject.d['SRS'])
@@ -68,11 +75,11 @@ class Mapper(VRT):
                     'wkv': 'northward_wind'}}]
 
         # Add pixel function with wind speed
-        metaDict.append({'src': [{'SourceFilename': 
+        metaDict.append({'src': [{'SourceFilename':
                     'NETCDF:"' + fileName + '":x_wind_10m',
                     'SourceBand': 1,
                     'DataType': 6},
-                    {'SourceFilename': 
+                    {'SourceFilename':
                     'NETCDF:"' + fileName + '":y_wind_10m',
                     'SourceBand': 1,
                     'DataType': 6 }],
@@ -83,11 +90,11 @@ class Mapper(VRT):
                     'NODATA': 9999}
                   })
 
-        # add bands with metadata and corresponding values 
+        # add bands with metadata and corresponding values
         # to the empty VRT
         self._create_bands(metaDict)
 
-        # Add time 
+        # Add time
         validTime = datetime.datetime.utcfromtimestamp(
             int(subDataset.GetRasterBand(1).
                 GetMetadata()['NETCDF_DIM_time']))

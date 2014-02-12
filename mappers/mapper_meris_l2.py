@@ -14,8 +14,7 @@ class Mapper(VRT, Envisat):
 
     def __init__(self, fileName, gdalDataset, gdalMetadata,
                  geolocation=False, zoomSize=500, step=1, **kwargs):
-
-        ''' Create MER2 VRT
+        ''' Create VRT for MERIS L2
 
         Parameters
         -----------
@@ -30,8 +29,8 @@ class Mapper(VRT, Envisat):
         step: int (used in envisat.py)
             step of pixel and line in GeolocationArrays. lat/lon grids are
             generated at that step
-        '''
 
+        '''
         product = gdalMetadata["MPH_PRODUCT"]
 
         if product[0:9] != "MER_FRS_2" and product[0:9] != "MER_RR__2":

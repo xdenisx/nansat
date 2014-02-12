@@ -26,7 +26,15 @@ class Mapper(VRT):
     ''' Create VRT with mapping of WKV for Radarsat2 '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create Radarsat2 VRT '''
+        '''Create vrt for Radarsat2
+
+        Parameters
+        ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         fPathName, fExt = os.path.splitext(fileName)
 
         if zipfile.is_zipfile(fileName):

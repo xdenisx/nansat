@@ -16,6 +16,18 @@ class Mapper(VRT):
                  rmMetadatas=['NETCDF_VARNAME', '_Unsigned',
                               'ScaleRatio', 'ScaleOffset', 'dods_variable'],
                  **kwargs):
+        ''' Create generic VRT
+
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+        LogLevel : int
+        rmMetadatas: list
+            metadata names which should be removed
+
+        '''
         # Remove 'NC_GLOBAL#' and 'GDAL_' and 'NANSAT_' from keys in gdalDataset
         tmpGdalMetadata = {}
         geoMetadata = {}

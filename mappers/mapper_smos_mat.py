@@ -15,7 +15,15 @@ class Mapper(VRT):
     ''' MApper for Matlab files with SMOS data '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create SMOS VRT '''
+        '''Create vrt for SMOS
+
+        Parameters
+        ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         # check extension
         fName = os.path.split(fileName)[1]
         fExt = os.path.splitext(fileName)[1]

@@ -16,9 +16,9 @@ import scipy.ndimage
 class Envisat():
     '''Methods/data shared between Envisat mappers
 
-    This class is needed to read awkward N1 format of ENVISAT
-    Mostly it support reading of variables from ADS (additional data sets)
-    which are TIE_POINTS_ADS (MERIS) or GEOLOCATION_GRID_ADS (ASAR)
+    | This class is needed to read awkward N1 format of ENVISAT
+    | Mostly it support reading of variables from ADS (additional data sets)
+      which are TIE_POINTS_ADS (MERIS) or GEOLOCATION_GRID_ADS (ASAR)
     '''
 
     # specific name of geolocation and offsets,
@@ -67,7 +67,22 @@ class Envisat():
                    'MER_': ['longitude', 'latitude']}
 
     def __init__(self, fileName, prodType):
-        '''Select set of params and read offset of ADS'''
+        '''Select set of params and read offset of ADS
+
+        Attributes
+        -----------
+        iFileName : string
+            location of the file
+        prodType : string
+            'ASA_' or 'MER_'
+        allADSParams : dictionary
+            ADS parameter information (offset, datatype and units)
+        dsOffsetDict : dictionary
+            oddsets of DS_OFFSET', 'NUM_DSR', 'DSR_SIZE', 'DS_SIZE'
+        lonlatNames : list
+            ADS names of lon/lat
+
+        '''
         self.iFileName = fileName
         self.prodType = prodType
         self.allADSParams = self.allADSParams[prodType]
@@ -83,14 +98,15 @@ class Envisat():
     def read_offset_from_header(self, gadsDSName):
         ''' Read offset of ADS from text header.
 
-        Find a location of gadsDSName.
-        Adjust the location with textOffset and read the text at the location.
-        Convert the text to integer and set it into offsetDict.
+        | Find a location of gadsDSName.
+        | Adjust the location with textOffset and read the text at the location.
+        | Convert the text to integer and set it into offsetDict.
 
         Returns
         -------
-            offsetDict : dictionary
-                offset of DS, size of DS, number of records, size of record
+        offsetDict : dictionary
+            offset of DS, size of DS, number of records, size of record
+
         '''
         # number of lines after line with 'DS_NAME'
         textOffset = {'DS_OFFSET': 3, 'DS_SIZE': 4,
@@ -117,21 +133,21 @@ class Envisat():
     def read_binary_line(self, offset, fmtString, length):
         '''Read line with binary data at given offset
 
-        Open file
-        Read values of given size, at given offset, given times
-        Convert to list of values of given format and return
+        | Open file
+        | Read values of given size, at given offset, given times
+        | Convert to list of values of given format and return
 
         Parameters
         ----------
-            offset: int, start of reading
-            fmtString: str, data type format
-            lentgh: number of values to read
+        offset: int, start of reading
+        fmtString: str, data type format
+        lentgh: number of values to read
 
         Returns
         -------
-            binaryValues : list
-                values which are read from the file.
-                the number of elements is length
+        binaryValues : list
+            values which are read from the file.
+            the number of elements is length
         '''
         # fseek, read all into a list
         f = file(self.iFileName, 'rb')
@@ -150,12 +166,13 @@ class Envisat():
 
         Parameters
         ----------
-            fileName : string
-            indeces : list
+        fileName : string
+        indeces : list
 
         Returns
         -------
-            list
+        list
+
         '''
         maxGADS = max(indeces) + 1
         dsOffsetDict = self.read_offset_from_header('DS_NAME="Scaling Factor GADS         "\n')
@@ -167,27 +184,28 @@ class Envisat():
     def create_VRT_from_ADS(self, adsName, zoomSize=500):
         ''' Create VRT with a band from Envisat ADS metadata
 
-        Read offsets of the <adsName> ADS.
-        Read 2D matrix of binary values from ADS from file.
-        Read 'last_line_...' ADS (in case of ASAR).
-        Zoom array with ADS data to <zoomSize>. Zooming is needed to create
-        smooth matrices. Array is zoomed to small size because it is stred in
-        memory. Later the VRT with zoomed array is VRT.get_resized_vrt() in order to
-        match the size of the Nansat onject.
-        Create VRT from the ADS array.
+        | Read offsets of the <adsName> ADS.
+        | Read 2D matrix of binary values from ADS from file.
+        | Read 'last_line_...' ADS (in case of ASAR).
+        | Zoom array with ADS data to <zoomSize>. Zooming is needed to create
+          smooth matrices. Array is zoomed to small size because it is stred in
+          memory. Later the VRT with zoomed array is VRT.get_resized_vrt()
+          in order to match the size of the Nansat onject.
+        | Create VRT from the ADS array.
 
         Parameters
         ----------
-            adsName : str
-                name of variable from ADS to read. should match allADSParams
-            fileType: string, 'ASA_' or 'MER_'
-                type of file (from GDAL metadata)
-            zoomSize :  int, optional, 500
-                size, to which original matrix from ADSR is zoomed using
-                scipy.zoom
-        Returns:
-        ---------
-            adsVrt : VRT, vrt with a band created from ADS array
+        adsName : str
+            name of variable from ADS to read. should match allADSParams
+        fileType: string, 'ASA_' or 'MER_'
+            type of file (from GDAL metadata)
+        zoomSize :  int, optional, 500
+            size, to which original matrix from ADSR is zoomed using
+            scipy.zoom
+
+        Returns
+        -------
+        adsVrt : VRT, vrt with a band created from ADS array
 
         '''
         # Get parameters of arrays in ADS
@@ -245,23 +263,26 @@ class Envisat():
                      step=1, **kwargs):
         '''Create list with VRTs with zoomed and resized ADS arrays
 
-        For given names of varaibles (which should match self.allADSParams):
-            Get VRT with zoomed ADS array
-            Get resized VRT
+        | For given names of varaibles (which should match self.allADSParams):
+        |   Get VRT with zoomed ADS array
+        |   Get resized VRT
+
         Parameters
         ----------
-            gdalDataset: GDAL Dataset
-                input dataset
-            adsNames: list with strings
-                names of varaiables from self.allADSParams['list']
-            zoomSize: int, 500
-                size to which the ADS array will be zoomed by scipy.zoom
-            step: int, 1
-                step, at which data will be given
-        Returns:
+        gdalDataset: GDAL Dataset
+            input dataset
+        adsNames: list with strings
+            names of varaiables from self.allADSParams['list']
+        zoomSize: int, 500
+            size to which the ADS array will be zoomed by scipy.zoom
+        step: int, 1
+            step, at which data will be given
+
+        Returns
         --------
-            adsVRTs: list with VRT
-                list with resized VRT with zoomed arrays
+        adsVRTs: list with VRT
+            list with resized VRT with zoomed arrays
+
         '''
         XSize = gdalDataset.RasterXSize
         YSize = gdalDataset.RasterYSize
@@ -278,25 +299,26 @@ class Envisat():
     def add_geolocation_from_ads(self, gdalDataset, zoomSize=500, step=1):
         ''' Add geolocation domain metadata to the dataset
 
-        Get VRTs with zoomed arrays of lon and lat
-        Create geolocation object and add to the metadata
+        | Get VRTs with zoomed arrays of lon and lat
+        | Create geolocation object and add to the metadata
 
         Parameters
         ----------
-            gdalDataset: GDAL Dataset
-                input dataset
-            prodType: str
-                'ASA_' or 'MER_'
-            zoomSize: int, optional, 500
-                size, to which the ADS array will be zoomed using scipy
-                array of this size will be stored in memory
-            step: int
-                step of pixel and line in GeolocationArrays. lat/lon grids are
-                generated at that step
+        gdalDataset: GDAL Dataset
+            input dataset
+        prodType: str
+            'ASA_' or 'MER_'
+        zoomSize: int, optional, 500
+            size, to which the ADS array will be zoomed using scipy
+            array of this size will be stored in memory
+        step: int
+            step of pixel and line in GeolocationArrays. lat/lon grids are
+            generated at that step
 
-        Modifies:
+        Modifies
         ---------
-            Adds Geolocation Array metadata
+        Adds Geolocation Array metadata
+
         '''
         # get VRTs with lon and lat
         xyVRTs = self.get_ads_vrts(gdalDataset, self.lonlatNames, zoomSize,

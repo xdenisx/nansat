@@ -13,26 +13,32 @@ from math import ceil
 class Mapper(VRT):
     ''' Mapper for SeaWIFS/MODIS/MERIS/VIIRS L2 data from OBPG
 
-    TODO:
-    * Test on SeaWIFS
-    * Test on MODIS Terra
+    Notes
+    -----
+    **TODO**
+        | Test on SeaWIFS
+        | Test on MODIS Terra
     '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata,
                  GCP_COUNT=10, **kwargs):
-        ''' Create VRT
+        ''' Create VRT for L2 data from the OBPG web-site
+
         Parameters
         ----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
         GCP_COUNT : int
             number of GCPs along each dimention
-        '''
 
+        '''
         titles = ['HMODISA Level-2 Data',
                   'MODISA Level-2 Data',
                   'MERIS Level-2 Data',
                   'GOCI Level-2 Data',
                   'VIIRSN Level-2 Data']
-                  
+
         # should raise error in case of not obpg_l2 file
         title = gdalMetadata["Title"]
         assert title in titles, 'obpg_l2 BAD MAPPER'
@@ -208,7 +214,7 @@ class Mapper(VRT):
 
         yDatasetSource = geolocationMetadata['Y_DATASET']
         yDataset = gdal.Open(yDatasetSource)
-    
+
         longitude = xDataset.ReadAsArray()
         latitude = yDataset.ReadAsArray()
 

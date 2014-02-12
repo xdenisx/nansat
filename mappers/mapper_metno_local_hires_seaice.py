@@ -32,16 +32,23 @@ class Mapper(mg.Mapper):
     ''' Create VRT with mapping of WKV for Met.no seaice '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create VRT '''
+        ''' Create VRT for Met.no seaice
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         try:
             iceFolderName = kwargs['iceFolder']
         except:
             #iceFolderName = '/vol/istjenesten/data/metnoCharts/'
             iceFolderName = '/vol/data/metnoCharts/'
-            
+
         keywordBase = 'metno_local_hires_seaice'
-        
+
         if fileName[0:len(keywordBase)] != keywordBase:
             raise AttributeError("Wrong mapper")
 
@@ -59,7 +66,7 @@ class Mapper(mg.Mapper):
                 gdalMetadata = gdalDataset.GetMetadata()
                 mg.Mapper.__init__(self, fileName, gdalDataset, gdalMetadata)
                 foundDataset = True
-                # Modify GeoTransform from netCDF file - otherwise a shift is seen! 
+                # Modify GeoTransform from netCDF file - otherwise a shift is seen!
                 self.dataset.SetGeoTransform(
                     (-1243508 -1000, 1000, 0, -210526 -7000, 0, -1000))
                 break # Data is found for this day

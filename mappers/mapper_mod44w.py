@@ -13,8 +13,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for MOD44W produc (MODIS watermask at 250 m)'''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create VRT '''
+        ''' Create VRT for MOD44W
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         fileBaseName = os.path.basename(fileName)
         if not fileBaseName == 'MOD44W.vrt':
             raise AttributeError("MOD44W BAD MAPPER")

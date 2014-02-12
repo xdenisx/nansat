@@ -22,30 +22,25 @@ class Mapper(VRT, Envisat):
     def __init__(self, fileName, gdalDataset, gdalMetadata,
                  full_incAng=True, geolocation=False, zoomSize=500,
                  step=1, **kwargs):
-        '''
+        ''' Create VRT for ASAR
+
         Parameters
         -----------
         fileName : string
-
         gdalDataset : gdal dataset
-
         gdalMetadata : gdal metadata
-
         full_incAng : bool (default is True)
             if True, add full size incedence angle
-
         geolocation : bool (default is False)
             if True, add gdal geolocation
-
         zoomSize: int (used in envisat.py)
             size, to which the ADS array will be zoomed using scipy
             array of this size will be stored in memory
-
         step: int (used in envisat.py)
             step of pixel and line in GeolocationArrays. lat/lon grids are
             generated at that step
-        '''
 
+        '''
         product = gdalMetadata.get("MPH_PRODUCT")
         if product[0:4] != "ASA_":
             raise AttributeError("ASAR_L1 BAD MAPPER")
@@ -179,7 +174,7 @@ class Mapper(VRT, Envisat):
                                                 360)))
 
         ###################################################################
-        # Add sigma0_VV 
+        # Add sigma0_VV
         ###################################################################
         polarizations = []
         for pp in polarization:

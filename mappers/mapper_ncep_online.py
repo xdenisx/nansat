@@ -14,8 +14,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for NCEP GFS '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create NCEP VRT '''
+        ''' Create vrt for NCEP online
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         if (gdalDataset.GetGeoTransform() != (-0.25, 0.5, 0.0,
                                               90.25, 0.0, -0.5) or
                 gdalDataset.RasterCount != 2):  # Not water proof

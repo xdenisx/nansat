@@ -23,7 +23,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for KMSS TOA tiff data'''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create VRT '''
+        ''' Create VRT for KMSS L1
+
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         product = gdalDataset.GetDriver().LongName
         if cmp(os.path.split(fileName)[1][0:4], '101_') != 0:
             if cmp(os.path.split(fileName)[1][0:4], '102_') != 0:

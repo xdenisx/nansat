@@ -27,6 +27,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for AVHRR L1B output from AAPP '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
+        ''' Create VRT for AAPP L1b
+
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
 
         ########################################
         # Read metadata from binary file

@@ -18,8 +18,15 @@ class Mapper(VRT):
     ''' VRT with mapping of WKV for Cosmo-Skymed '''
 
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
-        ''' Create CSKS VRT '''
+        ''' Create VRT for Cosmo-Skymed
 
+        Parameters
+        -----------
+        fileName : string
+        gdalDataset : gdal dataset
+        gdalMetadata : gdal metadata
+
+        '''
         if fileName.split('/')[-1][0:4] != "CSKS":
             raise AttributeError("COSMO-SKYMED BAD MAPPER")
 
