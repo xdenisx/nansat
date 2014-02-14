@@ -47,6 +47,8 @@ Methods
 
 `Mosaic <nansat.mosaic.html>`_
 
+`NansatTools <nansat.nansat_tools.html>`_
+
 
 
 
