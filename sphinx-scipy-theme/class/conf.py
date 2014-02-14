@@ -39,7 +39,7 @@ html_static_path = ['../_static']
 html_theme_options = {
     "edit_link": False,
     "sidebar": None,
-    "scipy_org_logo": False,
+    "scipy_org_logo": True,
     'navigation_links': False,
     "rootlinks": [],
     #"rootlinks": [("../index.html", "Nansat documentation")],
