@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.nansat module &mdash; Nansat 0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.1 documentation" href="index.html" >
+    <link rel="up" title="nansat package" href="nansat.html" >
+    <link rel="next" title="nansat.nansat_tools module" href="nansat.nansat_tools.html" >
+    <link rel="prev" title="nansat.mosaic module" href="nansat.mosaic.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+	      <div class="row-fluid">
+		<div class="span9">
+  		  <div class="spc-navbar">
+		    
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="../index.html">Nansat 0.1 documentation</a></li>
+	
+          <li class="active"><a href="nansat.html" accesskey="U">nansat package</a></li> 
+    </ul>
+		  </div>
+		</div>
+	      </div>
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="nansat-nansat-module">
+<h1>nansat.nansat module<a class="headerlink" href="#nansat-nansat-module" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.Nansat">
+<em class="property">class </em><tt class="descclassname">nansat.</tt><tt class="descname">Nansat</tt><big>(</big><em>fileName=''</em>, <em>mapperName=''</em>, <em>domain=None</em>, <em>array=None</em>, <em>parameters=None</em>, <em>logLevel=30</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Nansat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Container for geospatial data, performs all high-level operations</p>
+<div class="line-block">
+<div class="line">n = Nansat(fileName) opens the file with satellite or model data for
+reading, adds scientific metadata to bands, and prepares the data for
+further handling.</div>
+<div class="line">The instance of Nansat class (the object &lt;n&gt;) contains information
+about geographical reference of the data (e.g raster size, pixel
+resolution, type of projection, etc) and about bands with values of
+geophysical variables (e.g. water leaving radiance, normalized radar
+cross section, chlrophyll concentraion, etc). The object has methods
+for high-level operations with data. E.g.:</div>
+<div class="line-block">
+<div class="line">- reading data from file (Nansat.__getitem__)</div>
+<div class="line">- visualization (Nansat.write_figure)</div>
+<div class="line">- changing geographical reference (Nansat.reproject)</div>
+<div class="line">- exporting (Nansat.export)</div>
+<div class="line">- and much more...</div>
+<div class="line"><br /></div>
+</div>
+<div class="line">Nansat inherits from Domain (container of geo-reference information)</div>
+<div class="line">Nansat uses instance of VRT (wraper around GDAL VRT-files)</div>
+<div class="line">Nansat uses instance of Figure (collection of methods for visualization)</div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

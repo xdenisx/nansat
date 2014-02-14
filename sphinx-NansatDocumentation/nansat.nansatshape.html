@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.nansatshape module &mdash; Nansat 0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.nansatshape">
+<span id="nansat-nansatshape-module"></span><h1>nansat.nansatshape module<a class="headerlink" href="#module-nansat.nansatshape" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.nansatshape.Nansatshape">
+<em class="property">class </em><tt class="descclassname">nansat.nansatshape.</tt><tt class="descname">Nansatshape</tt><big>(</big><em>fileName=None</em>, <em>layer=0</em>, <em>srs=None</em>, <em>wkbStyle=1</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Nansatshape object</p>
+<dl class="docutils">
+<dt>if &lt;fileName&gt; is given:</dt>
+<dd>Open OGR datasource and copy to self.datasource in memory
+Read a layer from self.datasource and add it to self.layer</dd>
+<dt>if &lt;fileName&gt; is not given:</dt>
+<dd>Create empty OGR datasource in memory
+Add empty layer to self.layer</dd>
+</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<blockquote>
+<div><p>location of a shape file</p>
+</div></blockquote>
+<p><strong>layer</strong> : int or string</p>
+<blockquote>
+<div><p>if int and a shapefile is given, it is a layer number to read
+if string, it is layer name to created or open</p>
+</div></blockquote>
+<p><strong>srs</strong> : SpatialReference object</p>
+<p><strong>wkbStyle</strong> : ogr.wkbPoint, ogr.wkbPoint25D</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>self.datasource</strong> : ogr data source in memory</p>
+<p class="last"><strong>self.layer</strong> : ogr layer</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatshape.Nansatshape.add_features" title="nansat.nansatshape.Nansatshape.add_features"><tt class="xref py py-obj docutils literal"><span class="pre">add_features</span></tt></a>(values,&nbsp;coordinates)</td>
+<td>Set field values and / or geometry to each feature  Loop over given arrays of coordinates and values and create corresponding points with data.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansatshape.Nansatshape.export" title="nansat.nansatshape.Nansatshape.export"><tt class="xref py py-obj docutils literal"><span class="pre">export</span></tt></a>(fileName)</td>
+<td>Save as ESRI shape-file</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatshape.Nansatshape.get_points" title="nansat.nansatshape.Nansatshape.get_points"><tt class="xref py py-obj docutils literal"><span class="pre">get_points</span></tt></a>([latlon])</td>
+<td>Get points (geometries of featuers) in the layer</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nansat.nansatshape.Nansatshape.add_features">
+<tt class="descname">add_features</tt><big>(</big><em>values</em>, <em>coordinates</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape.add_features" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set field values and / or geometry to each feature</p>
+<p>Loop over given arrays of coordinates and values and create
+corresponding points with data. Only ogr.wkbPoint is supported.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> :  2-D structured numpy array (aka record array)</p>
+<blockquote>
+<div><p>data to be stored in the vector layer. Names of the fields
+in the array will become fields in the layer.</p>
+</div></blockquote>
+<p><strong>coordinates</strong> : np.array (n x 2)</p>
+<blockquote>
+<div><p>n rows with x and y coordinates of points. Length of
+coordinates should be equal to length of values.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.layer</strong> : Set the values and geometry.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansatshape.Nansatshape.export">
+<tt class="descname">export</tt><big>(</big><em>fileName</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save as ESRI shape-file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansatshape.Nansatshape.get_points">
+<tt class="descname">get_points</tt><big>(</big><em>latlon=True</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape.get_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get points (geometries of featuers) in the layer</p>
+<p>!!NB!!
+if shapefile has SRS, assume that geometry is lon/lat
+if not, assume that the geometry is given in pix/lin
+only ogr.wkbPoint or ogr.wkbPoint25D is supported</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>latlon</strong> : bool</p>
+<blockquote>
+<div><p>if True, coordinates in lon/lat</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>points</strong> : tuple or None</p>
+<blockquote>
+<div><p>elements of tuple are X-Y coordinates</p>
+</div></blockquote>
+<p class="last"><strong>latlon</strong> : bool</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

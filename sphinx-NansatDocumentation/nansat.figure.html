@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.figure module &mdash; Nansat 0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.figure">
+<span id="nansat-figure-module"></span><h1>nansat.figure module<a class="headerlink" href="#module-nansat.figure" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.figure.Figure">
+<em class="property">class </em><tt class="descclassname">nansat.figure.</tt><tt class="descname">Figure</tt><big>(</big><em>nparray</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set attributes</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array (2D or 3D)</p>
+<blockquote>
+<div><p>dataset from Nansat</p>
+</div></blockquote>
+<p><strong>cmin</strong> : number (int ot float) or [number, number, number]</p>
+<blockquote>
+<div><p>0, minimum value of varibale in the matrix to be shown</p>
+</div></blockquote>
+<p><strong>cmax</strong> : number (int ot float) or [number, number, number]</p>
+<blockquote>
+<div><p>1, minimum value of varibale in the matrix to be shown</p>
+</div></blockquote>
+<p><strong>gamma</strong> : float, &gt;0</p>
+<blockquote>
+<div><p>2, coefficient for tone curve udjustment</p>
+</div></blockquote>
+<p><strong>subsetArraySize</strong> : int</p>
+<blockquote>
+<div><p>100000, size of the subset array which is used to get histogram</p>
+</div></blockquote>
+<p><strong>numOfColor</strong> : int</p>
+<blockquote>
+<div><p>250, number of colors for use of the palette.
+254th is black and 255th is white.</p>
+</div></blockquote>
+<p><strong>cmapName</strong> : string</p>
+<blockquote>
+<div><p>&#8216;jet&#8217;, name of Matplotlib colormaps
+see &#8211;&gt; <a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></p>
+</div></blockquote>
+<p><strong>ratio</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>1.0, ratio of pixels which are used to write the figure</p>
+</div></blockquote>
+<p><strong>numOfTicks</strong> : int</p>
+<blockquote>
+<div><p>5, number of ticks on a colorbar</p>
+</div></blockquote>
+<p><strong>titleString</strong> : string</p>
+<blockquote>
+<div><p>&#8216;&#8217;, title of legend (1st line)</p>
+</div></blockquote>
+<p><strong>caption</strong> : string</p>
+<blockquote>
+<div><p>&#8216;&#8217;, caption of the legend (2nd line, e.g. long name and units)</p>
+</div></blockquote>
+<p><strong>fontSize</strong> : int</p>
+<blockquote>
+<div><p>12, size of the font of title, caption and ticks</p>
+</div></blockquote>
+<p><strong>logarithm</strong> : boolean, defult = False</p>
+<blockquote>
+<div><p>If True, tone curve is used to convert pixel values.
+If False, linear.</p>
+</div></blockquote>
+<p><strong>legend</strong> : boolean, default = False</p>
+<blockquote>
+<div><p>if True, information as textString, colorbar, longName and
+units are added in the figure.</p>
+</div></blockquote>
+<p><strong>mask_array</strong> : 2D numpy array, int, the shape should be equal</p>
+<blockquote>
+<div><p>array.shape. If given this array is used for masking land,
+clouds, etc on the output image. Value of the array are
+indeces. LUT from mask_lut is used for coloring upon this
+indeces.</p>
+</div></blockquote>
+<p><strong>mask_lut</strong> : dictionary</p>
+<blockquote>
+<div><p>Look-Up-Table with colors for masking land, clouds etc. Used
+tgether with mask_array:
+{0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}
+index 0 - will have black color</p>
+<blockquote>
+<div><p>1 - dark gray
+2 - light gray
+3 - blue</p>
+</div></blockquote>
+</div></blockquote>
+<p><strong>logoFileName</strong> : string</p>
+<blockquote>
+<div><p>name of the file with logo</p>
+</div></blockquote>
+<p><strong>logoLocation</strong> : list of two int, default = [0,0]</p>
+<blockquote>
+<div><p>X and Y offset of the image
+If positive - offset is from left, upper edge
+If Negative - from right, lower edge
+Offset is calculated from the entire image legend inclusive</p>
+</div></blockquote>
+<p><strong>logoSize</strong> : list of two int</p>
+<blockquote>
+<div><p>desired X,Y size of logo. If None - original size is used</p>
+</div></blockquote>
+<p><strong>latGrid</strong> : numpy array</p>
+<blockquote>
+<div><p>full size array with latitudes. For adding lat/lon grid lines</p>
+</div></blockquote>
+<p><strong>lonGrid</strong> : numpy array</p>
+<blockquote>
+<div><p>full size array with longitudes. For adding lat/lon grid lines</p>
+</div></blockquote>
+<p><strong>nGridLines</strong> : int</p>
+<blockquote>
+<div><p>number of lat/lon grid lines to show</p>
+</div></blockquote>
+<p><strong>latlonLabels</strong> : int</p>
+<blockquote>
+<div><p>number of lat/lon labels to show along each side.</p>
+</div></blockquote>
+<p><strong>transparency</strong> : int</p>
+<blockquote>
+<div><p>transparency of the image background(mask), set for PIL alpha
+mask in Figure.save()</p>
+</div></blockquote>
+<p><strong>default</strong> : None</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-even field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>LEGEND_HEIGHT</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, legend height relative to image height</p>
+</div></blockquote>
+<p><strong>CBAR_HEIGHTMIN</strong> : int</p>
+<blockquote>
+<div><p>5, minimum colorbar height, pixels</p>
+</div></blockquote>
+<p><strong>CBAR_HEIGHT</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.15,  colorbar height relative to image height</p>
+</div></blockquote>
+<p><strong>CBAR_WIDTH</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.8, colorbar width  relative to legend width</p>
+</div></blockquote>
+<p><strong>CBAR_LOCATION_X</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.1, colorbar offset X  relative to legend width</p>
+</div></blockquote>
+<p><strong>CBAR_LOCATION_Y</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.5,  colorbar offset Y  relative to legend height</p>
+</div></blockquote>
+<p><strong>CBTICK_LOC_ADJUST_X</strong> : int</p>
+<blockquote>
+<div><p>5,  colorbar tick label offset X, pixels</p>
+</div></blockquote>
+<p><strong>CBTICK_LOC_ADJUST_Y</strong> : int</p>
+<blockquote>
+<div><p>3,  colorbar tick label offset Y, pixels</p>
+</div></blockquote>
+<p><strong>CAPTION_LOCATION_X</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, caption offset X relative to legend width</p>
+</div></blockquote>
+<p><strong>CAPTION_LOCATION_Y</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, caption offset Y relative to legend height</p>
+</div></blockquote>
+<p><strong>TITLE_LOCATION_X</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, title offset X relative to legend width</p>
+</div></blockquote>
+<p><strong>TITLE_LOCATION_Y :</strong></p>
+<blockquote>
+<div><p>0.3, title  offset Y relative to legend height</p>
+</div></blockquote>
+<p><strong>DEFAULT_EXTENSION</strong> : string</p>
+<blockquote class="last">
+<div><p>&#8216;.png&#8217;</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>sizeX, sizeY</td>
+<td>(int) width and height of the image</td>
+</tr>
+<tr class="row-even"><td>pilImg</td>
+<td>(PIL image) figure</td>
+</tr>
+<tr class="row-odd"><td>pilImgLegend</td>
+<td>(PIL image) if pilImgLegend is None, legend is not added to the figure if it is replaced, pilImgLegend includes text string, color-bar,longName and units.</td>
+</tr>
+<tr class="row-even"><td>cmin</td>
+<td>(default [0.])</td>
+</tr>
+<tr class="row-odd"><td>cmax</td>
+<td>(default [1.])</td>
+</tr>
+<tr class="row-even"><td>gamma</td>
+<td>(default 2.)</td>
+</tr>
+<tr class="row-odd"><td>subsetArraySize</td>
+<td>(default 100000)</td>
+</tr>
+<tr class="row-even"><td>numOfColor</td>
+<td>(default 250)</td>
+</tr>
+<tr class="row-odd"><td>cmapName</td>
+<td>(default &#8216;jet&#8217;)</td>
+</tr>
+<tr class="row-even"><td>ratio</td>
+<td>(default 1.0)</td>
+</tr>
+<tr class="row-odd"><td>numOfTicks</td>
+<td>(default 5)</td>
+</tr>
+<tr class="row-even"><td>titleString</td>
+<td>(default &#8216;&#8217;)</td>
+</tr>
+<tr class="row-odd"><td>caption</td>
+<td>(default &#8216;&#8217;)</td>
+</tr>
+<tr class="row-even"><td>fontSize</td>
+<td>(default 12)</td>
+</tr>
+<tr class="row-odd"><td>logarithm</td>
+<td>(default False)</td>
+</tr>
+<tr class="row-even"><td>legend</td>
+<td>(default False)</td>
+</tr>
+<tr class="row-odd"><td>mask_array</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-even"><td>mask_lut</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-odd"><td>logoFileName</td>
+<td>(default  None)</td>
+</tr>
+<tr class="row-even"><td>logoLocation</td>
+<td>(default  [0, 0])</td>
+</tr>
+<tr class="row-odd"><td>logoSize</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-even"><td>latGrid</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-odd"><td>lonGrid</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-even"><td>nGridLines</td>
+<td>(default 10)</td>
+</tr>
+<tr class="row-odd"><td>latlonLabels</td>
+<td>(default 0)</td>
+</tr>
+<tr class="row-even"><td>transparency</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-odd"><td>LEGEND_HEIGHT</td>
+<td>(default 0.1)</td>
+</tr>
+<tr class="row-even"><td>CBAR_HEIGHTMIN</td>
+<td>(default 5)</td>
+</tr>
+<tr class="row-odd"><td>CBAR_HEIGHT</td>
+<td>(default 0.15)</td>
+</tr>
+<tr class="row-even"><td>CBAR_WIDTH</td>
+<td>(default 0.8)</td>
+</tr>
+<tr class="row-odd"><td>CBAR_LOCATION_X</td>
+<td>(default 0.1)</td>
+</tr>
+<tr class="row-even"><td>CBAR_LOCATION_Y</td>
+<td>(default 0.5)</td>
+</tr>
+<tr class="row-odd"><td>CBTICK_LOC_ADJUST_X</td>
+<td>(default 5)</td>
+</tr>
+<tr class="row-even"><td>CBTICK_LOC_ADJUST_Y</td>
+<td>(default 3)</td>
+</tr>
+<tr class="row-odd"><td>CAPTION_LOCATION_X</td>
+<td>(default 0.1)</td>
+</tr>
+<tr class="row-even"><td>CAPTION_LOCATION_Y</td>
+<td>(default 0.3)</td>
+</tr>
+<tr class="row-odd"><td>TITLE_LOCATION_X</td>
+<td>(default 0.1)</td>
+</tr>
+<tr class="row-even"><td>TITLE_LOCATION_Y</td>
+<td>(default 0.1)</td>
+</tr>
+<tr class="row-odd"><td>DEFAULT_EXTENSION</td>
+<td>(default &#8216;.png&#8217;)</td>
+</tr>
+<tr class="row-even"><td>palette</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-odd"><td>pilImg</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-even"><td>pilImgLegend</td>
+<td>(default None)</td>
+</tr>
+<tr class="row-odd"><td>extensionList</td>
+<td>(default [&#8216;png&#8217;, &#8216;PNG&#8217;, &#8216;tif&#8217;, &#8216;TIF&#8217;, &#8216;bmp&#8217;,) &#8216;BMP&#8217;, &#8216;jpg&#8217;, &#8216;JPG&#8217;, &#8216;jpeg&#8217;, &#8216;JPEG&#8217;]</td>
+</tr>
+<tr class="row-even"><td>_cmapName</td>
+<td>(default &#8216;jet&#8217;)</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.add_latlon_grids" title="nansat.figure.Figure.add_latlon_grids"><tt class="xref py py-obj docutils literal"><span class="pre">add_latlon_grids</span></tt></a>(**kwargs)</td>
+<td>Add lat/lon grid lines into the PIL image</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.add_latlon_labels" title="nansat.figure.Figure.add_latlon_labels"><tt class="xref py py-obj docutils literal"><span class="pre">add_latlon_labels</span></tt></a>(**kwargs)</td>
+<td>Add lat/lon labels along upper and left side</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.add_logo" title="nansat.figure.Figure.add_logo"><tt class="xref py py-obj docutils literal"><span class="pre">add_logo</span></tt></a>(**kwargs)</td>
+<td>Insert logo into the PIL image</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.apply_logarithm" title="nansat.figure.Figure.apply_logarithm"><tt class="xref py py-obj docutils literal"><span class="pre">apply_logarithm</span></tt></a>(**kwargs)</td>
+<td>Apply a tone curve to the array  | After the normalization of the values from 0 to 1,   logarithm is applied | Then the values are converted to the normal scale.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.apply_mask" title="nansat.figure.Figure.apply_mask"><tt class="xref py py-obj docutils literal"><span class="pre">apply_mask</span></tt></a>(**kwargs)</td>
+<td>Apply mask for coloring land, clouds, etc  | If mask_array and mask_lut are provided as input parameters | The pixels in self.array which have index equal to mask_lut kay   in mask_array will have color equal to mask_lut value   apply_mask should be called only after convert_palettesize.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.clim_from_histogram" title="nansat.figure.Figure.clim_from_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">clim_from_histogram</span></tt></a>(**kwargs)</td>
+<td>Estimate min and max pixel values from histogram  | If ratio=1.0, simply the minimum and maximum values are returned.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.clip" title="nansat.figure.Figure.clip"><tt class="xref py py-obj docutils literal"><span class="pre">clip</span></tt></a>(**kwargs)</td>
+<td>Convert self.array to values between cmin and cmax  | If pixel value &lt; cmin, replaced to cmin.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.convert_palettesize" title="nansat.figure.Figure.convert_palettesize"><tt class="xref py py-obj docutils literal"><span class="pre">convert_palettesize</span></tt></a>(**kwargs)</td>
+<td>Convert self.array to palette color size in uint8</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.create_legend" title="nansat.figure.Figure.create_legend"><tt class="xref py py-obj docutils literal"><span class="pre">create_legend</span></tt></a>(**kwargs)</td>
+<td>self.legend is replaced from None to PIL image</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.create_pilImage" title="nansat.figure.Figure.create_pilImage"><tt class="xref py py-obj docutils literal"><span class="pre">create_pilImage</span></tt></a>(**kwargs)</td>
+<td>self.create_pilImage is replaced from None to PIL image</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.process" title="nansat.figure.Figure.process"><tt class="xref py py-obj docutils literal"><span class="pre">process</span></tt></a>(**kwargs)</td>
+<td>Do all common operations for preparation of a figure for saving</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.save" title="nansat.figure.Figure.save"><tt class="xref py py-obj docutils literal"><span class="pre">save</span></tt></a>(fileName,&nbsp;**kwargs)</td>
+<td>Save self.pilImg to a physical file</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nansat.figure.Figure.add_latlon_grids">
+<tt class="descname">add_latlon_grids</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_latlon_grids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add lat/lon grid lines into the PIL image</p>
+<div class="line-block">
+<div class="line">Compute step of the grid</div>
+<div class="line">Make matrices with binarized lat/lon</div>
+<div class="line">Find edge (make line)</div>
+<div class="line">Convert to maks</div>
+<div class="line">Add mask to PIL</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<p><strong>latGrid</strong> : numpy array</p>
+<blockquote>
+<div><p>array with values of latitudes</p>
+</div></blockquote>
+<p><strong>lonGrid</strong> : numpy array</p>
+<blockquote>
+<div><p>array with values of longitudes</p>
+</div></blockquote>
+<p><strong>nGridLines</strong> : int</p>
+<blockquote>
+<div><p>number of lines to draw</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.add_latlon_labels">
+<tt class="descname">add_latlon_labels</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_latlon_labels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add lat/lon labels along upper and left side</p>
+<div class="line-block">
+<div class="line">Compute step of lables</div>
+<div class="line">Get lat/lon for these labels from latGrid, lonGrid</div>
+<div class="line">Print lables to PIL</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<p><strong>latGrid</strong> : numpy array</p>
+<p><strong>lonGrid</strong> : numpy array</p>
+<p><strong>latlonLabels</strong> : int</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.add_logo">
+<tt class="descname">add_logo</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_logo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert logo into the PIL image</p>
+<div class="line-block">
+<div class="line">Read logo from file as PIL</div>
+<div class="line">Resize to the given size</div>
+<div class="line">Pan using the given location</div>
+<div class="line">Paste into pilImg</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.pilImg</strong></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.apply_logarithm">
+<tt class="descname">apply_logarithm</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.apply_logarithm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a tone curve to the array</p>
+<div class="line-block">
+<div class="line">After the normalization of the values from 0 to 1,
+logarithm is applied</div>
+<div class="line">Then the values are converted to the normal scale.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.apply_mask">
+<tt class="descname">apply_mask</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.apply_mask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply mask for coloring land, clouds, etc</p>
+<div class="line-block">
+<div class="line">If mask_array and mask_lut are provided as input parameters</div>
+<div class="line">The pixels in self.array which have index equal to mask_lut kay
+in mask_array will have color equal to mask_lut value
+apply_mask should be called only after convert_palettesize.
+(i.e. to uint8 data)</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.clim_from_histogram">
+<tt class="descname">clim_from_histogram</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.clim_from_histogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Estimate min and max pixel values from histogram</p>
+<div class="line-block">
+<div class="line">If ratio=1.0, simply the minimum and maximum values are returned.</div>
+<div class="line">If 0 &lt; ratio &lt; 1.0, get the histogram of the pixel values.</div>
+<div class="line">Then get rid of (1.0-ratio)/2 from the both sides and
+return the minimum and maximum values.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
+<blockquote class="last">
+<div><p>minimum and maximum pixel values for each band</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.clip">
+<tt class="descname">clip</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.clip" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert self.array to values between cmin and cmax</p>
+<div class="line-block">
+<div class="line">If pixel value &lt; cmin, replaced to cmin.</div>
+<div class="line">If pixel value &gt; cmax, replaced to cmax.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
+<p class="last"><strong>self.cmin, self.cmax</strong> : allowed min/max values</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.convert_palettesize">
+<tt class="descname">convert_palettesize</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.convert_palettesize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert self.array to palette color size in uint8</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.create_legend">
+<tt class="descname">create_legend</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.create_legend" title="Permalink to this definition">¶</a></dt>
+<dd><p>self.legend is replaced from None to PIL image</p>
+<p>PIL image includes colorbar, caption, and titleString.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.create_pilImage">
+<tt class="descname">create_pilImage</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.create_pilImage" title="Permalink to this definition">¶</a></dt>
+<dd><p>self.create_pilImage is replaced from None to PIL image</p>
+<div class="line-block">
+<div class="line">If three images are given, create a image with RGB mode.
+if self.pilImgLegend is not None, it is pasted.</div>
+<div class="line">If one image is given, create a image with P(palette) mode.
+if self.pilImgLegend is not None,
+self.array is extended before create the pilImag and
+then paste pilImgLegend onto it.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image with / without the legend</p>
+<p class="last"><strong>self.array</strong> : replace to None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.process">
+<tt class="descname">process</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Do all common operations for preparation of a figure for saving</p>
+<div class="line-block">
+<div class="line">Modify default values of parameters by the provided ones (if any)</div>
+<div class="line">Clip to min/max</div>
+<div class="line">Apply logarithm if required</div>
+<div class="line">Convert data to uint8</div>
+<div class="line">Create palette</div>
+<div class="line">Apply mask for colouring land, clouds, etc if required</div>
+<div class="line">Create legend if required</div>
+<div class="line">Create PIL image</div>
+<div class="line">Add logo if required</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
+<p><strong>self.array</strong></p>
+<p><strong>self.palette</strong></p>
+<p><strong>self.pilImgLegend</strong></p>
+<p class="last"><strong>self.pilImg.</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.figure.Figure.save">
+<tt class="descname">save</tt><big>(</big><em>fileName</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save self.pilImg to a physical file</p>
+<p>If given extension is JPG, convert the image mode from Palette to RGB</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<blockquote>
+<div><p>name of outputfile</p>
+</div></blockquote>
+<p><strong>Any of Figure attributes</strong></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

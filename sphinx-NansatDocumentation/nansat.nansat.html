@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.nansat module &mdash; Nansat 0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.nansat">
+<span id="nansat-nansat-module"></span><h1>nansat.nansat module<a class="headerlink" href="#module-nansat.nansat" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.nansat.Nansat">
+<em class="property">class </em><tt class="descclassname">nansat.nansat.</tt><tt class="descname">Nansat</tt><big>(</big><em>fileName=''</em>, <em>mapperName=''</em>, <em>domain=None</em>, <em>array=None</em>, <em>parameters=None</em>, <em>logLevel=30</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Nansat object</p>
+<div class="line-block">
+<div class="line">if &lt;fileName&gt; is given:</div>
+<div class="line-block">
+<div class="line">Open GDAL dataset,</div>
+<div class="line">Read metadata,</div>
+<div class="line">Generate GDAL VRT file with mapping of variables in memory</div>
+<div class="line">Create logger</div>
+<div class="line">Create Nansat object for perfroming high-level operations</div>
+</div>
+<div class="line">if &lt;domain&gt; and &lt;array&gt; are given:</div>
+<div class="line-block">
+<div class="line">Create VRT object from data in &lt;array&gt;</div>
+<div class="line">Add geolocation from &lt;domain&gt;</div>
+</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<blockquote>
+<div><p>location of the file</p>
+</div></blockquote>
+<p><strong>mapperName</strong> : string, optional</p>
+<blockquote>
+<div><p>name of the mapper from nansat/mappers dir. E.g.
+&#8216;ASAR&#8217;, &#8216;hirlam&#8217;, &#8216;merisL1&#8217;, &#8216;merisL2&#8217;, etc.</p>
+</div></blockquote>
+<p><strong>domain</strong> : Domain object</p>
+<blockquote>
+<div><p>Geo-reference of a new raster</p>
+</div></blockquote>
+<p><strong>array</strong> : numpy array</p>
+<blockquote>
+<div><p>Firts band of a new raster</p>
+</div></blockquote>
+<p><strong>parameters</strong> : dictionary</p>
+<blockquote>
+<div><p>Metadata for the 1st band of a new raster,e.g. name, wkv, units,...</p>
+</div></blockquote>
+<p><strong>logLevel</strong> : int, optional, default: logging.DEBUG (30)</p>
+<blockquote>
+<div><p>Level of logging. See: <a class="reference external" href="http://docs.python.org/howto/logging.html">http://docs.python.org/howto/logging.html</a></p>
+</div></blockquote>
+<p class="last"><strong>kwargs</strong> : additional arguments for mappers</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="11%" />
+<col width="89%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>mapperList</td>
+<td>(list of file names) list of available working mappers</td>
+</tr>
+<tr class="row-even"><td>fileName</td>
+<td>(file name) set file name given by the argument</td>
+</tr>
+<tr class="row-odd"><td>vrt</td>
+<td>(VRT object) Wrapper around VRT file and GDAL dataset with satellite raster data</td>
+</tr>
+<tr class="row-even"><td>logger</td>
+<td>(logging.Logger) logger for output debugging info</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>(string) name of object (for writing KML)</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.add_band" title="nansat.nansat.Nansat.add_band"><tt class="xref py py-obj docutils literal"><span class="pre">add_band</span></tt></a>(array[,&nbsp;parameters,&nbsp;nomem])</td>
+<td>Add band from the array to self.vrt  Create VRT object which contains VRT and RAW binary file and append it to self.vrt.subVRTs  :Parameters:      <strong>array</strong> : Numpy array with band data                <strong>parameters</strong> : dictionary, band metadata: wkv, name, etc.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.azimuth_up" title="nansat.nansat.Nansat.azimuth_up"><tt class="xref py py-obj docutils literal"><span class="pre">azimuth_up</span></tt></a>([reductionFactor])</td>
+<td>Calculate the azimuth of &#8216;upward&#8217; direction in each pixel  | Generaly speaking, azimuth is angle from the reference vector   (direction to North) to the chosen direction.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.bands" title="nansat.nansat.Nansat.bands"><tt class="xref py py-obj docutils literal"><span class="pre">bands</span></tt></a>()</td>
+<td>Make a dictionary with all bands metadata</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.crop" title="nansat.nansat.Nansat.crop"><tt class="xref py py-obj docutils literal"><span class="pre">crop</span></tt></a>([xOff,&nbsp;yOff,&nbsp;xSize,&nbsp;ySize,&nbsp;lonlim,&nbsp;latlim])</td>
+<td>Crop Nansat object  | Create superVRT, modify the Source Rectangle (SrcRect) and   Destination.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.export" title="nansat.nansat.Nansat.export"><tt class="xref py py-obj docutils literal"><span class="pre">export</span></tt></a>(fileName[,&nbsp;rmMetadata,&nbsp;...])</td>
+<td>Export Nansat object into netCDF or GTiff file   :Parameters:      <strong>fileName</strong> : str          output file name      <strong>rmMetadata</strong> : list          | metadata names for removal before export.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.export_band" title="nansat.nansat.Nansat.export_band"><tt class="xref py py-obj docutils literal"><span class="pre">export_band</span></tt></a>(fileName[,&nbsp;bandID,&nbsp;driver])</td>
+<td>Export only one band of the Nansat object</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_GDALRasterBand" title="nansat.nansat.Nansat.get_GDALRasterBand"><tt class="xref py py-obj docutils literal"><span class="pre">get_GDALRasterBand</span></tt></a>([bandID])</td>
+<td>Get a GDALRasterBand of a given Nansat object  | If str is given find corresponding band number.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_border" title="nansat.nansat.Nansat.get_border"><tt class="xref py py-obj docutils literal"><span class="pre">get_border</span></tt></a>([nPoints])</td>
+<td>Generate two vectors with values of lat/lon for the border of domain</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_border_geometry" title="nansat.nansat.Nansat.get_border_geometry"><tt class="xref py py-obj docutils literal"><span class="pre">get_border_geometry</span></tt></a>()</td>
+<td>Get OGR Geometry of the border Polygon</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_border_postgis" title="nansat.nansat.Nansat.get_border_postgis"><tt class="xref py py-obj docutils literal"><span class="pre">get_border_postgis</span></tt></a>()</td>
+<td>Get PostGIS formatted string of the border Polygon</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_border_wkt" title="nansat.nansat.Nansat.get_border_wkt"><tt class="xref py py-obj docutils literal"><span class="pre">get_border_wkt</span></tt></a>()</td>
+<td>Creates string with WKT representation of the border polygon</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_corners" title="nansat.nansat.Nansat.get_corners"><tt class="xref py py-obj docutils literal"><span class="pre">get_corners</span></tt></a>()</td>
+<td>Get coordinates of corners of the Domain</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_geolocation_grids" title="nansat.nansat.Nansat.get_geolocation_grids"><tt class="xref py py-obj docutils literal"><span class="pre">get_geolocation_grids</span></tt></a>([stepSize])</td>
+<td>Get longitude and latitude grids representing the full data grid  | If GEOLOCATION is not present in the self.vrt.dataset then grids   are generated by converting pixel/line of each pixel into lat/lon | If GEOLOCATION is present in the self.vrt.dataset then grids are   read from the geolocation bands.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_metadata" title="nansat.nansat.Nansat.get_metadata"><tt class="xref py py-obj docutils literal"><span class="pre">get_metadata</span></tt></a>([key,&nbsp;bandID])</td>
+<td>Get metadata from self.vrt.dataset   :Parameters:      <strong>key</strong> : string, optional          name of the metadata key.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_pixelsize_meters" title="nansat.nansat.Nansat.get_pixelsize_meters"><tt class="xref py py-obj docutils literal"><span class="pre">get_pixelsize_meters</span></tt></a>()</td>
+<td>Returns the pixelsize (deltaX, deltaY) of the domain  | For projected domains, the exact result which is constant   over the domain is returned.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_time" title="nansat.nansat.Nansat.get_time"><tt class="xref py py-obj docutils literal"><span class="pre">get_time</span></tt></a>([bandID])</td>
+<td>Get time for dataset and/or its bands   :Parameters:      <strong>bandID</strong> : int or str (default = None)          band number or name  :Returns:      <strong>time</strong> : list with datetime objects for each band.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.get_transect" title="nansat.nansat.Nansat.get_transect"><tt class="xref py py-obj docutils literal"><span class="pre">get_transect</span></tt></a>([points,&nbsp;bandList,&nbsp;latlon,&nbsp;...])</td>
+<td>Get transect from two poins and retun the values by numpy array   :Parameters:      <strong>points</strong> : tuple with one or more points or shape file name          | i.e.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.has_band" title="nansat.nansat.Nansat.has_band"><tt class="xref py py-obj docutils literal"><span class="pre">has_band</span></tt></a>(band)</td>
+<td>Check if self has band with name &lt;band&gt;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.list_bands" title="nansat.nansat.Nansat.list_bands"><tt class="xref py py-obj docutils literal"><span class="pre">list_bands</span></tt></a>([doPrint])</td>
+<td>Show band information of the given Nansat object  Show serial number, longName, name and all parameters for each band in the metadata of the given Nansat object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.process" title="nansat.nansat.Nansat.process"><tt class="xref py py-obj docutils literal"><span class="pre">process</span></tt></a>([opts])</td>
+<td>Default L2 processing of Nansat object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.reproject" title="nansat.nansat.Nansat.reproject"><tt class="xref py py-obj docutils literal"><span class="pre">reproject</span></tt></a>([dstDomain,&nbsp;eResampleAlg,&nbsp;...])</td>
+<td>Change projection of the object based on the given Domain  | Create superVRT from self.vrt with AutoCreateWarpedVRT() using   projection from the dstDomain.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.reproject_GCPs" title="nansat.nansat.Nansat.reproject_GCPs"><tt class="xref py py-obj docutils literal"><span class="pre">reproject_GCPs</span></tt></a>(srsString)</td>
+<td>Reproject all GCPs to a new spatial reference system  | Necessary before warping an image if the given GCPs   are in a coordinate system which has a singularity   in (or near) the destination area (e.g.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.resize" title="nansat.nansat.Nansat.resize"><tt class="xref py py-obj docutils literal"><span class="pre">resize</span></tt></a>([factor,&nbsp;width,&nbsp;height,&nbsp;pixelsize,&nbsp;...])</td>
+<td>Proportional resize of the dataset.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.set_metadata" title="nansat.nansat.Nansat.set_metadata"><tt class="xref py py-obj docutils literal"><span class="pre">set_metadata</span></tt></a>([key,&nbsp;value,&nbsp;bandID])</td>
+<td>Set metadata to self.vrt.dataset</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.shape" title="nansat.nansat.Nansat.shape"><tt class="xref py py-obj docutils literal"><span class="pre">shape</span></tt></a>()</td>
+<td>Return Numpy-like shape of Domain object (ySize, xSize)</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.transform_points" title="nansat.nansat.Nansat.transform_points"><tt class="xref py py-obj docutils literal"><span class="pre">transform_points</span></tt></a>(colVector,&nbsp;rowVector[,&nbsp;...])</td>
+<td>Transform given lists of X,Y coordinates into lon/lat or inverse</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.undo" title="nansat.nansat.Nansat.undo"><tt class="xref py py-obj docutils literal"><span class="pre">undo</span></tt></a>([steps])</td>
+<td>Undo reproject, resize, add_band or crop of Nansat object</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.upwards_azimuth_direction" title="nansat.nansat.Nansat.upwards_azimuth_direction"><tt class="xref py py-obj docutils literal"><span class="pre">upwards_azimuth_direction</span></tt></a>([orbit_direction])</td>
+<td>Caluculate and return upwards azimuth direction of domain.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.watermask" title="nansat.nansat.Nansat.watermask"><tt class="xref py py-obj docutils literal"><span class="pre">watermask</span></tt></a>([mod44path,&nbsp;dstDomain])</td>
+<td>Create numpy array with watermask (water=1, land=0)  | 250 meters resolution watermask from MODIS 44W Product: | <a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a> | Watermask is stored as tiles in TIF(LZW) format and a VRT file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.write_figure" title="nansat.nansat.Nansat.write_figure"><tt class="xref py py-obj docutils literal"><span class="pre">write_figure</span></tt></a>([fileName,&nbsp;bands,&nbsp;clim,&nbsp;addDate])</td>
+<td>Save a raster band to a figure in graphical format.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.write_geotiffimage" title="nansat.nansat.Nansat.write_geotiffimage"><tt class="xref py py-obj docutils literal"><span class="pre">write_geotiffimage</span></tt></a>(fileName[,&nbsp;bandID])</td>
+<td>Writes an 8-bit GeoTiff image for a given band.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.write_kml" title="nansat.nansat.Nansat.write_kml"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml</span></tt></a>([xmlFileName,&nbsp;kmlFileName])</td>
+<td>Write KML file with domains  Convert XML-file with domains into KML-file for GoogleEarth or write KML-file with the current Domain  :Parameters:      <strong>xmlFileName</strong> : string, optional          Name of the XML-file to convert.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat.Nansat.write_kml_image" title="nansat.nansat.Nansat.write_kml_image"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml_image</span></tt></a>([kmlFileName,&nbsp;kmlFigureName])</td>
+<td>Create KML file for already projected image  Write Domain Image into KML-file for GoogleEarth  :Parameters:      <strong>kmlFileName</strong> : string, optional          Name of the KML-file to generate from the current Domain      <strong>kmlFigureName</strong> : string, optional          Name of the projected image stored in .png format  ..</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nansat.Nansat.write_map" title="nansat.nansat.Nansat.write_map"><tt class="xref py py-obj docutils literal"><span class="pre">write_map</span></tt></a>(outputFileName[,&nbsp;lonVec,&nbsp;latVec,&nbsp;...])</td>
+<td>Create an image with a map of the domain  | Uses Basemap to create a World Map.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nansat.nansat.Nansat.add_band">
+<tt class="descname">add_band</tt><big>(</big><em>array</em>, <em>parameters=None</em>, <em>nomem=False</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.add_band" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add band from the array to self.vrt</p>
+<p>Create VRT object which contains VRT and RAW binary file and append
+it to self.vrt.subVRTs</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : Numpy array with band data</p>
+<p><strong>parameters</strong> : dictionary, band metadata: wkv, name, etc.</p>
+<p><strong>nomem</strong> : boolean, saves the vrt to a tempfile if nomem is True</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>VRT object</strong> : VRT object with VRT-file and RAW-file</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : Add a band</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.azimuth_up">
+<tt class="descname">azimuth_up</tt><big>(</big><em>reductionFactor=1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.azimuth_up" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the azimuth of &#8216;upward&#8217; direction in each pixel</p>
+<div class="line-block">
+<div class="line">Generaly speaking, azimuth is angle from the reference vector
+(direction to North) to the chosen direction. Azimuth increases
+clockwise from direction to North.
+<a class="reference external" href="http://en.wikipedia.org/wiki/Azimuth">http://en.wikipedia.org/wiki/Azimuth</a></div>
+<div class="line">Here we calcluate azimuth of &#8216;upward&#8217; direction.
+&#8216;Upward&#8217; direction coincides with Y-axis direction (and hence is
+opposite to the ROW-axis direction). For lon-lat (cylindrical,
+Plate Caree) and Mercator projections &#8216;upward&#8217; direction coincides
+with direction to North, hence azimuth is 0.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>reductionFactor</strong> : integer</p>
+<blockquote>
+<div><p>factor by which the size of the output array is reduced</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>azimuth</strong> : numpy array</p>
+<blockquote class="last">
+<div><p>Values of azimuth in degrees in range 0 - 360</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.bands">
+<tt class="descname">bands</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a dictionary with all bands metadata</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>b</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>key = N, value = dict with all band metadata</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.crop">
+<tt class="descname">crop</tt><big>(</big><em>xOff=0</em>, <em>yOff=0</em>, <em>xSize=None</em>, <em>ySize=None</em>, <em>lonlim=None</em>, <em>latlim=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.crop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Crop Nansat object</p>
+<div class="line-block">
+<div class="line">Create superVRT, modify the Source Rectangle (SrcRect) and
+Destination.</div>
+<div class="line">Rectangle (DstRect) tags in the VRT file for each band in order
+to take only part of the original image, create new GCPs or
+new GeoTransform for the cropped object.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xOff</strong> : int</p>
+<blockquote>
+<div><p>pixel offset of subimage</p>
+</div></blockquote>
+<p><strong>yOff</strong> : int</p>
+<blockquote>
+<div><p>line offset of subimage</p>
+</div></blockquote>
+<p><strong>xSize</strong> : int</p>
+<blockquote>
+<div><p>width in pixels of subimage</p>
+</div></blockquote>
+<p><strong>ySize</strong> : int</p>
+<blockquote>
+<div><p>height in pizels of subimage</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>superVRT</strong> : VRT with modified SrcRect and DstRect</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt</strong> : VRT</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>status</strong> : int</p>
+<blockquote class="last">
+<div><div class="line-block">
+<div class="line">0 - everyhting is OK, image is cropped</div>
+<div class="line">1 - if crop is totally outside, image is NOT cropped</div>
+<div class="line">2 - crop area is too large and crop is not needed</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.export">
+<tt class="descname">export</tt><big>(</big><em>fileName</em>, <em>rmMetadata=</em>, <span class="optional">[</span><span class="optional">]</span><em>addGeolocArray=True</em>, <em>addGCPs=True</em>, <em>driver='netCDF'</em>, <em>bottomup=False</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.export" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export Nansat object into netCDF or GTiff file</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
+<blockquote>
+<div><p>output file name</p>
+</div></blockquote>
+<p><strong>rmMetadata</strong> : list</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">metadata names for removal before export.</div>
+<div class="line">e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;sourceBands&#8217;]</div>
+</div>
+</div></blockquote>
+<p><strong>addGeolocArray</strong> : bool</p>
+<blockquote>
+<div><p>add geolocation array datasets to exported file?</p>
+</div></blockquote>
+<p><strong>addGCPs</strong> : bool</p>
+<blockquote>
+<div><p>add GCPs?  to exported file?</p>
+</div></blockquote>
+<p><strong>driver</strong> : str</p>
+<blockquote>
+<div><p>Name of GDAL driver (format)</p>
+</div></blockquote>
+<p><strong>bottomup</strong> : bool</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">False : Write swath-projected data with rows and columns
+organized as in the original product.</div>
+<div class="line">True : Use the default behaviour of GDAL, which is to flip
+the rows</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first last"><strong>a netCDF file</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="line-block">
+<div class="line">If number of bands is more than one, serial numbers are
+added at the end of each band name.</div>
+<div class="line">It is possible to fix it by changing
+line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
+<div class="line">&#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s%d&#8221;,tmpMetadata,iBand);&#8217;</div>
+<div class="line">&#8211;&gt; &#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s&#8221;,tmpMetadata);&#8217;</div>
+<div class="line">CreateCopy fails in case the band name has special characters,</div>
+<div class="line">e.g. the slash in &#8216;HH/VV&#8217;.</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.export_band">
+<tt class="descname">export_band</tt><big>(</big><em>fileName</em>, <em>bandID=1</em>, <em>driver='netCDF'</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.export_band" title="Permalink to this definition">¶</a></dt>
+<dd><p>Export only one band of the Nansat object</p>
+<div class="line-block">
+<div class="line">Get array from the required band</div>
+<div class="line">Create temporary Nansat from the array</div>
+<div class="line">Export temporary Nansat to file</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
+<blockquote>
+<div><p>name of the output file</p>
+</div></blockquote>
+<p><strong>bandID</strong> : int or str, [1]</p>
+<blockquote>
+<div><p>number of name of the band</p>
+</div></blockquote>
+<p><strong>driver</strong> : str, [&#8216;netCDF&#8217;]</p>
+<blockquote class="last">
+<div><p>name of the GDAL Driver (format) to use</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_GDALRasterBand">
+<tt class="descname">get_GDALRasterBand</tt><big>(</big><em>bandID=1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_GDALRasterBand" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a GDALRasterBand of a given Nansat object</p>
+<div class="line-block">
+<div class="line">If str is given find corresponding band number.</div>
+<div class="line">If int is given check if band with this number exists.</div>
+<div class="line">Get a GDALRasterBand from vrt.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandID</strong> : serial number or string, optional (default is 1)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">if number - a band number of the band to fetch</div>
+<div class="line">if string - bandID = {&#8216;name&#8217;: bandID}</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">GDAL RasterBand</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Get a raster band</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># get a band from the band number</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_GDALRasterBand</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="c"># get a band from the name</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_GDALRasterBand</span><span class="p">(</span><span class="s">&#39;sigma0&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_border">
+<tt class="descname">get_border</tt><big>(</big><em>nPoints=10</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_border" title="Permalink to this definition">¶</a></dt>
+<dd><p>Generate two vectors with values of lat/lon for the border of domain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nPoints</strong> : int, optional</p>
+<blockquote>
+<div><p>Number of points on each border</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<blockquote class="last">
+<div><p>vectors with lon/lat values for each point at the border</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_border_geometry">
+<tt class="descname">get_border_geometry</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_border_geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get OGR Geometry of the border Polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_border_postgis">
+<tt class="descname">get_border_postgis</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_border_postgis" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get PostGIS formatted string of the border Polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_border_wkt">
+<tt class="descname">get_border_wkt</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_border_wkt" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates string with WKT representation of the border polygon</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>WKTPolygon</strong> : string</p>
+<blockquote class="last">
+<div><p>string with WKT representation of the border polygon</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_corners">
+<tt class="descname">get_corners</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_corners" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get coordinates of corners of the Domain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<blockquote class="last">
+<div><p>vectors with lon/lat values for each corner</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_geolocation_grids">
+<tt class="descname">get_geolocation_grids</tt><big>(</big><em>stepSize=1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_geolocation_grids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get longitude and latitude grids representing the full data grid</p>
+<div class="line-block">
+<div class="line">If GEOLOCATION is not present in the self.vrt.dataset then grids
+are generated by converting pixel/line of each pixel into lat/lon</div>
+<div class="line">If GEOLOCATION is present in the self.vrt.dataset then grids are
+read from the geolocation bands.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stepSize</strong> : int</p>
+<blockquote>
+<div><p>Reduction factor if output is desired on a reduced grid size</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>longitude</strong> : numpy array</p>
+<blockquote>
+<div><p>grid with longitudes</p>
+</div></blockquote>
+<p><strong>latitude</strong> : numpy array</p>
+<blockquote class="last">
+<div><p>grid with latitudes</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_metadata">
+<tt class="descname">get_metadata</tt><big>(</big><em>key=None</em>, <em>bandID=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata from self.vrt.dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : string, optional</p>
+<blockquote>
+<div><p>name of the metadata key. If not givem all metadata is returned</p>
+</div></blockquote>
+<p><strong>bandID</strong> : int or str, optional</p>
+<blockquote>
+<div><p>number or name of band to get metadata from.
+If not given, global metadata is returned</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : a string with metadata</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">if key is given and found an empty string</div>
+<div class="line">if key is given and not found</div>
+</div>
+</div></blockquote>
+<p><strong>dictionary</strong> : a dictionary with all metadata</p>
+<blockquote class="last">
+<div><p>if key is not given</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_pixelsize_meters">
+<tt class="descname">get_pixelsize_meters</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_pixelsize_meters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the pixelsize (deltaX, deltaY) of the domain</p>
+<div class="line-block">
+<div class="line">For projected domains, the exact result which is constant
+over the domain is returned.</div>
+<div class="line">For geographic (lon-lat) projections,
+or domains with no geotransform,
+the haversine formula is used to calculate the pixel size
+in the center of the domain.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
+<blockquote class="last">
+<div><p>pixel size in X and Y directions given in meters</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_time">
+<tt class="descname">get_time</tt><big>(</big><em>bandID=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get time for dataset and/or its bands</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandID</strong> : int or str (default = None)</p>
+<blockquote>
+<div><p>band number or name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>time</strong> : list with datetime objects for each band.</p>
+<blockquote class="last">
+<div><p>If time is the same for all bands, the list contains 1 item</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.get_transect">
+<tt class="descname">get_transect</tt><big>(</big><em>points=None, bandList=[1], latlon=True, transect=True, returnOGR=False, layerNum=0, smoothRadius=0, smoothAlg=0, **kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.get_transect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get transect from two poins and retun the values by numpy array</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : tuple with one or more points or shape file name</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">i.e. ((lon1, lat1),(lon2, lat2),(lon3, lat3), ...) or</div>
+<div class="line-block">
+<div class="line">((col1, row1),(col2, row2),(col3, row3), ...)</div>
+</div>
+</div>
+</div></blockquote>
+<p><strong>bandList</strong> : list of int or string</p>
+<blockquote>
+<div><p>elements of the list are band number or band Name</p>
+</div></blockquote>
+<p><strong>latlon</strong> : bool</p>
+<blockquote>
+<div><p>If the points in lat/lon, then True.
+If the points in pixel/line, then False.</p>
+</div></blockquote>
+<p><strong>transect</strong> : bool</p>
+<blockquote>
+<div><p>If True, get all transact values
+If False, get values of points</p>
+</div></blockquote>
+<p><strong>returnOGR: bool</strong></p>
+<blockquote>
+<div><p>If True, then return numpy array
+If False, return OGR object</p>
+</div></blockquote>
+<p><strong>layerNum: int</strong></p>
+<blockquote>
+<div><p>If shapefile is given as points, it is the number of the layer</p>
+</div></blockquote>
+<p><strong>smoothRadius: int</strong></p>
+<blockquote>
+<div><p>If smootRadius is greater than 0, smooth every transect
+pixel as the median or mean value in a circule with radius
+equal to the given number.</p>
+</div></blockquote>
+<p><strong>smoothAlg: 0 or 1 for median or mean</strong></p>
+<p><strong>vmin, vmax</strong> : int (optional)</p>
+<blockquote>
+<div><p>minimum and maximum pixel values of an image shown
+in case points is None.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>if returnOGR = True</strong></p>
+<blockquote>
+<div><p><strong>transect</strong> : OGR object with points coordinates and values</p>
+</div></blockquote>
+<p><strong>if returnOGR = False</strong></p>
+<blockquote>
+<div><p><strong>transect</strong> : list or values of the transect or
+OGR object with the transect values</p>
+</div></blockquote>
+<p><strong>[lonVector, latVector]</strong> : list with longitudes, latitudes</p>
+<p class="last"><strong>pixlinCoord</strong> : numpy array with pixels and lines coordinates</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.has_band">
+<tt class="descname">has_band</tt><big>(</big><em>band</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.has_band" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if self has band with name &lt;band&gt;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>band</strong> : str</p>
+<blockquote>
+<div><p>name of the band to check</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>bool</strong> : True/False if band exists or not</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.list_bands">
+<tt class="descname">list_bands</tt><big>(</big><em>doPrint=True</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.list_bands" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show band information of the given Nansat object</p>
+<p>Show serial number, longName, name and all parameters
+for each band in the metadata of the given Nansat object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>doPrint</strong> : boolean, optional, default=True</p>
+<blockquote>
+<div><p>do print, otherwise it is returned as string</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>outString</strong> : String</p>
+<blockquote class="last">
+<div><p>formatted string with bands info</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.process">
+<tt class="descname">process</tt><big>(</big><em>opts=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.process" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default L2 processing of Nansat object. Overloaded in childs.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.reproject">
+<tt class="descname">reproject</tt><big>(</big><em>dstDomain=None</em>, <em>eResampleAlg=0</em>, <em>blockSize=None</em>, <em>WorkingDataType=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.reproject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Change projection of the object based on the given Domain</p>
+<div class="line-block">
+<div class="line">Create superVRT from self.vrt with AutoCreateWarpedVRT() using
+projection from the dstDomain.</div>
+<div class="line">Modify XML content of the warped vrt using the Domain parameters.</div>
+<div class="line">Generate warpedVRT and replace self.vrt with warpedVRT.</div>
+<div class="line">If current object spans from 0 to 360 and dstDomain is west of 0,
+the object is shifted by 180 westwards.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dstDomain</strong> : domain</p>
+<blockquote>
+<div><p>destination Domain where projection and resolution are set</p>
+</div></blockquote>
+<p><strong>eResampleAlg</strong> : int (GDALResampleAlg)</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">0 : NearestNeighbour</div>
+<div class="line">1 : Bilinear</div>
+<div class="line">2 : Cubic,</div>
+<div class="line">3 : CubicSpline</div>
+<div class="line">4 : Lancoz</div>
+</div>
+</div></blockquote>
+<p><strong>blockSize</strong> : int</p>
+<blockquote>
+<div><p>size of blocks for resampling. Large value decrease speed
+but increase accuracy at the edge</p>
+</div></blockquote>
+<p><strong>WorkingDataType</strong> : int (GDT_int, ...)</p>
+<blockquote>
+<div><p>type of data in bands. Shuold be integer for int32 bands</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : VRT object with dataset replaced to warpedVRT dataset</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>gdalwarp : <a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.reproject_GCPs">
+<tt class="descname">reproject_GCPs</tt><big>(</big><em>srsString</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.reproject_GCPs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reproject all GCPs to a new spatial reference system</p>
+<div class="line-block">
+<div class="line">Necessary before warping an image if the given GCPs
+are in a coordinate system which has a singularity
+in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
+<blockquote>
+<div><p>SRS given as Proj4 string</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Reprojects all GCPs to new SRS and updates GCPProjection</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.resize">
+<tt class="descname">resize</tt><big>(</big><em>factor=1</em>, <em>width=None</em>, <em>height=None</em>, <em>pixelsize=None</em>, <em>eResampleAlg=-1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.resize" title="Permalink to this definition">¶</a></dt>
+<dd><p>Proportional resize of the dataset.</p>
+<div class="line-block">
+<div class="line">The dataset is resized as (xSize*factor, ySize*factor)</div>
+<div class="line">If desired width, height or pixelsize is specified,
+the scaling factor is calculated accordingly.</div>
+<div class="line">If GCPs are given in a dataset, they are also rewritten.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>factor</strong> : float, optional, default=1</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">scaling factor for width and height</div>
+<div class="line">&gt;1 : increasing domain size</div>
+<div class="line">&lt;1 : decreasing domain size</div>
+</div>
+</div></blockquote>
+<p><strong>width</strong> : int, optional</p>
+<blockquote>
+<div><p>Desired new width in pixels</p>
+</div></blockquote>
+<p><strong>height</strong> : int, optional</p>
+<blockquote>
+<div><p>Desired new height in pixels</p>
+</div></blockquote>
+<p><strong>pixelsize</strong> : float, optional</p>
+<blockquote>
+<div><p>Desired new pixelsize in meters (approximate).
+A factor is calculated from ratio of the
+current pixelsize to the desired pixelsize.</p>
+</div></blockquote>
+<p><strong>eResampleAlg</strong> : int (GDALResampleAlg), optional</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">-1 : Average</div>
+<div class="line">0 : NearestNeighbour</div>
+<div class="line">1 : Bilinear</div>
+<div class="line">2 : Cubic</div>
+<div class="line">3 : CubicSpline</div>
+<div class="line">4 : Lancoz</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt.dataset</strong> : raster size are modified to downscaled size.</p>
+<blockquote class="last">
+<div><p>If GCPs are given in the dataset, they are also overwritten.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.set_metadata">
+<tt class="descname">set_metadata</tt><big>(</big><em>key=''</em>, <em>value=''</em>, <em>bandID=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.set_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set metadata to self.vrt.dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : string or dictionary with strings</p>
+<blockquote>
+<div><p>name of the metadata, or dictionary with metadata names, values</p>
+</div></blockquote>
+<p><strong>value</strong> : string</p>
+<blockquote>
+<div><p>value of metadata</p>
+</div></blockquote>
+<p><strong>bandID</strong> : int or str</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">number or name of band</div>
+<div class="line">Without bandID (None), global metadata is set</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt.dataset</strong> : sets metadata in GDAL current dataset</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.shape">
+<tt class="descname">shape</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.shape" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return Numpy-like shape of Domain object (ySize, xSize)</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple of two INT</p>
+<blockquote class="last">
+<div><p>Numpy-like shape of Domain object (ySize, xSize)</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.transform_points">
+<tt class="descname">transform_points</tt><big>(</big><em>colVector</em>, <em>rowVector</em>, <em>DstToSrc=0</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.transform_points" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transform given lists of X,Y coordinates into lon/lat or inverse</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
+<blockquote>
+<div><p>X and Y coordinates in pixel/line or lon/lat  coordinate system</p>
+</div></blockquote>
+<p><strong>DstToSrc</strong> : 0 or 1</p>
+<blockquote>
+<div><ul class="simple">
+<li>0 - forward transform (pix/line =&gt; lon/lat)</li>
+<li>1 - inverse transformation</li>
+</ul>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : lists</p>
+<blockquote class="last">
+<div><p>X and Y coordinates in lon/lat or pixel/line coordinate system</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.undo">
+<tt class="descname">undo</tt><big>(</big><em>steps=1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.undo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Undo reproject, resize, add_band or crop of Nansat object</p>
+<p>Restore the self.vrt from self.vrt.vrt</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
+<blockquote>
+<div><p>How many steps back to undo</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.upwards_azimuth_direction">
+<tt class="descname">upwards_azimuth_direction</tt><big>(</big><em>orbit_direction=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.upwards_azimuth_direction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Caluculate and return upwards azimuth direction of domain.</p>
+<p>The upward azimuth direction will be the satellite flight
+direction (bearing) for unprojected satellite images.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bearing_center</strong> : float</p>
+<blockquote class="last">
+<div><p>The upwards azimuth direction (bearing) in the center of
+the domain.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="line-block">
+<div class="line">For longer domains especially at high latitudes
+the azimuth direction may vary a lot over the domain,
+and using the center angle will be a coarse approximation.</div>
+<div class="line">This function should be updated to return a matrix
+of bearings interpolated to each pixel of the domain.
+This method should probably also get a better name.</div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.watermask">
+<tt class="descname">watermask</tt><big>(</big><em>mod44path=None</em>, <em>dstDomain=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.watermask" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create numpy array with watermask (water=1, land=0)</p>
+<div class="line-block">
+<div class="line">250 meters resolution watermask from MODIS 44W Product:</div>
+<div class="line"><a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></div>
+<div class="line">Watermask is stored as tiles in TIF(LZW) format and a VRT file.</div>
+<div class="line">All files are stored in one directory.</div>
+<div class="line">A tarball with compressed TIF and VRT files should be additionally
+downloaded from the Nansat wiki:</div>
+<div class="line"><a class="reference external" href="https://github.com/nansencenter/nansat/wiki/Install-Nansat">https://github.com/nansencenter/nansat/wiki/Install-Nansat</a></div>
+<div class="line"><br /></div>
+<div class="line">1. Gets the directory either from input parameter or from
+environment variable MOD44WPATH</div>
+<div class="line">2. Open Nansat object from the VRT file</div>
+<div class="line">3. Reprojects the watermask onto the current object using
+reproject() or reproject_on_jcps()</div>
+<div class="line">4. Returns the reprojected Nansat object</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>mod44path</strong> : string, optional, default=None</p>
+<blockquote>
+<div><p>path with MOD44W Products and a VRT file</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>watermask</strong> : Nansat object with water mask in current projection</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<p>250 meters resolution watermask from MODIS 44W Product :
+<a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.write_figure">
+<tt class="descname">write_figure</tt><big>(</big><em>fileName=None</em>, <em>bands=1</em>, <em>clim=None</em>, <em>addDate=False</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.write_figure" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a raster band to a figure in graphical format.</p>
+<div class="line-block">
+<div class="line">Get numpy array from the band(s) and band information specified
+either by given band number or band id.</div>
+<div class="line-block">
+<div class="line">If three bands are given, merge them and create PIL image.</div>
+<div class="line">If one band is given, create indexed image</div>
+</div>
+<div class="line">Create Figure object.</div>
+<div class="line">Adjust the array brightness and contrast using the given min/max or
+histogram.</div>
+<div class="line">Apply logarithmic scaling of color tone.</div>
+<div class="line">Generate and append legend.</div>
+<div class="line">Save the PIL output image in PNG or any other graphical format.</div>
+<div class="line">If the filename extension is &#8216;tif&#8217;, the figure file is converted
+to GeoTiff</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string, optional</p>
+<blockquote>
+<div><p>Output file name. if one of extensions &#8216;png&#8217;, &#8216;PNG&#8217;, &#8216;tif&#8217;,
+&#8216;TIF&#8217;, &#8216;bmp&#8217;, &#8216;BMP&#8217;, &#8216;jpg&#8217;, &#8216;JPG&#8217;, &#8216;jpeg&#8217;, &#8216;JPEG&#8217; is included,
+specified file is crated. otherwise, &#8216;png&#8217; file is created.
+if None, the figure object is returned.
+if True, the figure is shown</p>
+</div></blockquote>
+<p><strong>bands</strong> : integer or string or list (elements are integer or string),</p>
+<blockquote>
+<div><p>default = 1
+the size of the list has to be 1 or 3.
+if the size is 3, RGB image is created based on the three bands.
+Then the first element is Red, the second is Green,
+and the third is Blue.</p>
+</div></blockquote>
+<p><strong>clim</strong> : list with two elements or &#8216;hist&#8217; to specify range of colormap</p>
+<blockquote>
+<div><p>None (default) : min/max values are fetched from WKV,
+fallback-&#8216;hist&#8217;
+[min, max] : min and max are numbers, or
+[[min, min, min], [max, max, max]]: three bands used
+&#8216;hist&#8217; : a histogram is used to calculate min and max values</p>
+</div></blockquote>
+<p><strong>addDate</strong> : boolean</p>
+<blockquote>
+<div><p>False (default) : no date will be aded to the caption
+True : the first time of the object will be added to the caption</p>
+</div></blockquote>
+<p><strong>**kwargs</strong> : parameters for Figure().</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>image file</strong> : if fileName is specified</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Figure object</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">References</p>
+<div class="line-block">
+<div class="line">Figure() class</div>
+<div class="line">colormaps : <a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></div>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># 1. write only indexed image, color limits from WKV or</span>
+<span class="c"># rom histogram</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test.jpg&#39;</span><span class="p">)</span>
+<span class="c"># 2. write only RGB image, color limits from histogram</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test_rgb_hist.jpg&#39;</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="s">&#39;hist&#39;</span><span class="p">,</span>
+                <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="c"># 3. write indexed image, apply log scaling and gamma correction,</span>
+<span class="c"># add legend and type in title &#39;Title&#39;,</span>
+<span class="c"># increase font size and put 15 tics</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;r09_log3_leg.jpg&#39;</span><span class="p">,</span> <span class="n">logarithm</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+               <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">gamma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">titleString</span><span class="o">=</span><span class="s">&#39;Title&#39;</span><span class="p">,</span>
+               <span class="n">fontSize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">numOfTicks</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="c"># 4. write an image to png with transparent Mask set to color</span>
+<span class="c"># transparency=[0, 0, 0], following PIL alpha mask</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="s">&#39;transparent.png&#39;</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
+               <span class="n">mask_array</span><span class="o">=</span><span class="n">wmArray</span><span class="p">,</span> <span class="n">mask_lut</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]},</span>
+               <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span> <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span>
+               <span class="n">transparency</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.write_geotiffimage">
+<tt class="descname">write_geotiffimage</tt><big>(</big><em>fileName</em>, <em>bandID=1</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.write_geotiffimage" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes an 8-bit GeoTiff image for a given band.</p>
+<div class="line-block">
+<div class="line">The output GeoTiff image is convenient</div>
+<div class="line-block">
+<div class="line">e.g. for display in a GIS tool.</div>
+</div>
+<div class="line">Colormap is fetched from the metadata item &#8216;colormap&#8217;.</div>
+<div class="line-block">
+<div class="line">Fallback colormap is &#8216;jet&#8217;.</div>
+</div>
+<div class="line">Color limits are fetched from the metadata item &#8216;minmax&#8217;.</div>
+<div class="line-block">
+<div class="line">If &#8216;minmax&#8217; is not specified, min and max of raster is used.</div>
+</div>
+<div class="line">The method can be replaced by using nansat.write_figure(),
+however, write_figure uses PIL which does not allow
+Tiff compression, giving much larger files</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<p class="last"><strong>bandID</strong> : integer or string (default = 1)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.write_kml">
+<tt class="descname">write_kml</tt><big>(</big><em>xmlFileName=None</em>, <em>kmlFileName=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.write_kml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write KML file with domains</p>
+<p>Convert XML-file with domains into KML-file for GoogleEarth
+or write KML-file with the current Domain</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xmlFileName</strong> : string, optional</p>
+<blockquote>
+<div><p>Name of the XML-file to convert. If only this value is given
+- kmlFileName=xmlFileName+&#8217;.kml&#8217;</p>
+</div></blockquote>
+<p><strong>kmlFileName</strong> : string, optional</p>
+<blockquote class="last">
+<div><p>Name of the KML-file to generate from the current Domain</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.write_kml_image">
+<tt class="descname">write_kml_image</tt><big>(</big><em>kmlFileName=None</em>, <em>kmlFigureName=None</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.write_kml_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create KML file for already projected image</p>
+<p>Write Domain Image into KML-file for GoogleEarth</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kmlFileName</strong> : string, optional</p>
+<blockquote>
+<div><p>Name of the KML-file to generate from the current Domain</p>
+</div></blockquote>
+<p><strong>kmlFigureName</strong> : string, optional</p>
+<blockquote class="last">
+<div><p>Name of the projected image stored in .png format</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<p>Create projected a KML image</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># 1. First of all, reproject an image into Lat/Lon WGS84</span>
+<span class="c"># (Simple Cylindrical) projection.</span>
+<span class="c"># Cancel previous reprojection</span>
+<span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span>
+<span class="c"># 2. Get corners of the image and the pixel resolution</span>
+<span class="c"># lons, lats = n.get_corners()</span>
+<span class="c"># 3. Create Domain with stereographic projection,</span>
+<span class="c">#    corner coordinates and resolution 1000m</span>
+<span class="n">srsString</span> <span class="o">=</span> <span class="s">&#39;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#39;</span>
+<span class="n">extentString</span> <span class="o">=</span> <span class="s">&#39;-lle </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> -ts 3000 3000&#39;</span> <span class="o">%</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span>
+<span class="c"># 4. Reproject</span>
+<span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="c"># 5. Write image</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="n">figureName</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span>
+               <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c"># 6. Write KML for the image</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_kml_image</span><span class="p">(</span><span class="n">kmlFileName</span><span class="o">=</span><span class="n">oPath</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s">&#39;.kml&#39;</span><span class="p">,</span>
+                  <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat.Nansat.write_map">
+<tt class="descname">write_map</tt><big>(</big><em>outputFileName</em>, <em>lonVec=None</em>, <em>latVec=None</em>, <em>lonBorder=10.0</em>, <em>latBorder=10.0</em>, <em>figureSize=(6</em>, <em>6)</em>, <em>dpi=50</em>, <em>projection='cyl'</em>, <em>resolution='c'</em>, <em>continetsColor='coral'</em>, <em>meridians=10</em>, <em>parallels=10</em>, <em>pColor='r'</em>, <em>pLine='k'</em>, <em>pAlpha=0.5</em>, <em>padding=0.0</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat.write_map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an image with a map of the domain</p>
+<div class="line-block">
+<div class="line">Uses Basemap to create a World Map.</div>
+<div class="line">Adds a semitransparent patch with outline of the Domain</div>
+<div class="line">Writes to an image file.</div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputFileName</strong> : string</p>
+<blockquote>
+<div><p>name of the output file name</p>
+</div></blockquote>
+<p><strong>lonBorder</strong> : float</p>
+<blockquote>
+<div><p>10, horisontal border around patch (degrees of longitude)</p>
+</div></blockquote>
+<p><strong>latBorder</strong> : float</p>
+<blockquote>
+<div><p>10, vertical border around patch (degrees of latitude)</p>
+</div></blockquote>
+<p><strong>figureSize</strong> : tuple of two integers</p>
+<blockquote>
+<div><p>(6, 6), size of the generated figure in inches</p>
+</div></blockquote>
+<p><strong>dpi: int</strong></p>
+<blockquote>
+<div><p>50, resolution of the output figure (size 6,6 and dpi 50
+produces 300 x 300 figure)</p>
+</div></blockquote>
+<p><strong>projection</strong> : string, one of Basemap projections</p>
+<blockquote>
+<div><p>&#8216;cyl&#8217;, projection of the map</p>
+</div></blockquote>
+<p><strong>resolution</strong> : string, resolution of the map</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">&#8216;c&#8217;, crude</div>
+<div class="line">&#8216;l&#8217;, low</div>
+<div class="line">&#8216;i&#8217;, intermediate</div>
+<div class="line">&#8216;h&#8217;, high</div>
+<div class="line">&#8216;f&#8217;, full</div>
+</div>
+</div></blockquote>
+<p><strong>continetsColor</strong> : string or any matplotlib color representation</p>
+<blockquote>
+<div><p>&#8216;coral&#8217;, color of continets</p>
+</div></blockquote>
+<p><strong>meridians</strong> : int</p>
+<blockquote>
+<div><p>10, number of meridians to draw</p>
+</div></blockquote>
+<p><strong>parallels</strong> : int</p>
+<blockquote>
+<div><p>10, number of parallels to draw</p>
+</div></blockquote>
+<p><strong>pColor</strong> : string or any matplotlib color representation</p>
+<blockquote>
+<div><p>&#8216;r&#8217;, color of the Domain patch</p>
+</div></blockquote>
+<p><strong>pLine</strong> : string or any matplotlib color representation</p>
+<blockquote>
+<div><p>&#8216;k&#8217;, color of the Domain outline</p>
+</div></blockquote>
+<p><strong>pAlpha</strong> : float 0 - 1</p>
+<blockquote>
+<div><p>0.5, transparency of Domain patch</p>
+</div></blockquote>
+<p><strong>padding</strong> : float</p>
+<blockquote class="last">
+<div><p>0., width of white padding around the map</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>
