@@ -41,7 +41,7 @@ html_theme_options = {
     "sidebar": None,
     "scipy_org_logo": True,
     'navigation_links': False,
-    "rootlinks": [],
+    "rootlinks": [("https://github.com/nansencenter/nansat/", "GitHub")],
     #"rootlinks": [("../index.html", "Nansat documentation")],
 }
 

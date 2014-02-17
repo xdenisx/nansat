@@ -36,7 +36,7 @@ html_theme_options = {
     "sidebar": None,
     "scipy_org_logo": True,
     'navigation_links': True,
-    "rootlinks": [],
+    "rootlinks": [("https://github.com/nansencenter/nansat/", "GitHub")],
 }
 
 pngmath_latex_preamble = r"""

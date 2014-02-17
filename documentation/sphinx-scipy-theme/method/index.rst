@@ -8,6 +8,37 @@ Nansat documentation
 .. toctree::
    :maxdepth: 4
 
+
+Scientist friendly Python toolbox for processing 2D satellite Earth observation data.
+
+
+The main **goal** of Nansat is to facilitate:
+
+* easy development and testing of scientific algorithms,
+
+* easy analysis of geospatial data, and
+
+* efficient operational processing.
+
+
+Nansat is a **framework** which:
+
+* Reads geospatial data from different Earth Observation satellites and from models;
+
+* Adds scientific meaning to the data stored in files;
+
+* Performs basic operations with geospatial data: geo-referencing, visualization, averaging, etc;
+
+* Exports data to figures and NetCDF/CF-files
+
+
+About Nansat:
+
+* `Nansat Wiki <https://github.com/nansencenter/nansat/wiki>`_
+
+* `GitHub <https://github.com/nansencenter/nansat>`_
+
+
 Classes
 ========
 
@@ -48,8 +79,6 @@ Methods
 `Mosaic <nansat.mosaic.html>`_
 
 `NansatTools <nansat.nansat_tools.html>`_
-
-
 
 
 Indices and tables
