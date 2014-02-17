@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.geolocationarray module &mdash; Nansat 0.1 documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+	
+        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.geolocationarray">
+<span id="nansat-geolocationarray-module"></span><h1>nansat.geolocationarray module<a class="headerlink" href="#module-nansat.geolocationarray" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.geolocationarray.GeolocationArray">
+<em class="property">class </em><tt class="descclassname">nansat.geolocationarray.</tt><tt class="descname">GeolocationArray</tt><big>(</big><em>xVRT=None</em>, <em>yVRT=None</em>, <em>xBand=1</em>, <em>yBand=1</em>, <em>srs=''</em>, <em>lineOffset=0</em>, <em>lineStep=1</em>, <em>pixelOffset=0</em>, <em>pixelStep=1</em>, <em>dataset=None</em><big>)</big><a class="headerlink" href="#nansat.geolocationarray.GeolocationArray" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create GeolocationArray object from input parameters</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xVRT</strong> : VRT-object or str</p>
+<blockquote>
+<div><p>VRT with array of x-coordinates OR string with dataset source</p>
+</div></blockquote>
+<p><strong>yVRT</strong> : VRT-object or str</p>
+<blockquote>
+<div><p>VRT with array of y-coordinates OR string with dataset source</p>
+</div></blockquote>
+<p><strong>xBand</strong> : number of band in the xDataset</p>
+<p><strong>xBand</strong> : number of band in the yDataset</p>
+<p><strong>srs</strong> : str, WKT</p>
+<p><strong>lineOffset</strong> : int, offset of first line</p>
+<p><strong>lineStep</strong> : int, step of lines</p>
+<p><strong>pixelOffset</strong> : int, offset of first pixel</p>
+<p><strong>pixelStep</strong> : step of pixels</p>
+<p class="last"><strong>dataset</strong> : GDAL dataset to take geolocation arrays from</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Attributes</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="55%" />
+<col width="45%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td>X_DATASET</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Y_DATASET</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>X_BAND</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>Y_BAND</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>SRS</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>LINE_OFFSET</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>LINE_STEP</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-even"><td>PIXEL_OFFSET</td>
+<td>&nbsp;</td>
+</tr>
+<tr class="row-odd"><td>PIXEL_STEP</td>
+<td>&nbsp;</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.geolocationarray.GeolocationArray.get_geolocation_grids" title="nansat.geolocationarray.GeolocationArray.get_geolocation_grids"><tt class="xref py py-obj docutils literal"><span class="pre">get_geolocation_grids</span></tt></a>()</td>
+<td>Read values of geolocation grids</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nansat.geolocationarray.GeolocationArray.get_geolocation_grids">
+<tt class="descname">get_geolocation_grids</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.geolocationarray.GeolocationArray.get_geolocation_grids" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read values of geolocation grids</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+  </body>
+</html>

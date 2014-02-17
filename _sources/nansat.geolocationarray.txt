@@ -1,0 +1,8 @@
+nansat.geolocationarray module
+==============================
+
+.. automodule:: nansat.geolocationarray
+    :members:
+    :no-undoc-members:
+    :inherited-members:
+
