@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat package &mdash; Nansat 0.1 documentation</title>
+    <title>nansat package &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" >
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
     <link rel="next" title="nansat.domain module" href="nansat.domain.html" >
     <link rel="prev" title="Welcome to nansat’s documentation!" href="index.html" > 
   </head>
@@ -53,7 +53,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="../index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="../index.html">Nansat 0.6dev documentation</a></li>
 	 
     </ul>
 		  </div>
@@ -120,15 +120,15 @@ it to self.vrt.subVRTs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : Numpy array with band data</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>array</strong> : Numpy array with band data</p>
 <p><strong>parameters</strong> : dictionary, band metadata: wkv, name, etc.</p>
 <p><strong>nomem</strong> : boolean, saves the vrt to a tempfile if nomem is True</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>VRT object</strong> : VRT object with VRT-file and RAW-file</p>
+<tr class="field-even field"><th class="field-name">Creates :</th><td class="field-body"><p class="first"><strong>VRT object</strong> : VRT object with VRT-file and RAW-file</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : Add a band</p>
+<tr class="field-odd field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : Add a band</p>
 </td>
 </tr>
 </tbody>
@@ -143,7 +143,7 @@ it to self.vrt.subVRTs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>b</strong> : dictionary</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>b</strong> : dictionary</p>
 <blockquote class="last">
 <div><p>key = N, value = dict with all band metadata</p>
 </div></blockquote>
@@ -168,7 +168,7 @@ new GeoTransform for the cropped object.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xOff</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xOff</strong> : int</p>
 <blockquote>
 <div><p>pixel offset of subimage</p>
 </div></blockquote>
@@ -186,13 +186,13 @@ new GeoTransform for the cropped object.</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>superVRT</strong> : VRT with modified SrcRect and DstRect</p>
+<tr class="field-even field"><th class="field-name">Creates :</th><td class="field-body"><p class="first"><strong>superVRT</strong> : VRT with modified SrcRect and DstRect</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt</strong> : VRT</p>
+<tr class="field-odd field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.vrt</strong> : VRT</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>status</strong> : int</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>status</strong> : int</p>
 <blockquote class="last">
 <div><div class="line-block">
 <div class="line">0 - everyhting is OK, image is cropped</div>
@@ -208,13 +208,13 @@ new GeoTransform for the cropped object.</div>
 
 <dl class="method">
 <dt id="nansat.Nansat.export">
-<tt class="descname">export</tt><big>(</big><em>fileName</em>, <em>rmMetadata=</em>, <span class="optional">[</span><span class="optional">]</span><em>addGeolocArray=True</em>, <em>addGCPs=True</em>, <em>driver='netCDF'</em>, <em>bottomup=False</em><big>)</big><a class="headerlink" href="#nansat.Nansat.export" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">export</tt><big>(</big><em>fileName</em>, <em>rmMetadata=</em><span class="optional">[</span><span class="optional">]</span>, <em>addGeolocArray=True</em>, <em>addGCPs=True</em>, <em>driver='netCDF'</em>, <em>bottomup=False</em><big>)</big><a class="headerlink" href="#nansat.Nansat.export" title="Permalink to this definition">¶</a></dt>
 <dd><p>Export Nansat object into netCDF or GTiff file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
 <blockquote>
 <div><p>output file name</p>
 </div></blockquote>
@@ -248,7 +248,7 @@ the rows</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first last"><strong>a netCDF file</strong></p>
+<tr class="field-even field"><th class="field-name">Creates :</th><td class="field-body"><p class="first last"><strong>a netCDF file</strong></p>
 </td>
 </tr>
 </tbody>
@@ -279,7 +279,7 @@ line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : str</p>
 <blockquote>
 <div><p>name of the output file</p>
 </div></blockquote>
@@ -310,7 +310,7 @@ line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandID</strong> : serial number or string, optional (default is 1)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>bandID</strong> : serial number or string, optional (default is 1)</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">if number - a band number of the band to fetch</div>
@@ -319,7 +319,7 @@ line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">GDAL RasterBand</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last">GDAL RasterBand</p>
 </td>
 </tr>
 </tbody>
@@ -342,7 +342,7 @@ line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>key</strong> : string, optional</p>
 <blockquote>
 <div><p>name of the metadata key. If not givem all metadata is returned</p>
 </div></blockquote>
@@ -353,7 +353,7 @@ If not given, global metadata is returned</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : a string with metadata</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>string</strong> : a string with metadata</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">if key is given and found an empty string</div>
@@ -378,13 +378,13 @@ If not given, global metadata is returned</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandID</strong> : int or str (default = None)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>bandID</strong> : int or str (default = None)</p>
 <blockquote>
 <div><p>band number or name</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>time</strong> : list with datetime objects for each band.</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>time</strong> : list with datetime objects for each band.</p>
 <blockquote class="last">
 <div><p>If time is the same for all bands, the list contains 1 item</p>
 </div></blockquote>
@@ -402,7 +402,7 @@ If not given, global metadata is returned</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : tuple with one or more points or shape file name</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>points</strong> : tuple with one or more points or shape file name</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">i.e. ((lon1, lat1),(lon2, lat2),(lon3, lat3), ...) or</div>
@@ -448,7 +448,7 @@ in case points is None.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>if returnOGR = True</strong></p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>if returnOGR = True</strong></p>
 <blockquote>
 <div><p><strong>transect</strong> : OGR object with points coordinates and values</p>
 </div></blockquote>
@@ -473,13 +473,13 @@ OGR object with the transect values</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>band</strong> : str</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>band</strong> : str</p>
 <blockquote>
 <div><p>name of the band to check</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>bool</strong> : True/False if band exists or not</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>bool</strong> : True/False if band exists or not</p>
 </td>
 </tr>
 </tbody>
@@ -496,13 +496,13 @@ for each band in the metadata of the given Nansat object.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>doPrint</strong> : boolean, optional, default=True</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>doPrint</strong> : boolean, optional, default=True</p>
 <blockquote>
 <div><p>do print, otherwise it is returned as string</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>outString</strong> : String</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>outString</strong> : String</p>
 <blockquote class="last">
 <div><p>formatted string with bands info</p>
 </div></blockquote>
@@ -534,7 +534,7 @@ the object is shifted by 180 westwards.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dstDomain</strong> : domain</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dstDomain</strong> : domain</p>
 <blockquote>
 <div><p>destination Domain where projection and resolution are set</p>
 </div></blockquote>
@@ -559,7 +559,7 @@ but increase accuracy at the edge</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : VRT object with dataset replaced to warpedVRT dataset</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : VRT object with dataset replaced to warpedVRT dataset</p>
 </td>
 </tr>
 </tbody>
@@ -582,7 +582,7 @@ the scaling factor is calculated accordingly.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>factor</strong> : float, optional, default=1</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>factor</strong> : float, optional, default=1</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">scaling factor for width and height</div>
@@ -617,7 +617,7 @@ current pixelsize to the desired pixelsize.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt.dataset</strong> : raster size are modified to downscaled size.</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.vrt.dataset</strong> : raster size are modified to downscaled size.</p>
 <blockquote class="last">
 <div><p>If GCPs are given in the dataset, they are also overwritten.</p>
 </div></blockquote>
@@ -635,7 +635,7 @@ current pixelsize to the desired pixelsize.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>key</strong> : string or dictionary with strings</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>key</strong> : string or dictionary with strings</p>
 <blockquote>
 <div><p>name of the metadata, or dictionary with metadata names, values</p>
 </div></blockquote>
@@ -652,7 +652,7 @@ current pixelsize to the desired pixelsize.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt.dataset</strong> : sets metadata in GDAL current dataset</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.vrt.dataset</strong> : sets metadata in GDAL current dataset</p>
 </td>
 </tr>
 </tbody>
@@ -668,13 +668,13 @@ current pixelsize to the desired pixelsize.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
 <blockquote>
 <div><p>How many steps back to undo</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.vrt</strong></p>
 </td>
 </tr>
 </tbody>
@@ -705,13 +705,13 @@ reproject() or reproject_on_jcps()</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>mod44path</strong> : string, optional, default=None</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>mod44path</strong> : string, optional, default=None</p>
 <blockquote>
 <div><p>path with MOD44W Products and a VRT file</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>watermask</strong> : Nansat object with water mask in current projection</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>watermask</strong> : Nansat object with water mask in current projection</p>
 </td>
 </tr>
 </tbody>
@@ -745,7 +745,7 @@ to GeoTiff</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Output file name. if one of extensions &#8216;png&#8217;, &#8216;PNG&#8217;, &#8216;tif&#8217;,
 &#8216;TIF&#8217;, &#8216;bmp&#8217;, &#8216;BMP&#8217;, &#8216;jpg&#8217;, &#8216;JPG&#8217;, &#8216;jpeg&#8217;, &#8216;JPEG&#8217; is included,
@@ -777,10 +777,10 @@ True : the first time of the object will be added to the caption</p>
 <p><strong>**kwargs</strong> : parameters for Figure().</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>image file</strong> : if fileName is specified</p>
+<tr class="field-even field"><th class="field-name">Creates :</th><td class="field-body"><p class="first"><strong>image file</strong> : if fileName is specified</p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Figure object</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last">Figure object</p>
 </td>
 </tr>
 </tbody>
@@ -838,7 +838,7 @@ Tiff compression, giving much larger files</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <p class="last"><strong>bandID</strong> : integer or string (default = 1)</p>
 </td>
 </tr>
@@ -866,7 +866,7 @@ corresponding points with data. Only ogr.wkbPoint is supported.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> :  2-D structured numpy array (aka record array)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>values</strong> :  2-D structured numpy array (aka record array)</p>
 <blockquote>
 <div><p>data to be stored in the vector layer. Names of the fields
 in the array will become fields in the layer.</p>
@@ -878,7 +878,7 @@ coordinates should be equal to length of values.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.layer</strong> : Set the values and geometry.</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.layer</strong> : Set the values and geometry.</p>
 </td>
 </tr>
 </tbody>
@@ -903,13 +903,13 @@ only ogr.wkbPoint or ogr.wkbPoint25D is supported</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>latlon</strong> : bool</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>latlon</strong> : bool</p>
 <blockquote>
 <div><p>if True, coordinates in lon/lat</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>points</strong> : tuple or None</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>points</strong> : tuple or None</p>
 <blockquote>
 <div><p>elements of tuple are X-Y coordinates</p>
 </div></blockquote>
@@ -990,13 +990,13 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>reductionFactor</strong> : integer</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>reductionFactor</strong> : integer</p>
 <blockquote>
 <div><p>factor by which the size of the output array is reduced</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>azimuth</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>azimuth</strong> : numpy array</p>
 <blockquote class="last">
 <div><p>Values of azimuth in degrees in range 0 - 360</p>
 </div></blockquote>
@@ -1014,13 +1014,13 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nPoints</strong> : int, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>nPoints</strong> : int, optional</p>
 <blockquote>
 <div><p>Number of points on each border</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
 <blockquote class="last">
 <div><p>vectors with lon/lat values for each point at the border</p>
 </div></blockquote>
@@ -1038,7 +1038,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
 </tr>
 </tbody>
 </table>
@@ -1052,7 +1052,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -1066,7 +1066,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>WKTPolygon</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>WKTPolygon</strong> : string</p>
 <blockquote class="last">
 <div><p>string with WKT representation of the border polygon</p>
 </div></blockquote>
@@ -1084,7 +1084,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
 <blockquote class="last">
 <div><p>vectors with lon/lat values for each corner</p>
 </div></blockquote>
@@ -1108,13 +1108,13 @@ read from the geolocation bands.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stepSize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>stepSize</strong> : int</p>
 <blockquote>
 <div><p>Reduction factor if output is desired on a reduced grid size</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>longitude</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>longitude</strong> : numpy array</p>
 <blockquote>
 <div><p>grid with longitudes</p>
 </div></blockquote>
@@ -1144,7 +1144,7 @@ in the center of the domain.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
 <blockquote class="last">
 <div><p>pixel size in X and Y directions given in meters</p>
 </div></blockquote>
@@ -1167,13 +1167,13 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
 <blockquote>
 <div><p>SRS given as Proj4 string</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Reprojects all GCPs to new SRS and updates GCPProjection</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>Reprojects all GCPs to new SRS and updates GCPProjection</strong></p>
 </td>
 </tr>
 </tbody>
@@ -1188,7 +1188,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple of two INT</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple of two INT</p>
 <blockquote class="last">
 <div><p>Numpy-like shape of Domain object (ySize, xSize)</p>
 </div></blockquote>
@@ -1206,7 +1206,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
 <blockquote>
 <div><p>X and Y coordinates in pixel/line or lon/lat  coordinate system</p>
 </div></blockquote>
@@ -1219,7 +1219,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : lists</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>X, Y</strong> : lists</p>
 <blockquote class="last">
 <div><p>X and Y coordinates in lon/lat or pixel/line coordinate system</p>
 </div></blockquote>
@@ -1239,7 +1239,7 @@ direction (bearing) for unprojected satellite images.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>bearing_center</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>bearing_center</strong> : float</p>
 <blockquote class="last">
 <div><p>The upwards azimuth direction (bearing) in the center of
 the domain.</p>
@@ -1269,7 +1269,7 @@ or write KML-file with the current Domain</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xmlFileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xmlFileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the XML-file to convert. If only this value is given
 - kmlFileName=xmlFileName+&#8217;.kml&#8217;</p>
@@ -1293,7 +1293,7 @@ or write KML-file with the current Domain</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kmlFileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>kmlFileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the KML-file to generate from the current Domain</p>
 </div></blockquote>
@@ -1343,7 +1343,7 @@ or write KML-file with the current Domain</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputFileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>outputFileName</strong> : string</p>
 <blockquote>
 <div><p>name of the output file name</p>
 </div></blockquote>
@@ -1502,7 +1502,7 @@ convert to uint8, append legend, save to a file</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 <p><strong>latGrid</strong> : numpy array</p>
 <blockquote>
 <div><p>array with values of latitudes</p>
@@ -1517,7 +1517,7 @@ convert to uint8, append legend, save to a file</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
 </td>
 </tr>
 </tbody>
@@ -1537,13 +1537,13 @@ convert to uint8, append legend, save to a file</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 <p><strong>latGrid</strong> : numpy array</p>
 <p><strong>lonGrid</strong> : numpy array</p>
 <p><strong>latlonLabels</strong> : int</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
 </td>
 </tr>
 </tbody>
@@ -1564,9 +1564,9 @@ convert to uint8, append legend, save to a file</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.pilImg</strong></td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.pilImg</strong></td>
 </tr>
 </tbody>
 </table>
@@ -1585,9 +1585,9 @@ logarithm is applied</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
 </tr>
 </tbody>
 </table>
@@ -1608,9 +1608,9 @@ apply_mask should be called only after convert_palettesize.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
 </tr>
 </tbody>
 </table>
@@ -1635,10 +1635,10 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
 <blockquote class="last">
 <div><p>minimum and maximum pixel values for each band</p>
 </div></blockquote>
@@ -1660,10 +1660,10 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
 <p class="last"><strong>self.cmin, self.cmax</strong> : allowed min/max values</p>
 </td>
 </tr>
@@ -1694,9 +1694,9 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
 </tr>
 </tbody>
 </table>
@@ -1711,9 +1711,9 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
 </tr>
 </tbody>
 </table>
@@ -1735,10 +1735,10 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image with / without the legend</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image with / without the legend</p>
 <p class="last"><strong>self.array</strong> : replace to None</p>
 </td>
 </tr>
@@ -1860,10 +1860,10 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
 <p><strong>self.array</strong></p>
 <p><strong>self.palette</strong></p>
 <p><strong>self.pilImgLegend</strong></p>
@@ -1888,14 +1888,14 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
 <p><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
 </td>
 </tr>
 </tbody>
@@ -1944,11 +1944,11 @@ save to a file.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>Parameters for matplotlib.pyplot.colorbar</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
 </td>
 </tr>
 </tbody>
@@ -1957,7 +1957,7 @@ save to a file.</div>
 
 <dl class="attribute">
 <dt id="nansat.Nansatmap.cmap">
-<tt class="descname">cmap</tt><em class="property"> = &lt;matplotlib.colors.LinearSegmentedColormap object at 0x03CA6A30&gt;</em><a class="headerlink" href="#nansat.Nansatmap.cmap" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">cmap</tt><em class="property"> = &lt;matplotlib.colors.LinearSegmentedColormap object at 0xb23054c&gt;</em><a class="headerlink" href="#nansat.Nansatmap.cmap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
@@ -1974,7 +1974,7 @@ save to a file.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -2005,7 +2005,7 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -2024,7 +2024,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -2051,7 +2051,7 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -2094,7 +2094,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Parameters of basemap.fillcontinents</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Parameters of basemap.fillcontinents</strong></td>
 </tr>
 </tbody>
 </table>
@@ -2108,7 +2108,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>lat_num</strong> : int</p>
 <blockquote>
 <div><p>Number of latitude lables</p>
@@ -2196,7 +2196,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -2207,7 +2207,7 @@ mname of smoothing algorithm to apply</p>
 <p><strong>Parameters of Basemap.pcolormesh</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.collections.QuadMesh object</p>
 </div></blockquote>
@@ -2225,7 +2225,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
 <blockquote>
 <div><p>Input data with X-component</p>
 </div></blockquote>
@@ -2240,7 +2240,7 @@ mname of smoothing algorithm to apply</p>
 <p><strong>Parameters of Basemap.quiver()</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.quiver.Quiver instance</p>
 </div></blockquote>
@@ -2258,7 +2258,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
@@ -2284,7 +2284,7 @@ the weight matrix is created automatically.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -2294,7 +2294,7 @@ the weight matrix is created automatically.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
 </td>
 </tr>
 </tbody>
@@ -3795,7 +3795,7 @@ should have the following coding</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Code:</th><td class="field-body"><div class="first last line-block">
+<tr class="field-odd field"><th class="field-name">Code :</th><td class="field-body"><div class="first last line-block">
 <div class="line">0 : nodata</div>
 <div class="line">1 : clouds</div>
 <div class="line">2 : land</div>
@@ -3818,7 +3818,7 @@ non-projected objects</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
 <blockquote>
 <div><p>list of input files</p>
 </div></blockquote>
@@ -3885,7 +3885,7 @@ non-projected objects</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
 <blockquote>
 <div><p>list of input files</p>
 </div></blockquote>
@@ -3934,7 +3934,7 @@ all input images and calculates median. Adds median bands to self</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>files</strong> : list</p>
 <blockquote>
 <div><p>list of input files</p>
 </div></blockquote>
@@ -4011,7 +4011,7 @@ all input images and calculates median. Adds median bands to self</p>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>

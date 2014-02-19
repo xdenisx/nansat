@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.nansatmap module &mdash; Nansat 0.1 documentation</title>
+    <title>nansat.nansatmap module &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
   </head>
   <body>
 
@@ -47,7 +47,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
 	 
     </ul>
               
@@ -86,7 +86,7 @@ the basemap projection.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>domain</strong> : domain object</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>domain</strong> : domain object</p>
 <p><strong>kwargs</strong> : dictionary</p>
 <blockquote class="last">
 <div><p>parameters that are used for all operations.</p>
@@ -197,13 +197,13 @@ the basemap projection.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">__call__</span></tt>(x,&nbsp;y[,&nbsp;inverse])</td>
-<td>Calling a Basemap class instance with the arguments lon, lat will convert lon/lat (in degrees) to x/y map projection coordinates (in meters).</td>
+<td>Calling a Basemap class instance with the arguments lon, lat will</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.add_colorbar" title="nansat.nansatmap.Nansatmap.add_colorbar"><tt class="xref py py-obj docutils literal"><span class="pre">add_colorbar</span></tt></a>([fontsize])</td>
 <td>Add color bar</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.arcgisimage" title="nansat.nansatmap.Nansatmap.arcgisimage"><tt class="xref py py-obj docutils literal"><span class="pre">arcgisimage</span></tt></a>([server,&nbsp;service,&nbsp;xpixels,&nbsp;...])</td>
-<td>Retrieve an image using the ArcGIS Server REST API and display it on the map.</td>
+<td>Retrieve an image using the ArcGIS Server REST API and display it on</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.barbs" title="nansat.nansatmap.Nansatmap.barbs"><tt class="xref py py-obj docutils literal"><span class="pre">barbs</span></tt></a>(x,&nbsp;y,&nbsp;u,&nbsp;v,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Make a wind barb plot (u, v) with on the map.</td>
@@ -215,10 +215,10 @@ the basemap projection.</p>
 <td>Colormap objects based on lookup tables using linear segments.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.contour" title="nansat.nansatmap.Nansatmap.contour"><tt class="xref py py-obj docutils literal"><span class="pre">contour</span></tt></a>(data[,&nbsp;v,&nbsp;smooth,&nbsp;mode,&nbsp;label])</td>
-<td>Draw lined contour plots  If smooth is True, data is smoothed.</td>
+<td>Draw lined contour plots</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.contourf" title="nansat.nansatmap.Nansatmap.contourf"><tt class="xref py py-obj docutils literal"><span class="pre">contourf</span></tt></a>(data[,&nbsp;v,&nbsp;smooth,&nbsp;mode])</td>
-<td>Draw filled contour plots  If smooth is True, data is smoothed.</td>
+<td>Draw filled contour plots</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.draw_continents" title="nansat.nansatmap.Nansatmap.draw_continents"><tt class="xref py py-obj docutils literal"><span class="pre">draw_continents</span></tt></a>(**kwargs)</td>
 <td>Draw continents</td>
@@ -227,7 +227,7 @@ the basemap projection.</p>
 <td>Draw coastlines.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawcounties" title="nansat.nansatmap.Nansatmap.drawcounties"><tt class="xref py py-obj docutils literal"><span class="pre">drawcounties</span></tt></a>([linewidth,&nbsp;linestyle,&nbsp;color,&nbsp;...])</td>
-<td>Draw county boundaries in US.</td>
+<td>Draw county boundaries in US. The county boundary shapefile</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawcountries" title="nansat.nansatmap.Nansatmap.drawcountries"><tt class="xref py py-obj docutils literal"><span class="pre">drawcountries</span></tt></a>([linewidth,&nbsp;linestyle,&nbsp;color,&nbsp;...])</td>
 <td>Draw country boundaries.</td>
@@ -236,7 +236,7 @@ the basemap projection.</p>
 <td>Draw a great circle on the map from the longitude-latitude pair <tt class="docutils literal"><span class="pre">lon1,lat1</span></tt> to <tt class="docutils literal"><span class="pre">lon2,lat2</span></tt>  ..</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawgrid" title="nansat.nansatmap.Nansatmap.drawgrid"><tt class="xref py py-obj docutils literal"><span class="pre">drawgrid</span></tt></a>([fontsize,&nbsp;lat_num,&nbsp;lon_num,&nbsp;...])</td>
-<td>Draw and label parallels (lat and lon lines) for values (in degrees)   :Parameters:      <strong>fontsize</strong> : int                <strong>lat_num</strong> : int          Number of latitude lables      <strong>lon_num :</strong>          Number of longitude lables      <strong>lat_labels</strong> : list of Bool          Location of latitude labels      <strong>lon_labels</strong> : list of Bool          Location of longitude labels  ..</td>
+<td>Draw and label parallels (lat and lon lines) for values (in degrees)</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawlsmask" title="nansat.nansatmap.Nansatmap.drawlsmask"><tt class="xref py py-obj docutils literal"><span class="pre">drawlsmask</span></tt></a>([land_color,&nbsp;ocean_color,&nbsp;...])</td>
 <td>Draw land-sea mask image.</td>
@@ -269,13 +269,13 @@ the basemap projection.</p>
 <td>compute <tt class="docutils literal"><span class="pre">points</span></tt> points along a great circle with endpoints</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.hexbin" title="nansat.nansatmap.Nansatmap.hexbin"><tt class="xref py py-obj docutils literal"><span class="pre">hexbin</span></tt></a>(x,&nbsp;y,&nbsp;**kwargs)</td>
-<td>Make a hexagonal binning plot of x versus y, where x, y are 1-D sequences of the same length, N.</td>
+<td>Make a hexagonal binning plot of x versus y, where x, y are 1-D</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.imshow" title="nansat.nansatmap.Nansatmap.imshow"><tt class="xref py py-obj docutils literal"><span class="pre">imshow</span></tt></a>(*args,&nbsp;**kwargs)</td>
 <td>Display an image over the map (see matplotlib.pyplot.imshow documentation).</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.is_land" title="nansat.nansatmap.Nansatmap.is_land"><tt class="xref py py-obj docutils literal"><span class="pre">is_land</span></tt></a>(xpt,&nbsp;ypt)</td>
-<td>Returns True if the given x,y point (in projection coordinates) is over land, False otherwise.</td>
+<td>Returns True if the given x,y point (in projection coordinates) is</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.makegrid" title="nansat.nansatmap.Nansatmap.makegrid"><tt class="xref py py-obj docutils literal"><span class="pre">makegrid</span></tt></a>(nx,&nbsp;ny[,&nbsp;returnxy])</td>
 <td>return arrays of shape (ny,nx) containing lon,lat coordinates of</td>
@@ -287,7 +287,7 @@ the basemap projection.</p>
 <td>Make a pseudo-color plot over the map (see matplotlib.pyplot.pcolor documentation).</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.pcolormesh" title="nansat.nansatmap.Nansatmap.pcolormesh"><tt class="xref py py-obj docutils literal"><span class="pre">pcolormesh</span></tt></a>(data[,&nbsp;validValues])</td>
-<td>Make a pseudo-color plot over the map   :Parameters:      <strong>data</strong> : numpy 2D array          Input data      <strong>validValues</strong> : list with two scalars (e.g.</td>
+<td>Make a pseudo-color plot over the map</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.plot" title="nansat.nansatmap.Nansatmap.plot"><tt class="xref py py-obj docutils literal"><span class="pre">plot</span></tt></a>(x,&nbsp;y,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Draw lines and/or markers on the map (see matplotlib.pyplot.plot documentation).</td>
@@ -308,7 +308,7 @@ the basemap projection.</p>
 <td>Plot points with markers on the map (see matplotlib.pyplot.scatter documentation).</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.set_axes_limits" title="nansat.nansatmap.Nansatmap.set_axes_limits"><tt class="xref py py-obj docutils literal"><span class="pre">set_axes_limits</span></tt></a>([ax])</td>
-<td>Final step in Basemap method wrappers of Axes plotting methods:  Set axis limits, fix aspect ratio for map domain using current or specified axes instance.</td>
+<td>Final step in Basemap method wrappers of Axes plotting methods:</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.shadedrelief" title="nansat.nansatmap.Nansatmap.shadedrelief"><tt class="xref py py-obj docutils literal"><span class="pre">shadedrelief</span></tt></a>([ax,&nbsp;scale])</td>
 <td>display shaded relief image (from <a class="reference external" href="http://www.shadedrelief.com">http://www.shadedrelief.com</a>)</td>
@@ -335,7 +335,7 @@ the basemap projection.</p>
 <td>Display an image (filename given by <tt class="docutils literal"><span class="pre">image</span></tt> keyword) as a map background.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.wmsimage" title="nansat.nansatmap.Nansatmap.wmsimage"><tt class="xref py py-obj docutils literal"><span class="pre">wmsimage</span></tt></a>(server[,&nbsp;xpixels,&nbsp;ypixels,&nbsp;format,&nbsp;...])</td>
-<td>Retrieve an image using from a WMS server using the Open Geospatial Consortium (OGC) standard interface and display on the map.</td>
+<td>Retrieve an image using from a WMS server using the</td>
 </tr>
 </tbody>
 </table>
@@ -347,11 +347,11 @@ the basemap projection.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>Parameters for matplotlib.pyplot.colorbar</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
 </td>
 </tr>
 </tbody>
@@ -448,7 +448,7 @@ to downsample the image (<tt class="docutils literal"><span class="pre">scale=0.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -479,7 +479,7 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -498,7 +498,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -525,7 +525,7 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -543,7 +543,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Parameters of basemap.fillcontinents</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Parameters of basemap.fillcontinents</strong></td>
 </tr>
 </tbody>
 </table>
@@ -715,7 +715,7 @@ the edge of the map projection domain, and then re-enters the domain.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>lat_num</strong> : int</p>
 <blockquote>
 <div><p>Number of latitude lables</p>
@@ -1338,7 +1338,7 @@ As a result, those values will not be plotted.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -1349,7 +1349,7 @@ As a result, those values will not be plotted.</p>
 <p><strong>Parameters of Basemap.pcolormesh</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.collections.QuadMesh object</p>
 </div></blockquote>
@@ -1382,7 +1382,7 @@ are assumed to be map projection coordinates.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
 <blockquote>
 <div><p>Input data with X-component</p>
 </div></blockquote>
@@ -1397,7 +1397,7 @@ are assumed to be map projection coordinates.</p>
 <p><strong>Parameters of Basemap.quiver()</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.quiver.Quiver instance</p>
 </div></blockquote>
@@ -1552,7 +1552,7 @@ coordinates of the grid defined by <tt class="docutils literal"><span class="pre
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
@@ -1665,7 +1665,7 @@ the weight matrix is created automatically.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -1675,7 +1675,7 @@ the weight matrix is created automatically.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
 </td>
 </tr>
 </tbody>
@@ -1967,7 +1967,7 @@ OWSLib.wms.WebMapService.getmap.</td>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>

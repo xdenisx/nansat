@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.nansat_tools module &mdash; Nansat 0.1 documentation</title>
+    <title>nansat.nansat_tools module &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
   </head>
   <body>
 
@@ -47,7 +47,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
 	 
     </ul>
               
@@ -101,7 +101,7 @@ Python objects until an XML representation is needed.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat_tools.Node.create" title="nansat.nansat_tools.Node.create"><tt class="xref py py-obj docutils literal"><span class="pre">create</span></tt></a>(dom)</td>
-<td>Create a Node representation, given either a string representation of an XML doc, or a dom.</td>
+<td>Create a Node representation, given either</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansat_tools.Node.delAttribute" title="nansat.nansat_tools.Node.delAttribute"><tt class="xref py py-obj docutils literal"><span class="pre">delAttribute</span></tt></a>(name)</td>
 <td>Remove XML attribute with this name.</td>
@@ -110,7 +110,7 @@ Python objects until an XML representation is needed.</p>
 <td>Recursively find the all subnodes with this tag and remove from self.children.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansat_tools.Node.dom" title="nansat.nansat_tools.Node.dom"><tt class="xref py py-obj docutils literal"><span class="pre">dom</span></tt></a>()</td>
-<td>Lazily create a minidom from the information stored in this Node object.</td>
+<td>Lazily create a minidom from the information stored</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansat_tools.Node.find_dom_child" title="nansat.nansat_tools.Node.find_dom_child"><tt class="xref py py-obj docutils literal"><span class="pre">find_dom_child</span></tt></a>(dom,&nbsp;tagName[,&nbsp;n])</td>
 <td>Recoursively find child of the dom</td>
@@ -308,13 +308,13 @@ choose the node to iterate over.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>logName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>logName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the logger</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">logging.logger</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last">logging.logger</p>
 </td>
 </tr>
 </tbody>
@@ -345,7 +345,7 @@ to point2 (lon2, lat2)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>lon1, lat1</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>lon1, lat1</strong> : float</p>
 <blockquote>
 <div><p>longitude and latitude of start point</p>
 </div></blockquote>
@@ -355,7 +355,7 @@ to point2 (lon2, lat2)</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>initial_bearing</strong> : float</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>initial_bearing</strong> : float</p>
 <blockquote class="last">
 <div><p>The initial bearing (azimuth direction) when heading out
 from the start point towards the end point along a great circle.</p>
@@ -376,13 +376,13 @@ and paste value from input if the key matches</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dict</strong> : dictionary</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dict</strong> : dictionary</p>
 <blockquote>
 <div><p>parameter names and values</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.d</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.d</strong></p>
 </td>
 </tr>
 </tbody>
@@ -413,7 +413,7 @@ and paste value from input if the key matches</p>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>

@@ -1,4 +1,7 @@
 nansat.nansat_tools module
 ==========================
 
-.. autoclass:: nansat.nansat_tools
+.. automodule:: nansat.nansat_tools
+    :members:
+    :undoc-members:
+    :show-inheritance:

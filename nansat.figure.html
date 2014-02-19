@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.figure module &mdash; Nansat 0.1 documentation</title>
+    <title>nansat.figure module &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
   </head>
   <body>
 
@@ -47,7 +47,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
 	 
     </ul>
               
@@ -84,7 +84,7 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array (2D or 3D)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array (2D or 3D)</p>
 <blockquote>
 <div><p>dataset from Nansat</p>
 </div></blockquote>
@@ -417,16 +417,16 @@ mask in Figure.save()</p>
 <td>Insert logo into the PIL image</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.apply_logarithm" title="nansat.figure.Figure.apply_logarithm"><tt class="xref py py-obj docutils literal"><span class="pre">apply_logarithm</span></tt></a>(**kwargs)</td>
-<td>Apply a tone curve to the array  | After the normalization of the values from 0 to 1,   logarithm is applied | Then the values are converted to the normal scale.</td>
+<td>Apply a tone curve to the array</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.apply_mask" title="nansat.figure.Figure.apply_mask"><tt class="xref py py-obj docutils literal"><span class="pre">apply_mask</span></tt></a>(**kwargs)</td>
-<td>Apply mask for coloring land, clouds, etc  | If mask_array and mask_lut are provided as input parameters | The pixels in self.array which have index equal to mask_lut kay   in mask_array will have color equal to mask_lut value   apply_mask should be called only after convert_palettesize.</td>
+<td>Apply mask for coloring land, clouds, etc</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.clim_from_histogram" title="nansat.figure.Figure.clim_from_histogram"><tt class="xref py py-obj docutils literal"><span class="pre">clim_from_histogram</span></tt></a>(**kwargs)</td>
-<td>Estimate min and max pixel values from histogram  | If ratio=1.0, simply the minimum and maximum values are returned.</td>
+<td>Estimate min and max pixel values from histogram</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.figure.Figure.clip" title="nansat.figure.Figure.clip"><tt class="xref py py-obj docutils literal"><span class="pre">clip</span></tt></a>(**kwargs)</td>
-<td>Convert self.array to values between cmin and cmax  | If pixel value &lt; cmin, replaced to cmin.</td>
+<td>Convert self.array to values between cmin and cmax</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.figure.Figure.convert_palettesize" title="nansat.figure.Figure.convert_palettesize"><tt class="xref py py-obj docutils literal"><span class="pre">convert_palettesize</span></tt></a>(**kwargs)</td>
 <td>Convert self.array to palette color size in uint8</td>
@@ -460,7 +460,7 @@ mask in Figure.save()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 <p><strong>latGrid</strong> : numpy array</p>
 <blockquote>
 <div><p>array with values of latitudes</p>
@@ -475,7 +475,7 @@ mask in Figure.save()</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
 </td>
 </tr>
 </tbody>
@@ -495,13 +495,13 @@ mask in Figure.save()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 <p><strong>latGrid</strong> : numpy array</p>
 <p><strong>lonGrid</strong> : numpy array</p>
 <p><strong>latlonLabels</strong> : int</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
 </td>
 </tr>
 </tbody>
@@ -522,9 +522,9 @@ mask in Figure.save()</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.pilImg</strong></td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.pilImg</strong></td>
 </tr>
 </tbody>
 </table>
@@ -543,9 +543,9 @@ logarithm is applied</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
 </tr>
 </tbody>
 </table>
@@ -566,9 +566,9 @@ apply_mask should be called only after convert_palettesize.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
 </tr>
 </tbody>
 </table>
@@ -588,10 +588,10 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
 <blockquote class="last">
 <div><p>minimum and maximum pixel values for each band</p>
 </div></blockquote>
@@ -613,10 +613,10 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
 <p class="last"><strong>self.cmin, self.cmax</strong> : allowed min/max values</p>
 </td>
 </tr>
@@ -632,9 +632,9 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
 </tr>
 </tbody>
 </table>
@@ -649,9 +649,9 @@ return the minimum and maximum values.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Any of Figure attributes</strong></td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
 </tr>
 </tbody>
 </table>
@@ -673,10 +673,10 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image with / without the legend</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image with / without the legend</p>
 <p class="last"><strong>self.array</strong> : replace to None</p>
 </td>
 </tr>
@@ -703,10 +703,10 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
 <p><strong>self.array</strong></p>
 <p><strong>self.palette</strong></p>
 <p><strong>self.pilImgLegend</strong></p>
@@ -726,14 +726,14 @@ then paste pilImgLegend onto it.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
 <p><strong>Any of Figure attributes</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
 </td>
 </tr>
 </tbody>
@@ -766,7 +766,7 @@ then paste pilImgLegend onto it.</div>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>

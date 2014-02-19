@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.nansat_tools module &mdash; Nansat 0.1 documentation</title>
+    <title>nansat.nansat_tools module &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" >
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
     <link rel="up" title="nansat package" href="nansat.html" >
     <link rel="next" title="nansat.nansatmap module" href="nansat.nansatmap.html" >
     <link rel="prev" title="nansat.nansat module" href="nansat.nansat.html" > 
@@ -54,7 +54,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="../index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="../index.html">Nansat 0.6dev documentation</a></li>
 	
           <li class="active"><a href="nansat.html" accesskey="U">nansat package</a></li> 
     </ul>
@@ -65,12 +65,306 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body">
             
-  <div class="section" id="nansat-nansat-tools-module">
-<h1>nansat.nansat_tools module<a class="headerlink" href="#nansat-nansat-tools-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-nansat.nansat_tools">
+<span id="nansat-nansat-tools-module"></span><h1>nansat.nansat_tools module<a class="headerlink" href="#module-nansat.nansat_tools" title="Permalink to this headline">¶</a></h1>
+<dl class="exception">
+<dt id="nansat.nansat_tools.Error">
+<em class="property">exception </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">Error</tt><a class="headerlink" href="#nansat.nansat_tools.Error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">exceptions.Exception</span></tt></p>
+<p>Base class for exceptions in this module.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="nansat.nansat_tools.GDALError">
+<em class="property">exception </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">GDALError</tt><a class="headerlink" href="#nansat.nansat_tools.GDALError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nansat.nansat_tools.Error" title="nansat.nansat_tools.Error"><tt class="xref py py-class docutils literal"><span class="pre">nansat.nansat_tools.Error</span></tt></a></p>
+<p>Error from GDAL</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nansat.nansat_tools.Node">
+<em class="property">class </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">Node</tt><big>(</big><em>tag</em>, <em>value=None</em>, <em>**attributes</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
+<p>Rapidly assemble XML using minimal coding.</p>
+<p>By Bruce Eckel, (c)2006 MindView Inc. www.MindView.net
+Permission is granted to use or modify without payment as
+long as this copyright notice is retained.</p>
+<p>Everything is a Node, and each Node can either have a value
+or subnodes. Subnodes can be appended to Nodes using &#8216;+=&#8217;,
+and a group of Nodes can be strung together using &#8216;+&#8217;.</p>
+<p>Create a node containing a value by saying
+Node(&#8216;tag&#8217;, &#8216;value&#8217;)
+You can also give attributes to the node in the constructor:
+Node(&#8216;tag&#8217;, &#8216;value&#8217;, attr1 = &#8216;attr1&#8217;, attr2 = &#8216;attr2&#8217;)
+or without a value:
+Node(&#8216;tag&#8217;, attr1 = &#8216;attr1&#8217;, attr2 = &#8216;attr2&#8217;)</p>
+<p>To produce xml from a finished Node n, say n.xml() (for
+nicely formatted output) or n.rawxml().</p>
+<p>You can read and modify the attributes of an xml Node using
+getAttribute(), setAttribute(), or delAttribute().</p>
+<p>You can find the value of the first subnode with tag == &#8216;tag&#8217;
+by saying n[&#8216;tag&#8217;]. If there are multiple instances of n[&#8216;tag&#8217;],
+this will only find the first one, so you should use node() or
+nodeList() to narrow your search down to a Node that only has
+one instance of n[&#8216;tag&#8217;] first.</p>
+<p>You can replace the value of the first subnode with tag == &#8216;tag&#8217;
+by saying n[&#8216;tag&#8217;] = newValue. The same issues exist as noted
+in the above paragraph.</p>
+<p>You can find the first node with tag == &#8216;tag&#8217; by saying
+node(&#8216;tag&#8217;). If there are multiple nodes with the same tag
+at the same level, use nodeList(&#8216;tag&#8217;).</p>
+<p>The Node class is also designed to create a kind of &#8216;domain
+specific language&#8217; by subclassing Node to create Node types
+specific to your problem domain.</p>
+<p>This implementation uses xml.dom.minidom which is available
+in the standard Python 2.4 library. However, it can be
+retargeted to use other XML libraries without much effort.</p>
+<dl class="staticmethod">
+<dt id="nansat.nansat_tools.Node.create">
+<em class="property">static </em><tt class="descname">create</tt><big>(</big><em>dom</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Node representation, given either
+a string representation of an XML doc, or a dom.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.delAttribute">
+<tt class="descname">delAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.delAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove XML attribute with this name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.delNode">
+<tt class="descname">delNode</tt><big>(</big><em>tag</em>, <em>options=None</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.delNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively find the all subnodes with this tag and remove
+from self.children.</p>
+<dl class="docutils">
+<dt>options <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>if there are several same tags, specify a node by their attributes.</dd>
+</dl>
+</dd></dl>
+
 <dl class="attribute">
-<dt id="nansat.nansat_tools">
-<tt class="descclassname">nansat.</tt><tt class="descname">nansat_tools</tt><a class="headerlink" href="#nansat.nansat_tools" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <a class="reference internal" href="#nansat.nansat_tools" title="nansat.nansat_tools"><tt class="xref py py-class docutils literal"><span class="pre">nansat.nansat_tools</span></tt></a></p>
+<dt id="nansat.nansat_tools.Node.doc">
+<tt class="descname">doc</tt><em class="property"> = &lt;xml.dom.minidom.Document instance at 0xbb5954c&gt;</em><a class="headerlink" href="#nansat.nansat_tools.Node.doc" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.dom">
+<tt class="descname">dom</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.dom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily create a minidom from the information stored
+in this Node object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.find_dom_child">
+<tt class="descname">find_dom_child</tt><big>(</big><em>dom</em>, <em>tagName</em>, <em>n=0</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.find_dom_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recoursively find child of the dom</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.getAttribute">
+<tt class="descname">getAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.getAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read XML attribute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.getAttributeList">
+<tt class="descname">getAttributeList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.getAttributeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>get attributes and valuse from the node and return their lists</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.insert">
+<tt class="descname">insert</tt><big>(</big><em>contents</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>return Node of the node with inserted &lt;contents&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.node">
+<tt class="descname">node</tt><big>(</big><em>tag</em>, <em>elemNum=0</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively find the first subnode with this tag.</p>
+<dl class="docutils">
+<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>if there are several same tag, specify which element to take.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.nodeList">
+<tt class="descname">nodeList</tt><big>(</big><em>tag</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.nodeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a list of subnodes with the same tag.
+Note:
+It only makes sense to do this for the immediate
+children of a node. If you went another level down,
+the results would be ambiguous, so the user must
+choose the node to iterate over.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.rawxml">
+<tt class="descname">rawxml</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.rawxml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.replaceAttribute">
+<tt class="descname">replaceAttribute</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.replaceAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>replace XML arrtibute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.replaceNode">
+<tt class="descname">replaceNode</tt><big>(</big><em>tag</em>, <em>elemNum=0</em>, <em>newNode=None</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.replaceNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the first subnode with this tag and replace with given node.</p>
+<dl class="docutils">
+<dt>tag <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>node tag</dd>
+<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of subnode among other subnodes with similar tag</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.replaceTag">
+<tt class="descname">replaceTag</tt><big>(</big><em>oldTag</em>, <em>newTag</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.replaceTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace tag name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.setAttribute">
+<tt class="descname">setAttribute</tt><big>(</big><em>name</em>, <em>item</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.setAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify XML attribute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.tagList">
+<tt class="descname">tagList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.tagList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a list of all tags of the immediate children</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.Node.xml">
+<tt class="descname">xml</tt><big>(</big><em>separator='  '</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.Node.xml" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="nansat.nansat_tools.OptionError">
+<em class="property">exception </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">OptionError</tt><a class="headerlink" href="#nansat.nansat_tools.OptionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nansat.nansat_tools.Error" title="nansat.nansat_tools.Error"><tt class="xref py py-class docutils literal"><span class="pre">nansat.nansat_tools.Error</span></tt></a></p>
+<p>Error for improper options (arguments)</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="nansat.nansat_tools.PointBrowser">
+<em class="property">class </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">PointBrowser</tt><big>(</big><em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.PointBrowser" title="Permalink to this definition">¶</a></dt>
+<dd><p>Click on points and get the X-Y coordinates.</p>
+<dl class="method">
+<dt id="nansat.nansat_tools.PointBrowser.get_points">
+<tt class="descname">get_points</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.nansat_tools.PointBrowser.get_points" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nansat_tools.PointBrowser.onclick">
+<tt class="descname">onclick</tt><big>(</big><em>event</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.PointBrowser.onclick" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="nansat.nansat_tools.ProjectionError">
+<em class="property">exception </em><tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">ProjectionError</tt><a class="headerlink" href="#nansat.nansat_tools.ProjectionError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#nansat.nansat_tools.Error" title="nansat.nansat_tools.Error"><tt class="xref py py-class docutils literal"><span class="pre">nansat.nansat_tools.Error</span></tt></a></p>
+<p>Cannot get the projection</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nansat.nansat_tools.add_logger">
+<tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">add_logger</tt><big>(</big><em>logName=''</em>, <em>logLevel=None</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.add_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates and returns logger with default formatting for Nansat</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>logName</strong> : string, optional</p>
+<blockquote>
+<div><p>Name of the logger</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last">logging.logger</p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition seealso">
+<p class="first admonition-title">See also</p>
+<dl class="last docutils">
+<dt><tt class="xref py py-obj docutils literal"><span class="pre">http</span></tt></dt>
+<dd>//docs.python.org/howto/logging.html</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="nansat.nansat_tools.haversine">
+<tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">haversine</tt><big>(</big><em>lon1</em>, <em>lat1</em>, <em>lon2</em>, <em>lat2</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.haversine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculate the great circle distance between two points
+on the spherical earth (specified in decimal degrees)</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="nansat.nansat_tools.initial_bearing">
+<tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">initial_bearing</tt><big>(</big><em>lon1</em>, <em>lat1</em>, <em>lon2</em>, <em>lat2</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.initial_bearing" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initial bearing when traversing from point1 (lon1, lat1)
+to point2 (lon2, lat2)</p>
+<p>See <a class="reference external" href="http://www.movable-type.co.uk/scripts/latlong.html">http://www.movable-type.co.uk/scripts/latlong.html</a></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>lon1, lat1</strong> : float</p>
+<blockquote>
+<div><p>longitude and latitude of start point</p>
+</div></blockquote>
+<p><strong>lon2, lat2</strong> : float</p>
+<blockquote>
+<div><p>longitude and latitude of end point</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>initial_bearing</strong> : float</p>
+<blockquote class="last">
+<div><p>The initial bearing (azimuth direction) when heading out
+from the start point towards the end point along a great circle.</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="nansat.nansat_tools.set_defaults">
+<tt class="descclassname">nansat.nansat_tools.</tt><tt class="descname">set_defaults</tt><big>(</big><em>dictionary</em>, <em>newParm</em><big>)</big><a class="headerlink" href="#nansat.nansat_tools.set_defaults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check input params and set defaut values</p>
+<p>Look throught default parameters (self.d) and given parameters (dict)
+and paste value from input if the key matches</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dict</strong> : dictionary</p>
+<blockquote>
+<div><p>parameter names and values</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.d</strong></p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -97,7 +391,7 @@
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>

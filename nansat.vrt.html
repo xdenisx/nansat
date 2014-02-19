@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.vrt module &mdash; Nansat 0.1 documentation</title>
+    <title>nansat.vrt module &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.1',
+        VERSION:     '0.6dev',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.1 documentation" href="index.html" > 
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
   </head>
   <body>
 
@@ -47,7 +47,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="index.html">Nansat 0.1 documentation</a></li>
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
 	 
     </ul>
               
@@ -78,7 +78,7 @@
 <span id="nansat-vrt-module"></span><h1>nansat.vrt module<a class="headerlink" href="#module-nansat.vrt" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="nansat.vrt.VRT">
-<em class="property">class </em><tt class="descclassname">nansat.vrt.</tt><tt class="descname">VRT</tt><big>(</big><em>gdalDataset=None</em>, <em>vrtDataset=None</em>, <em>array=None</em>, <em>srcGeoTransform=(0</em>, <em>1</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>1)</em>, <em>srcProjection=''</em>, <em>srcRasterXSize=None</em>, <em>srcRasterYSize=None</em>, <em>srcGCPs=</em>, <span class="optional">[</span><span class="optional">]</span><em>srcGCPProjection=''</em>, <em>srcMetadata=''</em>, <em>geolocationArray=None</em>, <em>nomem=False</em>, <em>lat=None</em>, <em>lon=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">nansat.vrt.</tt><tt class="descname">VRT</tt><big>(</big><em>gdalDataset=None</em>, <em>vrtDataset=None</em>, <em>array=None</em>, <em>srcGeoTransform=(0</em>, <em>1</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>1)</em>, <em>srcProjection=''</em>, <em>srcRasterXSize=None</em>, <em>srcRasterYSize=None</em>, <em>srcGCPs=</em><span class="optional">[</span><span class="optional">]</span>, <em>srcGCPProjection=''</em>, <em>srcMetadata=''</em>, <em>geolocationArray=None</em>, <em>nomem=False</em>, <em>lat=None</em>, <em>lon=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create VRT dataset from GDAL dataset, or from given parameters</p>
 <div class="line-block">
 <div class="line">If vrtDataset is given, creates full copy of VRT content</div>
@@ -91,7 +91,7 @@ Adds logger</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>gdalDataset</strong> : GDAL Dataset</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>gdalDataset</strong> : GDAL Dataset</p>
 <blockquote>
 <div><p>source dataset of geo-reference</p>
 </div></blockquote>
@@ -174,13 +174,13 @@ and VRTs with x/y datasets</p>
 <td>Add GEOLOCATION ARRAY to the VRT</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.convert_GeolocationArray2GPCs" title="nansat.vrt.VRT.convert_GeolocationArray2GPCs"><tt class="xref py py-obj docutils literal"><span class="pre">convert_GeolocationArray2GPCs</span></tt></a>([stepX,&nbsp;stepY])</td>
-<td>Converting geolocation arrays to GCPs, and deleting the former  | When the geolocation arrays are much smaller than the raster bands,   warping quality is very bad.</td>
+<td>Converting geolocation arrays to GCPs, and deleting the former</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.copy" title="nansat.vrt.VRT.copy"><tt class="xref py py-obj docutils literal"><span class="pre">copy</span></tt></a>()</td>
 <td>Creates full copy of VRT dataset</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.copyproj" title="nansat.vrt.VRT.copyproj"><tt class="xref py py-obj docutils literal"><span class="pre">copyproj</span></tt></a>(fileName)</td>
-<td>Copy geoloctation data from given VRT to a figure file  | Useful for adding geolocation information to figure files produced e.g.</td>
+<td>Copy geoloctation data from given VRT to a figure file</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.create_dataset_from_array" title="nansat.vrt.VRT.create_dataset_from_array"><tt class="xref py py-obj docutils literal"><span class="pre">create_dataset_from_array</span></tt></a>(array)</td>
 <td>Create a dataset with a band from an array</td>
@@ -195,13 +195,13 @@ and VRTs with x/y datasets</p>
 <td>Export VRT file as XML into given &lt;fileName&gt;</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.get_projection" title="nansat.vrt.VRT.get_projection"><tt class="xref py py-obj docutils literal"><span class="pre">get_projection</span></tt></a>()</td>
-<td>Get projection form self.dataset  | Get projection from GetProjection() or GetGCPProjection().</td>
+<td>Get projection form self.dataset</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.get_resized_vrt" title="nansat.vrt.VRT.get_resized_vrt"><tt class="xref py py-obj docutils literal"><span class="pre">get_resized_vrt</span></tt></a>(xSize,&nbsp;ySize[,&nbsp;...])</td>
 <td>Resize VRT</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.get_shifted_vrt" title="nansat.vrt.VRT.get_shifted_vrt"><tt class="xref py py-obj docutils literal"><span class="pre">get_shifted_vrt</span></tt></a>(shiftDegree)</td>
-<td>Roll data in bands westwards or eastwards  Create shiftVRT which references self.</td>
+<td>Roll data in bands westwards or eastwards</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.get_sub_vrt" title="nansat.vrt.VRT.get_sub_vrt"><tt class="xref py py-obj docutils literal"><span class="pre">get_sub_vrt</span></tt></a>([steps])</td>
 <td>Return sub-VRT from given depth</td>
@@ -213,22 +213,22 @@ and VRTs with x/y datasets</p>
 <td>Create vrt with subVRT</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.get_warped_vrt" title="nansat.vrt.VRT.get_warped_vrt"><tt class="xref py py-obj docutils literal"><span class="pre">get_warped_vrt</span></tt></a>([dstSRS,&nbsp;eResampleAlg,&nbsp;...])</td>
-<td>Create VRT object with WarpedVRT  | Modifies the input VRT according to the input options | Creates simple WarpedVRT with AutoCreateWarpedVRT | Modifies the WarpedVRT according to the input options | | The function tries to use geolocation array by default; | if not present (or canceled) tries to use GCPs; | if not present (or canceled) tries to use GeoTransform   (either from input dataset or calculates a new one with dx=1,dy=-1).</td>
+<td>Create VRT object with WarpedVRT</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.read_xml" title="nansat.vrt.VRT.read_xml"><tt class="xref py py-obj docutils literal"><span class="pre">read_xml</span></tt></a>([inFileName])</td>
-<td>Read XML content of the VRT-file   :Parameters:      <strong>inFileName</strong> : string, optional          Name of the file to read XML from.</td>
+<td>Read XML content of the VRT-file</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.remove_geolocationArray" title="nansat.vrt.VRT.remove_geolocationArray"><tt class="xref py py-obj docutils literal"><span class="pre">remove_geolocationArray</span></tt></a>()</td>
 <td>Remove GEOLOCATION ARRAY from the VRT</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.reproject_GCPs" title="nansat.vrt.VRT.reproject_GCPs"><tt class="xref py py-obj docutils literal"><span class="pre">reproject_GCPs</span></tt></a>(srsString)</td>
-<td>Reproject all GCPs to a new spatial reference system  Necessary before warping an image if the given GCPs are in a coordinate system which has a singularity in (or near) the destination area (e.g.</td>
+<td>Reproject all GCPs to a new spatial reference system</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.set_subsetMask" title="nansat.vrt.VRT.set_subsetMask"><tt class="xref py py-obj docutils literal"><span class="pre">set_subsetMask</span></tt></a>(maskDs,&nbsp;xOff,&nbsp;yOff,&nbsp;dstXSize,&nbsp;...)</td>
 <td>Add maskband and modify xml to proper size</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.vrt.VRT.transform_points" title="nansat.vrt.VRT.transform_points"><tt class="xref py py-obj docutils literal"><span class="pre">transform_points</span></tt></a>(colVector,&nbsp;rowVector[,&nbsp;...])</td>
-<td>Transform given lists of X,Y coordinates into lat/lon   :Parameters:      <strong>colVector</strong> : lists          X and Y coordinates with any coordinate system      <strong>DstToSrc</strong> : 0 or 1          1 for inverse transformation, 0 for forward transformation.</td>
+<td>Transform given lists of X,Y coordinates into lat/lon</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.vrt.VRT.write_xml" title="nansat.vrt.VRT.write_xml"><tt class="xref py py-obj docutils literal"><span class="pre">write_xml</span></tt></a>([vsiFileContent])</td>
 <td>Write XML content into a VRT dataset</td>
@@ -243,10 +243,10 @@ and VRTs with x/y datasets</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>geolocationArray: GeolocationArray object</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>geolocationArray: GeolocationArray object</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.geolocationArray</strong> : add geolocationArray</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.geolocationArray</strong> : add geolocationArray</p>
 <p class="last"><strong>GEOLOCATION ARRAY metadata</strong> : set metadata</p>
 </td>
 </tr>
@@ -269,7 +269,7 @@ is solved:</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stepX</strong> : int, optional (default 1)</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>stepX</strong> : int, optional (default 1)</p>
 <p><strong>stepY</strong> : int, optional (default 1)</p>
 <blockquote>
 <div><p>If density of GCPs is too high, warping speed increases
@@ -279,7 +279,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.GCPs</strong> : add GCPs</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.GCPs</strong> : add GCPs</p>
 <p class="last"><strong>self.geolocationArray</strong> : remove geolocationArray</p>
 </td>
 </tr>
@@ -306,7 +306,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote class="last">
 <div><p>Name of file to which the geolocation data shall be written</p>
 </div></blockquote>
@@ -329,14 +329,14 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>binary file (VSI)</strong></p>
+<tr class="field-even field"><th class="field-name">Creates :</th><td class="field-body"><p class="first"><strong>binary file (VSI)</strong></p>
 <p><strong>VRT file (VSI)</strong></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.dataset</strong> : is opened</p>
+<tr class="field-odd field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.dataset</strong> : is opened</p>
 </td>
 </tr>
 </tbody>
@@ -351,7 +351,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandNum</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>bandNum</strong> : int</p>
 <blockquote class="last">
 <div><p>band number</p>
 </div></blockquote>
@@ -369,7 +369,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>bandNums</strong> : list</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>bandNums</strong> : list</p>
 <blockquote class="last">
 <div><p>elements are int</p>
 </div></blockquote>
@@ -397,9 +397,9 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>projection</strong> : projection or GCPprojection</td>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>projection</strong> : projection or GCPprojection</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><strong>ProjectionError</strong> : occurrs when the projection is empty.</td>
+<tr class="field-even field"><th class="field-name">Raises :</th><td class="field-body"><strong>ProjectionError</strong> : occurrs when the projection is empty.</td>
 </tr>
 </tbody>
 </table>
@@ -414,7 +414,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xSize, ySize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xSize, ySize</strong> : int</p>
 <blockquote>
 <div><p>new size of the VRT object</p>
 </div></blockquote>
@@ -424,7 +424,7 @@ stepX and stepY can be adjusted to reduce density of GCPs
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>VRT object</strong> : Resized VRT object</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>VRT object</strong> : Resized VRT object</p>
 </td>
 </tr>
 </tbody>
@@ -443,13 +443,13 @@ and eastern parts. Keep self in shiftVRT.vrt</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>shiftDegree</strong> : float</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>shiftDegree</strong> : float</p>
 <blockquote>
 <div><p>rolling angle, how far east/west to roll</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>shiftVRT</strong> : VRT object with rolled bands</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>shiftVRT</strong> : VRT object with rolled bands</p>
 </td>
 </tr>
 </tbody>
@@ -466,17 +466,17 @@ self.vrt is None or steps == 0</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>steps</strong> : int</p>
 <blockquote>
 <div><p>How many sub VRTs to restore</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self</strong></p>
 <p><strong>self.vrt</strong></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : if no deeper VRTs found</p>
+<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>self</strong> : if no deeper VRTs found</p>
 <p class="last"><strong>self.vrt</strong> : if deeper VRTs are found</p>
 </td>
 </tr>
@@ -499,7 +499,7 @@ self.vrt is None or steps == 0</p>
 
 <dl class="method">
 <dt id="nansat.vrt.VRT.get_warped_vrt">
-<tt class="descname">get_warped_vrt</tt><big>(</big><em>dstSRS=None</em>, <em>eResampleAlg=0</em>, <em>xSize=0</em>, <em>ySize=0</em>, <em>blockSize=None</em>, <em>geoTransform=None</em>, <em>WorkingDataType=None</em>, <em>use_geolocationArray=True</em>, <em>use_gcps=True</em>, <em>use_geotransform=True</em>, <em>dstGCPs=</em>, <span class="optional">[</span><span class="optional">]</span><em>dstGeolocationArray=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_warped_vrt" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_warped_vrt</tt><big>(</big><em>dstSRS=None</em>, <em>eResampleAlg=0</em>, <em>xSize=0</em>, <em>ySize=0</em>, <em>blockSize=None</em>, <em>geoTransform=None</em>, <em>WorkingDataType=None</em>, <em>use_geolocationArray=True</em>, <em>use_gcps=True</em>, <em>use_geotransform=True</em>, <em>dstGCPs=</em><span class="optional">[</span><span class="optional">]</span>, <em>dstGeolocationArray=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_warped_vrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create VRT object with WarpedVRT</p>
 <div class="line-block">
 <div class="line">Modifies the input VRT according to the input options</div>
@@ -553,7 +553,7 @@ added to the WarpedVRT</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dstSRS</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dstSRS</strong> : string</p>
 <blockquote>
 <div><p>WKT of the destination projection</p>
 </div></blockquote>
@@ -598,7 +598,7 @@ GeoTransform : (0, 1, 0, srcVRT.xSize, -1)</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>warpedVRT</strong> : VRT object with WarpedVRT</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>warpedVRT</strong> : VRT object with WarpedVRT</p>
 </td>
 </tr>
 </tbody>
@@ -613,13 +613,13 @@ GeoTransform : (0, 1, 0, srcVRT.xSize, -1)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>inFileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>inFileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the file to read XML from. self.fileName by default</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>string</strong> : XMl Content which is read from the VSI file</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>string</strong> : XMl Content which is read from the VSI file</p>
 </td>
 </tr>
 </tbody>
@@ -634,7 +634,7 @@ GeoTransform : (0, 1, 0, srcVRT.xSize, -1)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.geolocationArray</strong> : set None</p>
+<tr class="field-odd field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.geolocationArray</strong> : set None</p>
 <p class="last"><strong>GEOLOCATION ARRAY metadata</strong> : set &#8216; &#8216;</p>
 </td>
 </tr>
@@ -653,13 +653,13 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
 <blockquote>
 <div><p>SRS given as Proj4 string</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.GCPProjection</strong> : replace to reprojected GCPs onto new SRS</p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>self.GCPProjection</strong> : replace to reprojected GCPs onto new SRS</p>
 </td>
 </tr>
 </tbody>
@@ -674,7 +674,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>maskDs</strong> : dataset</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>maskDs</strong> : dataset</p>
 <blockquote>
 <div><p>gdal dataset (mask)</p>
 </div></blockquote>
@@ -700,7 +700,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
 <blockquote>
 <div><p>X and Y coordinates with any coordinate system</p>
 </div></blockquote>
@@ -710,7 +710,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVector, latVector</strong> : numpy arrays</p>
+<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lonVector, latVector</strong> : numpy arrays</p>
 <blockquote class="last">
 <div><p>X and Y coordinates in degree of lat/lon</p>
 </div></blockquote>
@@ -728,13 +728,13 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>vsiFileContent: string, optional</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>vsiFileContent: string, optional</strong></p>
 <blockquote>
 <div><p>XML Content of the VSI file to write</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.dataset</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.dataset</strong></p>
 <blockquote class="last">
 <div><p>If XML content was written, self.dataset is re-opened</p>
 </div></blockquote>
@@ -770,7 +770,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
       </li>
     </ul>
     </div>
