@@ -142,13 +142,78 @@ except ImportError:
                   'nansat_toolds will not work'
                   'Try installing scipy.')
 
+obpg = {
+'red': [  (0.00, 0.56, 0.56),
+          (0.19, 0.00, 0.00),
+          (0.38, 0.00, 0.00),
+          (0.50, 0.00, 0.00),
+          (0.63, 1.00, 1.00),
+          (0.88, 1.00, 1.00),
+          (1.00, 0.40, 0.40)],
+'green': [(0.00, 0.00, 0.00),
+          (0.19, 0.00, 0.00),
+          (0.38, 1.00, 1.00),
+          (0.50, 1.00, 1.00),
+          (0.63, 1.00, 1.00),
+          (0.88, 0.00, 0.00),
+          (1.00, 0.00, 0.00)],
+'blue': [ (0.00, 0.43, 0.43),
+          (0.19, 1.00, 1.00),
+          (0.38, 1.00, 1.00),
+          (0.50, 0.00, 0.00),
+          (0.63, 0.00, 0.00),
+          (0.88, 0.00, 0.00),
+          (1.00, 0.00, 0.00)],
+}
+
+ak01 = {
+
+'red': [  (0,0.1,0.1,),
+(0.1,0.56,0.56,),
+(0.22,0,0,),
+(0.27,0,0,),
+(0.37,0.3,0.3,),
+(0.47,0,0,),
+(0.52,0,0,),
+(0.64,1,1,),
+(0.76,1,1,),
+(0.88,0.4,0.4,),
+(1,1,1,)],
+
+
+'green': [(0,0,0,),
+(0.1,0,0,),
+(0.22,0,0,),
+(0.27,0,0,),
+(0.37,0.6,0.6,),
+(0.47,0.6,0.6,),
+(0.52,1,1,),
+(0.64,1,1,),
+(0.76,0,0,),
+(0.88,0,0,),
+(1,0.5,0.5,)],
+
+
+'blue': [ (0,0.1,0.1,),
+(0.1,0.5,0.5,),
+(0.22,0.5,0.5,),
+(0.27,1,1,),
+(0.37,1,1,),
+(0.47,0,0,),
+(0.52,0,0,),
+(0.64,0,0,),
+(0.76,0,0,),
+(0.88,0,0,),
+(1,0.5,0.5,)],
+
+
+
+}
 try:
-    latlongSRS = osr.SpatialReference()
-    latlongSRS.ImportFromProj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
-
+    cm.register_cmap(name='obpg', data=obpg, lut=256)
+    cm.register_cmap(name='ak01', data=ak01, lut=256)
 except:
-    warnings.warn('Cannot generate latlongSRS. Nansat will not work!')
-
+    warnings.warn('Cannot generate and register the OBPG colormap!')
 
 class Error(Exception):
     '''Base class for exceptions in this module.'''
@@ -303,6 +368,28 @@ class Node(object):
                 ielm += 1
         return False
 
+
+    def replaceNode(self, tag, elemNum=0, newNode=None):
+        ''' Find the first subnode with this tag and replace with given node.
+
+        tag : str
+            node tag
+        elemNum : int
+            number of subnode among other subnodes with similar tag
+
+        '''
+        status = False
+        elemi = 0
+        for i in range(len(self.children)):
+            if str(self.children[i].tag) == tag:
+                if elemi == elemNum:
+                    self.children[i] = newNode
+                    status = True
+                    break
+                else:
+                    elemi += 1
+        return status
+
     def delNode(self, tag, options=None):
         '''
         Recursively find the all subnodes with this tag and remove
@@ -325,6 +412,42 @@ class Node(object):
                         break
             else:
                 child.delNode(tag)
+
+    def find_dom_child(self, dom, tagName, n=0):
+        '''Recoursively find child of the dom'''
+        children = dom.childNodes
+        theChild = None
+        
+        chn = 0
+        for child in children:
+            print child, child.nodeType, chn
+            if child.nodeType == 1:
+                print child.tagName
+                if str(child.tagName) == tagName:
+                    print child.tagName, tagName, 'OK'
+                    if chn == n:
+                        theChild = child
+                    chn += 1
+    
+            if theChild is not None:
+                break
+    
+            if child.hasChildNodes():
+                print 'has childs'
+                theChild = self.find_dom_child(child, tagName, n)
+            
+        
+        return theChild
+
+    def _replace_dom_Node(self, tag, nodeNumber, contents):
+        '''Replace child node with new contents'''
+
+        dom0 = self.dom()
+        oldChild = self.find_dom_child(dom0, tag, nodeNumber)
+        newChild = xdm.parseString(contents).childNodes[0]
+        dom0.replaceChild(newChild, oldChild)
+        
+        return Node.create(dom0)
 
     def nodeList(self, tag):
         '''
@@ -362,15 +485,12 @@ class Node(object):
         return nameList, valList
 
     def insert(self, contents):
-        ''' return XML of the node with inserted <contents>'''
+        ''' return Node of the node with inserted <contents>'''
         dom2 = xdm.parseString(contents)
         dom1 = xdm.parseString(self.dom().toxml())
         dom1.childNodes[0].appendChild(dom1.importNode(dom2.childNodes[0],
                                                        True))
-        contents = str(dom1.toxml())
-        if contents.find('<?') != -1 and contents.find('?>'):
-            contents = contents[contents.find('?>')+2:]
-        return contents
+        return Node.create(dom1)
 
     def __getitem__(self, tag):
         '''

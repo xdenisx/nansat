@@ -18,6 +18,11 @@ import tempfile
 
 from nansat_tools import *
 
+try:
+    from .nsr import NSR
+except ImportError:
+    warnings.warn('Cannot import nsr! VRT will not work.')
+
 
 class GeolocationArray():
     '''Container for GEOLOCATION ARRAY data
@@ -79,11 +84,8 @@ class GeolocationArray():
             self.yVRT = yVRT
             self.d['Y_DATASET'] = yVRT.fileName
 
-        # proj4 to WKT
         if srs == '':
-            sr = osr.SpatialReference()
-            sr.ImportFromProj4('+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs')
-            srs = sr.ExportToWkt()
+            srs = NSR().wkt
         self.d['SRS'] = srs
         self.d['X_BAND'] = str(xBand)
         self.d['Y_BAND'] = str(yBand)
@@ -180,7 +182,7 @@ class VRT():
     # main sub VRT
     vrt = None
     # other sub VRTs
-    subVRTs = {}
+    subVRTs = None
     # use Thin Spline Transformation of the VRT has GCPs?
     tps = False
 
@@ -279,7 +281,7 @@ class VRT():
                 # get geo-metadata from given lat/lon grids
                 srcRasterYSize, srcRasterXSize = lon.shape
                 srcGCPs = self._latlon2gcps(lat, lon)
-                srcGCPProjection = latlongSRS.ExportToWkt()
+                srcGCPProjection = NSR().wkt
                 latVRT = VRT(array=lat)
                 lonVRT = VRT(array=lon)
                 # create source geolocation array
@@ -1197,16 +1199,10 @@ class VRT():
             {'gcps': list with GDAL GCPs, 'srs': fake stereo WKT}
 
         '''
-        # get source SRS (either Projection or GCPProjection)
-        srcWKT = self.dataset.GetProjection()
-        if srcWKT == '':
-            srcWKT = self.dataset.GetGCPProjection()
-
-        # the transformer converts lat/lon to pixel/line of SRC image
+        # create transformer. converts lat/lon to pixel/line of SRC image
         srcTransformer = gdal.Transformer(self.dataset, None,
-                                          ['SRC_SRS=' + srcWKT,
-                                           'DST_SRS=' +
-                                           latlongSRS.ExportToWkt()])
+                                          ['SRC_SRS=' + self.get_projection(),
+                                           'DST_SRS=' + NSR().wkt])
 
         # create 'fake' GCPs
         fakeGCPs = []
@@ -1221,14 +1217,7 @@ class VRT():
             fakeGCPs.append(gdal.GCP(g.GCPPixel, g.GCPLine,
                                      0, srcPixel, srcLine))
 
-        # create 'fake' STEREO projection for 'fake' GCPs of SRC image
-        srsString = ('+proj=stere +lon_0=0 +lat_0=0 +k=1 '
-                     '+ellps=WGS84 +datum=WGS84 +no_defs ')
-        stereoSRS = osr.SpatialReference()
-        stereoSRS.ImportFromProj4(srsString)
-        stereoSRSWKT = stereoSRS.ExportToWkt()
-
-        return {'gcps': fakeGCPs, 'srs': stereoSRSWKT}
+        return {'gcps': fakeGCPs, 'srs': NSR('+proj=stere').wkt}
 
     def _latlon2gcps(self, lat, lon, numOfGCPs=100):
         ''' Create list of GCPs from given grids of latitude and longitude
@@ -1428,12 +1417,11 @@ class VRT():
             dstYSize=dstYSize)
 
         # add mask band contents to xml
-        contents = node0.node('MaskBand').node('VRTRasterBand').insert(contents)
-        node0.node('MaskBand').delNode('VRTRasterBand')
-        contents = node0.insert(contents, 'MaskBand')
+        node1 = node0.node('MaskBand').node('VRTRasterBand').insert(contents)
+        node0.replaceNode('VRTRasterBand', 0, node1)
 
         # write contents
-        self.write_xml(contents)
+        self.write_xml(node0.rawxml())
 
     def get_shifted_vrt(self, shiftDegree):
         ''' Roll data in bands westwards or eastwards
@@ -1480,11 +1468,12 @@ class VRT():
         # read xml and create the node
         XML = shiftVRT.read_xml()
         node0 = Node.create(XML)
-
+        
         # divide into two bands and switch the bands
         for i in range(len(node0.nodeList('VRTRasterBand'))):
             # create i-th 'VRTRasterBand' node
             node1 = node0.node('VRTRasterBand', i)
+            node1Band = node1.getAttribute('band')
             # modify the 1st band
             shiftStr = str(shiftPixel)
             sizeStr = str(shiftVRT.vrt.dataset.RasterXSize - shiftPixel)
@@ -1495,14 +1484,15 @@ class VRT():
             # add the 2nd band
             xmlSource = node1.rawxml()
             cloneNode = Node.create(xmlSource).node('ComplexSource')
+            #cloneNode = node1.node('ComplexSource')
             cloneNode.node('SrcRect').replaceAttribute('xOff', sizeStr)
             cloneNode.node('DstRect').replaceAttribute('xOff', str(0))
             cloneNode.node('SrcRect').replaceAttribute('xSize', shiftStr)
             cloneNode.node('DstRect').replaceAttribute('xSize', shiftStr)
-
-            contents = node0.insert(cloneNode.rawxml(), 'VRTRasterBand', i)
-            # overwrite the modified contents and create a new node
-            node0 = Node.create(str(contents))
+            
+            # get VRTRasterBand with inserted ComplexSource
+            node1 = node1.insert(cloneNode.rawxml())
+            node0.replaceNode('VRTRasterBand', i, node1)
 
         # write down XML contents
         shiftVRT.write_xml(node0.rawxml())
@@ -1624,36 +1614,37 @@ class VRT():
 
         Returns
         --------
-        lonVector, latVector : lists
+        lonVector, latVector : numpy arrays
             X and Y coordinates in degree of lat/lon
 
         '''
         # get source SRS (either Projection or GCPProjection)
         srcWKT = self.get_projection()
 
-        # prepare target WKT (pure lat/lon)
-        dstWKT = latlongSRS.ExportToWkt()
-
         # prepare options
-        options = ['SRC_SRS=' + srcWKT, 'DST_SRS=' + dstWKT]
+        options = ['SRC_SRS=' + srcWKT, 'DST_SRS=' + NSR().wkt]
         if self.tps:
             options += 'METHOD=GCP_TPS'
         
         # create transformer
         transformer = gdal.Transformer(self.dataset, None, options)
-
-        # use the transformer to convert pixel/line into lat/lon
-        latVector = []
-        lonVector = []
-        for pixel, line in zip(colVector, rowVector):
-            try:
-                succ, point = transformer.TransformPoint(DstToSrc, pixel, line)
-                lonVector.append(point[0])
-                latVector.append(point[1])
-            except:
-                lonVector.append(np.nan)
-                latVector.append(np.nan)
-
+        
+        # convert lists with X,Y coordinates to 2D numpy array
+        xy = np.array([colVector, rowVector]).transpose()
+        
+        # transfrom coordinates
+        #lonlat = transformer.TransformPoints(DstToSrc, xy)#[0]
+        #import pdb; pdb.set_trace()
+        lonlat = transformer.TransformPoints(DstToSrc, xy)[0]
+        
+        # convert return to lon,lat vectors
+        lonlat = np.array(lonlat)
+        if lonlat.shape[0] > 0:
+            lonVector = lonlat[:, 0]
+            latVector = lonlat[:, 1]
+        else:
+            lonVector, latVector = [], []
+        
         return lonVector, latVector
 
     def get_projection(self):
@@ -1675,10 +1666,6 @@ class VRT():
         projection = self.dataset.GetProjection()
         if projection == '':
             projection = self.dataset.GetGCPProjection()
-
-        #test projection
-        #if projection == '':
-        #    raise ProjectionError('Empty projection in input dataset!')
 
         return projection
 
@@ -1720,7 +1707,7 @@ class VRT():
 
         return warpedVRT
 
-    def reproject_GCPs(self, srsString):
+    def reproject_GCPs(self, dstSRS):
         '''Reproject all GCPs to a new spatial reference system
 
         Necessary before warping an image if the given GCPs
@@ -1729,20 +1716,16 @@ class VRT():
 
         Parameters
         ----------
-        srsString : string
-            SRS given as Proj4 string
+        dstSRS : proj4, WKT, NSR, EPSG
+            Destiination SRS given as any NSR input parameter
 
         Modifies
         --------
             Reprojects all GCPs to new SRS and updates GCPProjection
         '''
-
         # Make tranformer from GCP SRS to destination SRS
-        dstSRS = osr.SpatialReference()
-        dstSRS.ImportFromProj4(srsString)
-        srcSRS = osr.SpatialReference()
-        srcGCPProjection = self.dataset.GetGCPProjection()
-        srcSRS.ImportFromWkt(srcGCPProjection)
+        dstSRS = NSR(dstSRS)
+        srcSRS = NSR(self.dataset.GetGCPProjection())
         transformer = osr.CoordinateTransformation(srcSRS, dstSRS)
 
         # Reproject all GCPs
@@ -1757,4 +1740,4 @@ class VRT():
             dstGCPs.append(dstGCP)
 
         # Update dataset
-        self.dataset.SetGCPs(dstGCPs, dstSRS.ExportToWkt())
+        self.dataset.SetGCPs(dstGCPs, dstSRS.wkt)

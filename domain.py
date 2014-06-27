@@ -20,10 +20,15 @@ from nansat_tools import *
 
 # import nansat parts
 try:
-    from vrt import VRT
+    from .nsr import NSR
 except ImportError:
-    warnings.warn('Cannot import vrt!'
-                  'domain will not work.')
+    warnings.warn('Cannot import NSR!'
+                  'Nansat will not work.')
+
+try:
+    from .vrt import VRT
+except ImportError:
+    warnings.warn('Cannot import vrt! Domain will not work.')
 
 
 class Domain():
@@ -85,29 +90,8 @@ class Domain():
 
         Parameters
         ----------
-        srs : PROJ4 or EPSG or WKT
-            Specifies spatial reference system (SRS)
-            PROJ4:
-            string with proj4 options [http://trac.osgeo.org/proj/] e.g.:
-            '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
-            '+proj=stere +datum=WGS84 +ellps=WGS84 +lat_0=75 +lon_0=10
-             +no_defs'
-            EPSG:
-            integer with EPSG number, [http://spatialreference.org/],
-            e.g. 4326
-            WKT:
-            string with Well Know Text of SRS. E.g.:
-            'GEOGCS["WGS 84",
-                DATUM["WGS_1984",
-                    SPHEROID["WGS 84",6378137,298.257223563,
-                        AUTHORITY["EPSG","7030"]],
-                    TOWGS84[0,0,0,0,0,0,0],
-                    AUTHORITY["EPSG","6326"]],
-                PRIMEM["Greenwich",0,
-                    AUTHORITY["EPSG","8901"]],
-                UNIT["degree",0.0174532925199433,
-                    AUTHORITY["EPSG","9108"]],
-                AUTHORITY["EPSG","4326"]]'
+        srs : PROJ4 or EPSG or WKT or NSR or osr.SpatialReference()
+            Input parameter for nansat.NSR()
         ext : string
             some gdalwarp options + additional options
             [http://www.gdal.org/gdalwarp.html]
@@ -162,37 +146,6 @@ class Domain():
             raise OptionError('Ambiguous specification of both '
                               'dataset, srs- and ext-strings.')
 
-        # if srs is given, convert it to WKT
-        if srs is not None:
-            # if XML-file and domain name is given - read that file
-            if isinstance(srs, str) and os.path.isfile(srs):
-                srs, ext, self.name = self._from_xml(srs, ext)
-            # import srs from srsString and get the projection
-            sr = osr.SpatialReference()
-            # try to use different import methods
-            # import from proj4 string
-            try:
-                status = sr.ImportFromProj4(srs)
-            except:
-                status = 1
-            # import from EPSG number
-            if status > 0:
-                try:
-                    status = sr.ImportFromEPSG(srs)
-                except:
-                    status = 1
-            # import from WKT text
-            if status > 0:
-                try:
-                    status = sr.ImportFromWkt(srs)
-                except:
-                    status = 1
-            # create WKT
-            dstWKT = sr.ExportToWkt()
-            # test success of WKT
-            if status > 0 or dstWKT == '':
-                raise ProjectionError('srs (%s) is wrong' % (srs))
-
         # choose between input opitons:
         # ds
         # ds and srs
@@ -207,28 +160,30 @@ class Domain():
         # If dataset and srs are given (but not ext):
         #   use AutoCreateWarpedVRT to determine bounds and resolution
         elif ds is not None and srs is not None:
-            tmpVRT = gdal.AutoCreateWarpedVRT(ds, None, dstWKT)
+            srs = NSR(srs)
+            tmpVRT = gdal.AutoCreateWarpedVRT(ds, None, srs.wkt)
             if tmpVRT is None:
                 raise ProjectionError('Could not warp the given dataset'
                                       'to the given SRS.')
             else:
                 self.vrt = VRT(gdalDataset=tmpVRT)
 
-        # If proj4 and extent string are given (but not dataset)
+        # If SpatialRef and extent string are given (but not dataset)
         elif srs is not None and ext is not None:
+            srs = NSR(srs)
             # create full dictionary of parameters
             extentDic = self._create_extentDic(ext)
 
             # convert -lle to -te
             if 'lle' in extentDic.keys():
-                extentDic = self._convert_extentDic(dstWKT, extentDic)
+                extentDic = self._convert_extentDic(srs, extentDic)
 
             # get size/extent from the created extet dictionary
             [geoTransform,
              rasterXSize, rasterYSize] = self._get_geotransform(extentDic)
             # create VRT object with given geo-reference parameters
             self.vrt = VRT(srcGeoTransform=geoTransform,
-                           srcProjection=dstWKT,
+                           srcProjection=srs.wkt,
                            srcRasterXSize=rasterXSize,
                            srcRasterYSize=rasterYSize)
             self.extentDic = extentDic
@@ -249,25 +204,26 @@ class Domain():
         Print size, projection and corner coordinates
 
         '''
-        toPrettyWKT = osr.SpatialReference()
-        toPrettyWKT.ImportFromWkt(self.vrt.get_projection())
-        prettyWKT = toPrettyWKT.ExportToPrettyWkt(1)
-        corners = self.get_corners()
         outStr = 'Domain:[%d x %d]\n' % (self.vrt.dataset.RasterXSize,
                                          self.vrt.dataset.RasterYSize)
         outStr += '-' * 40 + '\n'
-        outStr += 'Projection:\n'
-        outStr += prettyWKT + '\n'
-        outStr += '-' * 40 + '\n'
-        outStr += 'Corners (lon, lat):\n'
-        outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][0],
-                                                           corners[1][0],
-                                                           corners[0][2],
-                                                           corners[1][2])
-        outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][1],
-                                                           corners[1][1],
-                                                           corners[0][3],
-                                                           corners[1][3])
+        try:
+            corners = self.get_corners()
+        except:
+            self.logger.error('Cannot read projection from source!')
+        else:
+            outStr += 'Projection:\n'
+            outStr += NSR(self.vrt.get_projection()).ExportToPrettyWkt(1) + '\n'
+            outStr += '-' * 40 + '\n'
+            outStr += 'Corners (lon, lat):\n'
+            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][0],
+                                                               corners[1][0],
+                                                               corners[0][2],
+                                                               corners[1][2])
+            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][1],
+                                                               corners[1][1],
+                                                               corners[0][3],
+                                                               corners[1][3])
         return outStr
 
     def write_kml(self, xmlFileName=None, kmlFileName=None):
@@ -435,24 +391,22 @@ class Domain():
 
         X = range(0, self.vrt.dataset.RasterXSize, stepSize)
         Y = range(0, self.vrt.dataset.RasterYSize, stepSize)
-        # if the vrt dataset has geolocationArray
+        Xm, Ym = np.meshgrid(X, Y)
+        
         if len(self.vrt.geolocationArray.d) > 0:
-            Xm, Ym = np.meshgrid(X, Y)
+            # if the vrt dataset has geolocationArray
+            # read lon,lat grids from geolocationArray
             lon, lat = self.vrt.geolocationArray.get_geolocation_grids()
             longitude, latitude = lon[Ym, Xm], lat[Ym, Xm]
         else:
-            # create empty grids
-            longitude = np.zeros([len(Y), len(X)], 'float32')
-            latitude = np.zeros([len(Y), len(X)], 'float32')
-            # fill row-wise
-            for index, i in enumerate(X):
-                [lo, la] = self.transform_points([i] * len(Y), Y)
-                longitude[:, index] = lo
-                latitude[:, index] = la
+            # generate lon,lat grids using GDAL Transformer
+            lonVec, latVec = self.transform_points(Xm.flatten(), Ym.flatten())
+            longitude = lonVec.reshape(Xm.shape)
+            latitude = latVec.reshape(Xm.shape)
 
         return longitude, latitude
 
-    def _convert_extentDic(self, dstWKT, extentDic):
+    def _convert_extentDic(self, dstSRS, extentDic):
         '''Convert -lle option (lat/lon) to -te (proper coordinate system)
 
         Source SRS from LAT/LON projection and target SRS from dstWKT.
@@ -463,8 +417,8 @@ class Domain():
 
         Parameters
         -----------
-        dstWKT : WKT
-            destination WKT
+        dstSRS : NSR
+            Destination Spatial Reference
         extentDic : dictionary
             dictionary with 'lle' key
 
@@ -474,11 +428,7 @@ class Domain():
             input dictionary + 'te' key and its values
 
         '''
-        # Set destination SRS from dstWKT
-        dstSRS = osr.SpatialReference()
-        dstSRS.ImportFromWkt(dstWKT)
-
-        coorTrans = osr.CoordinateTransformation(latlongSRS, dstSRS)
+        coorTrans = osr.CoordinateTransformation(NSR(), dstSRS)
 
         # convert lat/lon given by 'lle' to the target coordinate system and
         # add key 'te' and the converted values to extentDic
@@ -646,51 +596,6 @@ class Domain():
                               '"-ts" or "-tr" should be chosen.')
         return extentDic
 
-    def _from_xml(self, srsString, extentString):
-        ''' Read strings from the given xml file
-
-        Parameters
-        -----------
-        srsString : file name
-            name of the input XML-file
-        extentString : string
-            name of the domain
-
-        Returns
-        --------
-        srsString : string
-            proj4 string of the destination
-        extentString : string
-            extent string of the destination
-        name : string
-            domain name
-
-        Raises
-        -------
-        OptionError : occures when the given extentString is not in
-            the XML-file
-
-         '''
-        # open file
-        fd = file(srsString, 'rb')
-        # get root element
-        domains = ElementTree(file=fd).getroot()
-        fd.close()
-
-        # iterate over domains to find the required one
-        for domain in list(domains):
-            # if the domain name is the same as the given one
-            if domain.attrib['name'] == extentString:
-                # get contents of the tags
-                name = extentString[:]
-                srsString = domain.find('srsString').text
-                extentString = domain.find('extentString').text
-                break
-            if domain == list(domains)[-1]:
-                raise OptionError('extentString is improper')
-
-        return srsString, extentString, name
-
     def get_border(self, nPoints=10):
         '''Generate two vectors with values of lat/lon for the border of domain
 
@@ -761,7 +666,7 @@ class Domain():
 
         return kmlEntry
 
-    def get_border_polygon(self):
+    def get_border_wkt(self):
         '''Creates string with WKT representation of the border polygon
 
         Returns
@@ -780,8 +685,31 @@ class Domain():
         polyCont = ','.join(str(lon) + ' ' + str(lat)
                             for lon, lat in zip(lonList, latList))
         # outer quotes have to be double and inner - single!
-        wktPolygon = "PolygonFromText('POLYGON((%s))')" % polyCont
-        return wktPolygon
+        #wktPolygon = "PolygonFromText('POLYGON((%s))')" % polyCont
+        wkt = 'POLYGON((%s))' % polyCont
+        return wkt
+
+    def get_border_geometry(self):
+        ''' Get OGR Geometry of the border Polygon
+
+        Returns
+        -------
+        OGR Geometry, type Polygon
+        
+        '''
+
+        return ogr.CreateGeometryFromWkt(self.get_border_wkt())
+
+    def get_border_postgis(self):
+        ''' Get PostGIS formatted string of the border Polygon
+
+        Returns
+        -------
+        str : 'PolygonFromText(PolygonWKT)'
+
+        '''
+
+        return "PolygonFromText('%s')" % self.get_border_wkt()
 
     def get_corners(self):
         '''Get coordinates of corners of the Domain
@@ -792,6 +720,7 @@ class Domain():
             vectors with lon/lat values for each corner
 
         '''
+
         colVector = [0, 0, self.vrt.dataset.RasterXSize,
                      self.vrt.dataset.RasterXSize]
         rowVector = [0, self.vrt.dataset.RasterYSize, 0,
@@ -959,11 +888,17 @@ class Domain():
         return bearing_center
 
     def azimuth_up(self, reductionFactor=1):
-        '''Calculate the azimuth orientation (bearing) "upwards" in the domain
-
-        Bearing azimuth angle increases clockwise from North.
-        For lon-lat (Plate Caree) and Mercator projections,
-        the bearing will be 0 (North is "up")
+        '''Calculate the azimuth of 'upward' direction in each pixel
+        
+        Generaly speaking, azimuth is angle from the reference vector
+        (direction to North) to the chosen direction. Azimuth increases
+        clockwise from direction to North. http://en.wikipedia.org/wiki/Azimuth
+        
+        Here we calcluate azimuth of 'upward' direction.
+        'Upward' direction coincides with Y-axis direction (and hence is
+        opposite to the ROW-axis direction). For lon-lat (cylindrical,
+        Plate Caree) and Mercator projections 'upward' direction coincides with
+        direction to North, hence azimuth is 0. 
 
         Parameters
         -----------
@@ -972,16 +907,17 @@ class Domain():
 
         Returns
         -------
-        bearing        : numpy array
+        azimuth        : numpy array
+            Values of azimuth in degrees in range 0 - 360
 
         '''
 
         lon, lat = self.get_geolocation_grids(reductionFactor)
-        b = initial_bearing(lon[1:, :], lat[1:, :],
+        a = initial_bearing(lon[1:, :], lat[1:, :],
                             lon[:-1:, :], lat[:-1:, :])
         # Repeat last row once to match size of lon-lat grids
-        b = np.vstack((b, b[-1, :]))
-        return b
+        a = np.vstack((a, a[-1, :]))
+        return a
 
     def shape(self):
         '''Return Numpy-like shape of Domain object (ySize, xSize)

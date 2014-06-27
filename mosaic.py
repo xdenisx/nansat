@@ -18,7 +18,7 @@
 #
 import multiprocessing as mp
 import scipy.stats as st
-
+import pdb;
 # import standard and additional libraries
 from nansat import *
 
@@ -36,7 +36,7 @@ class Mosaic(Nansat):
     threads = 1
     maskName = 'mask'
     doReproject = True
-    bandNames = [1]
+    bandIDs = [1]
 
     def _set_defaults(self, idict):
         '''Check input params and set defaut values
@@ -76,11 +76,12 @@ class Mosaic(Nansat):
         # the line below is for debugging
         #n = self.nClass(f, logLevel=self.logger.level)
         self.logger.info('Try to open %s' % f)
+        #n = self.nClass(f, logLevel=self.logger.level)
         try:
             n = self.nClass(f, logLevel=self.logger.level)
         except:
             self.logger.error('Unable to open %s' % f)
-            n = None
+            return None
 
         # check if image is out of period
         self.logger.info('Try to get time from %s' % f)
@@ -89,17 +90,18 @@ class Mosaic(Nansat):
 
             if (ntime[0] is None and any(self.period)):
                 self.logger.error('%s has no time' % f)
-                n = None
+                return None
 
             if (self.period[0] is not None and
                     ntime[0] < self.period[0]):
                 self.logger.info('%s is taken before the period' % f)
-                n = None
+                return None
 
             if (self.period[1] is not None and
                     ntime[0] > self.period[1]):
                 self.logger.info('%s is taken after the period' % f)
-                n = None
+                return None
+
         return n
 
     def _get_layer_mask(self, n):
@@ -129,7 +131,7 @@ class Mosaic(Nansat):
             self.logger.error('Cannot get mask from %s' % n.fileName)
             n.add_band(array=mask, parameters={'name': self.maskName})
         self.logger.debug('Got raw mask - OK')
-        
+
         if self.doReproject:
             # reproject image and get reprojected mask
             self.logger.debug('Try to get reprojected mask')
@@ -139,7 +141,7 @@ class Mosaic(Nansat):
             except:
                 self.logger.error('Unable to get reprojected mask!')
             self.logger.debug('Get reprojected mask - OK')
-                
+
         return mask
 
     def _get_layer(self, f):
@@ -166,7 +168,7 @@ class Mosaic(Nansat):
 
         return n, mask
 
-    def _get_cube(self, files, band, doReproject, maskName):
+    def _get_cube(self, files, band):
         '''Make cube with data from one band of input files
 
         Open files, reproject, get band, insert into cube
@@ -197,7 +199,7 @@ class Mosaic(Nansat):
             self.logger.info('Processing %s' % f)
 
             # get image and mask
-            n, mask = self._get_layer(f, doReproject, maskName)
+            n, mask = self._get_layer(f)
             if n is None:
                 continue
             # get band from input image
@@ -269,7 +271,7 @@ class Mosaic(Nansat):
             return
 
         # modify default values
-        self.bandNames = bands
+        self.bandIDs = bands
         self.doReproject = doReproject
         self.maskName = maskName
         self.threads = threads
@@ -287,10 +289,10 @@ class Mosaic(Nansat):
         cntMat = np.zeros((dstShape[0], dstShape[1]), 'float16')
         maskMat = np.zeros((2, dstShape[0], dstShape[1]), 'int8')
 
-        # put matrices into result queue (variable shared by sub-processes)
+        # put 2D matrices into result queue (variable shared by sub-processes)
         matQueue = mp.Queue()
         matQueue.put((cntMat, maskMat, avgMat, stdMat, files[0]))
-        
+
         # create task queue with file names
         fQueue = mp.JoinableQueue()
 
@@ -313,9 +315,9 @@ class Mosaic(Nansat):
 
         # wait until sub-processes get all tasks from the task queue
         fQueue.join()
-        
+
         # get data from result queue
-        cntMat, maskMat, avgMat, stdMat, fName  = matQueue.get()
+        cntMat, maskMat, avgMat, stdMat, fName = matQueue.get()
 
         # average products
         cntMat[cntMat == 0] = np.nan
@@ -344,6 +346,7 @@ class Mosaic(Nansat):
                                                  'long_name': 'L2-mask',
                                                  'standard_name': 'mask'})
         firstN = self._get_layer_image(fName)
+
         # add averaged bands with metadata
         for bi, b in enumerate(bands):
             self.logger.debug('    %s' % b)
@@ -359,7 +362,7 @@ class Mosaic(Nansat):
 
     def _average_one_file(self, fQueue, matQueue):
         ''' Parallel processing of one file
-        
+
         In infinite loop wait for tasks in the task queue
         If the task is available, get it and proceed
         If task is None (poison pill) quit the infinite loop
@@ -370,25 +373,24 @@ class Mosaic(Nansat):
             get intermediate result from the result queue
             add data from file into the result
             put the intermedieate result back to the queue
-        
+
         Parameters
         ----------
             fQueue : multiprocessing.JoinableQueue
                 task queue with file names
             matQueue : multiprocessing.Queue
                 result queue with cntMat, avgMat, stdMat and maskMat
-        
+
         Modifies
         --------
             fQueue : get results from the task queue
             matQueue : get and put results from into the result queue
         '''
-        
         # start infinite loop
         while True:
             # get task from the queue
             f = fQueue.get()
-            
+
             if f is None:
                 # if poison pill received, quit infinite loop
                 fQueue.task_done()
@@ -396,26 +398,27 @@ class Mosaic(Nansat):
 
             # otherwise start processing of task
             self.logger.info('Processing %s' % f)
-    
+
             dstShape = self.shape()
-            
+
             # get image and mask
             self.logger.info('Open %s and get mask' % f)
             n, mask = self._get_layer(f)
-    
+
             # skip processing of invalid image
             if n is None:
+                self.logger.error('%s invalid file!' % f)
                 fQueue.task_done()
                 continue
 
             # create temporary matrices to store results
             cntMatTmp = np.zeros((dstShape[0], dstShape[1]), 'float16')
             cntMatTmp[mask == 64] = 1
-            avgMatTmp = np.zeros((len(self.bandNames), dstShape[0], dstShape[1]), 'float16')
-            stdMatTmp = np.zeros((len(self.bandNames), dstShape[0], dstShape[1]), 'float16')
-    
+            avgMatTmp = np.zeros((len(self.bandIDs), dstShape[0], dstShape[1]), 'float16')
+            stdMatTmp = np.zeros((len(self.bandIDs), dstShape[0], dstShape[1]), 'float16')
+
             # add data to summation matrices
-            for bi, b in enumerate(self.bandNames):
+            for bi, b in enumerate(self.bandIDs):
                 self.logger.info('    Adding %s to sum' % b)
                 # get projected data from Nansat object
                 a = None
@@ -429,12 +432,12 @@ class Mosaic(Nansat):
                     # sum of valid values and squares
                     avgMatTmp[bi] += a
                     stdMatTmp[bi] += np.square(a)
-            # destroy Nansat
+            # destroy Nansat image
             n = None
 
             # get intermediate results from queue
             cntMat, maskMat, avgMat, stdMat, fName  = matQueue.get()
-            
+
             # add data to the counting matrix
             cntMat += cntMatTmp
 
@@ -447,7 +450,7 @@ class Mosaic(Nansat):
             stdMat += stdMatTmp
 
             # remember file name
-            fName = f            
+            fName = f
 
             # update intermediate results into queue
             matQueue.put((cntMat, maskMat, avgMat, stdMat, fName))
@@ -480,12 +483,21 @@ class Mosaic(Nansat):
             Start and stop datetime objects from pyhon datetime.
 
         '''
+        # check inputs
+        if len(files) == 0:
+            self.logger.error('No input files given!')
+            return
+
         # modify default values
+        self.bandIDs = bands
+        self.doReproject = doReproject
+        self.maskName = maskName
         self._set_defaults(kwargs)
+
         lastN = self._get_layer_image(files[-1])
         # add medians of all bands
         for band in bands:
-            bandCube, mask = self._get_cube(files, band, doReproject, maskName)
+            bandCube, mask = self._get_cube(files, band)
             bandMedian = st.nanmedian(bandCube, axis=0)
 
             # get metadata of this band from the last image
@@ -522,6 +534,17 @@ class Mosaic(Nansat):
             Start and stop datetime objects from pyhon datetime.
 
         '''
+        # check inputs
+        if len(files) == 0:
+            self.logger.error('No input files given!')
+            return
+
+        # modify default values
+        self.bandIDs = bands
+        self.doReproject = doReproject
+        self.maskName = maskName
+        self._set_defaults(kwargs)
+
         # collect ordinals of times of each input file
         itimes = np.zeros(len(files))
         for i in range(len(files)):
@@ -540,7 +563,7 @@ class Mosaic(Nansat):
         maxIndex = np.zeros((2, self.shape()[0], self.shape()[1]))
         for i in range(len(files)):
             # open file and get mask
-            n, mask = self._get_layer(files[ars[i]], doReproject, maskName)
+            n, mask = self._get_layer(files[ars[i]])
             # fill matrix with serial number of the file
             maskIndex = (np.zeros(mask.shape) + i + 1).astype('uint16')
             # erase non-valid values
@@ -564,7 +587,7 @@ class Mosaic(Nansat):
             self.logger.info('Processing %s' % f)
 
             # get image and mask
-            n, mask = self._get_layer(f, doReproject, maskName)
+            n, mask = self._get_layer(f)
             if n is None:
                 continue
             # insert mask into result only for pixels masked

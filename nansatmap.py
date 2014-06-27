@@ -15,6 +15,8 @@
 # but WITHOUT ANY WARRANTY without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
+
+from .nsr import NSR
 from nansat_tools import *
 
 
@@ -86,10 +88,7 @@ class Nansatmap(Basemap):
         self.domain = domain
 
         # get proj4
-        spatialRef = osr.SpatialReference()
-        projection = domain.vrt.get_projection()
-        spatialRef.ImportFromWkt(projection)
-        proj4 = spatialRef.ExportToProj4()
+        proj4 = NSR(domain.vrt.get_projection()).ExportToProj4()
 
         # convert proj4 to basemap projection
         projStr = proj4.split(' ')[0][6:]
@@ -332,16 +331,15 @@ class Nansatmap(Basemap):
         self._do_contour(Basemap.contourf, data, v, smooth, mode, **kwargs)
         self.colorbar = len(self.mpl) - 1
 
-    def pcolormesh(self, data, validValues=None, **kwargs):
+    def pcolormesh(self, data, **kwargs):
         '''Make a pseudo-color plot over the map
 
         Parameters
         ----------
         data : numpy 2D array
             Input data
-        validValues : list with two scalars (e.g. [min, max])
-            minimum and maximum valid values
-        Parameters for Basemap.pcolormesh
+        **kwargs:
+            Parameters for Basemap.pcolormesh (e.g. vmin, vmax)
 
         Modifies
         ---------
@@ -380,15 +378,38 @@ class Nansatmap(Basemap):
         dataX = np.ma.array(dataX, mask=np.isnan(dataX))
         dataY = np.ma.array(dataY, mask=np.isnan(dataY))
         # subset grids for quiver plot
-        step0 = dataX.shape[0] / quivectors
-        step1 = dataX.shape[1] / quivectors
+        if type(quivectors) in [list, tuple]:
+            quivectors0 = quivectors[0]
+            quivectors1 = quivectors[1]
+        else:
+            quivectors0 = quivectors
+            quivectors1 = quivectors
+        step0 = dataX.shape[0] / quivectors0
+        step1 = dataX.shape[1] / quivectors1
         dataX2 = dataX[::step0, ::step1]
         dataY2 = dataY[::step0, ::step1]
         self._create_lonlat_grids()
         lon2 = self.lon[::step0, ::step1]
         lat2 = self.lat[::step0, ::step1]
         x2, y2 = self(lon2, lat2)
-        self.mpl.append(Basemap.quiver(self, x2, y2, dataX2, dataY2, **kwargs))
+
+        qKwargs = {}
+        for iKey in ['width', 'scale', 'units', 'angles', 'scale_units']:
+            if iKey in kwargs.keys():
+                qKwargs[iKey] = kwargs.pop(iKey)
+        Q = Basemap.quiver(self, x2, y2, dataX2, dataY2, **qKwargs)
+
+        qkargs = {}
+        for iKey in ['X', 'Y', 'U', 'label']:
+            if iKey in kwargs.keys():
+                qkargs[iKey] = kwargs.pop(iKey)
+
+        if all (iKey in qkargs.keys() for iKey in ('X', 'Y', 'U', 'label')):
+            self.mpl.append(plt.quiverkey(Q, qkargs['X'], qkargs['Y'],
+                                          qkargs['U'], qkargs['label'],
+                                          **kwargs))
+        else:
+            self.mpl.append(Q)
 
     def add_colorbar(self, fontsize=6, **kwargs):
         '''Add color bar
