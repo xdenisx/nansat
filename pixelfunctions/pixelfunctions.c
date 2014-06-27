@@ -31,7 +31,15 @@
 #include <gdal.h>
 #include <stdio.h> 
 #include <stdlib.h>
-#include <bits/nan.h>
+
+#ifdef WIN32
+    #ifndef NAN
+        static const unsigned long __nan[2] = {0xffffffff, 0x7fffffff};
+        #define NAN (*(const float *) __nan)
+    #endif
+#else
+ #include <bits/nan.h>
+#endif
 
 void GenericPixelFunction(double f(double*), void **papoSources, 
 		int nSources, void *pData, int nXSize, int nYSize,
