@@ -1051,7 +1051,7 @@ class Nansat(Domain):
             if dstDomain is None:
                 dstDomain = self
             if custom_GCPs and len(dstDomain.vrt.dataset.GetGCPs()) > 0:
-                watermask.add_GCPs(self, numOfGCPs=numOfGCPs)
+                watermask.add_GCPs(dstDomain, numOfGCPs=numOfGCPs)
                 watermask.vrt.tps = True
 
             watermask.reproject(dstDomain)
