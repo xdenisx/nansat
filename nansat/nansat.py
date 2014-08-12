@@ -991,7 +991,8 @@ class Nansat(Domain):
 
         self.vrt = self.vrt.get_sub_vrt(steps)
 
-    def watermask(self, mod44path=None, dstDomain=None):
+    def watermask(self, mod44path=None, dstDomain=None,
+                  custom_GCPs = False, numOfGCPs=None):
         ''' Create numpy array with watermask (water=1, land=0)
 
         250 meters resolution watermask from MODIS 44W Product:
@@ -1048,9 +1049,14 @@ class Nansat(Domain):
                                logLevel=self.logger.level)
             # reproject on self or given Domain
             if dstDomain is None:
-                watermask.reproject(self)
-            else:
-                watermask.reproject(dstDomain)
+                dstDomain = self
+            if custom_GCPs and len(dstDomain.vrt.dataset.GetGCPs()) > 0:
+                watermask.add_GCPs(self, numOfGCPs=numOfGCPs)
+                watermask.vrt.tps = True
+
+            watermask.reproject(dstDomain)
+            watermask.vrt.tps = False
+            self.vrt.dataset.SetMetadata('', 'GEOLOCATION')
 
         return watermask
 
