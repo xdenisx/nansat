@@ -1941,3 +1941,84 @@ class Nansat(Domain):
         self.set_metadata(subMetaData)
 
         return 0, extent
+
+
+    def add_GCPs(self, GCPsrc, numOfGCPs=None):
+        '''Add source GCPs to self
+
+        1. Create geolocation arrays from src data and add to the src
+        2. Transform srcGCPPixelLine to dstGCPPixelLine
+           using geolocationarray
+        3. Transform dstGCPPixelLine to dstGCPXY
+        4. Create and add GCPs to self.
+
+        Parameters
+        ----------
+        GCPsrc : nansat object
+            nansat object with GCPs
+        numOfGCPs : int
+            number of GCPs to add. If None, all GCPs in source data are added.
+
+        Modifies
+        --------
+            self.vrt.dataset.GetGCPs()
+                Add GCP indormation to self.vrt.dataset
+
+        N.B.
+        ----
+        self.vrt.tps=True is accurate, when src data is a long and curve.
+
+        '''
+        # get GCPs from source
+        srcGCPs = np.array(GCPsrc.vrt.dataset.GetGCPs())
+        if numOfGCPs is not None:
+            interval = int(len(srcGCPs) / numOfGCPs)
+            srcGCPs = srcGCPs[0:-1:interval]
+        srcSRS = GCPsrc.vrt.dataset.GetGCPProjection()
+        dstSRS = self.vrt.dataset.GetProjection()
+
+        srcPixel = []
+        srcLine = []
+        for i, igcp in enumerate(srcGCPs):
+            srcPixel.append(igcp.GCPPixel)
+            srcLine.append(igcp.GCPLine)
+
+        # convert lists with X,Y coordinates to 2D numpy array
+        srcPixLine = np.array([srcPixel, srcLine]).transpose()
+
+        #add geolocationArray
+        geolocationArray = GCPsrc.vrt.create_geolocationArray_from_gcps()
+        GCPsrc.vrt.add_geolocationArray(geolocationArray)
+
+        # transfrom coordinates (srcPL --> dstPL)
+        dstPixel, dstLine = GCPsrc.vrt.transform_points(srcPixel, srcLine,
+                                                        dstDs=self.vrt.dataset,
+                                                        options=['METHOD=GEOLOC_ARRAY'])
+
+        # transfrom coordinates (dstPL --> dstXY)
+        dstX, dstY = self.vrt.transform_points(dstPixel, dstLine, options=[])
+
+        dstGCPs = []
+        counter = 0
+
+        # create GCPs
+        for i in range(len(dstX)):
+            igcp = gdal.GCP(dstX[i], dstY[i], 0,
+                            dstPixel[i], dstLine[i], '', str(i+1))
+            dstGCPs.append(igcp)
+
+        self.vrt.dataset.SetGCPs(dstGCPs, dstSRS)
+
+
+
+
+
+
+
+
+
+
+
+
+
+

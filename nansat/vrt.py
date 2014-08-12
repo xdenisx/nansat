@@ -21,6 +21,7 @@ from random import choice
 import datetime
 
 import numpy as np
+import scipy
 
 from .node import Node
 from .nsr import NSR
@@ -1754,3 +1755,74 @@ class VRT():
 
         # Update dataset
         self.dataset.SetGCPs(dstGCPs, dstSRS.wkt)
+
+    def create_geolocationArray_from_gcps(self, zoomsize=[5,5],
+                                          options= ['METHOD=GCP_TPS']):
+        '''Create geolocationarray from gcps
+
+        Necessary before warping an image if the given GCPs
+        are in a coordinate system which has a singularity
+        in (or near) the destination area (e.g. poles for lonlat GCPs)
+
+        Parameters
+        ----------
+        zoomsize : float or sequence
+            The zoom factor along the axes.
+            If a float, zoom is the same for each axis.
+            If a sequence, zoom should contain one value for each axis.
+
+        options : list
+            see http://gdal.org/java/org/gdal/gdal/Transformer.html
+
+        Returns
+        --------
+            geolocationArray object
+
+        '''
+        xSize = self.dataset.RasterXSize
+        ySize = self.dataset.RasterYSize
+
+        # create 10 x 10 lon/lat arrays
+        newPix = []
+        newLin = []
+        for iPix in np.r_[0:xSize:10j]:
+            for iLin in np.r_[0:ySize:10j]:
+                newPix.append(iPix)
+                newLin.append(iLin)
+
+        xArray, yArray = self.transform_points(newPix, newLin, options=options)
+        xArray = np.array(xArray).reshape(10, 10)
+        yArray = np.array(yArray).reshape(10, 10)
+
+        # zoom the array
+        xArray = scipy.ndimage.interpolation.zoom(xArray, zoomsize, order=1)
+        yArray = scipy.ndimage.interpolation.zoom(yArray, zoomsize, order=1)
+
+        # create geolocation array VRTs
+        xVrt = VRT(array=xArray)
+        yVrt = VRT(array=yArray)
+
+        # Add geolocation domain metadata to the dataset
+        geolocationArray = GeolocationArray(xVRT=xVrt,
+                                  yVRT=yVrt,
+                                  xBand=1, yBand=1,
+                                  srs=self.dataset.GetGCPProjection(),
+                                  lineOffset=0,
+                                  lineStep=self.dataset.RasterYSize/float(xArray.shape[0]),
+                                  pixelOffset=0,
+                                  pixelStep=self.dataset.RasterXSize/float(xArray.shape[1]))
+
+        return geolocationArray
+
+
+
+
+
+
+
+
+
+
+
+
+
