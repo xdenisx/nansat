@@ -1645,8 +1645,6 @@ class VRT():
         xy = np.array([colVector, rowVector]).transpose()
 
         # transfrom coordinates
-        #lonlat = transformer.TransformPoints(DstToSrc, xy)#[0]
-        #import pdb; pdb.set_trace()
         lonlat = transformer.TransformPoints(DstToSrc, xy)[0]
 
         # convert return to lon,lat vectors
@@ -1759,10 +1757,6 @@ class VRT():
     def create_geolocationArray_from_gcps(self, zoomsize=[5,5],
                                           options= ['METHOD=GCP_TPS']):
         '''Create geolocationarray from gcps
-
-        Necessary before warping an image if the given GCPs
-        are in a coordinate system which has a singularity
-        in (or near) the destination area (e.g. poles for lonlat GCPs)
 
         Parameters
         ----------
