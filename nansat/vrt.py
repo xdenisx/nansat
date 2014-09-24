@@ -20,6 +20,7 @@ import tempfile
 from string import Template, ascii_uppercase, digits
 from random import choice
 import datetime
+import warnings
 
 import numpy as np
 
@@ -1605,6 +1606,10 @@ class VRT():
             if eResampleAlg == -1:
                 iNode1.replaceTag('ComplexSource', 'AveragedSource')
                 iNode1.replaceTag('SimpleSource', 'AveragedSource')
+                bandID = int(iNode1.getAttribute('band'))
+                array = self.dataset.GetRasterBand(bandID).ReadAsArray()
+                if np.isnan(array).any():
+                    warnings.warn('Band %d :NAN values are replaced zeros' %bandID)
 
         # Write the modified elemements into VRT
         subsamVRT.write_xml(node0.rawxml())
