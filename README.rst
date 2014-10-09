@@ -61,12 +61,14 @@ Read more about installtion `here <https://github.com/nansencenter/nansat/wiki/R
 
 Now get copy of Nansat and run installation
 ::
+
     git clone https://github.com/nansencenter/nansat.git
     cd nansat
     python setup.py install
     
 Test if everything was installed correctly
 ::
+
     cd ~/
     nosetests nansat.tests
 
@@ -74,6 +76,7 @@ Test if everything was installed correctly
 Usage
 =====
 ::
+
     # open your favorite satellite image
     n = Nansat('satellite_image_filename.tif')
     
