@@ -80,79 +80,39 @@
 <dt id="nansat.domain.Domain">
 <em class="property">class </em><tt class="descclassname">nansat.domain.</tt><tt class="descname">Domain</tt><big>(</big><em>srs=None</em>, <em>ext=None</em>, <em>ds=None</em>, <em>lon=None</em>, <em>lat=None</em>, <em>name=''</em>, <em>logLevel=None</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Domain from GDALDataset or string options or lat/lon grids</p>
-<p>Size, extent and spatial reference is given by strings</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Size, extent and spatial reference is copied from input
-GDAL dataset</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">GDALDataset</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Spatial reference is given by srs, but size and extent is
-determined from input GDAL dataset</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="n">GDALDataset</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Size, extent and spatial reference is given by two grids</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lonGrid</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">latGrid</span><span class="p">)</span>
-</pre></div>
-</div>
+<dl class="docutils">
+<dt>d = Domain(srs, ext)</dt>
+<dd>Size, extent and spatial reference is given by strings</dd>
+<dt>d = Domain(ds=GDALDataset):</dt>
+<dd>Size, extent and spatial reference is copied from input
+GDAL dataset</dd>
+<dt>d = Domain(srs, ds=GDALDataset):</dt>
+<dd>Spatial reference is given by srs, but size and extent is
+determined
+from input GDAL dataset</dd>
+<dt>d = Domain(lon=lonGrid, lat=latGrid)</dt>
+<dd>Size, extent and spatial reference is given by two grids</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>srs</strong> : PROJ4 or EPSG or WKT</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srs</strong> : PROJ4 or EPSG or WKT or NSR or osr.SpatialReference()</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">Specifies spatial reference system (SRS)</div>
-<div class="line">PROJ4:</div>
-<div class="line">string with proj4 options [<a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a>] e.g.:</div>
-<div class="line">&#8216;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#8217;</div>
-<div class="line">&#8216;+proj=stere +datum=WGS84 +ellps=WGS84 +lat_0=75 +lon_0=10
-+no_defs&#8217;</div>
-<div class="line">EPSG:</div>
-<div class="line">integer with EPSG number, [<a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a>],</div>
-<div class="line">e.g. 4326</div>
-<div class="line">WKT:</div>
-<div class="line">string with Well Know Text of SRS. E.g.:</div>
-<div class="line">&#8216;GEOGCS[&#8220;WGS 84&#8221;,</div>
-<div class="line-block">
-<div class="line">DATUM[&#8220;WGS_1984&#8221;,</div>
-<div class="line-block">
-<div class="line">SPHEROID[&#8220;WGS 84&#8221;,6378137,298.257223563,</div>
-<div class="line-block">
-<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;7030&#8221;]],</div>
-</div>
-<div class="line">TOWGS84[0,0,0,0,0,0,0],</div>
-<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;6326&#8221;]],</div>
-</div>
-<div class="line">PRIMEM[&#8220;Greenwich&#8221;,0,</div>
-<div class="line-block">
-<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;8901&#8221;]],</div>
-</div>
-<div class="line">UNIT[&#8220;degree&#8221;,0.0174532925199433,</div>
-<div class="line-block">
-<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;9108&#8221;]],</div>
-</div>
-<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;4326&#8221;]]&#8217;</div>
-</div>
-</div>
+<div><p>Input parameter for nansat.NSR()</p>
 </div></blockquote>
 <p><strong>ext</strong> : string</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">some gdalwarp options + additional options</div>
-<div class="line"><a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></div>
-<div class="line">Specifies extent, resolution / size</div>
-<div class="line">Available options: ((&#8216;-te&#8217; or &#8216;-lle&#8217;) and (&#8216;-tr&#8217; or &#8216;-ts&#8217;))</div>
-<div class="line">(e.g. &#8216;-lle -10 30 55 60 -ts 1000 1000&#8217; or
-&#8216;-te 100 2000 300 10000 -tr 300 200&#8217;)</div>
-<div class="line">-tr resolutionx resolutiony</div>
-<div class="line">-ts sizex sizey</div>
-<div class="line">-te xmin ymin xmax ymax</div>
-<div class="line">-lle lonmin latmin lonmax latmax</div>
-</div>
+<div><p>some gdalwarp options + additional options
+[<a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a>]
+Specifies extent, resolution / size
+Available options: ((&#8216;-te&#8217; or &#8216;-lle&#8217;) and (&#8216;-tr&#8217; or &#8216;-ts&#8217;))
+(e.g. &#8216;-lle -10 30 55 60 -ts 1000 1000&#8217; or
+&#8216;-te 100 2000 300 10000 -tr 300 200&#8217;)
+-tr resolutionx resolutiony
+-ts sizex sizey
+-te xmin ymin xmax ymax
+-lle lonmin latmin lonmax latmax</p>
 </div></blockquote>
 <p><strong>ds</strong> : GDAL dataset</p>
 <p><strong>lat</strong> : Numpy array</p>
@@ -173,27 +133,21 @@ determined from input GDAL dataset</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.vrt.datasetset</strong> : dataset in memory dataset is created</p>
-<p><strong>based on the input arguments</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt.datasetset</strong> : dataset in memory</p>
+<blockquote>
+<div><p>dataset is created based on the input arguments</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Raises :</th><td class="field-body"><p class="first"><strong>ProjectionError</strong> : occurs when Projection() is empty despite</p>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><p class="first"><strong>ProjectionError</strong> : occurs when Projection() is empty</p>
 <blockquote>
-<div><p>it is required for creating extentDic.</p>
+<div><p>despite it is required for creating extentDic.</p>
 </div></blockquote>
 <p class="last"><strong>OptionError</strong> : occures when the arguments are not proper.</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<div class="line-block">
-<div class="line">Nansat.reproject()</div>
-<div class="line"><a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></div>
-<div class="line"><a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a></div>
-<div class="line"><a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a></div>
-<div class="line"><a class="reference external" href="http://www.gdal.org/ogr/osr_tutorial.html">http://www.gdal.org/ogr/osr_tutorial.html</a></div>
-</div>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -201,7 +155,7 @@ determined from input GDAL dataset</p>
 <col width="90%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.azimuth_up" title="nansat.domain.Domain.azimuth_up"><tt class="xref py py-obj docutils literal"><span class="pre">azimuth_up</span></tt></a>([reductionFactor])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.azimuth_y" title="nansat.domain.Domain.azimuth_y"><tt class="xref py py-obj docutils literal"><span class="pre">azimuth_y</span></tt></a>([reductionFactor])</td>
 <td>Calculate the azimuth of &#8216;upward&#8217; direction in each pixel</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.domain.Domain.get_border" title="nansat.domain.Domain.get_border"><tt class="xref py py-obj docutils literal"><span class="pre">get_border</span></tt></a>([nPoints])</td>
@@ -234,46 +188,40 @@ determined from input GDAL dataset</p>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.transform_points" title="nansat.domain.Domain.transform_points"><tt class="xref py py-obj docutils literal"><span class="pre">transform_points</span></tt></a>(colVector,&nbsp;rowVector[,&nbsp;...])</td>
 <td>Transform given lists of X,Y coordinates into lon/lat or inverse</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nansat.domain.Domain.upwards_azimuth_direction" title="nansat.domain.Domain.upwards_azimuth_direction"><tt class="xref py py-obj docutils literal"><span class="pre">upwards_azimuth_direction</span></tt></a>([orbit_direction])</td>
-<td>Caluculate and return upwards azimuth direction of domain.</td>
-</tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.write_kml" title="nansat.domain.Domain.write_kml"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml</span></tt></a>([xmlFileName,&nbsp;kmlFileName])</td>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.domain.Domain.write_kml" title="nansat.domain.Domain.write_kml"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml</span></tt></a>([xmlFileName,&nbsp;kmlFileName])</td>
 <td>Write KML file with domains</td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#nansat.domain.Domain.write_kml_image" title="nansat.domain.Domain.write_kml_image"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml_image</span></tt></a>([kmlFileName,&nbsp;kmlFigureName])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.write_kml_image" title="nansat.domain.Domain.write_kml_image"><tt class="xref py py-obj docutils literal"><span class="pre">write_kml_image</span></tt></a>([kmlFileName,&nbsp;kmlFigureName])</td>
 <td>Create KML file for already projected image</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nansat.domain.Domain.write_map" title="nansat.domain.Domain.write_map"><tt class="xref py py-obj docutils literal"><span class="pre">write_map</span></tt></a>(outputFileName[,&nbsp;lonVec,&nbsp;latVec,&nbsp;...])</td>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.domain.Domain.write_map" title="nansat.domain.Domain.write_map"><tt class="xref py py-obj docutils literal"><span class="pre">write_map</span></tt></a>(outputFileName[,&nbsp;lonVec,&nbsp;latVec,&nbsp;...])</td>
 <td>Create an image with a map of the domain</td>
 </tr>
 </tbody>
 </table>
 <dl class="method">
-<dt id="nansat.domain.Domain.azimuth_up">
-<tt class="descname">azimuth_up</tt><big>(</big><em>reductionFactor=1</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.azimuth_up" title="Permalink to this definition">¶</a></dt>
+<dt id="nansat.domain.Domain.azimuth_y">
+<tt class="descname">azimuth_y</tt><big>(</big><em>reductionFactor=1</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.azimuth_y" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the azimuth of &#8216;upward&#8217; direction in each pixel</p>
-<div class="line-block">
-<div class="line">Generaly speaking, azimuth is angle from the reference vector
+<p>Generaly speaking, azimuth is angle from the reference vector
 (direction to North) to the chosen direction. Azimuth increases
-clockwise from direction to North.
-<a class="reference external" href="http://en.wikipedia.org/wiki/Azimuth">http://en.wikipedia.org/wiki/Azimuth</a></div>
-<div class="line">Here we calcluate azimuth of &#8216;upward&#8217; direction.
+clockwise from direction to North. <a class="reference external" href="http://en.wikipedia.org/wiki/Azimuth">http://en.wikipedia.org/wiki/Azimuth</a></p>
+<p>Here we calcluate azimuth of &#8216;upward&#8217; direction.
 &#8216;Upward&#8217; direction coincides with Y-axis direction (and hence is
 opposite to the ROW-axis direction). For lon-lat (cylindrical,
-Plate Caree) and Mercator projections &#8216;upward&#8217; direction coincides
-with direction to North, hence azimuth is 0.</div>
-</div>
+Plate Caree) and Mercator projections &#8216;upward&#8217; direction coincides with
+direction to North, hence azimuth is 0.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>reductionFactor</strong> : integer</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>reductionFactor</strong> : integer</p>
 <blockquote>
 <div><p>factor by which the size of the output array is reduced</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>azimuth</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>azimuth</strong> : numpy array</p>
 <blockquote class="last">
 <div><p>Values of azimuth in degrees in range 0 - 360</p>
 </div></blockquote>
@@ -291,13 +239,13 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>nPoints</strong> : int, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>nPoints</strong> : int, optional</p>
 <blockquote>
 <div><p>Number of points on each border</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
 <blockquote class="last">
 <div><p>vectors with lon/lat values for each point at the border</p>
 </div></blockquote>
@@ -315,7 +263,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">OGR Geometry, type Polygon</td>
 </tr>
 </tbody>
 </table>
@@ -329,7 +277,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -343,7 +291,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>WKTPolygon</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>WKTPolygon</strong> : string</p>
 <blockquote class="last">
 <div><p>string with WKT representation of the border polygon</p>
 </div></blockquote>
@@ -361,7 +309,7 @@ with direction to North, hence azimuth is 0.</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>lonVec, latVec</strong> : lists</p>
 <blockquote class="last">
 <div><p>vectors with lon/lat values for each corner</p>
 </div></blockquote>
@@ -375,23 +323,21 @@ with direction to North, hence azimuth is 0.</div>
 <dt id="nansat.domain.Domain.get_geolocation_grids">
 <tt class="descname">get_geolocation_grids</tt><big>(</big><em>stepSize=1</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.get_geolocation_grids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get longitude and latitude grids representing the full data grid</p>
-<div class="line-block">
-<div class="line">If GEOLOCATION is not present in the self.vrt.dataset then grids
-are generated by converting pixel/line of each pixel into lat/lon</div>
-<div class="line">If GEOLOCATION is present in the self.vrt.dataset then grids are
-read from the geolocation bands.</div>
-</div>
+<p>If GEOLOCATION is not present in the self.vrt.dataset then grids
+are generated by converting pixel/line of each pixel into lat/lon
+If GEOLOCATION is present in the self.vrt.dataset then grids are read
+from the geolocation bands.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>stepSize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>stepSize</strong> : int</p>
 <blockquote>
 <div><p>Reduction factor if output is desired on a reduced grid size</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>longitude</strong> : numpy array</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>longitude</strong> : numpy array</p>
 <blockquote>
 <div><p>grid with longitudes</p>
 </div></blockquote>
@@ -409,48 +355,35 @@ read from the geolocation bands.</div>
 <dt id="nansat.domain.Domain.get_pixelsize_meters">
 <tt class="descname">get_pixelsize_meters</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.domain.Domain.get_pixelsize_meters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the pixelsize (deltaX, deltaY) of the domain</p>
-<div class="line-block">
-<div class="line">For projected domains, the exact result which is constant
-over the domain is returned.</div>
-<div class="line">For geographic (lon-lat) projections,
-or domains with no geotransform,
+<p>For projected domains, the exact result which is constant
+over the domain is returned.
+For geographic (lon-lat) projections, or domains with no geotransform,
 the haversine formula is used to calculate the pixel size
-in the center of the domain.</div>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
-<blockquote class="last">
-<div><p>pixel size in X and Y directions given in meters</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
+in the center of the domain.
+Returns
+&#8212;&#8212;&#8211;
+deltaX, deltaY : float
+pixel size in X and Y directions given in meters</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.domain.Domain.reproject_GCPs">
 <tt class="descname">reproject_GCPs</tt><big>(</big><em>srsString</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.reproject_GCPs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reproject all GCPs to a new spatial reference system</p>
-<div class="line-block">
-<div class="line">Necessary before warping an image if the given GCPs
+<p>Necessary before warping an image if the given GCPs
 are in a coordinate system which has a singularity
-in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
-</div>
+in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srsString</strong> : string</p>
 <blockquote>
 <div><p>SRS given as Proj4 string</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>Reprojects all GCPs to new SRS and updates GCPProjection</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Reprojects all GCPs to new SRS and updates GCPProjection</strong></p>
 </td>
 </tr>
 </tbody>
@@ -465,7 +398,7 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple of two INT</p>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>shape</strong> : tuple of two INT</p>
 <blockquote class="last">
 <div><p>Numpy-like shape of Domain object (ySize, xSize)</p>
 </div></blockquote>
@@ -483,20 +416,18 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>colVector</strong> : lists</p>
 <blockquote>
 <div><p>X and Y coordinates in pixel/line or lon/lat  coordinate system</p>
 </div></blockquote>
 <p><strong>DstToSrc</strong> : 0 or 1</p>
 <blockquote>
-<div><ul class="simple">
-<li>0 - forward transform (pix/line =&gt; lon/lat)</li>
-<li>1 - inverse transformation</li>
-</ul>
+<div><p>0 - forward transform (pix/line =&gt; lon/lat)
+1 - inverse transformation</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>X, Y</strong> : lists</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>X, Y</strong> : lists</p>
 <blockquote class="last">
 <div><p>X and Y coordinates in lon/lat or pixel/line coordinate system</p>
 </div></blockquote>
@@ -504,36 +435,6 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</div>
 </tr>
 </tbody>
 </table>
-</dd></dl>
-
-<dl class="method">
-<dt id="nansat.domain.Domain.upwards_azimuth_direction">
-<tt class="descname">upwards_azimuth_direction</tt><big>(</big><em>orbit_direction=None</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.upwards_azimuth_direction" title="Permalink to this definition">¶</a></dt>
-<dd><p>Caluculate and return upwards azimuth direction of domain.</p>
-<p>The upward azimuth direction will be the satellite flight
-direction (bearing) for unprojected satellite images.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns :</th><td class="field-body"><p class="first"><strong>bearing_center</strong> : float</p>
-<blockquote class="last">
-<div><p>The upwards azimuth direction (bearing) in the center of
-the domain.</p>
-</div></blockquote>
-</td>
-</tr>
-</tbody>
-</table>
-<p class="rubric">Notes</p>
-<div class="line-block">
-<div class="line">For longer domains especially at high latitudes
-the azimuth direction may vary a lot over the domain,
-and using the center angle will be a coarse approximation.</div>
-<div class="line">This function should be updated to return a matrix
-of bearings interpolated to each pixel of the domain.
-This method should probably also get a better name.</div>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -546,7 +447,7 @@ or write KML-file with the current Domain</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>xmlFileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>xmlFileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the XML-file to convert. If only this value is given
 - kmlFileName=xmlFileName+&#8217;.kml&#8217;</p>
@@ -570,7 +471,7 @@ or write KML-file with the current Domain</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>kmlFileName</strong> : string, optional</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>kmlFileName</strong> : string, optional</p>
 <blockquote>
 <div><p>Name of the KML-file to generate from the current Domain</p>
 </div></blockquote>
@@ -583,44 +484,45 @@ or write KML-file with the current Domain</p>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>Create projected a KML image</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># 1. First of all, reproject an image into Lat/Lon WGS84</span>
-<span class="c"># (Simple Cylindrical) projection.</span>
-<span class="c"># Cancel previous reprojection</span>
-<span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span>
-<span class="c"># 2. Get corners of the image and the pixel resolution</span>
-<span class="c"># lons, lats = n.get_corners()</span>
-<span class="c"># 3. Create Domain with stereographic projection,</span>
-<span class="c">#    corner coordinates and resolution 1000m</span>
-<span class="n">srsString</span> <span class="o">=</span> <span class="s">&#39;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#39;</span>
-<span class="n">extentString</span> <span class="o">=</span> <span class="s">&#39;-lle </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> -ts 3000 3000&#39;</span> <span class="o">%</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
-<span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span>
-<span class="c"># 4. Reproject</span>
-<span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
-<span class="c"># 5. Write image</span>
-<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="n">figureName</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span>
-               <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="c"># 6. Write KML for the image</span>
-<span class="n">n</span><span class="o">.</span><span class="n">write_kml_image</span><span class="p">(</span><span class="n">kmlFileName</span><span class="o">=</span><span class="n">oPath</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s">&#39;.kml&#39;</span><span class="p">,</span>
-                  <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span>
-</pre></div>
-</div>
+<dl class="docutils">
+<dt># First of all, reproject an image into Lat/Lon WGS84</dt>
+<dd>(Simple Cylindrical) projection</dd>
+</dl>
+<p># 1. Cancel previous reprojection
+# 2. Get corners of the image and the pixel resolution
+# 3. Create Domain with stereographic projection,
+#    corner coordinates and resolution 1000m
+# 4. Reproject
+# 5. Write image
+# 6. Write KML for the image
+n.reproject() # 1.
+lons, lats = n.get_corners() # 2.
+srsString = &#8216;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#8217;
+extentString = &#8216;-lle %f %f %f %f -ts 3000 3000&#8217;
+% (min(lons), min(lats), max(lons), max(lats))
+d = Domain(srs=srsString, ext=extentString) # 3.
+n.reproject(d) # 4.
+n.write_figure(fileName=figureName, bands=[3], clim=[0,0.15],</p>
+<blockquote>
+<div>cmapName=&#8217;gray&#8217;, transparency=0) # 5.</div></blockquote>
+<dl class="docutils">
+<dt>n.write_kml_image(kmlFileName=oPath + fileName + &#8216;.kml&#8217;,</dt>
+<dd>kmlFigureName=figureName) # 6.</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.domain.Domain.write_map">
-<tt class="descname">write_map</tt><big>(</big><em>outputFileName</em>, <em>lonVec=None</em>, <em>latVec=None</em>, <em>lonBorder=10.0</em>, <em>latBorder=10.0</em>, <em>figureSize=(6</em>, <em>6)</em>, <em>dpi=50</em>, <em>projection='cyl'</em>, <em>resolution='c'</em>, <em>continetsColor='coral'</em>, <em>meridians=10</em>, <em>parallels=10</em>, <em>pColor='r'</em>, <em>pLine='k'</em>, <em>pAlpha=0.5</em>, <em>padding=0.0</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.write_map" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">write_map</tt><big>(</big><em>outputFileName, lonVec=None, latVec=None, lonBorder=10.0, latBorder=10.0, figureSize=(6, 6), dpi=50, projection='cyl', resolution='c', continetsColor='coral', meridians=10, parallels=10, pColor='r', pLine='k', pAlpha=0.5, padding=0.0, merLabels=[False, False, False, False], parLabels=[False, False, False, False], pltshow=False</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain.write_map" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an image with a map of the domain</p>
-<div class="line-block">
-<div class="line">Uses Basemap to create a World Map.</div>
-<div class="line">Adds a semitransparent patch with outline of the Domain</div>
-<div class="line">Writes to an image file.</div>
-</div>
+<p>Uses Basemap to create a World Map
+Adds a semitransparent patch with outline of the Domain
+Writes to an image file</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>outputFileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>outputFileName</strong> : string</p>
 <blockquote>
 <div><p>name of the output file name</p>
 </div></blockquote>
@@ -647,13 +549,11 @@ produces 300 x 300 figure)</p>
 </div></blockquote>
 <p><strong>resolution</strong> : string, resolution of the map</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">&#8216;c&#8217;, crude</div>
-<div class="line">&#8216;l&#8217;, low</div>
-<div class="line">&#8216;i&#8217;, intermediate</div>
-<div class="line">&#8216;h&#8217;, high</div>
-<div class="line">&#8216;f&#8217;, full</div>
-</div>
+<div><p>&#8216;c&#8217;, crude
+&#8216;l&#8217;, low
+&#8216;i&#8217;, intermediate
+&#8216;h&#8217;, high
+&#8216;f&#8217;, full</p>
 </div></blockquote>
 <p><strong>continetsColor</strong> : string or any matplotlib color representation</p>
 <blockquote>
@@ -680,8 +580,16 @@ produces 300 x 300 figure)</p>
 <div><p>0.5, transparency of Domain patch</p>
 </div></blockquote>
 <p><strong>padding</strong> : float</p>
-<blockquote class="last">
+<blockquote>
 <div><p>0., width of white padding around the map</p>
+</div></blockquote>
+<p><strong>merLabels</strong> : list of 4 booleans</p>
+<blockquote>
+<div><p>where to put meridian labels, see also Basemap.drawmeridians()</p>
+</div></blockquote>
+<p><strong>parLables</strong> : list of 4 booleans</p>
+<blockquote class="last">
+<div><p>where to put parallel labels, see also Basemap.drawparallels()</p>
 </div></blockquote>
 </td>
 </tr>
@@ -715,7 +623,7 @@ produces 300 x 300 figure)</p>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
       </li>
     </ul>
     </div>

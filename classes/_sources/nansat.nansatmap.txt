@@ -1,4 +1,5 @@
-nansat.nansatmap module
+Nansatmap class
 =======================
 
-.. autoclass:: nansat.Nansatmap
+.. automodule:: nansat.nansatmap
+.. autoclass:: Nansatmap

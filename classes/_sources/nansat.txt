@@ -11,10 +11,13 @@ Submodules
    nansat.geolocationarray
    nansat.mosaic
    nansat.nansat
-   nansat.nansat_tools
    nansat.nansatmap
    nansat.nansatshape
    nansat.vrt
+   nansat.node
+   nansat.nsr
+   nansat.pointbrowser
+
 
 Module contents
 ---------------

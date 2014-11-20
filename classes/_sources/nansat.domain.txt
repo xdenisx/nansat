@@ -1,4 +1,5 @@
-nansat.domain module
+Domain class
 ====================
 
-.. autoclass:: nansat.Domain
+.. automodule:: nansat.domain
+.. autoclass:: Domain

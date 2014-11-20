@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>Nansatshape class &mdash; Nansat 0.6dev documentation</title>
+    <title>NSR class &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
     <link rel="up" title="nansat package" href="nansat.html" >
-    <link rel="next" title="VRT class" href="nansat.vrt.html" >
-    <link rel="prev" title="Nansatmap class" href="nansat.nansatmap.html" > 
+    <link rel="next" title="PointBrowser class" href="nansat.pointbrowser.html" >
+    <link rel="prev" title="Node class" href="nansat.node.html" > 
   </head>
   <body>
 
@@ -65,22 +65,13 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body">
             
-  <div class="section" id="module-nansat.nansatshape">
-<span id="nansatshape-class"></span><h1>Nansatshape class<a class="headerlink" href="#module-nansat.nansatshape" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-nansat.nsr">
+<span id="nsr-class"></span><h1>NSR class<a class="headerlink" href="#module-nansat.nsr" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="nansat.nansatshape.Nansatshape">
-<em class="property">class </em><tt class="descclassname">nansat.nansatshape.</tt><tt class="descname">Nansatshape</tt><big>(</big><em>fileName=None</em>, <em>layer=0</em>, <em>srs=None</em>, <em>wkbStyle=1</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape" title="Permalink to this definition">¶</a></dt>
-<dd><p>Nansatshape class reads and writes ESRI-shape files</p>
-<div class="line-block">
-<div class="line">The core of Nansatshape is a OGR. the main functions of the class are</div>
-<div class="line-block">
-<div class="line">1. Create empty object in memory and add data (fields and geometory).</div>
-<div class="line">2. Open shape file and read the data.</div>
-</div>
-</div>
-<div class="line-block">
-<div class="line">Nansatshape support points, but not line, ploygons, mupti-polygons</div>
-</div>
+<dt id="nansat.nsr.NSR">
+<em class="property">class </em><tt class="descclassname">nansat.nsr.</tt><tt class="descname">NSR</tt><big>(</big><em>srs=0</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nansat Spatial Reference</p>
+<p>Overrides only constructor of osr.SpatialReference</p>
 </dd></dl>
 
 </div>

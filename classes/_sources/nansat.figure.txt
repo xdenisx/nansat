@@ -1,4 +1,5 @@
-nansat.figure module
+Figure class
 ====================
 
-.. autoclass:: nansat.Figure
+.. automodule:: nansat.figure
+.. autoclass:: Figure

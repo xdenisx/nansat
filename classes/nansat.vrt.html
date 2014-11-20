@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat.vrt module &mdash; Nansat 0.6dev documentation</title>
+    <title>VRT class &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -26,7 +26,8 @@
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
     <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
     <link rel="up" title="nansat package" href="nansat.html" >
-    <link rel="prev" title="nansat.nansatshape module" href="nansat.nansatshape.html" > 
+    <link rel="next" title="Node class" href="nansat.node.html" >
+    <link rel="prev" title="Nansatshape class" href="nansat.nansatshape.html" > 
   </head>
   <body>
 
@@ -64,51 +65,44 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body">
             
-  <div class="section" id="nansat-vrt-module">
-<h1>nansat.vrt module<a class="headerlink" href="#nansat-vrt-module" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-nansat.vrt">
+<span id="vrt-class"></span><h1>VRT class<a class="headerlink" href="#module-nansat.vrt" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="nansat.vrt.VRT">
-<em class="property">class </em><tt class="descclassname">nansat.vrt.</tt><tt class="descname">VRT</tt><big>(</big><em>gdalDataset=None</em>, <em>vrtDataset=None</em>, <em>array=None</em>, <em>srcGeoTransform=(0</em>, <em>1</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>1)</em>, <em>srcProjection=''</em>, <em>srcRasterXSize=None</em>, <em>srcRasterYSize=None</em>, <em>srcGCPs=</em><span class="optional">[</span><span class="optional">]</span>, <em>srcGCPProjection=''</em>, <em>srcMetadata=''</em>, <em>geolocationArray=None</em>, <em>nomem=False</em>, <em>lat=None</em>, <em>lon=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">nansat.vrt.</tt><tt class="descname">VRT</tt><big>(</big><em>gdalDataset=None</em>, <em>vrtDataset=None</em>, <em>array=None</em>, <em>srcGeoTransform=(0</em>, <em>1</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>1)</em>, <em>srcProjection=''</em>, <em>srcRasterXSize=None</em>, <em>srcRasterYSize=None</em>, <em>srcGCPs=[]</em>, <em>srcGCPProjection=''</em>, <em>srcMetadata=''</em>, <em>geolocationArray=None</em>, <em>nomem=False</em>, <em>lat=None</em>, <em>lon=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Wrapper around GDAL VRT-file</p>
-<div class="line-block">
-<div class="line">The GDAL VRT-file is an XML-file. It contains all metadata,
-geo-reference information and information ABOUT each band including
-band metadata, reference to the bands in the source file.</div>
-<div class="line">VRT-class perfroms all operation on VRT-files: create, copy, modify,
-read, write, add band, add GeoTransform, SetProjection, etc.
-It uses either GDAL methods for these operations (e.g. Create, AddBand,
+<p>The GDAL VRT-file is an XML-file. It contains all metadata, geo-reference
+information and information ABOUT each band including band metadata,
+reference to the bands in the source file.</p>
+<p>VRT-class performs all operation on VRT-files: create, copy, modify,
+read, write, add band, add GeoTransform, SetProjection, etc. It uses
+either GDAL methods for these operations (e.g. Create, AddBand,
 SetMetadata, AutoCreateWarpedVRT, etc.) or reads/writes the XML-file
-directly (e.g. remove_geotransform, get_warped_vrt, etc).</div>
-<div class="line"><br /></div>
-<div class="line">The core of the VRT object is GDAL dataset &lt;self.dataset&gt; generated
+directly (e.g. remove_geotransform, get_warped_vrt, etc).</p>
+<p>The core of the VRT object is GDAL dataset &lt;self.dataset&gt; generated
 by the GDAL VRT-Driver. The respective VRT-file is located in /vismem
-and has random name.</div>
-<div class="line"><br /></div>
-<div class="line">GDAL data model doesn&#8217;t have place for geolocaion arrays therefore
+and has random name.</p>
+<p>GDAL data model doesn&#8217;t have place for geolocaion arrays therefore
 VRT-object has instance of GeolocationArray self.geolocationArray-
 an object to keep information about Geolocation Arrays:
-reference to file with source data, pixel and line step and offset, etc.</div>
-<div class="line"><br /></div>
-<div class="line">Domain has an instance of VRT-class &lt;self.vrt&gt;. It keeps only geo-
-reference information.</div>
-<div class="line"><br /></div>
-<div class="line">All Mappers inherit from VRT. When Nansat opens file it loops through
+reference to file with source data, pixel and line step and offset, etc.</p>
+<p>Domain has an instance of VRT-class &lt;self.vrt&gt;. It keeps only geo-
+reference information.</p>
+<p>All Mappers inherit from VRT. When Nansat opens file it loops through
 list of mappers, selects the one appropriate for the input file,
 and creates an instance of Mapper. But each Mapper has only a
-constructor, other methods are from VRT.</div>
-<div class="line"><br /></div>
-<div class="line">Nansat has one instances of Mapper-class (&lt;=VRT-class): self.vrt.
+constructor, other methods are from VRT.</p>
+<p>Nansat has one instances of Mapper-class (&lt;=VRT-class): self.vrt.
 It holds VRT-file in original projection (derived from the
 input file). After most of the operations with Nansat object
 (e.g. reproject, crop, resize, add_band) self.vrt is replaced with a new
 VRT object (super VRT or supVRT) which has the previous VRT object inside
 (subVRT). The supVRT references subVRT and adds any kind of transformation:
-resize, reprojection, cropping, etc. :</div>
-<div class="line-block">
-<div class="line">subVRT = self.vrt</div>
-<div class="line">self.vrt = method_to_create_super_VRT()</div>
-<div class="line">self.vrt.vrt = subVRT</div>
-</div>
+resize, reprojection, cropping, etc. :</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">subVRT</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vrt</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">vrt</span> <span class="o">=</span> <span class="n">method_to_create_super_VRT</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="bp">self</span><span class="o">.</span><span class="n">vrt</span><span class="o">.</span><span class="n">vrt</span> <span class="o">=</span> <span class="n">subVRT</span>
+</pre></div>
 </div>
 </dd></dl>
 
@@ -136,7 +130,7 @@ resize, reprojection, cropping, etc. :</div>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
       </li>
     </ul>
     </div>

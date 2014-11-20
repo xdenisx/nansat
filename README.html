@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>scipy-sphinx-theme &mdash; Nansat 0.6dev documentation</title>
+    <title>Install &mdash; Nansat 0.6dev documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -74,47 +74,107 @@
         <div class="bodywrapper">
           <div class="body" id="spc-section-body">
             
-  <div class="section" id="scipy-sphinx-theme">
-<h1>scipy-sphinx-theme<a class="headerlink" href="#scipy-sphinx-theme" title="Permalink to this headline">¶</a></h1>
-<p><a class="reference external" href="http://sphinx-doc.org">Sphinx</a> theme for <a class="reference external" href="http://scipy.org">Scipy</a>.</p>
-<div class="section" id="theme-options">
-<h2>Theme options<a class="headerlink" href="#theme-options" title="Permalink to this headline">¶</a></h2>
-<p>The theme takes the followin options in the <cite>html_options</cite>
-configuration variable:</p>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">edit_link</span></tt></p>
-<p><tt class="docutils literal"><span class="pre">True</span></tt> or <tt class="docutils literal"><span class="pre">False</span></tt>. Determines if an &#8220;edit this page&#8221; link is displayed
-in the left sidebar.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">rootlinks</span></tt></p>
-<p>List of tuples <tt class="docutils literal"><span class="pre">(url,</span> <span class="pre">link_name)</span></tt> to show in the beginning of the
-breadcrumb list on the top left. You can override it by defining an
-<cite>edit_link</cite> block in <tt class="docutils literal"><span class="pre">searchbox.html</span></tt>.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">sidebar</span></tt></p>
-<p>One of <tt class="docutils literal"><span class="pre">&quot;left&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;right&quot;</span></tt>, <tt class="docutils literal"><span class="pre">&quot;none&quot;</span></tt>.  Defines where the sidebar
-should appear.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">scipy_org_logo</span></tt></p>
-<p><tt class="docutils literal"><span class="pre">True</span></tt> or <tt class="docutils literal"><span class="pre">False</span></tt>. Whether to plaster the scipy.org logo on top.</p>
-<p>You can use your own logo by overriding the <tt class="xref py py-attr docutils literal"><span class="pre">layout.html:header</span></tt>
-block.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">navigation_links</span></tt></p>
-<p><tt class="docutils literal"><span class="pre">True</span></tt> or <tt class="docutils literal"><span class="pre">False</span></tt>. Whether to display &#8220;next&#8221;, &#8220;prev&#8221;, &#8220;index&#8221;, etc.
-links.</p>
-</li>
+  <img alt="http://nansencenter.github.io/nansat/images/nansat_logo.png" src="http://nansencenter.github.io/nansat/images/nansat_logo.png" />
+<p>Nansat is a scientist friendly Python toolbox for processing 2D geospatial data.</p>
+<p>The main purpose of Nansat is to facilitate:</p>
+<ul class="simple">
+<li>easy development and testing of scientific algorithms,</li>
+<li>easy analysis of geospatial data, and</li>
+<li>efficient operational processing.</li>
 </ul>
-<p>The following blocks are defined:</p>
-<ul>
-<li><p class="first"><tt class="docutils literal"><span class="pre">layout.html:header</span></tt></p>
-<p>Block at the top of the page, for logo etc.</p>
-</li>
-<li><p class="first"><tt class="docutils literal"><span class="pre">searchbox.html:edit_link</span></tt></p>
-<p>Edit link HTML code to paste in the left sidebar, if <cite>edit_link</cite> is enabled.</p>
-</li>
-</ul>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">note:</th><td class="field-body">We appreciate acknowledments of Nansat. Please add &#8220;The image analysis was performed with
+the open-source NanSat (<a class="reference external" href="https://github.com/nansencenter/nansat">https://github.com/nansencenter/nansat</a>) python package&#8221; (or equivalent)
+if you use Nansat in scientific publications.</td>
+</tr>
+</tbody>
+</table>
+<div class="section" id="install">
+<h1>Install<a class="headerlink" href="#install" title="Permalink to this headline">¶</a></h1>
+<p>First install required libraries. The easies way is to use a Python distribution. E.g. <a class="reference external" href="https://store.continuum.io/cshop/anaconda/">Anaconda</a></p>
+<div class="highlight-python"><div class="highlight"><pre># download the minimal anaconda distribution
+wget http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh -O miniconda.sh
+
+# make the installer executable
+chmod +x miniconda.sh
+
+# run the installer and let it install miniconda
+# into your home directory
+./miniconda.sh -b -p $HOME/miniconda
+
+# set the path to contain miniconda executables first
+# add this line in the end of your .bashrc
+# to make the miniconda work next time
+export PATH=$HOME/miniconda/bin:$PATH
+
+# update the anaconda distro
+# &#39;conda&#39; is the command to manipulate with the distro
+conda update --yes conda
+
+# install the required packages into
+# $HOME/miniconda/lib/python2.7/site-packages
+# in addition that will install all the requirements
+conda install --yes ipython setuptools numpy scipy gdal pillow basemap nose
+
+# install GDAL data files from jjhelmus repo
+# which is not included by default in anaconda.gdal
+# https://groups.google.com/a/continuum.io/forum/#!topic/anaconda/608MwtlekKk
+conda install -c jjhelmus gdal-data
+
+# add path to the gdal data (add that to your .bashrc)
+export GDAL_DATA=$HOME/miniconda/share/gdal
+
+# install proj4 library from rsignell repo
+# not included in the anaconda repo by default
+conda install -c rsignell proj4
+</pre></div>
 </div>
+<p>Read more about installtion <cite>here &lt;https://github.com/nansencenter/nansat/wiki/Required-libs
+&gt;_</cite></p>
+<p>Now get copy of Nansat and run installation</p>
+<div class="highlight-python"><div class="highlight"><pre>git clone https://github.com/nansencenter/nansat.git
+cd nansat
+python setup.py install
+</pre></div>
+</div>
+<p>Test if everything was installed correctly</p>
+<div class="highlight-python"><div class="highlight"><pre>cd ~/
+nosetests nansat.tests
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># open your favorite satellite image</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">Nansat</span><span class="p">(</span><span class="s">&#39;satellite_image_filename.tif&#39;</span><span class="p">)</span>
+
+<span class="c"># inspect  the conent of the file</span>
+<span class="k">print</span> <span class="n">n</span>
+
+<span class="c"># fetch numpy array with data from the first band</span>
+<span class="n">arr1</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+<span class="c"># if you know the name of the band,</span>
+<span class="c"># access data by name, e.g.</span>
+<span class="n">arr2</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="s">&#39;SST&#39;</span><span class="p">]</span>
+
+<span class="c"># write a simple image in graphical format</span>
+<span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;figure_fileame.png&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s">&#39;SST&#39;</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
+
+<span class="c"># define a new lat/lon grid, using EPSG code</span>
+<span class="c"># and parameters for ``gdaltransform``</span>
+<span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="mi">4326</span><span class="p">,</span> <span class="s">&#39;-te -5 50 10 70 -ts 150 200&#39;</span><span class="p">)</span>
+
+<span class="c"># reproject your image onto the defined grid</span>
+<span class="c"># and fetch reprojected data</span>
+<span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+<span class="n">arr3</span> <span class="o">=</span> <span class="n">n</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>For more details see <a class="reference external" href="https://github.com/nansencenter/nansat/wiki/Tutorial">Tutorial</a></p>
 </div>
 
 
@@ -139,7 +199,7 @@ links.</p>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
       </li>
     </ul>
     </div>

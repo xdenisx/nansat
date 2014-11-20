@@ -1,4 +1,5 @@
-nansat.vrt module
+VRT class
 =================
 
-.. autoclass:: nansat.vrt.VRT
+.. automodule:: nansat.vrt
+.. autoclass:: VRT

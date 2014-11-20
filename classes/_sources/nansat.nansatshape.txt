@@ -1,4 +1,5 @@
-nansat.nansatshape module
+Nansatshape class
 =========================
 
-.. autoclass:: nansat.Nansatshape
+.. automodule:: nansat.nansatshape
+.. autoclass:: Nansatshape

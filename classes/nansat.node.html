@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>Node class &mdash; Nansat 0.6dev documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.6dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
+    <link rel="up" title="nansat package" href="nansat.html" >
+    <link rel="next" title="NSR class" href="nansat.nsr.html" >
+    <link rel="prev" title="VRT class" href="nansat.vrt.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="../index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+	      <div class="row-fluid">
+		<div class="span9">
+  		  <div class="spc-navbar">
+		    
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
+	
+        <li class="active"><a href="../index.html">Nansat 0.6dev documentation</a></li>
+	
+          <li class="active"><a href="nansat.html" accesskey="U">nansat package</a></li> 
+    </ul>
+		  </div>
+		</div>
+	      </div>
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.node">
+<span id="node-class"></span><h1>Node class<a class="headerlink" href="#module-nansat.node" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.node.Node">
+<em class="property">class </em><tt class="descclassname">nansat.node.</tt><tt class="descname">Node</tt><big>(</big><em>tag</em>, <em>value=None</em>, <em>**attributes</em><big>)</big><a class="headerlink" href="#nansat.node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Rapidly assemble XML using minimal coding.</p>
+<p>By Bruce Eckel, (c)2006 MindView Inc. www.MindView.net
+Permission is granted to use or modify without payment as
+long as this copyright notice is retained.</p>
+<p>Everything is a Node, and each Node can either have a value
+or subnodes. Subnodes can be appended to Nodes using &#8216;+=&#8217;,
+and a group of Nodes can be strung together using &#8216;+&#8217;.</p>
+<p>Create a node containing a value by saying</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Node</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also give attributes to the node in the constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Node</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">,</span> <span class="s">&#39;value&#39;</span><span class="p">,</span> <span class="n">attr1</span> <span class="o">=</span> <span class="s">&#39;attr1&#39;</span><span class="p">,</span> <span class="n">attr2</span> <span class="o">=</span> <span class="s">&#39;attr2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>or without a value:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">Node</span><span class="p">(</span><span class="s">&#39;tag&#39;</span><span class="p">,</span> <span class="n">attr1</span> <span class="o">=</span> <span class="s">&#39;attr1&#39;</span><span class="p">,</span> <span class="n">attr2</span> <span class="o">=</span> <span class="s">&#39;attr2&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To produce xml from a finished Node n, say n.xml() (for
+nicely formatted output) or n.rawxml().</p>
+<p>You can read and modify the attributes of an xml Node using
+getAttribute(), setAttribute(), or delAttribute().</p>
+<p>You can find the value of the first subnode with tag == &#8216;tag&#8217;
+by saying n[&#8216;tag&#8217;]. If there are multiple instances of n[&#8216;tag&#8217;],
+this will only find the first one, so you should use node() or
+nodeList() to narrow your search down to a Node that only has
+one instance of n[&#8216;tag&#8217;] first.</p>
+<p>You can replace the value of the first subnode with tag == &#8216;tag&#8217;
+by saying n[&#8216;tag&#8217;] = newValue. The same issues exist as noted
+in the above paragraph.</p>
+<p>You can find the first node with tag == &#8216;tag&#8217; by saying
+node(&#8216;tag&#8217;). If there are multiple nodes with the same tag
+at the same level, use nodeList(&#8216;tag&#8217;).</p>
+<p>The Node class is also designed to create a kind of &#8216;domain
+specific language&#8217; by subclassing Node to create Node types
+specific to your problem domain.</p>
+<p>This implementation uses xml.dom.minidom which is available
+in the standard Python 2.4 library. However, it can be
+retargeted to use other XML libraries without much effort.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43252602-1', 'nansencenter.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

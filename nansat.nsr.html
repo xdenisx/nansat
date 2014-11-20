@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.nsr module &mdash; Nansat 0.6dev documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.6dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
+	
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.nsr">
+<span id="nansat-nsr-module"></span><h1>nansat.nsr module<a class="headerlink" href="#module-nansat.nsr" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.nsr.NSR">
+<em class="property">class </em><tt class="descclassname">nansat.nsr.</tt><tt class="descname">NSR</tt><big>(</big><em>srs=0</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create Spatial Reference System from input parameter</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.AutoIdentifyEPSG" title="nansat.nsr.NSR.AutoIdentifyEPSG"><tt class="xref py py-obj docutils literal"><span class="pre">AutoIdentifyEPSG</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.Clone" title="nansat.nsr.NSR.Clone"><tt class="xref py py-obj docutils literal"><span class="pre">Clone</span></tt></a>((self)&nbsp;-&gt;&nbsp;SpatialReference)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.CloneGeogCS" title="nansat.nsr.NSR.CloneGeogCS"><tt class="xref py py-obj docutils literal"><span class="pre">CloneGeogCS</span></tt></a>((self)&nbsp;-&gt;&nbsp;SpatialReference)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.CopyGeogCSFrom" title="nansat.nsr.NSR.CopyGeogCSFrom"><tt class="xref py py-obj docutils literal"><span class="pre">CopyGeogCSFrom</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.EPSGTreatsAsLatLong" title="nansat.nsr.NSR.EPSGTreatsAsLatLong"><tt class="xref py py-obj docutils literal"><span class="pre">EPSGTreatsAsLatLong</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToMICoordSys" title="nansat.nsr.NSR.ExportToMICoordSys"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToMICoordSys</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToPCI" title="nansat.nsr.NSR.ExportToPCI"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToPCI</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToPrettyWkt" title="nansat.nsr.NSR.ExportToPrettyWkt"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToPrettyWkt</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToProj4" title="nansat.nsr.NSR.ExportToProj4"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToProj4</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToUSGS" title="nansat.nsr.NSR.ExportToUSGS"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToUSGS</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToWkt" title="nansat.nsr.NSR.ExportToWkt"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToWkt</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ExportToXML" title="nansat.nsr.NSR.ExportToXML"><tt class="xref py py-obj docutils literal"><span class="pre">ExportToXML</span></tt></a>((self,&nbsp;char&nbsp;dialect&nbsp;=&nbsp;&#8221;&#8221;)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.Fixup" title="nansat.nsr.NSR.Fixup"><tt class="xref py py-obj docutils literal"><span class="pre">Fixup</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.FixupOrdering" title="nansat.nsr.NSR.FixupOrdering"><tt class="xref py py-obj docutils literal"><span class="pre">FixupOrdering</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetAngularUnits" title="nansat.nsr.NSR.GetAngularUnits"><tt class="xref py py-obj docutils literal"><span class="pre">GetAngularUnits</span></tt></a>((self)&nbsp;-&gt;&nbsp;double)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetAttrValue" title="nansat.nsr.NSR.GetAttrValue"><tt class="xref py py-obj docutils literal"><span class="pre">GetAttrValue</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetAuthorityCode" title="nansat.nsr.NSR.GetAuthorityCode"><tt class="xref py py-obj docutils literal"><span class="pre">GetAuthorityCode</span></tt></a>((self,&nbsp;char&nbsp;target_key)&nbsp;-&gt;&nbsp;char)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetAuthorityName" title="nansat.nsr.NSR.GetAuthorityName"><tt class="xref py py-obj docutils literal"><span class="pre">GetAuthorityName</span></tt></a>((self,&nbsp;char&nbsp;target_key)&nbsp;-&gt;&nbsp;char)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetInvFlattening" title="nansat.nsr.NSR.GetInvFlattening"><tt class="xref py py-obj docutils literal"><span class="pre">GetInvFlattening</span></tt></a>((self)&nbsp;-&gt;&nbsp;double)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetLinearUnits" title="nansat.nsr.NSR.GetLinearUnits"><tt class="xref py py-obj docutils literal"><span class="pre">GetLinearUnits</span></tt></a>((self)&nbsp;-&gt;&nbsp;double)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetLinearUnitsName" title="nansat.nsr.NSR.GetLinearUnitsName"><tt class="xref py py-obj docutils literal"><span class="pre">GetLinearUnitsName</span></tt></a>((self)&nbsp;-&gt;&nbsp;char)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetNormProjParm" title="nansat.nsr.NSR.GetNormProjParm"><tt class="xref py py-obj docutils literal"><span class="pre">GetNormProjParm</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetProjParm" title="nansat.nsr.NSR.GetProjParm"><tt class="xref py py-obj docutils literal"><span class="pre">GetProjParm</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetSemiMajor" title="nansat.nsr.NSR.GetSemiMajor"><tt class="xref py py-obj docutils literal"><span class="pre">GetSemiMajor</span></tt></a>((self)&nbsp;-&gt;&nbsp;double)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetSemiMinor" title="nansat.nsr.NSR.GetSemiMinor"><tt class="xref py py-obj docutils literal"><span class="pre">GetSemiMinor</span></tt></a>((self)&nbsp;-&gt;&nbsp;double)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.GetTOWGS84" title="nansat.nsr.NSR.GetTOWGS84"><tt class="xref py py-obj docutils literal"><span class="pre">GetTOWGS84</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.GetUTMZone" title="nansat.nsr.NSR.GetUTMZone"><tt class="xref py py-obj docutils literal"><span class="pre">GetUTMZone</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromEPSG" title="nansat.nsr.NSR.ImportFromEPSG"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromEPSG</span></tt></a>((self,&nbsp;int&nbsp;arg)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromEPSGA" title="nansat.nsr.NSR.ImportFromEPSGA"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromEPSGA</span></tt></a>((self,&nbsp;int&nbsp;arg)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromERM" title="nansat.nsr.NSR.ImportFromERM"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromERM</span></tt></a>((self,&nbsp;char&nbsp;proj,&nbsp;char&nbsp;datum,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromESRI" title="nansat.nsr.NSR.ImportFromESRI"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromESRI</span></tt></a>((self,&nbsp;char&nbsp;ppszInput)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromMICoordSys" title="nansat.nsr.NSR.ImportFromMICoordSys"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromMICoordSys</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromOzi" title="nansat.nsr.NSR.ImportFromOzi"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromOzi</span></tt></a>((self,&nbsp;char&nbsp;datum,&nbsp;char&nbsp;proj,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromPCI" title="nansat.nsr.NSR.ImportFromPCI"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromPCI</span></tt></a>((self,&nbsp;char&nbsp;proj,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromProj4" title="nansat.nsr.NSR.ImportFromProj4"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromProj4</span></tt></a>((self,&nbsp;char&nbsp;ppszInput)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromUSGS" title="nansat.nsr.NSR.ImportFromUSGS"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromUSGS</span></tt></a>((self,&nbsp;long&nbsp;proj_code,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromUrl" title="nansat.nsr.NSR.ImportFromUrl"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromUrl</span></tt></a>((self,&nbsp;char&nbsp;url)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromWkt" title="nansat.nsr.NSR.ImportFromWkt"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromWkt</span></tt></a>((self,&nbsp;char&nbsp;ppszInput)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.ImportFromXML" title="nansat.nsr.NSR.ImportFromXML"><tt class="xref py py-obj docutils literal"><span class="pre">ImportFromXML</span></tt></a>((self,&nbsp;char&nbsp;xmlString)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.IsCompound" title="nansat.nsr.NSR.IsCompound"><tt class="xref py py-obj docutils literal"><span class="pre">IsCompound</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.IsGeocentric" title="nansat.nsr.NSR.IsGeocentric"><tt class="xref py py-obj docutils literal"><span class="pre">IsGeocentric</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.IsGeographic" title="nansat.nsr.NSR.IsGeographic"><tt class="xref py py-obj docutils literal"><span class="pre">IsGeographic</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.IsLocal" title="nansat.nsr.NSR.IsLocal"><tt class="xref py py-obj docutils literal"><span class="pre">IsLocal</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.IsProjected" title="nansat.nsr.NSR.IsProjected"><tt class="xref py py-obj docutils literal"><span class="pre">IsProjected</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.IsSame" title="nansat.nsr.NSR.IsSame"><tt class="xref py py-obj docutils literal"><span class="pre">IsSame</span></tt></a>((self,&nbsp;SpatialReference&nbsp;rhs)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.IsSameGeogCS" title="nansat.nsr.NSR.IsSameGeogCS"><tt class="xref py py-obj docutils literal"><span class="pre">IsSameGeogCS</span></tt></a>((self,&nbsp;SpatialReference&nbsp;rhs)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.IsSameVertCS" title="nansat.nsr.NSR.IsSameVertCS"><tt class="xref py py-obj docutils literal"><span class="pre">IsSameVertCS</span></tt></a>((self,&nbsp;SpatialReference&nbsp;rhs)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.IsVertical" title="nansat.nsr.NSR.IsVertical"><tt class="xref py py-obj docutils literal"><span class="pre">IsVertical</span></tt></a>((self)&nbsp;-&gt;&nbsp;int)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.MorphFromESRI" title="nansat.nsr.NSR.MorphFromESRI"><tt class="xref py py-obj docutils literal"><span class="pre">MorphFromESRI</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.MorphToESRI" title="nansat.nsr.NSR.MorphToESRI"><tt class="xref py py-obj docutils literal"><span class="pre">MorphToESRI</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetACEA" title="nansat.nsr.NSR.SetACEA"><tt class="xref py py-obj docutils literal"><span class="pre">SetACEA</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetACEA(self, double stdp1, double stdp2, double clat, double clong,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetAE" title="nansat.nsr.NSR.SetAE"><tt class="xref py py-obj docutils literal"><span class="pre">SetAE</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetAngularUnits" title="nansat.nsr.NSR.SetAngularUnits"><tt class="xref py py-obj docutils literal"><span class="pre">SetAngularUnits</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetAttrValue" title="nansat.nsr.NSR.SetAttrValue"><tt class="xref py py-obj docutils literal"><span class="pre">SetAttrValue</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetAuthority" title="nansat.nsr.NSR.SetAuthority"><tt class="xref py py-obj docutils literal"><span class="pre">SetAuthority</span></tt></a>((self,&nbsp;char&nbsp;pszTargetKey,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetBonne" title="nansat.nsr.NSR.SetBonne"><tt class="xref py py-obj docutils literal"><span class="pre">SetBonne</span></tt></a>((self,&nbsp;double&nbsp;stdp,&nbsp;double&nbsp;cm,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetCEA" title="nansat.nsr.NSR.SetCEA"><tt class="xref py py-obj docutils literal"><span class="pre">SetCEA</span></tt></a>((self,&nbsp;double&nbsp;stdp1,&nbsp;double&nbsp;cm,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetCS" title="nansat.nsr.NSR.SetCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetCS</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetCompoundCS" title="nansat.nsr.NSR.SetCompoundCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetCompoundCS</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetEC" title="nansat.nsr.NSR.SetEC"><tt class="xref py py-obj docutils literal"><span class="pre">SetEC</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetEC(self, double stdp1, double stdp2, double clat, double clong,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetEckertIV" title="nansat.nsr.NSR.SetEckertIV"><tt class="xref py py-obj docutils literal"><span class="pre">SetEckertIV</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetEckertVI" title="nansat.nsr.NSR.SetEckertVI"><tt class="xref py py-obj docutils literal"><span class="pre">SetEckertVI</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetEquirectangular" title="nansat.nsr.NSR.SetEquirectangular"><tt class="xref py py-obj docutils literal"><span class="pre">SetEquirectangular</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetEquirectangular2" title="nansat.nsr.NSR.SetEquirectangular2"><tt class="xref py py-obj docutils literal"><span class="pre">SetEquirectangular2</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetEquirectangular2(self, double clat, double clong, double pseudostdparallellat,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetFromUserInput" title="nansat.nsr.NSR.SetFromUserInput"><tt class="xref py py-obj docutils literal"><span class="pre">SetFromUserInput</span></tt></a>((self,&nbsp;char&nbsp;name)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGEOS" title="nansat.nsr.NSR.SetGEOS"><tt class="xref py py-obj docutils literal"><span class="pre">SetGEOS</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGH" title="nansat.nsr.NSR.SetGH"><tt class="xref py py-obj docutils literal"><span class="pre">SetGH</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGS" title="nansat.nsr.NSR.SetGS"><tt class="xref py py-obj docutils literal"><span class="pre">SetGS</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGaussSchreiberTMercator" title="nansat.nsr.NSR.SetGaussSchreiberTMercator"><tt class="xref py py-obj docutils literal"><span class="pre">SetGaussSchreiberTMercator</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGeocCS" title="nansat.nsr.NSR.SetGeocCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetGeocCS</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGeogCS" title="nansat.nsr.NSR.SetGeogCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetGeogCS</span></tt></a>(*args)</td>
+<td>SetGeogCS(self, char pszGeogName, char pszDatumName, char pszEllipsoidName,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetGnomonic" title="nansat.nsr.NSR.SetGnomonic"><tt class="xref py py-obj docutils literal"><span class="pre">SetGnomonic</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetHOM" title="nansat.nsr.NSR.SetHOM"><tt class="xref py py-obj docutils literal"><span class="pre">SetHOM</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetHOM(self, double clat, double clong, double azimuth, double recttoskew,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetHOM2PNO" title="nansat.nsr.NSR.SetHOM2PNO"><tt class="xref py py-obj docutils literal"><span class="pre">SetHOM2PNO</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetHOM2PNO(self, double clat, double dfLat1, double dfLong1, double dfLat2,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetIGH" title="nansat.nsr.NSR.SetIGH"><tt class="xref py py-obj docutils literal"><span class="pre">SetIGH</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetKrovak" title="nansat.nsr.NSR.SetKrovak"><tt class="xref py py-obj docutils literal"><span class="pre">SetKrovak</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetKrovak(self, double clat, double clong, double azimuth, double pseudostdparallellat,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLAEA" title="nansat.nsr.NSR.SetLAEA"><tt class="xref py py-obj docutils literal"><span class="pre">SetLAEA</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLCC" title="nansat.nsr.NSR.SetLCC"><tt class="xref py py-obj docutils literal"><span class="pre">SetLCC</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetLCC(self, double stdp1, double stdp2, double clat, double clong,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLCC1SP" title="nansat.nsr.NSR.SetLCC1SP"><tt class="xref py py-obj docutils literal"><span class="pre">SetLCC1SP</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetLCC1SP(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLCCB" title="nansat.nsr.NSR.SetLCCB"><tt class="xref py py-obj docutils literal"><span class="pre">SetLCCB</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetLCCB(self, double stdp1, double stdp2, double clat, double clong,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLinearUnits" title="nansat.nsr.NSR.SetLinearUnits"><tt class="xref py py-obj docutils literal"><span class="pre">SetLinearUnits</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLinearUnitsAndUpdateParameters" title="nansat.nsr.NSR.SetLinearUnitsAndUpdateParameters"><tt class="xref py py-obj docutils literal"><span class="pre">SetLinearUnitsAndUpdateParameters</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetLocalCS" title="nansat.nsr.NSR.SetLocalCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetLocalCS</span></tt></a>((self,&nbsp;char&nbsp;pszName)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetMC" title="nansat.nsr.NSR.SetMC"><tt class="xref py py-obj docutils literal"><span class="pre">SetMC</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetMercator" title="nansat.nsr.NSR.SetMercator"><tt class="xref py py-obj docutils literal"><span class="pre">SetMercator</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetMercator(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetMollweide" title="nansat.nsr.NSR.SetMollweide"><tt class="xref py py-obj docutils literal"><span class="pre">SetMollweide</span></tt></a>((self,&nbsp;double&nbsp;cm,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetNZMG" title="nansat.nsr.NSR.SetNZMG"><tt class="xref py py-obj docutils literal"><span class="pre">SetNZMG</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetNormProjParm" title="nansat.nsr.NSR.SetNormProjParm"><tt class="xref py py-obj docutils literal"><span class="pre">SetNormProjParm</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetOS" title="nansat.nsr.NSR.SetOS"><tt class="xref py py-obj docutils literal"><span class="pre">SetOS</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetOS(self, double dfOriginLat, double dfCMeridian, double scale,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetOrthographic" title="nansat.nsr.NSR.SetOrthographic"><tt class="xref py py-obj docutils literal"><span class="pre">SetOrthographic</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetPS" title="nansat.nsr.NSR.SetPS"><tt class="xref py py-obj docutils literal"><span class="pre">SetPS</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetPS(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetPolyconic" title="nansat.nsr.NSR.SetPolyconic"><tt class="xref py py-obj docutils literal"><span class="pre">SetPolyconic</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetProjCS" title="nansat.nsr.NSR.SetProjCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetProjCS</span></tt></a>((self,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetProjParm" title="nansat.nsr.NSR.SetProjParm"><tt class="xref py py-obj docutils literal"><span class="pre">SetProjParm</span></tt></a>((self,&nbsp;char&nbsp;name,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetProjection" title="nansat.nsr.NSR.SetProjection"><tt class="xref py py-obj docutils literal"><span class="pre">SetProjection</span></tt></a>((self,&nbsp;char&nbsp;arg)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetRobinson" title="nansat.nsr.NSR.SetRobinson"><tt class="xref py py-obj docutils literal"><span class="pre">SetRobinson</span></tt></a>((self,&nbsp;double&nbsp;clong,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetSOC" title="nansat.nsr.NSR.SetSOC"><tt class="xref py py-obj docutils literal"><span class="pre">SetSOC</span></tt></a>((self,&nbsp;double&nbsp;latitudeoforigin,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetSinusoidal" title="nansat.nsr.NSR.SetSinusoidal"><tt class="xref py py-obj docutils literal"><span class="pre">SetSinusoidal</span></tt></a>((self,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetStatePlane" title="nansat.nsr.NSR.SetStatePlane"><tt class="xref py py-obj docutils literal"><span class="pre">SetStatePlane</span></tt></a>((self,&nbsp;int&nbsp;zone,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetStereographic" title="nansat.nsr.NSR.SetStereographic"><tt class="xref py py-obj docutils literal"><span class="pre">SetStereographic</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetStereographic(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTM" title="nansat.nsr.NSR.SetTM"><tt class="xref py py-obj docutils literal"><span class="pre">SetTM</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetTM(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTMG" title="nansat.nsr.NSR.SetTMG"><tt class="xref py py-obj docutils literal"><span class="pre">SetTMG</span></tt></a>((self,&nbsp;double&nbsp;clat,&nbsp;double&nbsp;clong,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTMSO" title="nansat.nsr.NSR.SetTMSO"><tt class="xref py py-obj docutils literal"><span class="pre">SetTMSO</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetTMSO(self, double clat, double clong, double scale, double fe,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTMVariant" title="nansat.nsr.NSR.SetTMVariant"><tt class="xref py py-obj docutils literal"><span class="pre">SetTMVariant</span></tt></a>(*args,&nbsp;**kwargs)</td>
+<td>SetTMVariant(self, char pszVariantName, double clat, double clong, double scale,</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTOWGS84" title="nansat.nsr.NSR.SetTOWGS84"><tt class="xref py py-obj docutils literal"><span class="pre">SetTOWGS84</span></tt></a>(*args)</td>
+<td>SetTOWGS84(self, double p1, double p2, double p3, double p4 = 0.0, double p5 = 0.0,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetTargetLinearUnits" title="nansat.nsr.NSR.SetTargetLinearUnits"><tt class="xref py py-obj docutils literal"><span class="pre">SetTargetLinearUnits</span></tt></a>((self,&nbsp;char&nbsp;target,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetUTM" title="nansat.nsr.NSR.SetUTM"><tt class="xref py py-obj docutils literal"><span class="pre">SetUTM</span></tt></a>((self,&nbsp;int&nbsp;zone,&nbsp;int&nbsp;north&nbsp;=&nbsp;1)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetVDG" title="nansat.nsr.NSR.SetVDG"><tt class="xref py py-obj docutils literal"><span class="pre">SetVDG</span></tt></a>((self,&nbsp;double&nbsp;clong,&nbsp;double&nbsp;fe,&nbsp;...)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.SetVertCS" title="nansat.nsr.NSR.SetVertCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetVertCS</span></tt></a>(*args)</td>
+<td>SetVertCS(self, char VertCSName = &#8220;unnamed&#8221;, char VertDatumName = &#8220;unnamed&#8221;,</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.SetWellKnownGeogCS" title="nansat.nsr.NSR.SetWellKnownGeogCS"><tt class="xref py py-obj docutils literal"><span class="pre">SetWellKnownGeogCS</span></tt></a>((self,&nbsp;char&nbsp;name)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nsr.NSR.StripCTParms" title="nansat.nsr.NSR.StripCTParms"><tt class="xref py py-obj docutils literal"><span class="pre">StripCTParms</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.nsr.NSR.Validate" title="nansat.nsr.NSR.Validate"><tt class="xref py py-obj docutils literal"><span class="pre">Validate</span></tt></a>((self)&nbsp;-&gt;&nbsp;OGRErr)</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="nansat.nsr.NSR.AutoIdentifyEPSG">
+<tt class="descname">AutoIdentifyEPSG</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.AutoIdentifyEPSG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.Clone">
+<tt class="descname">Clone</tt><big>(</big><em>self</em><big>)</big> &rarr; SpatialReference<a class="headerlink" href="#nansat.nsr.NSR.Clone" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.CloneGeogCS">
+<tt class="descname">CloneGeogCS</tt><big>(</big><em>self</em><big>)</big> &rarr; SpatialReference<a class="headerlink" href="#nansat.nsr.NSR.CloneGeogCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.CopyGeogCSFrom">
+<tt class="descname">CopyGeogCSFrom</tt><big>(</big><em>self</em>, <em>SpatialReference rhs</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.CopyGeogCSFrom" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.EPSGTreatsAsLatLong">
+<tt class="descname">EPSGTreatsAsLatLong</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.EPSGTreatsAsLatLong" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToMICoordSys">
+<tt class="descname">ExportToMICoordSys</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToMICoordSys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToPCI">
+<tt class="descname">ExportToPCI</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToPCI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToPrettyWkt">
+<tt class="descname">ExportToPrettyWkt</tt><big>(</big><em>self</em>, <em>int simplify = 0</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToPrettyWkt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToProj4">
+<tt class="descname">ExportToProj4</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToProj4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToUSGS">
+<tt class="descname">ExportToUSGS</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToUSGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToWkt">
+<tt class="descname">ExportToWkt</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToWkt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ExportToXML">
+<tt class="descname">ExportToXML</tt><big>(</big><em>self</em>, <em>char dialect = &quot;&quot;</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ExportToXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.Fixup">
+<tt class="descname">Fixup</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.Fixup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.FixupOrdering">
+<tt class="descname">FixupOrdering</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.FixupOrdering" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetAngularUnits">
+<tt class="descname">GetAngularUnits</tt><big>(</big><em>self</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetAngularUnits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetAttrValue">
+<tt class="descname">GetAttrValue</tt><big>(</big><em>self</em>, <em>char name</em>, <em>int child = 0</em><big>)</big> &rarr; char<a class="headerlink" href="#nansat.nsr.NSR.GetAttrValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetAuthorityCode">
+<tt class="descname">GetAuthorityCode</tt><big>(</big><em>self</em>, <em>char target_key</em><big>)</big> &rarr; char<a class="headerlink" href="#nansat.nsr.NSR.GetAuthorityCode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetAuthorityName">
+<tt class="descname">GetAuthorityName</tt><big>(</big><em>self</em>, <em>char target_key</em><big>)</big> &rarr; char<a class="headerlink" href="#nansat.nsr.NSR.GetAuthorityName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetInvFlattening">
+<tt class="descname">GetInvFlattening</tt><big>(</big><em>self</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetInvFlattening" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetLinearUnits">
+<tt class="descname">GetLinearUnits</tt><big>(</big><em>self</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetLinearUnits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetLinearUnitsName">
+<tt class="descname">GetLinearUnitsName</tt><big>(</big><em>self</em><big>)</big> &rarr; char<a class="headerlink" href="#nansat.nsr.NSR.GetLinearUnitsName" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetNormProjParm">
+<tt class="descname">GetNormProjParm</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double default_val = 0.0</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetNormProjParm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetProjParm">
+<tt class="descname">GetProjParm</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double default_val = 0.0</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetProjParm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetSemiMajor">
+<tt class="descname">GetSemiMajor</tt><big>(</big><em>self</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetSemiMajor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetSemiMinor">
+<tt class="descname">GetSemiMinor</tt><big>(</big><em>self</em><big>)</big> &rarr; double<a class="headerlink" href="#nansat.nsr.NSR.GetSemiMinor" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetTOWGS84">
+<tt class="descname">GetTOWGS84</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.GetTOWGS84" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.GetUTMZone">
+<tt class="descname">GetUTMZone</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.GetUTMZone" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromEPSG">
+<tt class="descname">ImportFromEPSG</tt><big>(</big><em>self</em>, <em>int arg</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromEPSG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromEPSGA">
+<tt class="descname">ImportFromEPSGA</tt><big>(</big><em>self</em>, <em>int arg</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromEPSGA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromERM">
+<tt class="descname">ImportFromERM</tt><big>(</big><em>self</em>, <em>char proj</em>, <em>char datum</em>, <em>char units</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromERM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromESRI">
+<tt class="descname">ImportFromESRI</tt><big>(</big><em>self</em>, <em>char ppszInput</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromESRI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromMICoordSys">
+<tt class="descname">ImportFromMICoordSys</tt><big>(</big><em>self</em>, <em>char pszCoordSys</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromMICoordSys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromOzi">
+<tt class="descname">ImportFromOzi</tt><big>(</big><em>self</em>, <em>char datum</em>, <em>char proj</em>, <em>char projParms</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromOzi" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromPCI">
+<tt class="descname">ImportFromPCI</tt><big>(</big><em>self</em>, <em>char proj</em>, <em>char units = &quot;METRE&quot;</em>, <em>double argin = 0</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromPCI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromProj4">
+<tt class="descname">ImportFromProj4</tt><big>(</big><em>self</em>, <em>char ppszInput</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromProj4" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromUSGS">
+<tt class="descname">ImportFromUSGS</tt><big>(</big><em>self</em>, <em>long proj_code</em>, <em>long zone = 0</em>, <em>double argin = 0</em>, <em>long datum_code = 0</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromUSGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromUrl">
+<tt class="descname">ImportFromUrl</tt><big>(</big><em>self</em>, <em>char url</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromUrl" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromWkt">
+<tt class="descname">ImportFromWkt</tt><big>(</big><em>self</em>, <em>char ppszInput</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromWkt" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.ImportFromXML">
+<tt class="descname">ImportFromXML</tt><big>(</big><em>self</em>, <em>char xmlString</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.ImportFromXML" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsCompound">
+<tt class="descname">IsCompound</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsCompound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsGeocentric">
+<tt class="descname">IsGeocentric</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsGeocentric" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsGeographic">
+<tt class="descname">IsGeographic</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsGeographic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsLocal">
+<tt class="descname">IsLocal</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsLocal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsProjected">
+<tt class="descname">IsProjected</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsProjected" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsSame">
+<tt class="descname">IsSame</tt><big>(</big><em>self</em>, <em>SpatialReference rhs</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsSame" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsSameGeogCS">
+<tt class="descname">IsSameGeogCS</tt><big>(</big><em>self</em>, <em>SpatialReference rhs</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsSameGeogCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsSameVertCS">
+<tt class="descname">IsSameVertCS</tt><big>(</big><em>self</em>, <em>SpatialReference rhs</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsSameVertCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.IsVertical">
+<tt class="descname">IsVertical</tt><big>(</big><em>self</em><big>)</big> &rarr; int<a class="headerlink" href="#nansat.nsr.NSR.IsVertical" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.MorphFromESRI">
+<tt class="descname">MorphFromESRI</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.MorphFromESRI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.MorphToESRI">
+<tt class="descname">MorphToESRI</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.MorphToESRI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetACEA">
+<tt class="descname">SetACEA</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetACEA" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetACEA(self, double stdp1, double stdp2, double clat, double clong, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetAE">
+<tt class="descname">SetAE</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetAE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetAngularUnits">
+<tt class="descname">SetAngularUnits</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double to_radians</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetAngularUnits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetAttrValue">
+<tt class="descname">SetAttrValue</tt><big>(</big><em>self</em>, <em>char name</em>, <em>char value</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetAttrValue" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetAuthority">
+<tt class="descname">SetAuthority</tt><big>(</big><em>self</em>, <em>char pszTargetKey</em>, <em>char pszAuthority</em>, <em>int nCode</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetAuthority" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetBonne">
+<tt class="descname">SetBonne</tt><big>(</big><em>self</em>, <em>double stdp</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetBonne" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetCEA">
+<tt class="descname">SetCEA</tt><big>(</big><em>self</em>, <em>double stdp1</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetCEA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetCS">
+<tt class="descname">SetCS</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetCompoundCS">
+<tt class="descname">SetCompoundCS</tt><big>(</big><em>self</em>, <em>char name</em>, <em>SpatialReference horizcs</em>, <em>SpatialReference vertcs</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetCompoundCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetEC">
+<tt class="descname">SetEC</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetEC" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetEC(self, double stdp1, double stdp2, double clat, double clong, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetEckertIV">
+<tt class="descname">SetEckertIV</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetEckertIV" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetEckertVI">
+<tt class="descname">SetEckertVI</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetEckertVI" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetEquirectangular">
+<tt class="descname">SetEquirectangular</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetEquirectangular" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetEquirectangular2">
+<tt class="descname">SetEquirectangular2</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetEquirectangular2" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetEquirectangular2(self, double clat, double clong, double pseudostdparallellat, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetFromUserInput">
+<tt class="descname">SetFromUserInput</tt><big>(</big><em>self</em>, <em>char name</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetFromUserInput" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGEOS">
+<tt class="descname">SetGEOS</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double satelliteheight</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGEOS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGH">
+<tt class="descname">SetGH</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGS">
+<tt class="descname">SetGS</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGaussSchreiberTMercator">
+<tt class="descname">SetGaussSchreiberTMercator</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double sc</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGaussSchreiberTMercator" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGeocCS">
+<tt class="descname">SetGeocCS</tt><big>(</big><em>self</em>, <em>char name = &quot;unnamed&quot;</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGeocCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGeogCS">
+<tt class="descname">SetGeogCS</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetGeogCS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetGeogCS(self, char pszGeogName, char pszDatumName, char pszEllipsoidName, </dt>
+<dd>double dfSemiMajor, double dfInvFlattening, 
+char pszPMName = &#8220;Greenwich&#8221;, double dfPMOffset = 0.0, 
+char pszUnits = &#8220;degree&#8221;, double dfConvertToRadians = 0.0174532925199433) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetGnomonic">
+<tt class="descname">SetGnomonic</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetGnomonic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetHOM">
+<tt class="descname">SetHOM</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetHOM" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetHOM(self, double clat, double clong, double azimuth, double recttoskew, </dt>
+<dd>double scale, double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetHOM2PNO">
+<tt class="descname">SetHOM2PNO</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetHOM2PNO" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetHOM2PNO(self, double clat, double dfLat1, double dfLong1, double dfLat2, </dt>
+<dd>double dfLong2, double scale, double fe, 
+double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetIGH">
+<tt class="descname">SetIGH</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetIGH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetKrovak">
+<tt class="descname">SetKrovak</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetKrovak" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetKrovak(self, double clat, double clong, double azimuth, double pseudostdparallellat, </dt>
+<dd>double scale, double fe, 
+double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLAEA">
+<tt class="descname">SetLAEA</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetLAEA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLCC">
+<tt class="descname">SetLCC</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetLCC" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetLCC(self, double stdp1, double stdp2, double clat, double clong, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLCC1SP">
+<tt class="descname">SetLCC1SP</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetLCC1SP" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetLCC1SP(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLCCB">
+<tt class="descname">SetLCCB</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetLCCB" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetLCCB(self, double stdp1, double stdp2, double clat, double clong, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLinearUnits">
+<tt class="descname">SetLinearUnits</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double to_meters</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetLinearUnits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLinearUnitsAndUpdateParameters">
+<tt class="descname">SetLinearUnitsAndUpdateParameters</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double to_meters</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetLinearUnitsAndUpdateParameters" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetLocalCS">
+<tt class="descname">SetLocalCS</tt><big>(</big><em>self</em>, <em>char pszName</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetLocalCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetMC">
+<tt class="descname">SetMC</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetMC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetMercator">
+<tt class="descname">SetMercator</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetMercator" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetMercator(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetMollweide">
+<tt class="descname">SetMollweide</tt><big>(</big><em>self</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetMollweide" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetNZMG">
+<tt class="descname">SetNZMG</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetNZMG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetNormProjParm">
+<tt class="descname">SetNormProjParm</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double val</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetNormProjParm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetOS">
+<tt class="descname">SetOS</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetOS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetOS(self, double dfOriginLat, double dfCMeridian, double scale, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetOrthographic">
+<tt class="descname">SetOrthographic</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetOrthographic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetPS">
+<tt class="descname">SetPS</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetPS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetPS(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetPolyconic">
+<tt class="descname">SetPolyconic</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetPolyconic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetProjCS">
+<tt class="descname">SetProjCS</tt><big>(</big><em>self</em>, <em>char name = &quot;unnamed&quot;</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetProjCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetProjParm">
+<tt class="descname">SetProjParm</tt><big>(</big><em>self</em>, <em>char name</em>, <em>double val</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetProjParm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetProjection">
+<tt class="descname">SetProjection</tt><big>(</big><em>self</em>, <em>char arg</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetProjection" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetRobinson">
+<tt class="descname">SetRobinson</tt><big>(</big><em>self</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetRobinson" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetSOC">
+<tt class="descname">SetSOC</tt><big>(</big><em>self</em>, <em>double latitudeoforigin</em>, <em>double cm</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetSOC" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetSinusoidal">
+<tt class="descname">SetSinusoidal</tt><big>(</big><em>self</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetSinusoidal" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetStatePlane">
+<tt class="descname">SetStatePlane</tt><big>(</big><em>self</em>, <em>int zone</em>, <em>int is_nad83 = 1</em>, <em>char unitsname = &quot;&quot;</em>, <em>double units = 0.0</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetStatePlane" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetStereographic">
+<tt class="descname">SetStereographic</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetStereographic" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetStereographic(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTM">
+<tt class="descname">SetTM</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetTM" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetTM(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTMG">
+<tt class="descname">SetTMG</tt><big>(</big><em>self</em>, <em>double clat</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetTMG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTMSO">
+<tt class="descname">SetTMSO</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetTMSO" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetTMSO(self, double clat, double clong, double scale, double fe, </dt>
+<dd>double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTMVariant">
+<tt class="descname">SetTMVariant</tt><big>(</big><em>*args</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetTMVariant" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetTMVariant(self, char pszVariantName, double clat, double clong, double scale, </dt>
+<dd>double fe, double fn) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTOWGS84">
+<tt class="descname">SetTOWGS84</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetTOWGS84" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetTOWGS84(self, double p1, double p2, double p3, double p4 = 0.0, double p5 = 0.0, </dt>
+<dd>double p6 = 0.0, double p7 = 0.0) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetTargetLinearUnits">
+<tt class="descname">SetTargetLinearUnits</tt><big>(</big><em>self</em>, <em>char target</em>, <em>char name</em>, <em>double to_meters</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetTargetLinearUnits" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetUTM">
+<tt class="descname">SetUTM</tt><big>(</big><em>self</em>, <em>int zone</em>, <em>int north = 1</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetUTM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetVDG">
+<tt class="descname">SetVDG</tt><big>(</big><em>self</em>, <em>double clong</em>, <em>double fe</em>, <em>double fn</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetVDG" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetVertCS">
+<tt class="descname">SetVertCS</tt><big>(</big><em>*args</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR.SetVertCS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>SetVertCS(self, char VertCSName = &#8220;unnamed&#8221;, char VertDatumName = &#8220;unnamed&#8221;, </dt>
+<dd>int VertDatumType = 0) -&gt; OGRErr</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.SetWellKnownGeogCS">
+<tt class="descname">SetWellKnownGeogCS</tt><big>(</big><em>self</em>, <em>char name</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.SetWellKnownGeogCS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.StripCTParms">
+<tt class="descname">StripCTParms</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.StripCTParms" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="nansat.nsr.NSR.Validate">
+<tt class="descname">Validate</tt><big>(</big><em>self</em><big>)</big> &rarr; OGRErr<a class="headerlink" href="#nansat.nsr.NSR.Validate" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43252602-1', 'nansencenter.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>

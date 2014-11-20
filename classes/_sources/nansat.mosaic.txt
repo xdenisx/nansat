@@ -1,4 +1,5 @@
-nansat.mosaic module
+Mosaic class
 ====================
 
-.. autoclass:: nansat.Mosaic
+.. automodule:: nansat.mosaic
+.. autoclass:: Mosaic

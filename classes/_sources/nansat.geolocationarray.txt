@@ -1,4 +1,5 @@
-nansat.geolocationarray module
+GeolocationArray class
 ==============================
 
-.. autoclass:: nansat.geolocationarray.GeolocationArray
+.. automodule:: nansat.vrt
+.. autoclass:: GeolocationArray

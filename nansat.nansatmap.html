@@ -79,113 +79,66 @@
 <dl class="class">
 <dt id="nansat.nansatmap.Nansatmap">
 <em class="property">class </em><tt class="descclassname">nansat.nansatmap.</tt><tt class="descname">Nansatmap</tt><big>(</big><em>domain</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansatmap.Nansatmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set attributes</p>
-<p>Get proj4 from the given domain and convert the proj4 projection to
+<dd><p>Set attributes
+Get proj4 from the given domain and convert the proj4 projection to
 the basemap projection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>domain</strong> : domain object</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>domain</strong> : domain object</p>
 <p><strong>kwargs</strong> : dictionary</p>
-<blockquote class="last">
+<blockquote>
 <div><p>parameters that are used for all operations.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.fig</strong> : figure</p>
+<blockquote>
+<div><p>matplotlib.pyplot.figure</p>
+</div></blockquote>
+<p><strong>self.colorbar</strong> : boolean</p>
+<blockquote>
+<div><p>if colorbar is True, it is possible to put colorbar.
+e.g. contour_plots(contour_style=&#8217;fill&#8217;), put_color()</p>
+</div></blockquote>
+<p><strong>self.mpl</strong> : list</p>
+<blockquote class="last">
+<div><dl class="docutils">
+<dt>elements are matplotlib.contour.QuadContourSet instance,</dt>
+<dd><p class="first last">matplotlib.quiver.Quiver instance or
+matplotlib.collections.QuadMesh object</p>
+</dd>
+</dl>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<p>basemap() : <a class="reference external" href="http://matplotlib.org/basemap/api/basemap_api.html">http://matplotlib.org/basemap/api/basemap_api.html</a></p>
 <p class="rubric">Attributes</p>
-<table border="1" class="longtable docutils">
-<colgroup>
-<col width="10%" />
-<col width="90%" />
-</colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">cmap</span></tt></td>
-<td>Colormap objects based on lookup tables using linear segments.</td>
-</tr>
-</tbody>
-</table>
 <table border="1" class="docutils">
 <colgroup>
-<col width="12%" />
-<col width="88%" />
+<col width="62%" />
+<col width="38%" />
 </colgroup>
 <tbody valign="top">
-<tr class="row-odd"><td>fig</td>
-<td>(figure) matplotlib.pyplot.figure</td>
+<tr class="row-odd"><td>colorbar</td>
+<td>&nbsp;</td>
 </tr>
-<tr class="row-even"><td>colorbar</td>
-<td>(boolean) | if colorbar is True, it is possible to put colorbar. | e.g. contour_plots(contour_style=&#8217;fill&#8217;), put_color()</td>
-</tr>
-<tr class="row-odd"><td>mpl</td>
-<td>(list) elements are matplotlib.contour.QuadContourSet instance, matplotlib.quiver.Quiver instance or matplotlib.collections.QuadMesh object</td>
-</tr>
-<tr class="row-even"><td>colorbar</td>
-<td>(default None)</td>
-</tr>
-<tr class="row-odd"><td>mpl</td>
-<td>(default [])</td>
-</tr>
-<tr class="row-even"><td>lon</td>
-<td>(default None)</td>
+<tr class="row-even"><td>convolve_weights</td>
+<td>&nbsp;</td>
 </tr>
 <tr class="row-odd"><td>lat</td>
-<td>(default None)</td>
+<td>&nbsp;</td>
 </tr>
-<tr class="row-even"><td>x</td>
-<td>(default None)</td>
+<tr class="row-even"><td>lon</td>
+<td>&nbsp;</td>
 </tr>
-<tr class="row-odd"><td>y</td>
-<td>(default None)</td>
+<tr class="row-odd"><td>x</td>
+<td>&nbsp;</td>
 </tr>
-<tr class="row-even"><td>convolve_weightSize</td>
-<td>(default 7)</td>
-</tr>
-<tr class="row-odd"><td>convolve_weights</td>
-<td>(default None)</td>
-</tr>
-<tr class="row-even"><td>convolve_mode</td>
-<td>(default &#8216;reflect&#8217;)</td>
-</tr>
-<tr class="row-odd"><td>convolve_cval</td>
-<td>(default 0.0)</td>
-</tr>
-<tr class="row-even"><td>convolve_origin</td>
-<td>(default 0)</td>
-</tr>
-<tr class="row-odd"><td>fourier_sigma</td>
-<td>(default 1.0)</td>
-</tr>
-<tr class="row-even"><td>fourier_n</td>
-<td>(default -1)</td>
-</tr>
-<tr class="row-odd"><td>fourier_axis</td>
-<td>(default -1)</td>
-</tr>
-<tr class="row-even"><td>spline_order</td>
-<td>(default 3)</td>
-</tr>
-<tr class="row-odd"><td>spline_axis</td>
-<td>(default -1)</td>
-</tr>
-<tr class="row-even"><td>gaussian_sigma</td>
-<td>(default 2.5)</td>
-</tr>
-<tr class="row-odd"><td>gaussian_order</td>
-<td>(default 0)</td>
-</tr>
-<tr class="row-even"><td>gaussian_mode</td>
-<td>(default &#8216;reflect&#8217;)</td>
-</tr>
-<tr class="row-odd"><td>gaussian_cval</td>
-<td>(default 0.0)</td>
-</tr>
-<tr class="row-even"><td>DEFAULT_EXTENSION</td>
-<td>(default &#8216;.png&#8217;)</td>
+<tr class="row-even"><td>y</td>
+<td>&nbsp;</td>
 </tr>
 </tbody>
 </table>
@@ -197,13 +150,13 @@ the basemap projection.</p>
 </colgroup>
 <tbody valign="top">
 <tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">__call__</span></tt>(x,&nbsp;y[,&nbsp;inverse])</td>
-<td>Calling a Basemap class instance with the arguments lon, lat will</td>
+<td>Calling a Basemap class instance with the arguments lon, lat will convert lon/lat (in degrees) to x/y map projection coordinates (in meters).</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.add_colorbar" title="nansat.nansatmap.Nansatmap.add_colorbar"><tt class="xref py py-obj docutils literal"><span class="pre">add_colorbar</span></tt></a>([fontsize])</td>
 <td>Add color bar</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.arcgisimage" title="nansat.nansatmap.Nansatmap.arcgisimage"><tt class="xref py py-obj docutils literal"><span class="pre">arcgisimage</span></tt></a>([server,&nbsp;service,&nbsp;xpixels,&nbsp;...])</td>
-<td>Retrieve an image using the ArcGIS Server REST API and display it on</td>
+<td>Retrieve an image using the ArcGIS Server REST API and display it on the map.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.barbs" title="nansat.nansatmap.Nansatmap.barbs"><tt class="xref py py-obj docutils literal"><span class="pre">barbs</span></tt></a>(x,&nbsp;y,&nbsp;u,&nbsp;v,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Make a wind barb plot (u, v) with on the map.</td>
@@ -212,7 +165,7 @@ the basemap projection.</p>
 <td>display blue marble image (from <a class="reference external" href="http://visibleearth.nasa.gov">http://visibleearth.nasa.gov</a>)</td>
 </tr>
 <tr class="row-even"><td><tt class="xref py py-obj docutils literal"><span class="pre">cmap</span></tt></td>
-<td>Colormap objects based on lookup tables using linear segments.</td>
+<td></td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.contour" title="nansat.nansatmap.Nansatmap.contour"><tt class="xref py py-obj docutils literal"><span class="pre">contour</span></tt></a>(data[,&nbsp;v,&nbsp;smooth,&nbsp;mode,&nbsp;label])</td>
 <td>Draw lined contour plots</td>
@@ -227,13 +180,13 @@ the basemap projection.</p>
 <td>Draw coastlines.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawcounties" title="nansat.nansatmap.Nansatmap.drawcounties"><tt class="xref py py-obj docutils literal"><span class="pre">drawcounties</span></tt></a>([linewidth,&nbsp;linestyle,&nbsp;color,&nbsp;...])</td>
-<td>Draw county boundaries in US. The county boundary shapefile</td>
+<td>Draw county boundaries in US.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawcountries" title="nansat.nansatmap.Nansatmap.drawcountries"><tt class="xref py py-obj docutils literal"><span class="pre">drawcountries</span></tt></a>([linewidth,&nbsp;linestyle,&nbsp;color,&nbsp;...])</td>
 <td>Draw country boundaries.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawgreatcircle" title="nansat.nansatmap.Nansatmap.drawgreatcircle"><tt class="xref py py-obj docutils literal"><span class="pre">drawgreatcircle</span></tt></a>(lon1,&nbsp;lat1,&nbsp;lon2,&nbsp;lat2[,&nbsp;del_s])</td>
-<td>Draw a great circle on the map from the longitude-latitude pair <tt class="docutils literal"><span class="pre">lon1,lat1</span></tt> to <tt class="docutils literal"><span class="pre">lon2,lat2</span></tt>  ..</td>
+<td>Draw a great circle on the map from the longitude-latitude</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.drawgrid" title="nansat.nansatmap.Nansatmap.drawgrid"><tt class="xref py py-obj docutils literal"><span class="pre">drawgrid</span></tt></a>([fontsize,&nbsp;lat_num,&nbsp;lon_num,&nbsp;...])</td>
 <td>Draw and label parallels (lat and lon lines) for values (in degrees)</td>
@@ -269,13 +222,13 @@ the basemap projection.</p>
 <td>compute <tt class="docutils literal"><span class="pre">points</span></tt> points along a great circle with endpoints</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.hexbin" title="nansat.nansatmap.Nansatmap.hexbin"><tt class="xref py py-obj docutils literal"><span class="pre">hexbin</span></tt></a>(x,&nbsp;y,&nbsp;**kwargs)</td>
-<td>Make a hexagonal binning plot of x versus y, where x, y are 1-D</td>
+<td>Make a hexagonal binning plot of x versus y, where x, y are 1-D sequences of the same length, N.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.imshow" title="nansat.nansatmap.Nansatmap.imshow"><tt class="xref py py-obj docutils literal"><span class="pre">imshow</span></tt></a>(*args,&nbsp;**kwargs)</td>
 <td>Display an image over the map (see matplotlib.pyplot.imshow documentation).</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.is_land" title="nansat.nansatmap.Nansatmap.is_land"><tt class="xref py py-obj docutils literal"><span class="pre">is_land</span></tt></a>(xpt,&nbsp;ypt)</td>
-<td>Returns True if the given x,y point (in projection coordinates) is</td>
+<td>Returns True if the given x,y point (in projection coordinates) is over land, False otherwise.</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.makegrid" title="nansat.nansatmap.Nansatmap.makegrid"><tt class="xref py py-obj docutils literal"><span class="pre">makegrid</span></tt></a>(nx,&nbsp;ny[,&nbsp;returnxy])</td>
 <td>return arrays of shape (ny,nx) containing lon,lat coordinates of</td>
@@ -286,13 +239,13 @@ the basemap projection.</p>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.pcolor" title="nansat.nansatmap.Nansatmap.pcolor"><tt class="xref py py-obj docutils literal"><span class="pre">pcolor</span></tt></a>(x,&nbsp;y,&nbsp;data,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Make a pseudo-color plot over the map (see matplotlib.pyplot.pcolor documentation).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.pcolormesh" title="nansat.nansatmap.Nansatmap.pcolormesh"><tt class="xref py py-obj docutils literal"><span class="pre">pcolormesh</span></tt></a>(data[,&nbsp;validValues])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.pcolormesh" title="nansat.nansatmap.Nansatmap.pcolormesh"><tt class="xref py py-obj docutils literal"><span class="pre">pcolormesh</span></tt></a>(data,&nbsp;**kwargs)</td>
 <td>Make a pseudo-color plot over the map</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.plot" title="nansat.nansatmap.Nansatmap.plot"><tt class="xref py py-obj docutils literal"><span class="pre">plot</span></tt></a>(x,&nbsp;y,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Draw lines and/or markers on the map (see matplotlib.pyplot.plot documentation).</td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.quiver" title="nansat.nansatmap.Nansatmap.quiver"><tt class="xref py py-obj docutils literal"><span class="pre">quiver</span></tt></a>(dataX,&nbsp;dataY[,&nbsp;quivectors])</td>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.quiver" title="nansat.nansatmap.Nansatmap.quiver"><tt class="xref py py-obj docutils literal"><span class="pre">quiver</span></tt></a>(dataX,&nbsp;dataY[,&nbsp;step,&nbsp;quivectors])</td>
 <td>Draw quiver plots</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.readshapefile" title="nansat.nansatmap.Nansatmap.readshapefile"><tt class="xref py py-obj docutils literal"><span class="pre">readshapefile</span></tt></a>(shapefile,&nbsp;name[,&nbsp;drawbounds,&nbsp;...])</td>
@@ -317,7 +270,7 @@ the basemap projection.</p>
 <td>Shift longitudes (and optionally data) so that they match map projection region.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.smooth" title="nansat.nansatmap.Nansatmap.smooth"><tt class="xref py py-obj docutils literal"><span class="pre">smooth</span></tt></a>(idata,&nbsp;mode,&nbsp;**kwargs)</td>
-<td>Smooth data for contour() and contourf()  idata is smoothed by convolve, fourier_gaussian, spline or gaussian (default).</td>
+<td>Smooth data for contour() and contourf()</td>
 </tr>
 <tr class="row-even"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.streamplot" title="nansat.nansatmap.Nansatmap.streamplot"><tt class="xref py py-obj docutils literal"><span class="pre">streamplot</span></tt></a>(x,&nbsp;y,&nbsp;u,&nbsp;v,&nbsp;*args,&nbsp;**kwargs)</td>
 <td>Draws streamlines of a vector flow.</td>
@@ -335,7 +288,7 @@ the basemap projection.</p>
 <td>Display an image (filename given by <tt class="docutils literal"><span class="pre">image</span></tt> keyword) as a map background.</td>
 </tr>
 <tr class="row-odd"><td><a class="reference internal" href="#nansat.nansatmap.Nansatmap.wmsimage" title="nansat.nansatmap.Nansatmap.wmsimage"><tt class="xref py py-obj docutils literal"><span class="pre">wmsimage</span></tt></a>(server[,&nbsp;xpixels,&nbsp;ypixels,&nbsp;format,&nbsp;...])</td>
-<td>Retrieve an image using from a WMS server using the</td>
+<td>Retrieve an image using from a WMS server using the Open Geospatial Consortium (OGC) standard interface and display on the map.</td>
 </tr>
 </tbody>
 </table>
@@ -347,11 +300,11 @@ the basemap projection.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>Parameters for matplotlib.pyplot.colorbar</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
 </td>
 </tr>
 </tbody>
@@ -448,7 +401,7 @@ to downsample the image (<tt class="docutils literal"><span class="pre">scale=0.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -471,15 +424,13 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 <p><strong>**kwargs:</strong></p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">Optional parameters for Nansatmap.smooth()</div>
-<div class="line">Optional parameters for pyplot.contour().</div>
-<div class="line">Optional parameters for pyplot.clabel()</div>
-</div>
+<div><p>Optional parameters for Nansatmap.smooth()
+Optional parameters for pyplot.contour().
+Optional parameters for pyplot.clabel()</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -498,7 +449,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -517,15 +468,13 @@ mname of smoothing algorithm to apply</p>
 </div></blockquote>
 <p><strong>**kwargs:</strong></p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">cmap : colormap (e.g. cm.jet)</div>
-<div class="line">Optional parameters for Nansatmap.smooth()</div>
-<div class="line">Optional parameters for pyplot.contourf().</div>
-</div>
+<div><p>cmap : colormap (e.g. cm.jet)
+Optional parameters for Nansatmap.smooth()
+Optional parameters for pyplot.contourf().</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append QuadContourSet instance</p>
 </div></blockquote>
@@ -543,7 +492,7 @@ mname of smoothing algorithm to apply</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><strong>Parameters of basemap.fillcontinents</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Parameters for basemap.fillcontinents</strong></td>
 </tr>
 </tbody>
 </table>
@@ -715,7 +664,7 @@ the edge of the map projection domain, and then re-enters the domain.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
 <p><strong>lat_num</strong> : int</p>
 <blockquote>
 <div><p>Number of latitude lables</p>
@@ -729,20 +678,14 @@ the edge of the map projection domain, and then re-enters the domain.</p>
 <div><p>Location of latitude labels</p>
 </div></blockquote>
 <p><strong>lon_labels</strong> : list of Bool</p>
-<blockquote class="last">
+<blockquote>
 <div><p>Location of longitude labels</p>
 </div></blockquote>
+<p class="last"><strong>See also: Basemap.drawparallels(), Basemap.drawmeridians()</strong></p>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<dl class="docutils">
-<dt>Basemap.drawparallels() :</dt>
-<dd><a class="reference external" href="http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawparallels">http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawparallels</a></dd>
-<dt>Basemap.drawmeridians() :</dt>
-<dd><a class="reference external" href="http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawmeridians">http://matplotlib.org/basemap/api/basemap_api.html#mpl_toolkits.basemap.Basemap.drawmeridians</a></dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -1332,24 +1275,23 @@ As a result, those values will not be plotted.</p>
 
 <dl class="method">
 <dt id="nansat.nansatmap.Nansatmap.pcolormesh">
-<tt class="descname">pcolormesh</tt><big>(</big><em>data</em>, <em>validValues=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansatmap.Nansatmap.pcolormesh" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">pcolormesh</tt><big>(</big><em>data</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansatmap.Nansatmap.pcolormesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a pseudo-color plot over the map</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>data</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
-<p><strong>validValues</strong> : list with two scalars (e.g. [min, max])</p>
+<p><strong>**kwargs:</strong></p>
 <blockquote>
-<div><p>minimum and maximum valid values</p>
+<div><p>Parameters for Basemap.pcolormesh (e.g. vmin, vmax)</p>
 </div></blockquote>
-<p><strong>Parameters of Basemap.pcolormesh</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.collections.QuadMesh object</p>
 </div></blockquote>
@@ -1376,13 +1318,13 @@ are assumed to be map projection coordinates.</p>
 
 <dl class="method">
 <dt id="nansat.nansatmap.Nansatmap.quiver">
-<tt class="descname">quiver</tt><big>(</big><em>dataX</em>, <em>dataY</em>, <em>quivectors=30</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansatmap.Nansatmap.quiver" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">quiver</tt><big>(</big><em>dataX</em>, <em>dataY</em>, <em>step=None</em>, <em>quivectors=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansatmap.Nansatmap.quiver" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draw quiver plots</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dataX</strong> :  numpy array</p>
 <blockquote>
 <div><p>Input data with X-component</p>
 </div></blockquote>
@@ -1390,14 +1332,18 @@ are assumed to be map projection coordinates.</p>
 <blockquote>
 <div><p>Input data with Y-component</p>
 </div></blockquote>
-<p><strong>quivectors</strong> : int</p>
+<p><strong>step</strong> : int or (int, int)</p>
+<blockquote>
+<div><p>Skip &lt;step&gt; pixels along both dimentions(alternative to quivectors)</p>
+</div></blockquote>
+<p><strong>quivectors</strong> : int or (int,int)</p>
 <blockquote>
 <div><p>Number of vectors along both dimentions</p>
 </div></blockquote>
-<p><strong>Parameters of Basemap.quiver()</strong></p>
+<p><strong>Parameters for Basemap.quiver()</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies :</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
 <div><p>append matplotlib.quiver.Quiver instance</p>
 </div></blockquote>
@@ -1552,7 +1498,7 @@ coordinates of the grid defined by <tt class="docutils literal"><span class="pre
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fileName</strong> : string</p>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
@@ -1560,7 +1506,7 @@ coordinates of the grid defined by <tt class="docutils literal"><span class="pre
 <blockquote>
 <div><p>Draw landmask?</p>
 </div></blockquote>
-<p class="last"><strong>Parameters of basemap.fillcontinents</strong></p>
+<p class="last"><strong>Parameters for basemap.fillcontinents</strong></p>
 </td>
 </tr>
 </tbody>
@@ -1665,7 +1611,7 @@ the weight matrix is created automatically.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters :</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>idata</strong> : numpy 2D array</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
@@ -1675,16 +1621,11 @@ the weight matrix is created automatically.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns :</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
 </td>
 </tr>
 </tbody>
 </table>
-<p class="rubric">References</p>
-<dl class="docutils">
-<dt>scipy.ndimage() :</dt>
-<dd><a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/ndimage.html">http://docs.scipy.org/doc/scipy/reference/ndimage.html</a></dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -1967,7 +1908,7 @@ OWSLib.wms.WebMapService.getmap.</td>
         &copy; Copyright 2013, Nansen Center.
       </li>
       <li>
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2b1.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
       </li>
     </ul>
     </div>

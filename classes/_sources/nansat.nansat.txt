@@ -1,4 +1,5 @@
-nansat.nansat module
+Nansat class
 ====================
 
-.. autoclass:: nansat.Nansat
+.. automodule:: nansat.nansat
+.. autoclass:: Nansat

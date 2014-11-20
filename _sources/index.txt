@@ -39,46 +39,36 @@ About Nansat:
 * `GitHub <https://github.com/nansencenter/nansat>`_
 
 
-Classes
-========
+Classes & Methods
+==================
 
-`Domain <classes/nansat.domain.html>`_
-
-`Nansat <classes/nansat.nansat.html>`_
-
-`VRT <classes/nansat.vrt.html>`_
-
-`GeolocationArray <classes/nansat.geolocationarray.html>`_
-
-`Figure <classes/nansat.figure.html>`_
-
-`NansatMap <classes/nansat.nansatmap.html>`_
-
-`NansatShape <classes/nansat.nansatshape.html>`_
-
-`Mosaic <classes/nansat.mosaic.html>`_
-
-
-Methods
-========
-
-`Domain <nansat.domain.html>`_
-
-`Nansat <nansat.nansat.html>`_
-
-`VRT <nansat.vrt.html>`_
-
-`GeolocationArray <nansat.geolocationarray.html>`_
-
-`Figure <nansat.figure.html>`_
-
-`NansatMap <nansat.nansatmap.html>`_
-
-`NansatShape <nansat.nansatshape.html>`_
-
-`Mosaic <nansat.mosaic.html>`_
-
-`NansatTools <nansat.nansat_tools.html>`_
++------------------------------------------------------------------+-------------------------------------------------------------+
+| Class                                                            |  Methods                                                    |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `Domain class <classes/nansat.domain.html>`_                     | `Domain methods <nansat.domain.html>`_                      |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `Nansat class <classes/nansat.nansat.html>`_                     | `Nansat methods <nansat.nansat.html>`_                      |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `VRT class <classes/nansat.vrt.html>`_                           | `VRT methods <nansat.vrt.html>`_                            |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `GeolocationArray class <classes/nansat.geolocationarray.html>`_ | `GeolocationArray methods <nansat.geolocationarray.html>`_  |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `NansatShape class <classes/nansat.nansatshape.html>`_           | `NansatShape methods <nansat.nansatshape.html>`_            |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `Figure class <classes/nansat.figure.html>`_                     | `Figure methods <nansat.figure.html>`_                      |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `PointBrowser class <classes/nansat.pointbrowser.html>`_         | `PointBrowser methods <nansat.pointbrowser.html>`_          |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `NansatMap class <classes/nansat.nansatmap.html>`_               | `NansatMap methods <nansat.nansatmap.html>`_                |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `Mosaic class <classes/nansat.mosaic.html>`_                     | `Mosaic methods <nansat.mosaic.html>`_                      |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `Node class <classes/nansat.node.html>`_                         | `Node methods <nansat.node.html>`_                          |
++------------------------------------------------------------------+-------------------------------------------------------------+
+| `NSR class <classes/nansat.nsr.html>`_                           | `NSR methods <nansat.nsr.html>`_                            |
++------------------------------------------------------------------+-------------------------------------------------------------+
+|                                                                  | `Tools methods <nansat.tools.html>`_                        |
++------------------------------------------------------------------+-------------------------------------------------------------+
 
 
 Indices and tables

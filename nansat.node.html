@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <title>nansat.node module &mdash; Nansat 0.6dev documentation</title>
+    
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
+    <link rel="stylesheet" href="_static/scipy.css" type="text/css" >
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" >
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '0.6dev',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/js/copybutton.js"></script>
+    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" > 
+  </head>
+  <body>
+
+<div class="container">
+  <div class="top-scipy-org-logo-header">
+    <a href="index.html">
+      <img style="border: 0;" alt="SciPy" src="_static/img/nansat_logo.gif"></a>
+    </div>
+  </div>
+</div>
+
+
+    <div class="container">
+      <div class="main">
+        
+	<div class="row-fluid">
+	  <div class="span12">
+	    <div class="spc-navbar">
+              
+    <ul class="nav nav-pills pull-left">
+        <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
+	
+        <li class="active"><a href="index.html">Nansat 0.6dev documentation</a></li>
+	 
+    </ul>
+              
+              
+    <ul class="nav nav-pills pull-right">
+      <li class="active">
+        <a href="genindex.html" title="General Index"
+           accesskey="I">index</a>
+      </li>
+      <li class="active">
+        <a href="py-modindex.html" title="Python Module Index"
+           >modules</a>
+      </li>
+    </ul>
+              
+	    </div>
+	  </div>
+	</div>
+        
+
+	<div class="row-fluid">
+          <div class="span9">
+            
+        <div class="bodywrapper">
+          <div class="body" id="spc-section-body">
+            
+  <div class="section" id="module-nansat.node">
+<span id="nansat-node-module"></span><h1>nansat.node module<a class="headerlink" href="#module-nansat.node" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="nansat.node.Node">
+<em class="property">class </em><tt class="descclassname">nansat.node.</tt><tt class="descname">Node</tt><big>(</big><em>tag</em>, <em>value=None</em>, <em>**attributes</em><big>)</big><a class="headerlink" href="#nansat.node.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Everything is a Node. The XML is maintained as (very efficient)
+Python objects until an XML representation is needed.</p>
+<p class="rubric">Methods</p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.create" title="nansat.node.Node.create"><tt class="xref py py-obj docutils literal"><span class="pre">create</span></tt></a>(dom)</td>
+<td>Create a Node representation, given either a string representation of an XML doc, or a dom.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.delAttribute" title="nansat.node.Node.delAttribute"><tt class="xref py py-obj docutils literal"><span class="pre">delAttribute</span></tt></a>(name)</td>
+<td>Remove XML attribute with this name.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.delNode" title="nansat.node.Node.delNode"><tt class="xref py py-obj docutils literal"><span class="pre">delNode</span></tt></a>(tag[,&nbsp;options])</td>
+<td>Recursively find the all subnodes with this tag and remove from self.children.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.dom" title="nansat.node.Node.dom"><tt class="xref py py-obj docutils literal"><span class="pre">dom</span></tt></a>()</td>
+<td>Lazily create a minidom from the information stored in this Node object.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.find_dom_child" title="nansat.node.Node.find_dom_child"><tt class="xref py py-obj docutils literal"><span class="pre">find_dom_child</span></tt></a>(dom,&nbsp;tagName[,&nbsp;n])</td>
+<td>Recoursively find child of the dom</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.getAttribute" title="nansat.node.Node.getAttribute"><tt class="xref py py-obj docutils literal"><span class="pre">getAttribute</span></tt></a>(name)</td>
+<td>Read XML attribute of this node.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.getAttributeList" title="nansat.node.Node.getAttributeList"><tt class="xref py py-obj docutils literal"><span class="pre">getAttributeList</span></tt></a>()</td>
+<td>get attributes and valuse from the node and return their lists</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.insert" title="nansat.node.Node.insert"><tt class="xref py py-obj docutils literal"><span class="pre">insert</span></tt></a>(contents)</td>
+<td>return Node of the node with inserted &lt;contents&gt;</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.node" title="nansat.node.Node.node"><tt class="xref py py-obj docutils literal"><span class="pre">node</span></tt></a>(tag[,&nbsp;elemNum])</td>
+<td>Recursively find the first subnode with this tag.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.nodeList" title="nansat.node.Node.nodeList"><tt class="xref py py-obj docutils literal"><span class="pre">nodeList</span></tt></a>(tag)</td>
+<td>Produce a list of subnodes with the same tag.</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">rawxml</span></tt>()</td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.replaceAttribute" title="nansat.node.Node.replaceAttribute"><tt class="xref py py-obj docutils literal"><span class="pre">replaceAttribute</span></tt></a>(name,&nbsp;value)</td>
+<td>replace XML arrtibute of this node.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.replaceNode" title="nansat.node.Node.replaceNode"><tt class="xref py py-obj docutils literal"><span class="pre">replaceNode</span></tt></a>(tag[,&nbsp;elemNum,&nbsp;newNode])</td>
+<td>Find the first subnode with this tag and replace with given node.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.replaceTag" title="nansat.node.Node.replaceTag"><tt class="xref py py-obj docutils literal"><span class="pre">replaceTag</span></tt></a>(oldTag,&nbsp;newTag)</td>
+<td>Replace tag name</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#nansat.node.Node.setAttribute" title="nansat.node.Node.setAttribute"><tt class="xref py py-obj docutils literal"><span class="pre">setAttribute</span></tt></a>(name,&nbsp;item)</td>
+<td>Modify XML attribute of this node.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#nansat.node.Node.tagList" title="nansat.node.Node.tagList"><tt class="xref py py-obj docutils literal"><span class="pre">tagList</span></tt></a>()</td>
+<td>Produce a list of all tags of the immediate children</td>
+</tr>
+<tr class="row-odd"><td><tt class="xref py py-obj docutils literal"><span class="pre">xml</span></tt>([separator])</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="staticmethod">
+<dt id="nansat.node.Node.create">
+<em class="property">static </em><tt class="descname">create</tt><big>(</big><em>dom</em><big>)</big><a class="headerlink" href="#nansat.node.Node.create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Node representation, given either
+a string representation of an XML doc, or a dom.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.delAttribute">
+<tt class="descname">delAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.node.Node.delAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove XML attribute with this name.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.delNode">
+<tt class="descname">delNode</tt><big>(</big><em>tag</em>, <em>options=None</em><big>)</big><a class="headerlink" href="#nansat.node.Node.delNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively find the all subnodes with this tag and remove
+from self.children.</p>
+<dl class="docutils">
+<dt>options <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
+<dd>if there are several same tags, specify a node by their attributes.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.dom">
+<tt class="descname">dom</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.node.Node.dom" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lazily create a minidom from the information stored
+in this Node object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.find_dom_child">
+<tt class="descname">find_dom_child</tt><big>(</big><em>dom</em>, <em>tagName</em>, <em>n=0</em><big>)</big><a class="headerlink" href="#nansat.node.Node.find_dom_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recoursively find child of the dom</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.getAttribute">
+<tt class="descname">getAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.node.Node.getAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read XML attribute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.getAttributeList">
+<tt class="descname">getAttributeList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.node.Node.getAttributeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>get attributes and valuse from the node and return their lists</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.insert">
+<tt class="descname">insert</tt><big>(</big><em>contents</em><big>)</big><a class="headerlink" href="#nansat.node.Node.insert" title="Permalink to this definition">¶</a></dt>
+<dd><p>return Node of the node with inserted &lt;contents&gt;</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.node">
+<tt class="descname">node</tt><big>(</big><em>tag</em>, <em>elemNum=0</em><big>)</big><a class="headerlink" href="#nansat.node.Node.node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Recursively find the first subnode with this tag.</p>
+<dl class="docutils">
+<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>if there are several same tag, specify which element to take.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.nodeList">
+<tt class="descname">nodeList</tt><big>(</big><em>tag</em><big>)</big><a class="headerlink" href="#nansat.node.Node.nodeList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a list of subnodes with the same tag.
+Note:
+It only makes sense to do this for the immediate
+children of a node. If you went another level down,
+the results would be ambiguous, so the user must
+choose the node to iterate over.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.replaceAttribute">
+<tt class="descname">replaceAttribute</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>replace XML arrtibute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.replaceNode">
+<tt class="descname">replaceNode</tt><big>(</big><em>tag</em>, <em>elemNum=0</em>, <em>newNode=None</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find the first subnode with this tag and replace with given node.</p>
+<dl class="docutils">
+<dt>tag <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
+<dd>node tag</dd>
+<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
+<dd>number of subnode among other subnodes with similar tag</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.replaceTag">
+<tt class="descname">replaceTag</tt><big>(</big><em>oldTag</em>, <em>newTag</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceTag" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replace tag name</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.setAttribute">
+<tt class="descname">setAttribute</tt><big>(</big><em>name</em>, <em>item</em><big>)</big><a class="headerlink" href="#nansat.node.Node.setAttribute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Modify XML attribute of this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="nansat.node.Node.tagList">
+<tt class="descname">tagList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.node.Node.tagList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Produce a list of all tags of the immediate children</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container container-navbar-bottom">
+      <div class="spc-navbar">
+        
+      </div>
+    </div>
+
+    <div class="container">
+    <div class="footer">
+    <div class="row-fluid">
+    <ul class="inline pull-left">
+      <li>
+        &copy; Copyright 2013, Nansen Center.
+      </li>
+      <li>
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.2.3.
+      </li>
+    </ul>
+    </div>
+    </div>
+    </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43252602-1', 'nansencenter.github.io');
+  ga('send', 'pageview');
+
+</script>
+
+  </body>
+</html>
