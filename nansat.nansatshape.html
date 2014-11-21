@@ -80,14 +80,18 @@
 <dt id="nansat.nansatshape.Nansatshape">
 <em class="property">class </em><tt class="descclassname">nansat.nansatshape.</tt><tt class="descname">Nansatshape</tt><big>(</big><em>fileName=None</em>, <em>layer=0</em>, <em>srs=None</em>, <em>wkbStyle=1</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Nansatshape object</p>
-<dl class="docutils">
-<dt>if &lt;fileName&gt; is given:</dt>
-<dd>Open OGR datasource and copy to self.datasource in memory
-Read a layer from self.datasource and add it to self.layer</dd>
-<dt>if &lt;fileName&gt; is not given:</dt>
-<dd>Create empty OGR datasource in memory
-Add empty layer to self.layer</dd>
-</dl>
+<div class="line-block">
+<div class="line">if &lt;fileName&gt; is given:</div>
+<div class="line-block">
+<div class="line">Open OGR datasource and copy to self.datasource in memory</div>
+<div class="line">Read a layer from self.datasource and add it to self.layer</div>
+</div>
+<div class="line">if &lt;fileName&gt; is not given:</div>
+<div class="line-block">
+<div class="line">Create empty OGR datasource in memory</div>
+<div class="line">Add empty layer to self.layer</div>
+</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -98,14 +102,16 @@ Add empty layer to self.layer</dd>
 </div></blockquote>
 <p><strong>layer</strong> : int or string</p>
 <blockquote>
-<div><p>if int and a shapefile is given, it is a layer number to read
-if string, it is layer name to created or open</p>
+<div><div class="line-block">
+<div class="line">if int and a shapefile is given, it is a layer number to read</div>
+<div class="line">if string, it is layer name to created or open</div>
+</div>
 </div></blockquote>
 <p><strong>srs</strong> : SpatialReference object</p>
 <p><strong>wkbStyle</strong> : ogr.wkbPoint, ogr.wkbPoint25D</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Creates:</th><td class="field-body"><p class="first"><strong>self.datasource</strong> : ogr data source in memory</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.datasource</strong> : ogr data source in memory</p>
 <p class="last"><strong>self.layer</strong> : ogr layer</p>
 </td>
 </tr>
@@ -139,7 +145,7 @@ corresponding points with data. Only ogr.wkbPoint is supported.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> :  2-D structured numpy array (aka record array)</p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>values</strong> : 2-D structured numpy array (aka record array)</p>
 <blockquote>
 <div><p>data to be stored in the vector layer. Names of the fields
 in the array will become fields in the layer.</p>
@@ -168,10 +174,6 @@ coordinates should be equal to length of values.</p>
 <dt id="nansat.nansatshape.Nansatshape.get_points">
 <tt class="descname">get_points</tt><big>(</big><em>latlon=True</em><big>)</big><a class="headerlink" href="#nansat.nansatshape.Nansatshape.get_points" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get points (geometries of featuers) in the layer</p>
-<p>!!NB!!
-if shapefile has SRS, assume that geometry is lon/lat
-if not, assume that the geometry is given in pix/lin
-only ogr.wkbPoint or ogr.wkbPoint25D is supported</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -191,6 +193,12 @@ only ogr.wkbPoint or ogr.wkbPoint25D is supported</p>
 </tr>
 </tbody>
 </table>
+<p class="rubric">Notes</p>
+<div class="line-block">
+<div class="line">if shapefile has SRS, assume that geometry is lon/lat</div>
+<div class="line">if not, assume that the geometry is given in pix/lin
+only ogr.wkbPoint or ogr.wkbPoint25D is supported</div>
+</div>
 </dd></dl>
 
 </dd></dl>

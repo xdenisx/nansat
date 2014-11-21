@@ -81,11 +81,13 @@
 <dt id="nansat.vrt.VRT">
 <em class="property">class </em><tt class="descclassname">nansat.vrt.</tt><tt class="descname">VRT</tt><big>(</big><em>gdalDataset=None</em>, <em>vrtDataset=None</em>, <em>array=None</em>, <em>srcGeoTransform=(0</em>, <em>1</em>, <em>0</em>, <em>0</em>, <em>0</em>, <em>1)</em>, <em>srcProjection=''</em>, <em>srcRasterXSize=None</em>, <em>srcRasterYSize=None</em>, <em>srcGCPs=[]</em>, <em>srcGCPProjection=''</em>, <em>srcMetadata=''</em>, <em>geolocationArray=None</em>, <em>nomem=False</em>, <em>lat=None</em>, <em>lon=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create VRT dataset from GDAL dataset, or from given parameters</p>
-<p>If vrtDataset is given, creates full copy of VRT content
-Otherwise takes reprojection parameters (geotransform, projection, etc)
-either from given GDAL dataset or from seperate parameters.
-Create VRT dataset (self.dataset) based on these parameters
-Adds logger</p>
+<div class="line-block">
+<div class="line">If vrtDataset is given, creates full copy of VRT content</div>
+<div class="line">Otherwise takes reprojection parameters (geotransform, projection, etc)
+either from given GDAL dataset or from seperate parameters.</div>
+<div class="line">Create VRT dataset (self.dataset) based on these parameters</div>
+<div class="line">Adds logger</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -270,8 +272,8 @@ stepX and stepY can be adjusted to reduce density of GCPs
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.GCPs are added</strong></p>
-<p class="last"><strong>self.geolocationArray is removed</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.GCPs</strong> : add self.GCPs</p>
+<p class="last"><strong>self.geolocationArray</strong> : remove self.geolocationArray</p>
 </td>
 </tr>
 </tbody>
@@ -282,6 +284,14 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <dt id="nansat.vrt.VRT.copy">
 <tt class="descname">copy</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates full copy of VRT dataset</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>vrt</strong> : vrt object</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -289,8 +299,8 @@ stepX and stepY can be adjusted to reduce density of GCPs
 <tt class="descname">copyproj</tt><big>(</big><em>fileName</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.copyproj" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy geoloctation data from given VRT to a figure file</p>
 <p>Useful for adding geolocation information to figure
-files produced e.g. by Figure class, which contain no geolocation.
-Analogue to utility gdalcopyproj.py.</p>
+files produced e.g. by Figure class, which contain no geolocation.</p>
+<p>Analogue to utility gdalcopyproj.py.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -309,9 +319,11 @@ Analogue to utility gdalcopyproj.py.</p>
 <dt id="nansat.vrt.VRT.create_dataset_from_array">
 <tt class="descname">create_dataset_from_array</tt><big>(</big><em>array</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.create_dataset_from_array" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a dataset with a band from an array</p>
-<p>Write contents of the array into flat binary file (VSI)
-Write VRT file with RawRastesrBand, which points to the binary file
-Open the VRT file as self.dataset with GDAL</p>
+<div class="line-block">
+<div class="line">Write contents of the array into flat binary file (VSI)</div>
+<div class="line">Write VRT file with RawRastesrBand, which points to the binary file</div>
+<div class="line">Open the VRT file as self.dataset with GDAL</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -319,9 +331,9 @@ Open the VRT file as self.dataset with GDAL</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>array</strong> : numpy array</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>binary file is written (VSI)</strong></p>
-<p><strong>VRT file is written (VSI)</strong></p>
-<p class="last"><strong>self.dataset is opened</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>binary file</strong> : is written (VSI)</p>
+<p><strong>VRT file</strong> : is written (VSI)</p>
+<p class="last"><strong>self.dataset</strong> : is opened</p>
 </td>
 </tr>
 </tbody>
@@ -374,8 +386,8 @@ Open the VRT file as self.dataset with GDAL</p>
 <dt id="nansat.vrt.VRT.get_projection">
 <tt class="descname">get_projection</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_projection" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get projection form self.dataset</p>
-<p>Get projection from GetProjection() or GetGCPProjection().
-If both are empty, raise error</p>
+<p>Get projection from GetProjection() or GetGCPProjection().</p>
+<p>If both are empty, raise error</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -390,8 +402,8 @@ If both are empty, raise error</p>
 <dt id="nansat.vrt.VRT.get_resized_vrt">
 <tt class="descname">get_resized_vrt</tt><big>(</big><em>xSize</em>, <em>ySize</em>, <em>use_geolocationArray=False</em>, <em>use_gcps=False</em>, <em>use_geotransform=False</em>, <em>eResampleAlg=1</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_resized_vrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resize VRT</p>
-<p>Create Warped VRT with modified RasterXSize, RasterYSize, GeoTransform.
-The returned VRT object has a copy of its original source VRT in its
+<p>Create Warped VRT with modified RasterXSize, RasterYSize, GeoTransform.</p>
+<p>The returned VRT object has a copy of its original source VRT in its
 own vrt object (e.g. warpedVRT.vrt = originalVRT.copy()).</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -455,8 +467,7 @@ self.vrt is None or steps == 0</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self</strong></p>
-<p><strong>self.vrt</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt</strong> : vrt object</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>self</strong> : if no deeper VRTs found</p>
@@ -469,8 +480,21 @@ self.vrt is None or steps == 0</p>
 
 <dl class="method">
 <dt id="nansat.vrt.VRT.get_subsampled_vrt">
-<tt class="descname">get_subsampled_vrt</tt><big>(</big><em>newRasterXSize</em>, <em>newRasterYSize</em>, <em>factor</em>, <em>eResampleAlg</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_subsampled_vrt" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_subsampled_vrt</tt><big>(</big><em>newRasterXSize</em>, <em>newRasterYSize</em>, <em>eResampleAlg</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_subsampled_vrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create VRT and replace step in the source</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>newRasterXSize, newRasterYSize</strong> : int</p>
+<p><strong>eResampleAlg</strong> : GDALResampleAlg</p>
+<blockquote class="last">
+<div><p>see also gdal.AutoCreateWarpedVRT</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -484,50 +508,68 @@ self.vrt is None or steps == 0</p>
 <dt id="nansat.vrt.VRT.get_warped_vrt">
 <tt class="descname">get_warped_vrt</tt><big>(</big><em>dstSRS=None</em>, <em>eResampleAlg=0</em>, <em>xSize=0</em>, <em>ySize=0</em>, <em>blockSize=None</em>, <em>geoTransform=None</em>, <em>WorkingDataType=None</em>, <em>use_geolocationArray=True</em>, <em>use_gcps=True</em>, <em>skip_gcps=1</em>, <em>use_geotransform=True</em>, <em>dstGCPs=[]</em>, <em>dstGeolocationArray=None</em><big>)</big><a class="headerlink" href="#nansat.vrt.VRT.get_warped_vrt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create VRT object with WarpedVRT</p>
-<p>Modifies the input VRT according to the input options
-Creates simple WarpedVRT with AutoCreateWarpedVRT
-Modifies the WarpedVRT according to the input options
-The original VRT is stored as WarpedVRT.vrt</p>
-<p>The function tries to use geolocation array by default;
-if not present (or canceled) tries to use GCPs;
-if not present (or canceled) tries to use GeoTransform
-(either from input dataset or calculates a new one with dx=1,dy=-1).
-Three switches (use_geolocationArray, use_gcps, use_geotransform)
-allow to select which method to apply for warping. E.g.:
-# #1: srcVRT has GeolocationArray, geolocation array is used
-warpedVRT = srcVRT.get_warped_vrt(dstSRS, xSize, ySize,</p>
-<blockquote>
-<div>geoTransform)</div></blockquote>
-<p># #2: srcVRT has GeolocationArray, geolocation array is not used,
-# either GCPs (if present) or GeoTransform is used
-warpedVRT = srcVRT.get_warped_vrt(dstSRS, xSize, ySize,</p>
-<blockquote>
-<div>geoTransform,
-use_geolocationArray=False)</div></blockquote>
-<p># #3: srcVRT has GeolocationArray or GCPs, geolocation array is
-# not used, and GCPs are not used either.
-# Only input GeoTranform is used
-warpedVRT = srcVRT.get_warped_vrt(dstSRS, xSize, ySize,</p>
-<blockquote>
-<div>geoTransform,
-use_geolocationArray=False,
-use_gcps=False)</div></blockquote>
-<p># #4: srcVRT has whatever georeference, geolocation array is not used,
-# GCPs are not used, GeoTransform is not used either.
-# Artificial GeoTranform is calculated: (0, 1, 0, srcVRT.xSize, -1)
-# Warping becomes pure affine resize
-warpedVRT = srcVRT.get_warped_vrt(dstSRS, xSize, ySize,</p>
-<blockquote>
-<div>geoTransform,
-use_geolocationArray=False,
-use_gcps=False.,
-use_geotransform=false)</div></blockquote>
-<p>If destination image has GCPs (provided in &lt;dstGCPs&gt;): fake GCPs for
-referencing line/piex of SRC image and X/Y of DST image are created
-and added to the SRC image. After warping dstGCPs are added to
-the WarpedVRT</p>
-<p>If destination image has geolocation array (provided in
-&lt;dstGeolocationArray&gt;):this geolocation array is added to the WarpedVRT</p>
+<div class="line-block">
+<div class="line">Modifies the input VRT according to the input options</div>
+<div class="line">Creates simple WarpedVRT with AutoCreateWarpedVRT</div>
+<div class="line">Modifies the WarpedVRT according to the input options</div>
+<div class="line">The original VRT is stored as WarpedVRT.vrt</div>
+</div>
+<div class="line-block">
+<div class="line">The function tries to use geolocation array by default;</div>
+<div class="line">if not present (or canceled) tries to use GCPs;</div>
+<div class="line">if not present (or canceled) tries to use GeoTransform</div>
+<div class="line">(either from input dataset or calculates a new one with dx=1,dy=-1).</div>
+<div class="line">Three switches (use_geolocationArray, use_gcps, use_geotransform)</div>
+<div class="line">allow to select which method to apply for warping. E.g.:</div>
+<div class="line">#1: srcVRT has GeolocationArray, geolocation array is used</div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">warpedVRT</span> <span class="o">=</span> <span class="n">srcVRT</span><span class="o">.</span><span class="n">get_warped_vrt</span><span class="p">(</span><span class="n">dstSRS</span><span class="p">,</span> <span class="n">xSize</span><span class="p">,</span> <span class="n">ySize</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">geoTransform</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">#2: srcVRT has GeolocationArray, geolocation array is not used,</div>
+<div class="line">either GCPs (if present) or GeoTransform is used</div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">warpedVRT</span> <span class="o">=</span> <span class="n">srcVRT</span><span class="o">.</span><span class="n">get_warped_vrt</span><span class="p">(</span><span class="n">dstSRS</span><span class="p">,</span> <span class="n">xSize</span><span class="p">,</span> <span class="n">ySize</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">geoTransform</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                   <span class="n">use_geolocationArray</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">#3: srcVRT has GeolocationArray or GCPs, geolocation array is</div>
+<div class="line">not used, and GCPs are not used either.</div>
+<div class="line">Only input GeoTranform is used</div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">warpedVRT</span> <span class="o">=</span> <span class="n">srcVRT</span><span class="o">.</span><span class="n">get_warped_vrt</span><span class="p">(</span><span class="n">dstSRS</span><span class="p">,</span> <span class="n">xSize</span><span class="p">,</span> <span class="n">ySize</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">geoTransform</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">use_geolocationArray</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">use_gcps</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">#4: srcVRT has whatever georeference, geolocation array is not used,</div>
+<div class="line">GCPs are not used, GeoTransform is not used either.</div>
+<div class="line">Artificial GeoTranform is calculated: (0, 1, 0, srcVRT.xSize, -1)</div>
+<div class="line">Warping becomes pure affine resize</div>
+</div>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">warpedVRT</span> <span class="o">=</span> <span class="n">srcVRT</span><span class="o">.</span><span class="n">get_warped_vrt</span><span class="p">(</span><span class="n">dstSRS</span><span class="p">,</span> <span class="n">xSize</span><span class="p">,</span> <span class="n">ySize</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">geoTransform</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">use_geolocationArray</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">use_gcps</span><span class="o">=</span><span class="bp">False</span><span class="o">.</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                                    <span class="n">use_geotransform</span><span class="o">=</span><span class="n">false</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line">If destination image has GCPs (provided in &lt;dstGCPs&gt;): fake GCPs for</div>
+<div class="line">referencing line/piex of SRC image and X/Y of DST image are created</div>
+<div class="line">and added to the SRC image. After warping dstGCPs are added to</div>
+<div class="line">the WarpedVRT</div>
+</div>
+<div class="line-block">
+<div class="line">If destination image has geolocation array (provided in
+&lt;dstGeolocationArray&gt;):this geolocation array is added to the WarpedVRT</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -538,11 +580,13 @@ the WarpedVRT</p>
 </div></blockquote>
 <p><strong>eResampleAlg</strong> : int (GDALResampleAlg)</p>
 <blockquote>
-<div><p>0 : NearestNeighbour,
-1 : Bilinear,
-2 : Cubic,
-3 : CubicSpline,
-4 : Lancoz</p>
+<div><div class="line-block">
+<div class="line">0 : NearestNeighbour,</div>
+<div class="line">1 : Bilinear,</div>
+<div class="line">2 : Cubic,</div>
+<div class="line">3 : CubicSpline,</div>
+<div class="line">4 : Lancoz</div>
+</div>
 </div></blockquote>
 <p><strong>xSize, ySize</strong> : int</p>
 <blockquote>

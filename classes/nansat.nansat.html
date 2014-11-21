@@ -71,20 +71,26 @@
 <dt id="nansat.nansat.Nansat">
 <em class="property">class </em><tt class="descclassname">nansat.nansat.</tt><tt class="descname">Nansat</tt><big>(</big><em>fileName=''</em>, <em>mapperName=''</em>, <em>domain=None</em>, <em>array=None</em>, <em>parameters=None</em>, <em>logLevel=30</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.nansat.Nansat" title="Permalink to this definition">¶</a></dt>
 <dd><p>Container for geospatial data, performs all high-level operations</p>
-<p>n = Nansat(fileName) opens the file with satellite or model data for
+<div class="line-block">
+<div class="line">n = Nansat(fileName) opens the file with satellite or model data for
 reading, adds scientific metadata to bands, and prepares the data for
-further handling.</p>
-<p>The instance of Nansat class (the object &lt;n&gt;) contains information
+further handling.</div>
+</div>
+<div class="line-block">
+<div class="line">The instance of Nansat class (the object &lt;n&gt;) contains information
 about geographical reference of the data (e.g raster size, pixel
 resolution, type of projection, etc) and about bands with values of
 geophysical variables (e.g. water leaving radiance, normalized radar
-cross section, chlrophyll concentraion, etc). The object &lt;n&gt; has methods
-for high-level operations with data. E.g.:
-| reading data from file (Nansat.__getitem__);
-| visualization (Nansat.write_figure);
-| changing geographical reference (Nansat.reproject);
-| exporting (Nansat.export)
-| and much more...</p>
+cross section, chlrophyll concentraion, etc).
+The object &lt;n&gt; has methods for high-level operations with data. E.g.:</div>
+<div class="line-block">
+<div class="line">reading data from file (Nansat.__getitem__);</div>
+<div class="line">visualization (Nansat.write_figure);</div>
+<div class="line">changing geographical reference (Nansat.reproject);</div>
+<div class="line">exporting (Nansat.export)</div>
+<div class="line">and much more...</div>
+</div>
+</div>
 <div class="line-block">
 <div class="line">Nansat inherits from Domain (container of geo-reference information)</div>
 <div class="line">Nansat uses instance of VRT (wraper around GDAL VRT-files)</div>

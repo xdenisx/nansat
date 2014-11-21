@@ -72,24 +72,24 @@
 <em class="property">class </em><tt class="descclassname">nansat.domain.</tt><tt class="descname">Domain</tt><big>(</big><em>srs=None</em>, <em>ext=None</em>, <em>ds=None</em>, <em>lon=None</em>, <em>lat=None</em>, <em>name=''</em>, <em>logLevel=None</em><big>)</big><a class="headerlink" href="#nansat.domain.Domain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Container for geographical reference of a raster</p>
 <div class="line-block">
-<div class="line">A Domain object describes all attributes of geographical</div>
-<div class="line">reference of a raster:</div>
-<div class="line"><br /></div>
+<div class="line">A Domain object describes all attributes of geographical
+reference of a raster:</div>
 <div class="line-block">
 <div class="line">width and height (number of pixels)</div>
 <div class="line">pixel size (e.g. in decimal degrees or in meters)</div>
-<div class="line">relation between pixel/line coordinates and geographical coordinates
-(e.g. a linear relation)</div>
+<div class="line">relation between pixel/line coordinates and geographical
+coordinates (e.g. a linear relation)</div>
 <div class="line">type of data projection (e.g. geographical or stereographic)</div>
-<div class="line"><br /></div>
 </div>
+</div>
+<div class="line-block">
 <div class="line">The core of Domain is a GDAL Dataset. It has no bands, but only
 georeference information: rasterXsize, rasterYsize, GeoTransform and</div>
 <div class="line">Projection or GCPs, etc. which fully describe dimentions and spatial
 reference of the grid.</div>
-<div class="line"><br /></div>
+</div>
+<div class="line-block">
 <div class="line">There are three ways to store geo-reference in a GDAL dataset:</div>
-<div class="line"><br /></div>
 <div class="line-block">
 <div class="line">Using GeoTransfrom to define linear relationship between raster
 pixel/line and geographical X/Y coordinates</div>
@@ -97,30 +97,31 @@ pixel/line and geographical X/Y coordinates</div>
 relationship between pixel/line and X/Y</div>
 <div class="line">Using Geolocation Array - full grids of X/Y coordinates for
 each pixel of a raster</div>
-<div class="line"><br /></div>
 </div>
 <div class="line">The relation between X/Y coordinates of the raster and latitude/longitude
 coordinates is defined by projection type and projection parameters.</div>
 <div class="line">These pieces of information are therefore stored in Domain:</div>
-<div class="line"><br /></div>
 <div class="line-block">
 <div class="line">Type and parameters of projection +</div>
 <div class="line-block">
 <div class="line">GeoTransform, or</div>
 <div class="line">GCPs, or</div>
 <div class="line">GeolocationArrays</div>
-<div class="line"><br /></div>
 </div>
 </div>
+</div>
+<div class="line-block">
 <div class="line">Domain has methods for basic operations with georeference information:</div>
-<div class="line"><br /></div>
 <div class="line-block">
 <div class="line">creating georeference from input options;</div>
+<div class="line-block">
 <div class="line">fetching corner, border or full grids of X/Y coordinates;</div>
 <div class="line">making map of the georeferenced grid in a PNG or KML file;</div>
 <div class="line">and some more...</div>
-<div class="line"><br /></div>
 </div>
+</div>
+</div>
+<div class="line-block">
 <div class="line">The main attribute of Domain is a VRT object self.vrt.</div>
 <div class="line">Nansat inherits from Domain and adds bands to self.vrt</div>
 </div>

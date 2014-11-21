@@ -136,20 +136,26 @@ see &#8211;&gt; <a class="reference external" href="http://www.scipy.org/Cookboo
 </div></blockquote>
 <p><strong>fontSize</strong> : int</p>
 <blockquote>
-<div><p>12, size of the font of title, caption and ticks.
-If not given, fontSize is calculated using fontRatio:
-fontSize = height / 45 * fontRatio.
-fontSize has priority over fontRatio</p>
+<div><div class="line-block">
+<div class="line">12, size of the font of title, caption and ticks.</div>
+<div class="line">If not given, fontSize is calculated using fontRatio:</div>
+<div class="line">fontSize = height / 45 * fontRatio.</div>
+<div class="line">fontSize has priority over fontRatio</div>
+</div>
 </div></blockquote>
 <p><strong>logarithm</strong> : boolean, defult = False</p>
 <blockquote>
-<div><p>If True, tone curve is used to convert pixel values.
-If False, linear.</p>
+<div><div class="line-block">
+<div class="line">If True, tone curve is used to convert pixel values.</div>
+<div class="line">If False, linear.</div>
+</div>
 </div></blockquote>
 <p><strong>legend</strong> : boolean, default = False</p>
 <blockquote>
-<div><p>if True, information as textString, colorbar, longName and
-units are added in the figure.</p>
+<div><div class="line-block">
+<div class="line">if True, information as textString, colorbar, longName and
+units are added in the figure.</div>
+</div>
 </div></blockquote>
 <p><strong>mask_array</strong> : 2D numpy array, int, the shape should be equal</p>
 <blockquote>
@@ -160,15 +166,17 @@ indeces.</p>
 </div></blockquote>
 <p><strong>mask_lut</strong> : dictionary</p>
 <blockquote>
-<div><p>Look-Up-Table with colors for masking land, clouds etc. Used
-tgether with mask_array:
-{0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}
-index 0 - will have black color</p>
-<blockquote>
-<div><p>1 - dark gray
-2 - light gray
-3 - blue</p>
-</div></blockquote>
+<div><div class="line-block">
+<div class="line">Look-Up-Table with colors for masking land, clouds etc. Used
+tgether with mask_array:</div>
+<div class="line">{0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}</div>
+<div class="line">index 0 - will have black color</div>
+<div class="line-block">
+<div class="line">1 - dark gray</div>
+<div class="line">2 - light gray</div>
+<div class="line">3 - blue</div>
+</div>
+</div>
 </div></blockquote>
 <p><strong>logoFileName</strong> : string</p>
 <blockquote>
@@ -176,10 +184,12 @@ index 0 - will have black color</p>
 </div></blockquote>
 <p><strong>logoLocation</strong> : list of two int, default = [0,0]</p>
 <blockquote>
-<div><p>X and Y offset of the image
-If positive - offset is from left, upper edge
-If Negative - from right, lower edge
-Offset is calculated from the entire image legend inclusive</p>
+<div><div class="line-block">
+<div class="line">X and Y offset of the image</div>
+<div class="line">If positive - offset is from left, upper edge</div>
+<div class="line">If Negative - from right, lower edge</div>
+<div class="line">Offset is calculated from the entire image legend inclusive</div>
+</div>
 </div></blockquote>
 <p><strong>logoSize</strong> : list of two int</p>
 <blockquote>
@@ -218,10 +228,67 @@ mask in Figure.save()</p>
 <div><p>figure</p>
 </div></blockquote>
 <p><strong>self.pilImgLegend</strong> : PIL image</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line">if pilImgLegend is None, legend is not added to the figure</div>
+<div class="line">if it is replaced, pilImgLegend includes text string, color-bar,
+longName and units.</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name" colspan="2">Other Parameters:</th></tr>
+<tr class="field-odd field"><td>&nbsp;</td><td class="field-body"><p class="first"><strong>LEGEND_HEIGHT</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, legend height relative to image height</p>
+</div></blockquote>
+<p><strong>CBAR_HEIGHTMIN</strong> : int</p>
+<blockquote>
+<div><p>5, minimum colorbar height, pixels</p>
+</div></blockquote>
+<p><strong>CBAR_HEIGHT</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.15,  colorbar height relative to image height</p>
+</div></blockquote>
+<p><strong>CBAR_WIDTH</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.8, colorbar width  relative to legend width</p>
+</div></blockquote>
+<p><strong>CBAR_LOCATION_X</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.1, colorbar offset X  relative to legend width</p>
+</div></blockquote>
+<p><strong>CBAR_LOCATION_Y</strong> : float [0 1]</p>
+<blockquote>
+<div><p>0.5,  colorbar offset Y  relative to legend height</p>
+</div></blockquote>
+<p><strong>CBTICK_LOC_ADJUST_X</strong> : int</p>
+<blockquote>
+<div><p>5,  colorbar tick label offset X, pixels</p>
+</div></blockquote>
+<p><strong>CBTICK_LOC_ADJUST_Y</strong> : int</p>
+<blockquote>
+<div><p>3,  colorbar tick label offset Y, pixels</p>
+</div></blockquote>
+<p><strong>CAPTION_LOCATION_X</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, caption offset X relative to legend width</p>
+</div></blockquote>
+<p><strong>CAPTION_LOCATION_Y</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, caption offset Y relative to legend height</p>
+</div></blockquote>
+<p><strong>TITLE_LOCATION_X</strong> : float, [0 1]</p>
+<blockquote>
+<div><p>0.1, title offset X relative to legend width</p>
+</div></blockquote>
+<p><strong>TITLE_LOCATION_Y :</strong></p>
+<blockquote>
+<div><p>0.3, title  offset Y relative to legend height</p>
+</div></blockquote>
+<p><strong>DEFAULT_EXTENSION</strong> : string</p>
 <blockquote class="last">
-<div><p>if pilImgLegend is None, legend is not added to the figure
-if it is replaced, pilImgLegend includes text string, color-bar,
-longName and units.</p>
+<div><p>&#8216;.png&#8217;</p>
 </div></blockquote>
 </td>
 </tr>
@@ -318,16 +385,21 @@ longName and units.</p>
 <dt id="nansat.figure.Figure.add_latlon_grids">
 <tt class="descname">add_latlon_grids</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_latlon_grids" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add lat/lon grid lines into the PIL image</p>
-<p>Compute step of the grid
-Make matrices with binarized lat/lon
-Find edge (make line)
-Convert to maks
-Add mask to PIL</p>
+<div class="line-block">
+<div class="line">Compute step of the grid</div>
+<div class="line">Make matrices with binarized lat/lon</div>
+<div class="line">Find edge (make line)</div>
+<div class="line">Convert to maks</div>
+<div class="line">Add mask to PIL</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure__init__() parameters:</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 <p><strong>latGrid</strong> : numpy array</p>
 <blockquote>
 <div><p>array with values of latitudes</p>
@@ -342,7 +414,7 @@ Add mask to PIL</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -353,20 +425,25 @@ Add mask to PIL</p>
 <dt id="nansat.figure.Figure.add_latlon_labels">
 <tt class="descname">add_latlon_labels</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_latlon_labels" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add lat/lon labels along upper and left side</p>
-<p>Compute step of lables
-Get lat/lon for these labels from latGrid, lonGrid
-Print lables to PIL</p>
+<div class="line-block">
+<div class="line">Compute step of lables</div>
+<div class="line">Get lat/lon for these labels from latGrid, lonGrid</div>
+<div class="line">Print lables to PIL</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Figure__init__() parameters:</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 <p><strong>latGrid</strong> : numpy array</p>
 <p><strong>lonGrid</strong> : numpy array</p>
 <p><strong>latlonLabels</strong> : int</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -377,17 +454,24 @@ Print lables to PIL</p>
 <dt id="nansat.figure.Figure.add_logo">
 <tt class="descname">add_logo</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.add_logo" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert logo into the PIL image</p>
-<p>Read logo from file as PIL
-Resize to the given size
-Pan using the given location
-Paste into pilImg</p>
+<div class="line-block">
+<div class="line">Read logo from file as PIL</div>
+<div class="line">Resize to the given size</div>
+<div class="line">Pan using the given location</div>
+<div class="line">Paste into pilImg</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure__init__() parameters</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.pilImg</strong></td>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -397,15 +481,23 @@ Paste into pilImg</p>
 <dt id="nansat.figure.Figure.apply_logarithm">
 <tt class="descname">apply_logarithm</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.apply_logarithm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a tone curve to the array</p>
-<p>After the normalization of the values from 0 to 1, logarithm is applied
-Then the values are converted to the normal scale.</p>
+<div class="line-block">
+<div class="line">After the normalization of the values from 0 to 1,
+logarithm is applied</div>
+<div class="line">Then the values are converted to the normal scale.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure__init__() parameters</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.array</strong> : numpy array</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -415,18 +507,27 @@ Then the values are converted to the normal scale.</p>
 <dt id="nansat.figure.Figure.apply_mask">
 <tt class="descname">apply_mask</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.apply_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply mask for coloring land, clouds, etc</p>
-<p>If mask_array and mask_lut are provided as input parameters
-The pixels in self.array which have index equal to mask_lut kay
-in mask_array will have color equal to mask_lut value</p>
-<p>apply_mask should be called only after convert_palettesize
-(i.e. to uint8 data)</p>
+<div class="line-block">
+<div class="line">If mask_array and mask_lut are provided as input parameters</div>
+<div class="line">The pixels in self.array which have index equal to mask_lut kay
+in mask_array will have color equal to mask_lut value</div>
+</div>
+<div class="line-block">
+<div class="line">apply_mask should be called only after convert_palettesize
+(i.e. to uint8 data)</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure__init__() parameters</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array</td>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.array</strong> : numpy array</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -436,15 +537,20 @@ in mask_array will have color equal to mask_lut value</p>
 <dt id="nansat.figure.Figure.clim_from_histogram">
 <tt class="descname">clim_from_histogram</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.clim_from_histogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate min and max pixel values from histogram</p>
-<p>if ratio=1.0, simply the minimum and maximum values are returned.
-if 0 &lt; ratio &lt; 1.0, get the histogram of the pixel values.
-Then get rid of (1.0-ratio)/2 from the both sides and
-return the minimum and maximum values.</p>
+<div class="line-block">
+<div class="line">if ratio=1.0, simply the minimum and maximum values are returned.</div>
+<div class="line">if 0 &lt; ratio &lt; 1.0, get the histogram of the pixel values.</div>
+<div class="line">Then get rid of (1.0-ratio)/2 from the both sides and
+return the minimum and maximum values.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure.__init__() parameters</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>clim</strong> : numpy array 2D ((3x2) or (1x2))</p>
@@ -461,13 +567,18 @@ return the minimum and maximum values.</p>
 <dt id="nansat.figure.Figure.clip">
 <tt class="descname">clip</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.clip" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert self.array to values between cmin and cmax</p>
-<p>if pixel value &lt; cmin, replaced to cmin.
-if pixel value &gt; cmax, replaced to cmax.</p>
+<div class="line-block">
+<div class="line">if pixel value &lt; cmin, replaced to cmin.</div>
+<div class="line">if pixel value &gt; cmax, replaced to cmax.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure.__init__() parameters</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.array</strong> : numpy array</p>
@@ -486,9 +597,14 @@ if pixel value &gt; cmax, replaced to cmax.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure.__init__() parameters</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.array</strong> : numpy array (=&gt;uint8)</td>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.array</strong> : numpy array (=&gt;uint8)</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -503,9 +619,14 @@ if pixel value &gt; cmax, replaced to cmax.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>Any of Figure.__init__() parameters</strong></td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.legend</strong> : PIL image</td>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.legend</strong> : PIL image</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -515,19 +636,26 @@ if pixel value &gt; cmax, replaced to cmax.</p>
 <dt id="nansat.figure.Figure.create_pilImage">
 <tt class="descname">create_pilImage</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.figure.Figure.create_pilImage" title="Permalink to this definition">¶</a></dt>
 <dd><p>self.create_pilImage is replaced from None to PIL image</p>
-<dl class="docutils">
-<dt>If three images are given, create a image with RGB mode.</dt>
-<dd>if self.pilImgLegend is not None, it is pasted.</dd>
-<dt>If one image is given, create a image with P(palette) mode.</dt>
-<dd>if self.pilImgLegend is not None,
+<div class="line-block">
+<div class="line">If three images are given, create a image with RGB mode.</div>
+<div class="line-block">
+<div class="line">if self.pilImgLegend is not None, it is pasted.</div>
+</div>
+<div class="line">If one image is given, create a image with P(palette) mode.</div>
+<div class="line-block">
+<div class="line">if self.pilImgLegend is not None,
 self.array is extended before create the pilImag and
-then paste pilImgLegend onto it.</dd>
-</dl>
+then paste pilImgLegend onto it.</div>
+</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure.__init__() parameters</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.pilImg</strong> : PIL image</p>
@@ -560,14 +688,17 @@ then paste pilImgLegend onto it.</dd>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>Any of Figure.__init__() parameters</strong></p>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
-<p><strong>self.array</strong></p>
-<p><strong>self.palette</strong></p>
-<p><strong>self.pilImgLegend</strong></p>
-<p class="last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong> : domain</p>
+<p><strong>self.array</strong> : np.array</p>
+<p><strong>self.palette</strong> : palette</p>
+<p><strong>self.pilImgLegend</strong> : pilImgLegend</p>
+<p class="last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -587,7 +718,10 @@ then paste pilImgLegend onto it.</dd>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
-<p><strong>Any of Figure.__init__() parameters</strong></p>
+<p><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>

@@ -152,6 +152,16 @@ a string representation of an XML doc, or a dom.</p>
 <dt id="nansat.node.Node.delAttribute">
 <tt class="descname">delAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.node.Node.delAttribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove XML attribute with this name.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> : string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><strong>self.attributes</strong></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -159,10 +169,25 @@ a string representation of an XML doc, or a dom.</p>
 <tt class="descname">delNode</tt><big>(</big><em>tag</em>, <em>options=None</em><big>)</big><a class="headerlink" href="#nansat.node.Node.delNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively find the all subnodes with this tag and remove
 from self.children.</p>
-<dl class="docutils">
-<dt>options <span class="classifier-delimiter">:</span> <span class="classifier">dictionary</span></dt>
-<dd>if there are several same tags, specify a node by their attributes.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tag</strong> : string</p>
+<blockquote>
+<div><p>tag name</p>
+</div></blockquote>
+<p><strong>options</strong> : dictionary</p>
+<blockquote>
+<div><p>if there are several same tags, specify a node by their attributes.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.child</strong> : delete node</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -176,42 +201,133 @@ in this Node object.</p>
 <dt id="nansat.node.Node.find_dom_child">
 <tt class="descname">find_dom_child</tt><big>(</big><em>dom</em>, <em>tagName</em>, <em>n=0</em><big>)</big><a class="headerlink" href="#nansat.node.Node.find_dom_child" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recoursively find child of the dom</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>dom</strong> : dom object</p>
+<p><strong>tagName</strong> : string</p>
+<blockquote>
+<div><p>tag name</p>
+</div></blockquote>
+<p><strong>n</strong> : int</p>
+<blockquote>
+<div><p>number which indicates child node</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>theChild</strong> : node</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.getAttribute">
 <tt class="descname">getAttribute</tt><big>(</big><em>name</em><big>)</big><a class="headerlink" href="#nansat.node.Node.getAttribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read XML attribute of this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : string</p>
+<blockquote>
+<div><p>attribute name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>self.attributes</strong> : string</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.getAttributeList">
 <tt class="descname">getAttributeList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.node.Node.getAttributeList" title="Permalink to this definition">¶</a></dt>
 <dd><p>get attributes and valuse from the node and return their lists</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>nameList</strong> : list</p>
+<blockquote>
+<div><p>names in the list</p>
+</div></blockquote>
+<p><strong>valList</strong> : list</p>
+<blockquote class="last">
+<div><p>values in the list</p>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.insert">
 <tt class="descname">insert</tt><big>(</big><em>contents</em><big>)</big><a class="headerlink" href="#nansat.node.Node.insert" title="Permalink to this definition">¶</a></dt>
 <dd><p>return Node of the node with inserted &lt;contents&gt;</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>contents</strong> : string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>node</strong> : node</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.node">
 <tt class="descname">node</tt><big>(</big><em>tag</em>, <em>elemNum=0</em><big>)</big><a class="headerlink" href="#nansat.node.Node.node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Recursively find the first subnode with this tag.</p>
-<dl class="docutils">
-<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>if there are several same tag, specify which element to take.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tag</strong> : string</p>
+<blockquote>
+<div><p>tag name</p>
+</div></blockquote>
+<p><strong>elemNum</strong> : int</p>
+<blockquote>
+<div><p>if there are several same tag, specify which element to take.</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>result</strong> : node or bool</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.nodeList">
 <tt class="descname">nodeList</tt><big>(</big><em>tag</em><big>)</big><a class="headerlink" href="#nansat.node.Node.nodeList" title="Permalink to this definition">¶</a></dt>
-<dd><p>Produce a list of subnodes with the same tag.
-Note:
-It only makes sense to do this for the immediate
+<dd><p>Produce a list of subnodes with the same tag.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tag</strong> : string</p>
+<blockquote>
+<div><p>tag name</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>list</strong> : list</p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<p>It only makes sense to do this for the immediate
 children of a node. If you went another level down,
 the results would be ambiguous, so the user must
 choose the node to iterate over.</p>
@@ -221,36 +337,96 @@ choose the node to iterate over.</p>
 <dt id="nansat.node.Node.replaceAttribute">
 <tt class="descname">replaceAttribute</tt><big>(</big><em>name</em>, <em>value</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceAttribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>replace XML arrtibute of this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : string</p>
+<p><strong>value</strong> : string or int or float</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.attribute</strong> : modify the value</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.replaceNode">
 <tt class="descname">replaceNode</tt><big>(</big><em>tag</em>, <em>elemNum=0</em>, <em>newNode=None</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find the first subnode with this tag and replace with given node.</p>
-<dl class="docutils">
-<dt>tag <span class="classifier-delimiter">:</span> <span class="classifier">str</span></dt>
-<dd>node tag</dd>
-<dt>elemNum <span class="classifier-delimiter">:</span> <span class="classifier">int</span></dt>
-<dd>number of subnode among other subnodes with similar tag</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>tag</strong> : str</p>
+<blockquote>
+<div><p>node tag</p>
+</div></blockquote>
+<p><strong>elemNum</strong> : int</p>
+<blockquote>
+<div><p>number of subnode among other subnodes with similar tag</p>
+</div></blockquote>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>status</strong> : bool</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.replaceTag">
 <tt class="descname">replaceTag</tt><big>(</big><em>oldTag</em>, <em>newTag</em><big>)</big><a class="headerlink" href="#nansat.node.Node.replaceTag" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace tag name</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>oldTag</strong> : srting</p>
+<p><strong>newTag</strong> : srting</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.node().children[].tag</strong> : replace tag name</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.setAttribute">
 <tt class="descname">setAttribute</tt><big>(</big><em>name</em>, <em>item</em><big>)</big><a class="headerlink" href="#nansat.node.Node.setAttribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Modify XML attribute of this node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>name</strong> : srting</p>
+<p><strong>item</strong> : srting</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.attribute</strong> : add new attribute</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="nansat.node.Node.tagList">
 <tt class="descname">tagList</tt><big>(</big><big>)</big><a class="headerlink" href="#nansat.node.Node.tagList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Produce a list of all tags of the immediate children</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>tagList</strong> : list</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>

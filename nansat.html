@@ -130,8 +130,10 @@
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srs</strong> : 0, PROJ4 or EPSG or WKT or osr.SpatialReference, NSR</p>
 <blockquote class="last">
-<div><div class="line-block">
-<div class="line">Specifies spatial reference system (SRS)</div>
+<div><blockquote>
+<div><p>Specifies spatial reference system (SRS)</p>
+</div></blockquote>
+<div class="line-block">
 <div class="line">PROJ4:</div>
 <div class="line">string with proj4 options [<a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a>] e.g.:</div>
 <div class="line">&#8216;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#8217;</div>
@@ -140,8 +142,7 @@
 <div class="line">integer with EPSG number, [<a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a>],</div>
 <div class="line">e.g. 4326</div>
 <div class="line">WKT:</div>
-<div class="line">string with Well Know Text of SRS.</div>
-<div class="line">E.g.:</div>
+<div class="line">string with Well Know Text of SRS. E.g.:</div>
 <div class="line">&#8216;GEOGCS[&#8220;WGS 84&#8221;,</div>
 <div class="line-block">
 <div class="line">DATUM[&#8220;WGS_1984&#8221;,</div>
@@ -171,7 +172,7 @@
 </table>
 <p class="rubric">Notes</p>
 <div class="line-block">
-<div class="line">see also:</div>
+<div class="line">see also</div>
 <div class="line"><a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></div>
 <div class="line"><a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a></div>
 <div class="line"><a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a></div>
@@ -1168,23 +1169,19 @@ double fn) -&gt; OGRErr</dd>
 <dt id="nansat.Domain">
 <em class="property">class </em><tt class="descclassname">nansat.</tt><tt class="descname">Domain</tt><big>(</big><em>srs=None</em>, <em>ext=None</em>, <em>ds=None</em>, <em>lon=None</em>, <em>lat=None</em>, <em>name=''</em>, <em>logLevel=None</em><big>)</big><a class="headerlink" href="#nansat.Domain" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Domain from GDALDataset or string options or lat/lon grids</p>
-<p>Size, extent and spatial reference is given by strings :</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="p">,</span> <span class="n">ext</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Size, extent and spatial reference is copied from input GDAL dataset :</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">GDALDataset</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Spatial reference is given by srs, but size and extent is
-determined from input GDAL dataset :</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="p">,</span> <span class="n">ds</span><span class="o">=</span><span class="n">GDALDataset</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Size, extent and spatial reference is given by two grids :</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">lon</span><span class="o">=</span><span class="n">lonGrid</span><span class="p">,</span> <span class="n">lat</span><span class="o">=</span><span class="n">latGrid</span><span class="p">)</span>
-</pre></div>
-</div>
+<dl class="docutils">
+<dt>d = Domain(srs, ext)</dt>
+<dd>Size, extent and spatial reference is given by strings</dd>
+<dt>d = Domain(ds=GDALDataset):</dt>
+<dd>Size, extent and spatial reference is copied from input
+GDAL dataset</dd>
+<dt>d = Domain(srs, ds=GDALDataset):</dt>
+<dd>Spatial reference is given by srs, but size and extent is
+determined
+from input GDAL dataset</dd>
+<dt>d = Domain(lon=lonGrid, lat=latGrid)</dt>
+<dd>Size, extent and spatial reference is given by two grids</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -1195,16 +1192,18 @@ determined from input GDAL dataset :</p>
 </div></blockquote>
 <p><strong>ext</strong> : string</p>
 <blockquote>
-<div><p>some gdalwarp options + additional options
-[<a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a>]
-Specifies extent, resolution / size
-Available options: ((&#8216;-te&#8217; or &#8216;-lle&#8217;) and (&#8216;-tr&#8217; or &#8216;-ts&#8217;))
-(e.g. &#8216;-lle -10 30 55 60 -ts 1000 1000&#8217; or
-&#8216;-te 100 2000 300 10000 -tr 300 200&#8217;)
--tr resolutionx resolutiony
--ts sizex sizey
--te xmin ymin xmax ymax
--lle lonmin latmin lonmax latmax</p>
+<div><div class="line-block">
+<div class="line">some gdalwarp options + additional options</div>
+<div class="line">[<a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a>]</div>
+<div class="line">Specifies extent, resolution / size</div>
+<div class="line">Available options: ((&#8216;-te&#8217; or &#8216;-lle&#8217;) and (&#8216;-tr&#8217; or &#8216;-ts&#8217;))</div>
+<div class="line">(e.g. &#8216;-lle -10 30 55 60 -ts 1000 1000&#8217; or
+&#8216;-te 100 2000 300 10000 -tr 300 200&#8217;)</div>
+<div class="line">-tr resolutionx resolutiony</div>
+<div class="line">-ts sizex sizey</div>
+<div class="line">-te xmin ymin xmax ymax</div>
+<div class="line">-lle lonmin latmin lonmax latmax</div>
+</div>
 </div></blockquote>
 <p><strong>ds</strong> : GDAL dataset</p>
 <p><strong>lat</strong> : Numpy array</p>
@@ -1241,17 +1240,13 @@ Available options: ((&#8216;-te&#8217; or &#8216;-lle&#8217;) and (&#8216;-tr&#8
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<dl class="docutils">
-<dt>see also:</dt>
-<dd><div class="first last line-block">
-<div class="line">Nansat.reproject()</div>
+<div class="line-block">
+<div class="line">See also: Nansat.reproject()</div>
 <div class="line"><a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></div>
-<div class="line"><a class="reference external" href="http://trac.osgeo.org/proj">http://trac.osgeo.org/proj</a></div>
-<div class="line"><a class="reference external" href="http://spatialreference.org">http://spatialreference.org</a></div>
+<div class="line"><a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a></div>
+<div class="line"><a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a></div>
 <div class="line"><a class="reference external" href="http://www.gdal.org/ogr/osr_tutorial.html">http://www.gdal.org/ogr/osr_tutorial.html</a></div>
 </div>
-</dd>
-</dl>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
@@ -1367,7 +1362,7 @@ direction to North, hence azimuth is 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : OGR Geometry (type Polygon)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
 </tr>
 </tbody>
 </table>
@@ -1381,7 +1376,7 @@ direction to North, hence azimuth is 0.</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : PolygonFromText (PolygonWKT)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -1473,9 +1468,7 @@ in the center of the domain.</div>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
-<blockquote class="last">
-<div><p>pixel size in X and Y directions given in meters</p>
-</div></blockquote>
+<p class="last">pixel size in X and Y directions given in meters</p>
 </td>
 </tr>
 </tbody>
@@ -1538,8 +1531,10 @@ in (or near) the destination area (e.g. poles for lonlat GCPs)</p>
 </div></blockquote>
 <p><strong>DstToSrc</strong> : 0 or 1</p>
 <blockquote>
-<div><p>0 - forward transform (pix/line =&gt; lon/lat)
-1 - inverse transformation</p>
+<div><div class="line-block">
+<div class="line">0 - forward transform (pix/line =&gt; lon/lat)</div>
+<div class="line">1 - inverse transformation</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -1605,23 +1600,25 @@ or write KML-file with the current Domain</p>
 (Simple Cylindrical) projection</div>
 <div class="line">1. Cancel previous reprojection</div>
 <div class="line">2. Get corners of the image and the pixel resolution</div>
-<div class="line">3. Create Domain with stereographic projection,
-corner coordinates and resolution 1000m</div>
+<div class="line">3. Create Domain with stereographic projection,</div>
+<div class="line-block">
+<div class="line">corner coordinates and resolution 1000m</div>
+</div>
 <div class="line">4. Reproject</div>
 <div class="line">5. Write image</div>
 <div class="line">6. Write KML for the image</div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span>  <span class="c"># 1.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span>  <span class="c"># 2.</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span> <span class="c"># 1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span> <span class="c"># 2.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">srsString</span> <span class="o">=</span> <span class="s">&#39;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">extentString</span> <span class="o">=</span> <span class="s">&#39;-lle </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> -ts 3000 3000&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span>  <span class="c"># 3.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>  <span class="c"># 4.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span> <span class="c"># 3.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c"># 4.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="n">figureName</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># 5.</span>
+<span class="gp">&gt;&gt;&gt; </span>              <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c"># 5.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_kml_image</span><span class="p">(</span><span class="n">kmlFileName</span><span class="o">=</span><span class="n">oPath</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s">&#39;.kml&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span>  <span class="c"># 6.</span>
+<span class="gp">&gt;&gt;&gt; </span>                 <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span> <span class="c"># 6.</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -1943,21 +1940,23 @@ to self.vrt.subVRTs</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>Creates VRT object with VRT-file and RAW-file</strong></p>
-<blockquote class="last">
-<div><p>Adds band to the self.vrt</p>
-</div></blockquote>
+<p class="last"><strong>Adds band to the self.vrt</strong></p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>add new band from numpy array &lt;a&gt; with metadata &lt;p&gt; in memory
-Shape of a should be equal to the shape of &lt;n&gt;</p>
+<div class="line-block">
+<div class="line">add new band from numpy array &lt;a&gt; with metadata &lt;p&gt; in memory</div>
+<div class="line">Shape of a should be equal to the shape of &lt;n&gt;</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>add new band from an array &lt;a&gt; with metadata &lt;p&gt; but keep it
-temporarli on disk intead of memory</p>
+<div class="line-block">
+<div class="line">add new band from an array &lt;a&gt; with metadata &lt;p&gt; but keep it</div>
+<div class="line">temporarli on disk intead of memory</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">nomem</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -1984,17 +1983,16 @@ to self.vrt.subVRTs</p>
 <p><strong>nomem</strong> : boolean, saves the vrt to a tempfile if nomem is True</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>Creates VRT object with VRT-file and RAW-file</strong></p>
-<blockquote class="last">
-<div><p>Adds band to the self.vrt</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : Add bands</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>add two new bands from numpy arrays &lt;a1&gt; and &lt;a2&gt; with metadata in
-&#8216;p1&#8217; and &#8216;p2&#8217;</p>
+<div class="line-block">
+<div class="line">add two new bands from numpy arrays &lt;a1&gt; and &lt;a2&gt; with metadata in
+&#8216;p1&#8217; and &#8216;p2&#8217;</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_bands</span><span class="p">([</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">],</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -2149,8 +2147,10 @@ If None, all bands are exported.</p>
 </div></blockquote>
 <p><strong>rmMetadata</strong> : list</p>
 <blockquote>
-<div><p>metadata names for removal before export.
-e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;sourceBands&#8217;]</p>
+<div><div class="line-block">
+<div class="line">metadata names for removal before export.</div>
+<div class="line">e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;sourceBands&#8217;]</div>
+</div>
 </div></blockquote>
 <p><strong>addGeolocArray</strong> : bool</p>
 <blockquote>
@@ -2166,11 +2166,12 @@ e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;s
 </div></blockquote>
 <p><strong>bottomup</strong> : bool</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">False: Write swath-projected data with rows and columns organized
-as in the original product.</div>
-<div class="line">True:  Use the default behaviour of GDAL, which is to flip the rows</div>
-</div>
+<div><dl class="docutils">
+<dt>False: Write swath-projected data with rows and columns organized</dt>
+<dd><p class="first last">as in the original product.</p>
+</dd>
+</dl>
+<p>True:  Use the default behaviour of GDAL, which is to flip the rows</p>
 </div></blockquote>
 <p><strong>options</strong> : str or list</p>
 <blockquote>
@@ -2180,24 +2181,26 @@ See also <a class="reference external" href="http://www.gdal.org/frmt_netcdf.htm
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Create a netCDF file</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>netCDF file</strong> : Create a netCDF file</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>If number of bands is more than one,
-serial numbers are added at the end of each band name.</p>
-<p>It is possible to fix it by changing
-line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</p>
 <div class="line-block">
+<div class="line">If number of bands is more than one,
+serial numbers are added at the end of each band name.</div>
+</div>
+<div class="line-block">
+<div class="line">It is possible to fix it by changing</div>
+<div class="line">line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 <div class="line">&#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s%d&#8221;,tmpMetadata,iBand);&#8217;</div>
-<div class="line-block">
 <div class="line">&#8211;&gt; &#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s&#8221;,tmpMetadata);&#8217;</div>
 </div>
+<div class="line-block">
+<div class="line">CreateCopy fails in case the band name has special characters,
+e.g. the slash in &#8216;HH/VV&#8217;.</div>
 </div>
-<p>CreateCopy fails in case the band name has special characters,
-e.g. the slash in &#8216;HH/VV&#8217;.</p>
 <p class="rubric">Examples</p>
 <p>export all the bands into a netDCF 3 file</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">netcdfile</span><span class="p">)</span>
@@ -2227,26 +2230,32 @@ e.g. the slash in &#8216;HH/VV&#8217;.</p>
 <div class="line">{&#8216;band_name&#8217;: {&#8216;type&#8217;     : &#8216;&gt;i1&#8217;,</div>
 <div class="line-block">
 <div class="line">&#8216;scale&#8217;    : 0.1,</div>
+<div class="line-block">
 <div class="line">&#8216;offset&#8217;   : 1000,</div>
+<div class="line-block">
 <div class="line">&#8216;metaKey1&#8217; : &#8216;meta value 1&#8217;,</div>
 <div class="line">&#8216;metaKey2&#8217; : &#8216;meta value 2&#8217;}}</div>
+</div>
+</div>
 </div>
 <div class="line">dictionary sets parameters for band creation</div>
 <div class="line">&#8216;type&#8217; - string representation of data type in the output band</div>
 <div class="line">&#8216;scale&#8217; - sets scale_factor and applies scaling</div>
-<div class="line">&#8216;offset&#8217; - sets &#8216;scale_offset and applies offsetting
-other entries (e.g. &#8216;units&#8217;: &#8216;K&#8217;) set other metadata</div>
+<div class="line">&#8216;offset&#8217; - sets &#8216;scale_offset and applies offsetting</div>
+<div class="line">other entries (e.g. &#8216;units&#8217;: &#8216;K&#8217;) set other metadata</div>
 </div>
 </div></blockquote>
 <p><strong>metadata</strong> : dict</p>
 <blockquote>
 <div><p>Glbal metadata to add</p>
 </div></blockquote>
-<p><strong>maskName: string</strong></p>
+<p><strong>maskName: string;</strong></p>
 <blockquote>
-<div><p>if data include a mask band: give the mask name.
-Non-masked value is 64.
-if None: no mask is added</p>
+<div><div class="line-block">
+<div class="line">if data include a mask band: give the mask name.</div>
+<div class="line">Non-masked value is 64.</div>
+<div class="line">if None: no mask is added</div>
+</div>
 </div></blockquote>
 <p><strong>rmMetadata</strong> : list</p>
 <blockquote>
@@ -2295,12 +2304,12 @@ valid Spatial reference information) but not wth GCPs</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">if number - a band number of the band to fetch</div>
-<div class="line">if string - bandID = {&#8216;name&#8217;: bandID}</div>
+<div class="line">if string bandID = {&#8216;name&#8217;: bandID}</div>
 </div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>GDALRasterBand</strong> : GDALRasterBand</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>GDAL RasterBand</strong> : GDAL RasterBand</p>
 </td>
 </tr>
 </tbody>
@@ -2344,7 +2353,7 @@ valid Spatial reference information) but not wth GCPs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : OGR Geometry (type Polygon)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
 </tr>
 </tbody>
 </table>
@@ -2358,7 +2367,7 @@ valid Spatial reference information) but not wth GCPs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : PolygonFromText (PolygonWKT)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -2455,8 +2464,9 @@ from the geolocation bands.</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : string with metadata if key is given</p>
-<p class="last"><strong>dictionary</strong> : dictionary with all metadata if key is not given</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : a string with metadata if key is given and found</p>
+<p><strong>empty string</strong> : an empty string if key is given and not found</p>
+<p class="last"><strong>dictionary</strong> : a dictionary with all metadata if key is not given</p>
 </td>
 </tr>
 </tbody>
@@ -2479,9 +2489,7 @@ in the center of the domain.</div>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
-<blockquote class="last">
-<div><p>pixel size in X and Y directions given in meters</p>
-</div></blockquote>
+<p class="last">pixel size in X and Y directions given in meters</p>
 </td>
 </tr>
 </tbody>
@@ -2523,8 +2531,8 @@ in the center of the domain.</div>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : list with one or more points or shape file name</p>
 <blockquote>
 <div><div class="line-block">
-<div class="line">i.e.</div>
-<div class="line">[</div>
+<div class="line">i.e. [</div>
+<div class="line-block">
 <div class="line-block">
 <div class="line"># get all transect values</div>
 <div class="line">[(lon_T1, lat_T1), (lon_T2, lat_T2), (lon_T3, lat_T3), ...]</div>
@@ -2542,6 +2550,7 @@ in the center of the domain.</div>
 </div>
 <div class="line">]</div>
 </div>
+</div>
 </div></blockquote>
 <p><strong>bandList</strong> : list of int or string</p>
 <blockquote>
@@ -2554,24 +2563,24 @@ in the center of the domain.</div>
 <div class="line">If the points in pixel/line, then False.</div>
 </div>
 </div></blockquote>
-<p><strong>returnOGR</strong> : bool</p>
+<p><strong>returnOGR: bool</strong></p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">If True, then return numpy array</div>
 <div class="line">If False, return OGR object</div>
 </div>
 </div></blockquote>
-<p><strong>layerNum</strong> : int</p>
+<p><strong>layerNum: int</strong></p>
 <blockquote>
 <div><p>If shapefile is given as points, it is the number of the layer</p>
 </div></blockquote>
-<p><strong>smoothRadius</strong> : int</p>
+<p><strong>smoothRadius: int</strong></p>
 <blockquote>
 <div><p>If smootRadius is greater than 0, smooth every transect
 pixel as the median or mean value in a circule with radius
 equal to the given number.</p>
 </div></blockquote>
-<p><strong>smoothAlg</strong> : 0 or 1 for median or mean</p>
+<p><strong>smoothAlg: 0 or 1 for median or mean</strong></p>
 <p><strong>transect</strong> : bool</p>
 <blockquote>
 <div><div class="line-block">
@@ -2581,23 +2590,28 @@ equal to the given number.</p>
 </div></blockquote>
 <p><strong>vmin, vmax</strong> : int (optional)</p>
 <blockquote>
-<div><p>minimum and maximum pixel values of an image shown
-in case points is None.</p>
+<div><div class="line-block">
+<div class="line">minimum and maximum pixel values of an image shown
+in case points is None.</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>NansatOGR</strong> : nansatshape object (if retunOGR is True)</p>
-<p><strong>transectDict</strong> : dictionary (if retunOGR is False)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>transect</strong> : OGR object with points coordinates and values</p>
 <blockquote>
-<div><p>keys are band names.
-Values are dictionaries of the transect values of each shape.</p>
+<div><p>(if returnOGR = True)</p>
 </div></blockquote>
-<p><strong>vectorsDict</strong> : dictionary (if retunOGR is False)</p>
+<p><strong>transectDict</strong> : dictionary (if returnOGR = False)</p>
+<blockquote>
+<div><p>key is band name.
+Value is a dictionary of the transect values of each shape.</p>
+</div></blockquote>
+<p><strong>vectorsDict</strong> : dictionary (if returnOGR = False)</p>
 <blockquote>
 <div><p>keys are shape ID. values are dictionaries
 with longitude and latitude lists of each shape.</p>
 </div></blockquote>
-<p><strong>pixlinCoordDic</strong> : dictionary (if retunOGR is False)</p>
+<p><strong>pixlinCoordDic</strong> : dictionary (if returnOGR = False)</p>
 <blockquote class="last">
 <div><p>keys are shape ID. values are numpy array
 with pixels and lines coordinates</p>
@@ -2662,12 +2676,14 @@ for each band in the metadata of the given Nansat object.</p>
 <dt id="nansat.Nansat.reproject">
 <tt class="descname">reproject</tt><big>(</big><em>dstDomain=None</em>, <em>eResampleAlg=0</em>, <em>blockSize=None</em>, <em>WorkingDataType=None</em>, <em>tps=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Nansat.reproject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change projection of the object based on the given Domain</p>
-<p>Create superVRT from self.vrt with AutoCreateWarpedVRT() using
-projection from the dstDomain.
-Modify XML content of the warped vrt using the Domain parameters.
-Generate warpedVRT and replace self.vrt with warpedVRT.
-If current object spans from 0 to 360 and dstDomain is west of 0,
-the object is shifted by 180 westwards.</p>
+<div class="line-block">
+<div class="line">Create superVRT from self.vrt with AutoCreateWarpedVRT() using
+projection from the dstDomain.</div>
+<div class="line">Modify XML content of the warped vrt using the Domain parameters.</div>
+<div class="line">Generate warpedVRT and replace self.vrt with warpedVRT.</div>
+<div class="line">If current object spans from 0 to 360 and dstDomain is west of 0,
+the object is shifted by 180 westwards.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2697,19 +2713,23 @@ but increase accuracy at the edge</p>
 </div></blockquote>
 <p><strong>tps</strong> : bool</p>
 <blockquote>
-<div><p>Apply Thin Spline Transformation if source or destination has GCPs
-Usage of TPS can also be triggered by setting self.vrt.tps=True
-before calling to reproject.
-This options has priority over self.vrt.tps</p>
+<div><div class="line-block">
+<div class="line">Apply Thin Spline Transformation if source or destination has GCPs</div>
+<div class="line">Usage of TPS can also be triggered by setting self.vrt.tps=True
+before calling to reproject.</div>
+<div class="line">This options has priority over self.vrt.tps</div>
+</div>
 </div></blockquote>
 <p><strong>skip_gcps</strong> : int</p>
 <blockquote>
-<div><p>Using TPS can be very slow if the number of GCPs are large.
-If this parameter is given, only every [skip_gcp] GCP is used,
-improving calculation time at the cost of accuracy.
-If not given explicitly, &#8216;skip_gcps&#8217; is fetched from the
-metadata of self, or from dstDomain (as set by mapper or user).
-[defaults to 1 if not specified, i.e. using all GCPs]</p>
+<div><div class="line-block">
+<div class="line">Using TPS can be very slow if the number of GCPs are large.</div>
+<div class="line">If this parameter is given, only every [skip_gcp] GCP is used,
+improving calculation time at the cost of accuracy.</div>
+<div class="line">If not given explicitly, &#8216;skip_gcps&#8217; is fetched from the
+metadata of self, or from dstDomain (as set by mapper or user).</div>
+<div class="line">[defaults to 1 if not specified, i.e. using all GCPs]</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -2724,7 +2744,7 @@ metadata of self, or from dstDomain (as set by mapper or user).
 <div class="line">If you do not want to round off, convert the data types
 to GDT_Float32, GDT_Float64, or GDT_CFloat32.</div>
 </div>
-<p>see also: <a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></p>
+<p>see also : <a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -2775,18 +2795,22 @@ the scaling factor is calculated accordingly.</div>
 </div></blockquote>
 <p><strong>width</strong> : int, optional</p>
 <blockquote>
-<div><p>Desired new width in pixels</p>
+<div><div class="line-block">
+<div class="line">Desired new width in pixels</div>
+</div>
 </div></blockquote>
 <p><strong>height</strong> : int, optional</p>
 <blockquote>
-<div><p>Desired new height in pixels</p>
+<div><div class="line-block">
+<div class="line">Desired new height in pixels</div>
+</div>
 </div></blockquote>
 <p><strong>pixelsize</strong> : float, optional</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">Desired new pixelsize in meters (approximate).</div>
-<div class="line">A factor is calculated from ratio of the</div>
-<div class="line">current pixelsize to the desired pixelsize.</div>
+<div class="line">A factor is calculated from ratio of the
+current pixelsize to the desired pixelsize.</div>
 </div>
 </div></blockquote>
 <p><strong>eResampleAlg</strong> : int (GDALResampleAlg), optional</p>
@@ -2804,8 +2828,10 @@ the scaling factor is calculated accordingly.</div>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt.dataset</strong> : VRT dataset of VRT object</p>
 <blockquote class="last">
-<div><p>raster size are modified to downscaled size.
-If GCPs are given in the dataset, they are also overwritten.</p>
+<div><div class="line-block">
+<div class="line">raster size are modified to downscaled size.</div>
+<div class="line">If GCPs are given in the dataset, they are also overwritten.</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -2875,8 +2901,10 @@ Without : global metadata is set</p>
 </div></blockquote>
 <p><strong>DstToSrc</strong> : 0 or 1</p>
 <blockquote>
-<div><p>0 - forward transform (pix/line =&gt; lon/lat)
-1 - inverse transformation</p>
+<div><div class="line-block">
+<div class="line">0 - forward transform (pix/line =&gt; lon/lat)</div>
+<div class="line">1 - inverse transformation</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -2905,7 +2933,7 @@ Without : global metadata is set</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : vrt object</p>
 </td>
 </tr>
 </tbody>
@@ -2916,8 +2944,10 @@ Without : global metadata is set</p>
 <dt id="nansat.Nansat.watermask">
 <tt class="descname">watermask</tt><big>(</big><em>mod44path=None</em>, <em>dstDomain=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Nansat.watermask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create numpy array with watermask (water=1, land=0)</p>
-<p>250 meters resolution watermask from MODIS 44W Product:
-<a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></p>
+<div class="line-block">
+<div class="line">250 meters resolution watermask from MODIS 44W Product:</div>
+<div class="line"><a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></div>
+</div>
 <div class="line-block">
 <div class="line">Watermask is stored as tiles in TIF(LZW) format and a VRT file</div>
 <div class="line">All files are stored in one directory.</div>
@@ -2925,15 +2955,18 @@ Without : global metadata is set</p>
 downloaded from the Nansat wiki:</div>
 <div class="line"><a class="reference external" href="https://svn.nersc.no/nansat/wiki/Nansat/Data/Watermask">https://svn.nersc.no/nansat/wiki/Nansat/Data/Watermask</a></div>
 </div>
-<div class="line-block">
-<div class="line">The method :</div>
-<div class="line">Gets the directory either from input parameter or from environment
-variable MOD44WPATH</div>
+<dl class="docutils">
+<dt>The method :</dt>
+<dd><div class="first last line-block">
+<div class="line">Gets the directory either from input parameter or from environment</div>
+<div class="line">variable MOD44WPATH</div>
 <div class="line">Open Nansat object from the VRT file</div>
 <div class="line">Reprojects the watermask onto the current object using reproject()
 or reproject_on_jcps()</div>
 <div class="line">Returns the reprojected Nansat object</div>
 </div>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -2964,8 +2997,10 @@ See also Nansat.reproject()</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>250 meters resolution watermask from MODIS 44W Product:
-<a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></p>
+<div class="line-block">
+<div class="line">250 meters resolution watermask from MODIS 44W Product:</div>
+<div class="line"><a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -2975,8 +3010,10 @@ See also Nansat.reproject()</p>
 <div class="line-block">
 <div class="line">Get numpy array from the band(s) and band information specified
 either by given band number or band id.</div>
+<div class="line-block">
 <div class="line">If three bands are given, merge them and create PIL image.</div>
 <div class="line">If one band is given, create indexed image</div>
+</div>
 <div class="line">Create Figure object and:</div>
 <div class="line">Adjust the array brightness and contrast using the given min/max or
 histogram.</div>
@@ -3030,7 +3067,7 @@ fallback-&#8216;hist&#8217;</div>
 <p><strong>**kwargs</strong> : parameters for Figure().</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>if fileName is specified, creates image file</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>image file</strong> : creates image file, if fileName is specified</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>Figure object</strong> : Figure object</p>
@@ -3039,33 +3076,43 @@ fallback-&#8216;hist&#8217;</div>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Write only indexed image, color limits from WKV or from histogram</p>
+<div class="line-block">
+<div class="line">see alos: Figure()</div>
+<div class="line"><a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></div>
+</div>
+<p class="rubric">Examples</p>
+<div class="line-block">
+<div class="line">write only indexed image, color limits from WKV or from histogram</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test.jpg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Write only RGB image, color limits from histogram</p>
+<div class="line-block">
+<div class="line">write only RGB image, color limits from histogram</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test_rgb_hist.jpg&#39;</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="s">&#39;hist&#39;</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Write indexed image, apply log scaling and gamma correction,
+<div class="line-block">
+<div class="line">write indexed image, apply log scaling and gamma correction,
 add legend and type in title &#8216;Title&#8217;, increase font size and put 15
-tics</p>
+tics</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;r09_log3_leg.jpg&#39;</span><span class="p">,</span> <span class="n">logarithm</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">gamma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">titleString</span><span class="o">=</span><span class="s">&#39;Title&#39;</span><span class="p">,</span> <span class="n">fontSize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">numOfTicks</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>                       <span class="n">gamma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">titleString</span><span class="o">=</span><span class="s">&#39;Title&#39;</span><span class="p">,</span> <span class="n">fontSize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                       <span class="n">numOfTicks</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Write an image to png with transparent Mask set to color
-transparency=[0,0,0], following PIL alpha mask</p>
+<div class="line-block">
+<div class="line">write an image to png with transparent Mask set to color
+transparency=[0,0,0], following PIL alpha mask</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="s">&#39;transparent.png&#39;</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">mask_array</span><span class="o">=</span><span class="n">wmArray</span><span class="p">,</span> <span class="n">mask_lut</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]},</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span> <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">mask_array</span><span class="o">=</span><span class="n">wmArray</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">mask_lut</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]},</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span> <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>see also Figure() :</dt>
-<dd><a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -3074,15 +3121,19 @@ transparency=[0,0,0], following PIL alpha mask</p>
 <dd><p>Writes an 8-bit GeoTiff image for a given band.</p>
 <div class="line-block">
 <div class="line">The output GeoTiff image is convenient e.g. for display in a GIS tool.</div>
-<div class="line">Colormap is fetched from the metadata item &#8216;colormap&#8217;.
-Fallback colormap is &#8216;jet&#8217;.</div>
+<div class="line">Colormap is fetched from the metadata item &#8216;colormap&#8217;.</div>
+<div class="line-block">
+<div class="line">Fallback colormap is &#8216;jet&#8217;.</div>
+</div>
 <div class="line">Color limits are fetched from the metadata item &#8216;minmax&#8217;.</div>
+<div class="line-block">
 <div class="line">If &#8216;minmax&#8217; is not specified, min and max of raster is used.</div>
+</div>
 </div>
 <div class="line-block">
 <div class="line">The method can be replaced by using nansat.write_figure(),
-however, write_figure uses PIL which does not allow
-Tiff compression, giving much larger files</div>
+however, write_figure uses PIL which does not allow</div>
+<div class="line">Tiff compression, giving much larger files</div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -3148,23 +3199,25 @@ or write KML-file with the current Domain</p>
 (Simple Cylindrical) projection</div>
 <div class="line">1. Cancel previous reprojection</div>
 <div class="line">2. Get corners of the image and the pixel resolution</div>
-<div class="line">3. Create Domain with stereographic projection,
-corner coordinates and resolution 1000m</div>
+<div class="line">3. Create Domain with stereographic projection,</div>
+<div class="line-block">
+<div class="line">corner coordinates and resolution 1000m</div>
+</div>
 <div class="line">4. Reproject</div>
 <div class="line">5. Write image</div>
 <div class="line">6. Write KML for the image</div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span>  <span class="c"># 1.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span>  <span class="c"># 2.</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span> <span class="c"># 1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span> <span class="c"># 2.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">srsString</span> <span class="o">=</span> <span class="s">&#39;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">extentString</span> <span class="o">=</span> <span class="s">&#39;-lle </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> -ts 3000 3000&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span>  <span class="c"># 3.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>  <span class="c"># 4.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span> <span class="c"># 3.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c"># 4.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="n">figureName</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># 5.</span>
+<span class="gp">&gt;&gt;&gt; </span>              <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c"># 5.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_kml_image</span><span class="p">(</span><span class="n">kmlFileName</span><span class="o">=</span><span class="n">oPath</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s">&#39;.kml&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span>  <span class="c"># 6.</span>
+<span class="gp">&gt;&gt;&gt; </span>                 <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span> <span class="c"># 6.</span>
 </pre></div>
 </div>
 </dd></dl>
@@ -3321,20 +3374,26 @@ see &#8211;&gt; <a class="reference external" href="http://www.scipy.org/Cookboo
 </div></blockquote>
 <p><strong>fontSize</strong> : int</p>
 <blockquote>
-<div><p>12, size of the font of title, caption and ticks.
-If not given, fontSize is calculated using fontRatio:
-fontSize = height / 45 * fontRatio.
-fontSize has priority over fontRatio</p>
+<div><div class="line-block">
+<div class="line">12, size of the font of title, caption and ticks.</div>
+<div class="line">If not given, fontSize is calculated using fontRatio:</div>
+<div class="line">fontSize = height / 45 * fontRatio.</div>
+<div class="line">fontSize has priority over fontRatio</div>
+</div>
 </div></blockquote>
 <p><strong>logarithm</strong> : boolean, defult = False</p>
 <blockquote>
-<div><p>If True, tone curve is used to convert pixel values.
-If False, linear.</p>
+<div><div class="line-block">
+<div class="line">If True, tone curve is used to convert pixel values.</div>
+<div class="line">If False, linear.</div>
+</div>
 </div></blockquote>
 <p><strong>legend</strong> : boolean, default = False</p>
 <blockquote>
-<div><p>if True, information as textString, colorbar, longName and
-units are added in the figure.</p>
+<div><div class="line-block">
+<div class="line">if True, information as textString, colorbar, longName and
+units are added in the figure.</div>
+</div>
 </div></blockquote>
 <p><strong>mask_array</strong> : 2D numpy array, int, the shape should be equal</p>
 <blockquote>
@@ -3345,15 +3404,17 @@ indeces.</p>
 </div></blockquote>
 <p><strong>mask_lut</strong> : dictionary</p>
 <blockquote>
-<div><p>Look-Up-Table with colors for masking land, clouds etc. Used
-tgether with mask_array:
-{0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}
-index 0 - will have black color</p>
-<blockquote>
-<div><p>1 - dark gray
-2 - light gray
-3 - blue</p>
-</div></blockquote>
+<div><div class="line-block">
+<div class="line">Look-Up-Table with colors for masking land, clouds etc. Used
+tgether with mask_array:</div>
+<div class="line">{0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}</div>
+<div class="line">index 0 - will have black color</div>
+<div class="line-block">
+<div class="line">1 - dark gray</div>
+<div class="line">2 - light gray</div>
+<div class="line">3 - blue</div>
+</div>
+</div>
 </div></blockquote>
 <p><strong>logoFileName</strong> : string</p>
 <blockquote>
@@ -3361,10 +3422,12 @@ index 0 - will have black color</p>
 </div></blockquote>
 <p><strong>logoLocation</strong> : list of two int, default = [0,0]</p>
 <blockquote>
-<div><p>X and Y offset of the image
-If positive - offset is from left, upper edge
-If Negative - from right, lower edge
-Offset is calculated from the entire image legend inclusive</p>
+<div><div class="line-block">
+<div class="line">X and Y offset of the image</div>
+<div class="line">If positive - offset is from left, upper edge</div>
+<div class="line">If Negative - from right, lower edge</div>
+<div class="line">Offset is calculated from the entire image legend inclusive</div>
+</div>
 </div></blockquote>
 <p><strong>logoSize</strong> : list of two int</p>
 <blockquote>
@@ -3404,9 +3467,11 @@ mask in Figure.save()</p>
 </div></blockquote>
 <p><strong>self.pilImgLegend</strong> : PIL image</p>
 <blockquote>
-<div><p>if pilImgLegend is None, legend is not added to the figure
-if it is replaced, pilImgLegend includes text string, color-bar,
-longName and units.</p>
+<div><div class="line-block">
+<div class="line">if pilImgLegend is None, legend is not added to the figure</div>
+<div class="line">if it is replaced, pilImgLegend includes text string, color-bar,
+longName and units.</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -3571,7 +3636,7 @@ longName and units.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 <p><strong>latGrid</strong> : numpy array</p>
 <blockquote>
@@ -3587,7 +3652,7 @@ longName and units.</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -3609,14 +3674,14 @@ longName and units.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 <p><strong>latGrid</strong> : numpy array</p>
 <p><strong>lonGrid</strong> : numpy array</p>
 <p><strong>latlonLabels</strong> : int</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -3639,11 +3704,11 @@ longName and units.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -3654,15 +3719,18 @@ longName and units.</p>
 <dt id="nansat.Figure.apply_logarithm">
 <tt class="descname">apply_logarithm</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Figure.apply_logarithm" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a tone curve to the array</p>
-<p>After the normalization of the values from 0 to 1, logarithm is
-applied. Then the values are converted to the normal scale.</p>
+<div class="line-block">
+<div class="line">After the normalization of the values from 0 to 1,
+logarithm is applied</div>
+<div class="line">Then the values are converted to the normal scale.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3677,18 +3745,22 @@ applied. Then the values are converted to the normal scale.</p>
 <dt id="nansat.Figure.apply_mask">
 <tt class="descname">apply_mask</tt><big>(</big><em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Figure.apply_mask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply mask for coloring land, clouds, etc</p>
-<p>If mask_array and mask_lut are provided as input parameters.
-The pixels in self.array which have index equal to mask_lut kay
-in mask_array will have color equal to mask_lut value</p>
-<p>apply_mask should be called only after convert_palettesize
-(i.e. to uint8 data)</p>
+<div class="line-block">
+<div class="line">If mask_array and mask_lut are provided as input parameters</div>
+<div class="line">The pixels in self.array which have index equal to mask_lut kay
+in mask_array will have color equal to mask_lut value</div>
+</div>
+<div class="line-block">
+<div class="line">apply_mask should be called only after convert_palettesize
+(i.e. to uint8 data)</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3715,7 +3787,7 @@ return the minimum and maximum values.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3743,7 +3815,7 @@ return the minimum and maximum values.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3765,7 +3837,7 @@ return the minimum and maximum values.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3787,7 +3859,7 @@ return the minimum and maximum values.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3820,7 +3892,7 @@ then paste pilImgLegend onto it.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
@@ -3856,15 +3928,15 @@ then paste pilImgLegend onto it.</div>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
 <blockquote>
-<div><p>Any of Figure.__init__() parameters</p>
+<div><p>Any of Figure__init__() parameters</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong></p>
-<p><strong>self.array</strong></p>
-<p><strong>self.palette</strong></p>
-<p><strong>self.pilImgLegend</strong></p>
-<p class="last"><strong>self.pilImg</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.d</strong> : domain</p>
+<p><strong>self.array</strong> : np.array</p>
+<p><strong>self.palette</strong> : palette</p>
+<p><strong>self.pilImgLegend</strong> : pilImgLegend</p>
+<p class="last"><strong>self.pilImg</strong> : pilImg</p>
 </td>
 </tr>
 </tbody>
@@ -3884,7 +3956,10 @@ then paste pilImgLegend onto it.</div>
 <blockquote>
 <div><p>name of outputfile</p>
 </div></blockquote>
-<p><strong>Any of Figure.__init__() parameters</strong></p>
+<p><strong>**kwargs</strong> : dictionary</p>
+<blockquote>
+<div><p>Any of Figure__init__() parameters</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.pilImg</strong> : None</p>
@@ -3899,8 +3974,8 @@ then paste pilImgLegend onto it.</div>
 <dl class="class">
 <dt id="nansat.Nansatmap">
 <em class="property">class </em><tt class="descclassname">nansat.</tt><tt class="descname">Nansatmap</tt><big>(</big><em>domain</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Nansatmap" title="Permalink to this definition">¶</a></dt>
-<dd><p>Set attributes</p>
-<p>Get proj4 from the given domain and convert the proj4 projection to
+<dd><p>Set attributes
+Get proj4 from the given domain and convert the proj4 projection to
 the basemap projection.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -3924,19 +3999,21 @@ e.g. contour_plots(contour_style=&#8217;fill&#8217;), put_color()</p>
 </div></blockquote>
 <p><strong>self.mpl</strong> : list</p>
 <blockquote class="last">
-<div><dl class="docutils">
-<dt>elements are matplotlib.contour.QuadContourSet instance,</dt>
-<dd><p class="first last">matplotlib.quiver.Quiver instance or
-matplotlib.collections.QuadMesh object</p>
-</dd>
-</dl>
+<div><div class="line-block">
+<div class="line">elements are :</div>
+<div class="line-block">
+<div class="line">matplotlib.contour.QuadContourSet instance,</div>
+<div class="line">matplotlib.quiver.Quiver instance or</div>
+<div class="line">matplotlib.collections.QuadMesh object</div>
+</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>see also : <a class="reference external" href="http://matplotlib.org/basemap/api/basemap_api.html">http://matplotlib.org/basemap/api/basemap_api.html</a></p>
+<p>See also : <a class="reference external" href="http://matplotlib.org/basemap/api/basemap_api.html">http://matplotlib.org/basemap/api/basemap_api.html</a></p>
 <p class="rubric">Attributes</p>
 <table border="1" class="docutils">
 <colgroup>
@@ -4123,12 +4200,10 @@ matplotlib.collections.QuadMesh object</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>fontsize</strong> : int</p>
-<blockquote>
-<div><p>Parameters for matplotlib.pyplot.colorbar</p>
-</div></blockquote>
+<p><strong>Parameters for matplotlib.pyplot.colorbar</strong></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.fig</strong> : Adds colorbar</p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Adds colorbar to self.fig</strong></p>
 </td>
 </tr>
 </tbody>
@@ -4239,16 +4314,14 @@ to downsample the image (<tt class="docutils literal"><span class="pre">scale=0.
 </div></blockquote>
 <p><strong>mode</strong> : string</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">mname of smoothing algorithm to apply</div>
-<div class="line">e.g.) &#8216;gaussian&#8217;, &#8216;spline&#8217;, &#8216;fourier&#8217;, &#8216;convolve&#8217;</div>
-</div>
+<div><p>&#8216;gaussian&#8217;, &#8216;spline&#8217;, &#8216;fourier&#8217;, &#8216;convolve&#8217;
+mname of smoothing algorithm to apply</p>
 </div></blockquote>
 <p><strong>label</strong> : boolean</p>
 <blockquote>
 <div><p>Add lables?</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong></p>
+<p><strong>**kwargs: dictionary</strong></p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">Optional parameters for Nansatmap.smooth()</div>
@@ -4292,11 +4365,11 @@ to downsample the image (<tt class="docutils literal"><span class="pre">scale=0.
 <p><strong>mode</strong> : string</p>
 <blockquote>
 <div><div class="line-block">
-<div class="line">name of smoothing algorithm to apply</div>
+<div class="line">mname of smoothing algorithm to apply</div>
 <div class="line">e.g.) &#8216;gaussian&#8217;, &#8216;spline&#8217;, &#8216;fourier&#8217;, &#8216;convolve&#8217;</div>
 </div>
 </div></blockquote>
-<p><strong>**kwargs:</strong></p>
+<p><strong>**kwargs: dictionary</strong></p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">cmap : colormap (e.g. cm.jet)</div>
@@ -4324,7 +4397,11 @@ to downsample the image (<tt class="docutils literal"><span class="pre">scale=0.
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> : Parameters for basemap.fillcontinents</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>**kwargs</strong> : dictionary</p>
+<blockquote class="last">
+<div><p>Parameters for basemap.fillcontinents</p>
+</div></blockquote>
+</td>
 </tr>
 </tbody>
 </table>
@@ -5118,7 +5195,7 @@ As a result, those values will not be plotted.</p>
 <blockquote>
 <div><p>Input data</p>
 </div></blockquote>
-<p><strong>**kwargs:</strong></p>
+<p><strong>**kwargs: dictionary</strong></p>
 <blockquote>
 <div><p>Parameters for Basemap.pcolormesh (e.g. vmin, vmax)</p>
 </div></blockquote>
@@ -5173,7 +5250,10 @@ are assumed to be map projection coordinates.</p>
 <blockquote>
 <div><p>Number of vectors along both dimentions</p>
 </div></blockquote>
-<p><strong>**kwargs</strong> : Parameters for Basemap.quiver()</p>
+<p><strong>**kwargs: dictionary</strong></p>
+<blockquote>
+<div><p>Parameters for Basemap.quiver()</p>
+</div></blockquote>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.mpl</strong> : list</p>
@@ -5339,7 +5419,10 @@ coordinates of the grid defined by <tt class="docutils literal"><span class="pre
 <blockquote>
 <div><p>Draw landmask?</p>
 </div></blockquote>
-<p class="last"><strong>**kwargs</strong> : Parameters for basemap.fillcontinents</p>
+<p><strong>**kwargs: dictionary</strong></p>
+<blockquote class="last">
+<div><p>Parameters for basemap.fillcontinents</p>
+</div></blockquote>
 </td>
 </tr>
 </tbody>
@@ -5452,6 +5535,7 @@ the weight matrix is created automatically.</p>
 <blockquote>
 <div><p>&#8216;convolve&#8217;,&#8217;fourier&#8217;,&#8217;spline&#8217; or &#8216;gaussian&#8217;</p>
 </div></blockquote>
+<p><strong>**kwargs: dictionary</strong></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>odata</strong> : numpy 2D array</p>
@@ -5460,7 +5544,7 @@ the weight matrix is created automatically.</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>See also : <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/ndimage.html">http://docs.scipy.org/doc/scipy/reference/ndimage.html</a></p>
+<p>see also : <a class="reference external" href="http://docs.scipy.org/doc/scipy/reference/ndimage.html">http://docs.scipy.org/doc/scipy/reference/ndimage.html</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -5956,21 +6040,23 @@ to self.vrt.subVRTs</p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>Creates VRT object with VRT-file and RAW-file</strong></p>
-<blockquote class="last">
-<div><p>Adds band to the self.vrt</p>
-</div></blockquote>
+<p class="last"><strong>Adds band to the self.vrt</strong></p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>add new band from numpy array &lt;a&gt; with metadata &lt;p&gt; in memory
-Shape of a should be equal to the shape of &lt;n&gt;</p>
+<div class="line-block">
+<div class="line">add new band from numpy array &lt;a&gt; with metadata &lt;p&gt; in memory</div>
+<div class="line">Shape of a should be equal to the shape of &lt;n&gt;</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>add new band from an array &lt;a&gt; with metadata &lt;p&gt; but keep it
-temporarli on disk intead of memory</p>
+<div class="line-block">
+<div class="line">add new band from an array &lt;a&gt; with metadata &lt;p&gt; but keep it</div>
+<div class="line">temporarli on disk intead of memory</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_band</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">nomem</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -5997,17 +6083,16 @@ to self.vrt.subVRTs</p>
 <p><strong>nomem</strong> : boolean, saves the vrt to a tempfile if nomem is True</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>Creates VRT object with VRT-file and RAW-file</strong></p>
-<blockquote class="last">
-<div><p>Adds band to the self.vrt</p>
-</div></blockquote>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : Add bands</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Examples</p>
-<p>add two new bands from numpy arrays &lt;a1&gt; and &lt;a2&gt; with metadata in
-&#8216;p1&#8217; and &#8216;p2&#8217;</p>
+<div class="line-block">
+<div class="line">add two new bands from numpy arrays &lt;a1&gt; and &lt;a2&gt; with metadata in
+&#8216;p1&#8217; and &#8216;p2&#8217;</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">add_bands</span><span class="p">([</span><span class="n">a1</span><span class="p">,</span> <span class="n">a2</span><span class="p">],</span> <span class="p">[</span><span class="n">p1</span><span class="p">,</span> <span class="n">p2</span><span class="p">])</span>
 </pre></div>
 </div>
@@ -6017,27 +6102,31 @@ to self.vrt.subVRTs</p>
 <dt id="nansat.Mosaic.average">
 <tt class="descname">average</tt><big>(</big><em>files=[], bands=[1], doReproject=True, maskName='mask', threads=1, **kwargs</em><big>)</big><a class="headerlink" href="#nansat.Mosaic.average" title="Permalink to this definition">¶</a></dt>
 <dd><p>Memory-friendly, multithreaded mosaicing(averaging) of input files</p>
-<p>Convert all input files into Nansat objects, reproject onto the
-Domain of the current object, get bands, from each object,
+<div class="line-block">
+<div class="line">Convert all input files into Nansat objects, reproject onto the</div>
+<div class="line">Domain of the current object, get bands, from each object,
 calculate average and STD, add averaged bands (and STD) to the current
-object.</p>
-<p>average() tries to get band &#8216;mask&#8217; from the input files. The mask
-should have the following coding:</p>
-<blockquote>
-<div><div class="line-block">
+object.</div>
+</div>
+<div class="line-block">
+<div class="line">average() tries to get band &#8216;mask&#8217; from the input files. The mask
+should have the following coding:</div>
+<div class="line-block">
 <div class="line">0 : nodata</div>
 <div class="line">1 : clouds</div>
 <div class="line">2 : land</div>
 <div class="line">64 : valid pixel</div>
 </div>
-</div></blockquote>
-<p>If it gets that band (which can be provided by some mappers or Nansat
+<div class="line">If it gets that band (which can be provided by some mappers or Nansat
 childs, e.g.  ModisL2Image) it uses it to select averagable pixels
-(i.e. where mask == 64).
-If it cannot locate the band &#8216;mask&#8217; is assumes that all pixels are
-averagebale except for thouse out of swath after reprojection.</p>
-<p>average() adds bands to the object, so it works only with empty, or
-non-projected objects</p>
+(i.e. where mask == 64).</div>
+<div class="line">If it cannot locate the band &#8216;mask&#8217; is assumes that all pixels are
+averagebale except for thouse out of swath after reprojection.</div>
+</div>
+<div class="line-block">
+<div class="line">average() adds bands to the object, so it works only with empty, or
+non-projected objects</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6229,8 +6318,10 @@ If None, all bands are exported.</p>
 </div></blockquote>
 <p><strong>rmMetadata</strong> : list</p>
 <blockquote>
-<div><p>metadata names for removal before export.
-e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;sourceBands&#8217;]</p>
+<div><div class="line-block">
+<div class="line">metadata names for removal before export.</div>
+<div class="line">e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;sourceBands&#8217;]</div>
+</div>
 </div></blockquote>
 <p><strong>addGeolocArray</strong> : bool</p>
 <blockquote>
@@ -6246,11 +6337,12 @@ e.g. [&#8216;name&#8217;, &#8216;colormap&#8217;, &#8216;source&#8217;, &#8216;s
 </div></blockquote>
 <p><strong>bottomup</strong> : bool</p>
 <blockquote>
-<div><div class="line-block">
-<div class="line">False: Write swath-projected data with rows and columns organized
-as in the original product.</div>
-<div class="line">True:  Use the default behaviour of GDAL, which is to flip the rows</div>
-</div>
+<div><dl class="docutils">
+<dt>False: Write swath-projected data with rows and columns organized</dt>
+<dd><p class="first last">as in the original product.</p>
+</dd>
+</dl>
+<p>True:  Use the default behaviour of GDAL, which is to flip the rows</p>
 </div></blockquote>
 <p><strong>options</strong> : str or list</p>
 <blockquote>
@@ -6260,24 +6352,26 @@ See also <a class="reference external" href="http://www.gdal.org/frmt_netcdf.htm
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>Create a netCDF file</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>netCDF file</strong> : Create a netCDF file</p>
 </td>
 </tr>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>If number of bands is more than one,
-serial numbers are added at the end of each band name.</p>
-<p>It is possible to fix it by changing
-line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</p>
 <div class="line-block">
+<div class="line">If number of bands is more than one,
+serial numbers are added at the end of each band name.</div>
+</div>
+<div class="line-block">
+<div class="line">It is possible to fix it by changing</div>
+<div class="line">line.4605 in GDAL/frmts/netcdf/netcdfdataset.cpp :</div>
 <div class="line">&#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s%d&#8221;,tmpMetadata,iBand);&#8217;</div>
-<div class="line-block">
 <div class="line">&#8211;&gt; &#8216;if( nBands &gt; 1 ) sprintf(szBandName,&#8221;%s&#8221;,tmpMetadata);&#8217;</div>
 </div>
+<div class="line-block">
+<div class="line">CreateCopy fails in case the band name has special characters,
+e.g. the slash in &#8216;HH/VV&#8217;.</div>
 </div>
-<p>CreateCopy fails in case the band name has special characters,
-e.g. the slash in &#8216;HH/VV&#8217;.</p>
 <p class="rubric">Examples</p>
 <p>export all the bands into a netDCF 3 file</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">export</span><span class="p">(</span><span class="n">netcdfile</span><span class="p">)</span>
@@ -6307,26 +6401,32 @@ e.g. the slash in &#8216;HH/VV&#8217;.</p>
 <div class="line">{&#8216;band_name&#8217;: {&#8216;type&#8217;     : &#8216;&gt;i1&#8217;,</div>
 <div class="line-block">
 <div class="line">&#8216;scale&#8217;    : 0.1,</div>
+<div class="line-block">
 <div class="line">&#8216;offset&#8217;   : 1000,</div>
+<div class="line-block">
 <div class="line">&#8216;metaKey1&#8217; : &#8216;meta value 1&#8217;,</div>
 <div class="line">&#8216;metaKey2&#8217; : &#8216;meta value 2&#8217;}}</div>
+</div>
+</div>
 </div>
 <div class="line">dictionary sets parameters for band creation</div>
 <div class="line">&#8216;type&#8217; - string representation of data type in the output band</div>
 <div class="line">&#8216;scale&#8217; - sets scale_factor and applies scaling</div>
-<div class="line">&#8216;offset&#8217; - sets &#8216;scale_offset and applies offsetting
-other entries (e.g. &#8216;units&#8217;: &#8216;K&#8217;) set other metadata</div>
+<div class="line">&#8216;offset&#8217; - sets &#8216;scale_offset and applies offsetting</div>
+<div class="line">other entries (e.g. &#8216;units&#8217;: &#8216;K&#8217;) set other metadata</div>
 </div>
 </div></blockquote>
 <p><strong>metadata</strong> : dict</p>
 <blockquote>
 <div><p>Glbal metadata to add</p>
 </div></blockquote>
-<p><strong>maskName: string</strong></p>
+<p><strong>maskName: string;</strong></p>
 <blockquote>
-<div><p>if data include a mask band: give the mask name.
-Non-masked value is 64.
-if None: no mask is added</p>
+<div><div class="line-block">
+<div class="line">if data include a mask band: give the mask name.</div>
+<div class="line">Non-masked value is 64.</div>
+<div class="line">if None: no mask is added</div>
+</div>
 </div></blockquote>
 <p><strong>rmMetadata</strong> : list</p>
 <blockquote>
@@ -6375,12 +6475,12 @@ valid Spatial reference information) but not wth GCPs</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">if number - a band number of the band to fetch</div>
-<div class="line">if string - bandID = {&#8216;name&#8217;: bandID}</div>
+<div class="line">if string bandID = {&#8216;name&#8217;: bandID}</div>
 </div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>GDALRasterBand</strong> : GDALRasterBand</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>GDAL RasterBand</strong> : GDAL RasterBand</p>
 </td>
 </tr>
 </tbody>
@@ -6424,7 +6524,7 @@ valid Spatial reference information) but not wth GCPs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : OGR Geometry (type Polygon)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>OGR Geometry</strong> : type Polygon</td>
 </tr>
 </tbody>
 </table>
@@ -6438,7 +6538,7 @@ valid Spatial reference information) but not wth GCPs</p>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : PolygonFromText (PolygonWKT)</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>str</strong> : &#8216;PolygonFromText(PolygonWKT)&#8217;</td>
 </tr>
 </tbody>
 </table>
@@ -6535,8 +6635,9 @@ from the geolocation bands.</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : string with metadata if key is given</p>
-<p class="last"><strong>dictionary</strong> : dictionary with all metadata if key is not given</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>string</strong> : a string with metadata if key is given and found</p>
+<p><strong>empty string</strong> : an empty string if key is given and not found</p>
+<p class="last"><strong>dictionary</strong> : a dictionary with all metadata if key is not given</p>
 </td>
 </tr>
 </tbody>
@@ -6559,9 +6660,7 @@ in the center of the domain.</div>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>deltaX, deltaY</strong> : float</p>
-<blockquote class="last">
-<div><p>pixel size in X and Y directions given in meters</p>
-</div></blockquote>
+<p class="last">pixel size in X and Y directions given in meters</p>
 </td>
 </tr>
 </tbody>
@@ -6603,8 +6702,8 @@ in the center of the domain.</div>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>points</strong> : list with one or more points or shape file name</p>
 <blockquote>
 <div><div class="line-block">
-<div class="line">i.e.</div>
-<div class="line">[</div>
+<div class="line">i.e. [</div>
+<div class="line-block">
 <div class="line-block">
 <div class="line"># get all transect values</div>
 <div class="line">[(lon_T1, lat_T1), (lon_T2, lat_T2), (lon_T3, lat_T3), ...]</div>
@@ -6622,6 +6721,7 @@ in the center of the domain.</div>
 </div>
 <div class="line">]</div>
 </div>
+</div>
 </div></blockquote>
 <p><strong>bandList</strong> : list of int or string</p>
 <blockquote>
@@ -6634,24 +6734,24 @@ in the center of the domain.</div>
 <div class="line">If the points in pixel/line, then False.</div>
 </div>
 </div></blockquote>
-<p><strong>returnOGR</strong> : bool</p>
+<p><strong>returnOGR: bool</strong></p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">If True, then return numpy array</div>
 <div class="line">If False, return OGR object</div>
 </div>
 </div></blockquote>
-<p><strong>layerNum</strong> : int</p>
+<p><strong>layerNum: int</strong></p>
 <blockquote>
 <div><p>If shapefile is given as points, it is the number of the layer</p>
 </div></blockquote>
-<p><strong>smoothRadius</strong> : int</p>
+<p><strong>smoothRadius: int</strong></p>
 <blockquote>
 <div><p>If smootRadius is greater than 0, smooth every transect
 pixel as the median or mean value in a circule with radius
 equal to the given number.</p>
 </div></blockquote>
-<p><strong>smoothAlg</strong> : 0 or 1 for median or mean</p>
+<p><strong>smoothAlg: 0 or 1 for median or mean</strong></p>
 <p><strong>transect</strong> : bool</p>
 <blockquote>
 <div><div class="line-block">
@@ -6661,23 +6761,28 @@ equal to the given number.</p>
 </div></blockquote>
 <p><strong>vmin, vmax</strong> : int (optional)</p>
 <blockquote>
-<div><p>minimum and maximum pixel values of an image shown
-in case points is None.</p>
+<div><div class="line-block">
+<div class="line">minimum and maximum pixel values of an image shown
+in case points is None.</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>NansatOGR</strong> : nansatshape object (if retunOGR is True)</p>
-<p><strong>transectDict</strong> : dictionary (if retunOGR is False)</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>transect</strong> : OGR object with points coordinates and values</p>
 <blockquote>
-<div><p>keys are band names.
-Values are dictionaries of the transect values of each shape.</p>
+<div><p>(if returnOGR = True)</p>
 </div></blockquote>
-<p><strong>vectorsDict</strong> : dictionary (if retunOGR is False)</p>
+<p><strong>transectDict</strong> : dictionary (if returnOGR = False)</p>
+<blockquote>
+<div><p>key is band name.
+Value is a dictionary of the transect values of each shape.</p>
+</div></blockquote>
+<p><strong>vectorsDict</strong> : dictionary (if returnOGR = False)</p>
 <blockquote>
 <div><p>keys are shape ID. values are dictionaries
 with longitude and latitude lists of each shape.</p>
 </div></blockquote>
-<p><strong>pixlinCoordDic</strong> : dictionary (if retunOGR is False)</p>
+<p><strong>pixlinCoordDic</strong> : dictionary (if returnOGR = False)</p>
 <blockquote class="last">
 <div><p>keys are shape ID. values are numpy array
 with pixels and lines coordinates</p>
@@ -6716,10 +6821,12 @@ it is possible to select multiple shapes by pressing any key</p>
 <dt id="nansat.Mosaic.latest">
 <tt class="descname">latest</tt><big>(</big><em>files=[], bands=[1], doReproject=True, maskName='mask', **kwargs</em><big>)</big><a class="headerlink" href="#nansat.Mosaic.latest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Mosaic by adding the latest image on top without averaging</p>
-<p>Uses Nansat.get_time() to estimate time of each input file;
-Sorts images by aquisition time;
-Creates date_index band - with mask of coverage of each frame;
-Uses date_index to fill bands of self only with the latest data</p>
+<div class="line-block">
+<div class="line">Uses Nansat.get_time() to estimate time of each input file;</div>
+<div class="line">Sorts images by aquisition time;</div>
+<div class="line">Creates date_index band - with mask of coverage of each frame;</div>
+<div class="line">Uses date_index to fill bands of self only with the latest data</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6838,12 +6945,14 @@ all input images and calculates median. Adds median bands to self</p>
 <dt id="nansat.Mosaic.reproject">
 <tt class="descname">reproject</tt><big>(</big><em>dstDomain=None</em>, <em>eResampleAlg=0</em>, <em>blockSize=None</em>, <em>WorkingDataType=None</em>, <em>tps=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Mosaic.reproject" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change projection of the object based on the given Domain</p>
-<p>Create superVRT from self.vrt with AutoCreateWarpedVRT() using
-projection from the dstDomain.
-Modify XML content of the warped vrt using the Domain parameters.
-Generate warpedVRT and replace self.vrt with warpedVRT.
-If current object spans from 0 to 360 and dstDomain is west of 0,
-the object is shifted by 180 westwards.</p>
+<div class="line-block">
+<div class="line">Create superVRT from self.vrt with AutoCreateWarpedVRT() using
+projection from the dstDomain.</div>
+<div class="line">Modify XML content of the warped vrt using the Domain parameters.</div>
+<div class="line">Generate warpedVRT and replace self.vrt with warpedVRT.</div>
+<div class="line">If current object spans from 0 to 360 and dstDomain is west of 0,
+the object is shifted by 180 westwards.</div>
+</div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -6873,19 +6982,23 @@ but increase accuracy at the edge</p>
 </div></blockquote>
 <p><strong>tps</strong> : bool</p>
 <blockquote>
-<div><p>Apply Thin Spline Transformation if source or destination has GCPs
-Usage of TPS can also be triggered by setting self.vrt.tps=True
-before calling to reproject.
-This options has priority over self.vrt.tps</p>
+<div><div class="line-block">
+<div class="line">Apply Thin Spline Transformation if source or destination has GCPs</div>
+<div class="line">Usage of TPS can also be triggered by setting self.vrt.tps=True
+before calling to reproject.</div>
+<div class="line">This options has priority over self.vrt.tps</div>
+</div>
 </div></blockquote>
 <p><strong>skip_gcps</strong> : int</p>
 <blockquote>
-<div><p>Using TPS can be very slow if the number of GCPs are large.
-If this parameter is given, only every [skip_gcp] GCP is used,
-improving calculation time at the cost of accuracy.
-If not given explicitly, &#8216;skip_gcps&#8217; is fetched from the
-metadata of self, or from dstDomain (as set by mapper or user).
-[defaults to 1 if not specified, i.e. using all GCPs]</p>
+<div><div class="line-block">
+<div class="line">Using TPS can be very slow if the number of GCPs are large.</div>
+<div class="line">If this parameter is given, only every [skip_gcp] GCP is used,
+improving calculation time at the cost of accuracy.</div>
+<div class="line">If not given explicitly, &#8216;skip_gcps&#8217; is fetched from the
+metadata of self, or from dstDomain (as set by mapper or user).</div>
+<div class="line">[defaults to 1 if not specified, i.e. using all GCPs]</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -6900,7 +7013,7 @@ metadata of self, or from dstDomain (as set by mapper or user).
 <div class="line">If you do not want to round off, convert the data types
 to GDT_Float32, GDT_Float64, or GDT_CFloat32.</div>
 </div>
-<p>see also: <a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></p>
+<p>see also : <a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></p>
 </dd></dl>
 
 <dl class="method">
@@ -6951,18 +7064,22 @@ the scaling factor is calculated accordingly.</div>
 </div></blockquote>
 <p><strong>width</strong> : int, optional</p>
 <blockquote>
-<div><p>Desired new width in pixels</p>
+<div><div class="line-block">
+<div class="line">Desired new width in pixels</div>
+</div>
 </div></blockquote>
 <p><strong>height</strong> : int, optional</p>
 <blockquote>
-<div><p>Desired new height in pixels</p>
+<div><div class="line-block">
+<div class="line">Desired new height in pixels</div>
+</div>
 </div></blockquote>
 <p><strong>pixelsize</strong> : float, optional</p>
 <blockquote>
 <div><div class="line-block">
 <div class="line">Desired new pixelsize in meters (approximate).</div>
-<div class="line">A factor is calculated from ratio of the</div>
-<div class="line">current pixelsize to the desired pixelsize.</div>
+<div class="line">A factor is calculated from ratio of the
+current pixelsize to the desired pixelsize.</div>
 </div>
 </div></blockquote>
 <p><strong>eResampleAlg</strong> : int (GDALResampleAlg), optional</p>
@@ -6980,8 +7097,10 @@ the scaling factor is calculated accordingly.</div>
 </tr>
 <tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>self.vrt.dataset</strong> : VRT dataset of VRT object</p>
 <blockquote class="last">
-<div><p>raster size are modified to downscaled size.
-If GCPs are given in the dataset, they are also overwritten.</p>
+<div><div class="line-block">
+<div class="line">raster size are modified to downscaled size.</div>
+<div class="line">If GCPs are given in the dataset, they are also overwritten.</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -7051,8 +7170,10 @@ Without : global metadata is set</p>
 </div></blockquote>
 <p><strong>DstToSrc</strong> : 0 or 1</p>
 <blockquote>
-<div><p>0 - forward transform (pix/line =&gt; lon/lat)
-1 - inverse transformation</p>
+<div><div class="line-block">
+<div class="line">0 - forward transform (pix/line =&gt; lon/lat)</div>
+<div class="line">1 - inverse transformation</div>
+</div>
 </div></blockquote>
 </td>
 </tr>
@@ -7081,7 +7202,7 @@ Without : global metadata is set</p>
 </div></blockquote>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first last"><strong>self.vrt</strong> : vrt object</p>
 </td>
 </tr>
 </tbody>
@@ -7092,8 +7213,10 @@ Without : global metadata is set</p>
 <dt id="nansat.Mosaic.watermask">
 <tt class="descname">watermask</tt><big>(</big><em>mod44path=None</em>, <em>dstDomain=None</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Mosaic.watermask" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create numpy array with watermask (water=1, land=0)</p>
-<p>250 meters resolution watermask from MODIS 44W Product:
-<a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></p>
+<div class="line-block">
+<div class="line">250 meters resolution watermask from MODIS 44W Product:</div>
+<div class="line"><a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></div>
+</div>
 <div class="line-block">
 <div class="line">Watermask is stored as tiles in TIF(LZW) format and a VRT file</div>
 <div class="line">All files are stored in one directory.</div>
@@ -7101,15 +7224,18 @@ Without : global metadata is set</p>
 downloaded from the Nansat wiki:</div>
 <div class="line"><a class="reference external" href="https://svn.nersc.no/nansat/wiki/Nansat/Data/Watermask">https://svn.nersc.no/nansat/wiki/Nansat/Data/Watermask</a></div>
 </div>
-<div class="line-block">
-<div class="line">The method :</div>
-<div class="line">Gets the directory either from input parameter or from environment
-variable MOD44WPATH</div>
+<dl class="docutils">
+<dt>The method :</dt>
+<dd><div class="first last line-block">
+<div class="line">Gets the directory either from input parameter or from environment</div>
+<div class="line">variable MOD44WPATH</div>
 <div class="line">Open Nansat object from the VRT file</div>
 <div class="line">Reprojects the watermask onto the current object using reproject()
 or reproject_on_jcps()</div>
 <div class="line">Returns the reprojected Nansat object</div>
 </div>
+</dd>
+</dl>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -7140,8 +7266,10 @@ See also Nansat.reproject()</p>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>250 meters resolution watermask from MODIS 44W Product:
-<a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></p>
+<div class="line-block">
+<div class="line">250 meters resolution watermask from MODIS 44W Product:</div>
+<div class="line"><a class="reference external" href="http://www.glcf.umd.edu/data/watermask/">http://www.glcf.umd.edu/data/watermask/</a></div>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -7151,8 +7279,10 @@ See also Nansat.reproject()</p>
 <div class="line-block">
 <div class="line">Get numpy array from the band(s) and band information specified
 either by given band number or band id.</div>
+<div class="line-block">
 <div class="line">If three bands are given, merge them and create PIL image.</div>
 <div class="line">If one band is given, create indexed image</div>
+</div>
 <div class="line">Create Figure object and:</div>
 <div class="line">Adjust the array brightness and contrast using the given min/max or
 histogram.</div>
@@ -7206,7 +7336,7 @@ fallback-&#8216;hist&#8217;</div>
 <p><strong>**kwargs</strong> : parameters for Figure().</p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>if fileName is specified, creates image file</strong></p>
+<tr class="field-even field"><th class="field-name">Modifies:</th><td class="field-body"><p class="first"><strong>image file</strong> : creates image file, if fileName is specified</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last"><strong>Figure object</strong> : Figure object</p>
@@ -7215,33 +7345,43 @@ fallback-&#8216;hist&#8217;</div>
 </tbody>
 </table>
 <p class="rubric">Notes</p>
-<p>Write only indexed image, color limits from WKV or from histogram</p>
+<div class="line-block">
+<div class="line">see alos: Figure()</div>
+<div class="line"><a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></div>
+</div>
+<p class="rubric">Examples</p>
+<div class="line-block">
+<div class="line">write only indexed image, color limits from WKV or from histogram</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test.jpg&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Write only RGB image, color limits from histogram</p>
+<div class="line-block">
+<div class="line">write only RGB image, color limits from histogram</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;test_rgb_hist.jpg&#39;</span><span class="p">,</span> <span class="n">clim</span><span class="o">=</span><span class="s">&#39;hist&#39;</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
 </pre></div>
 </div>
-<p>Write indexed image, apply log scaling and gamma correction,
+<div class="line-block">
+<div class="line">write indexed image, apply log scaling and gamma correction,
 add legend and type in title &#8216;Title&#8217;, increase font size and put 15
-tics</p>
+tics</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="s">&#39;r09_log3_leg.jpg&#39;</span><span class="p">,</span> <span class="n">logarithm</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">gamma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">titleString</span><span class="o">=</span><span class="s">&#39;Title&#39;</span><span class="p">,</span> <span class="n">fontSize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="n">numOfTicks</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span>                       <span class="n">gamma</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">titleString</span><span class="o">=</span><span class="s">&#39;Title&#39;</span><span class="p">,</span> <span class="n">fontSize</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>                       <span class="n">numOfTicks</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Write an image to png with transparent Mask set to color
-transparency=[0,0,0], following PIL alpha mask</p>
+<div class="line-block">
+<div class="line">write an image to png with transparent Mask set to color
+transparency=[0,0,0], following PIL alpha mask</div>
+</div>
 <div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="s">&#39;transparent.png&#39;</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">mask_array</span><span class="o">=</span><span class="n">wmArray</span><span class="p">,</span> <span class="n">mask_lut</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]},</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span> <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">mask_array</span><span class="o">=</span><span class="n">wmArray</span><span class="p">,</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">mask_lut</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]},</span>
+<span class="gp">&gt;&gt;&gt; </span>      <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span> <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
-<dl class="docutils">
-<dt>see also Figure() :</dt>
-<dd><a class="reference external" href="http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps">http://www.scipy.org/Cookbook/Matplotlib/Show_colormaps</a></dd>
-</dl>
 </dd></dl>
 
 <dl class="method">
@@ -7250,15 +7390,19 @@ transparency=[0,0,0], following PIL alpha mask</p>
 <dd><p>Writes an 8-bit GeoTiff image for a given band.</p>
 <div class="line-block">
 <div class="line">The output GeoTiff image is convenient e.g. for display in a GIS tool.</div>
-<div class="line">Colormap is fetched from the metadata item &#8216;colormap&#8217;.
-Fallback colormap is &#8216;jet&#8217;.</div>
+<div class="line">Colormap is fetched from the metadata item &#8216;colormap&#8217;.</div>
+<div class="line-block">
+<div class="line">Fallback colormap is &#8216;jet&#8217;.</div>
+</div>
 <div class="line">Color limits are fetched from the metadata item &#8216;minmax&#8217;.</div>
+<div class="line-block">
 <div class="line">If &#8216;minmax&#8217; is not specified, min and max of raster is used.</div>
+</div>
 </div>
 <div class="line-block">
 <div class="line">The method can be replaced by using nansat.write_figure(),
-however, write_figure uses PIL which does not allow
-Tiff compression, giving much larger files</div>
+however, write_figure uses PIL which does not allow</div>
+<div class="line">Tiff compression, giving much larger files</div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -7324,23 +7468,25 @@ or write KML-file with the current Domain</p>
 (Simple Cylindrical) projection</div>
 <div class="line">1. Cancel previous reprojection</div>
 <div class="line">2. Get corners of the image and the pixel resolution</div>
-<div class="line">3. Create Domain with stereographic projection,
-corner coordinates and resolution 1000m</div>
+<div class="line">3. Create Domain with stereographic projection,</div>
+<div class="line-block">
+<div class="line">corner coordinates and resolution 1000m</div>
+</div>
 <div class="line">4. Reproject</div>
 <div class="line">5. Write image</div>
 <div class="line">6. Write KML for the image</div>
 </div>
-<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span>  <span class="c"># 1.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span>  <span class="c"># 2.</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">()</span> <span class="c"># 1.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">get_corners</span><span class="p">()</span> <span class="c"># 2.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">srsString</span> <span class="o">=</span> <span class="s">&#39;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">extentString</span> <span class="o">=</span> <span class="s">&#39;-lle </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> </span><span class="si">%f</span><span class="s"> -ts 3000 3000&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span>                <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span>  <span class="c"># 3.</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>  <span class="c"># 4.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">lats</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lons</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">lats</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">Domain</span><span class="p">(</span><span class="n">srs</span><span class="o">=</span><span class="n">srsString</span><span class="p">,</span> <span class="n">ext</span><span class="o">=</span><span class="n">extentString</span><span class="p">)</span> <span class="c"># 3.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="c"># 4.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_figure</span><span class="p">(</span><span class="n">fileName</span><span class="o">=</span><span class="n">figureName</span><span class="p">,</span> <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">clim</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mf">0.15</span><span class="p">],</span>
-<span class="gp">&gt;&gt;&gt; </span>               <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c"># 5.</span>
+<span class="gp">&gt;&gt;&gt; </span>              <span class="n">cmapName</span><span class="o">=</span><span class="s">&#39;gray&#39;</span><span class="p">,</span> <span class="n">transparency</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> <span class="c"># 5.</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">n</span><span class="o">.</span><span class="n">write_kml_image</span><span class="p">(</span><span class="n">kmlFileName</span><span class="o">=</span><span class="n">oPath</span> <span class="o">+</span> <span class="n">fileName</span> <span class="o">+</span> <span class="s">&#39;.kml&#39;</span><span class="p">,</span>
-<span class="gp">&gt;&gt;&gt; </span>                  <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span>  <span class="c"># 6.</span>
+<span class="gp">&gt;&gt;&gt; </span>                 <span class="n">kmlFigureName</span><span class="o">=</span><span class="n">figureName</span><span class="p">)</span> <span class="c"># 6.</span>
 </pre></div>
 </div>
 </dd></dl>

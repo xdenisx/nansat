@@ -80,6 +80,60 @@
 <dt id="nansat.nsr.NSR">
 <em class="property">class </em><tt class="descclassname">nansat.nsr.</tt><tt class="descname">NSR</tt><big>(</big><em>srs=0</em><big>)</big><a class="headerlink" href="#nansat.nsr.NSR" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create Spatial Reference System from input parameter</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><p class="first"><strong>srs</strong> : 0, PROJ4 or EPSG or WKT or osr.SpatialReference, NSR</p>
+<blockquote class="last">
+<div><blockquote>
+<div><p>Specifies spatial reference system (SRS)</p>
+</div></blockquote>
+<div class="line-block">
+<div class="line">PROJ4:</div>
+<div class="line">string with proj4 options [<a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a>] e.g.:</div>
+<div class="line">&#8216;+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs&#8217;</div>
+<div class="line">&#8216;+proj=stere +datum=WGS84 +ellps=WGS84 +lat_0=75 +lon_0=10 +no_defs&#8217;</div>
+<div class="line">EPSG:</div>
+<div class="line">integer with EPSG number, [<a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a>],</div>
+<div class="line">e.g. 4326</div>
+<div class="line">WKT:</div>
+<div class="line">string with Well Know Text of SRS. E.g.:</div>
+<div class="line">&#8216;GEOGCS[&#8220;WGS 84&#8221;,</div>
+<div class="line-block">
+<div class="line">DATUM[&#8220;WGS_1984&#8221;,</div>
+<div class="line-block">
+<div class="line">SPHEROID[&#8220;WGS 84&#8221;,6378137,298.257223563,</div>
+<div class="line-block">
+<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;7030&#8221;]],</div>
+</div>
+<div class="line">TOWGS84[0,0,0,0,0,0,0],</div>
+<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;6326&#8221;]],</div>
+</div>
+<div class="line">PRIMEM[&#8220;Greenwich&#8221;,0,</div>
+<div class="line-block">
+<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;8901&#8221;]],</div>
+</div>
+<div class="line">UNIT[&#8220;degree&#8221;,0.0174532925199433,</div>
+<div class="line-block">
+<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;9108&#8221;]],</div>
+</div>
+<div class="line">AUTHORITY[&#8220;EPSG&#8221;,&#8221;4326&#8221;]]&#8217;</div>
+</div>
+</div>
+</div></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<div class="line-block">
+<div class="line">see also</div>
+<div class="line"><a class="reference external" href="http://www.gdal.org/gdalwarp.html">http://www.gdal.org/gdalwarp.html</a></div>
+<div class="line"><a class="reference external" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/</a></div>
+<div class="line"><a class="reference external" href="http://spatialreference.org/">http://spatialreference.org/</a></div>
+<div class="line"><a class="reference external" href="http://www.gdal.org/ogr/osr_tutorial.html">http://www.gdal.org/ogr/osr_tutorial.html</a></div>
+</div>
 <p class="rubric">Methods</p>
 <table border="1" class="longtable docutils">
 <colgroup>
