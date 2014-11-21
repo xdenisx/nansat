@@ -705,13 +705,12 @@ class VRT(object):
         return shiftVRT
 
     def get_subsampled_vrt(self, newRasterXSize, newRasterYSize,
-                            factor, eResampleAlg):
+                           eResampleAlg):
         '''Create VRT and replace step in the source
 
         Parameters
         -----------
         newRasterXSize, newRasterYSize : int
-        factor :
         eResampleAlg : GDALResampleAlg
             see also gdal.AutoCreateWarpedVRT
 
