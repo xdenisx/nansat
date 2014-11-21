@@ -133,55 +133,6 @@ class WrongMapperError(Exception):
     '''Error for handling data that does not fit a given mapper'''
     pass
 
-
-def initial_bearing(lon1, lat1, lon2, lat2):
-        '''Initial bearing when traversing from point1 (lon1, lat1)
-        to point2 (lon2, lat2)
-
-        See http://www.movable-type.co.uk/scripts/latlong.html
-
-        Parameters
-        ----------
-        lon1, lat1 : float
-            longitude and latitude of start point
-        lon2, lat2 : float
-            longitude and latitude of end point
-
-        Returns
-        -------
-        initial_bearing : float
-            The initial bearing (azimuth direction) when heading out
-            from the start point towards the end point along a great circle.
-
-        '''
-        rlon1 = np.radians(lon1)
-        rlat1 = np.radians(lat1)
-        rlon2 = np.radians(lon2)
-        rlat2 = np.radians(lat2)
-        deltalon = rlon2 - rlon1
-        bearing = np.arctan2(np.sin(rlon2 - rlon1) * np.cos(rlat2),
-                             np.cos(rlat1) * np.sin(rlat2) -
-                             np.sin(rlat1) * np.cos(rlat2) *
-                             np.cos(rlon2 - rlon1))
-        return mod(np.degrees(bearing) + 360, 360)
-
-
-def haversine(lon1, lat1, lon2, lat2):
-    """
-    Calculate the great circle distance between two points
-    on the spherical earth (specified in decimal degrees)
-    """
-    # convert decimal degrees to radians
-    lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
-    # haversine formula
-    dlon = lon2 - lon1
-    dlat = lat2 - lat1
-    a = np.sin(dlat/2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2)**2
-    c = 2 * np.arcsin(np.sqrt(a))
-    distance_meters = 6367000 * c
-    return distance_meters
-
-
 def add_logger(logName='', logLevel=None):
     ''' Creates and returns logger with default formatting for Nansat
 
@@ -194,9 +145,9 @@ def add_logger(logName='', logLevel=None):
     --------
     logging.logger
 
-    See also
+    notes
     --------
-    http://docs.python.org/howto/logging.html
+    See also : http://docs.python.org/howto/logging.html
 
     '''
     if logLevel is not None:
@@ -223,3 +174,57 @@ def add_logger(logName='', logLevel=None):
     logger.handlers[0].setLevel(int(os.environ['LOG_LEVEL']))
 
     return logger
+
+def haversine(lon1, lat1, lon2, lat2):
+    ''' Calculate the great circle distance between two points
+    on the spherical earth (specified in decimal degrees)
+
+    Parameters
+    ----------
+    lon1, lat1 : float
+        longitude and latitude of start point
+    lon2, lat2 : float
+        longitude and latitude of end point
+
+    Returns
+    -------
+    distance_meters : float
+        distance between two points
+
+    '''
+    # convert decimal degrees to radians
+    lon1, lat1, lon2, lat2 = map(np.radians, [lon1, lat1, lon2, lat2])
+    # haversine formula
+    dlon = lon2 - lon1
+    dlat = lat2 - lat1
+    a = np.sin(dlat/2)**2 + np.cos(lat1) * np.cos(lat2) * np.sin(dlon/2)**2
+    c = 2 * np.arcsin(np.sqrt(a))
+    distance_meters = 6367000 * c
+    return distance_meters
+
+def initial_bearing(lon1, lat1, lon2, lat2):
+    '''Initial bearing when traversing from point1 (lon1, lat1)
+    to point2 (lon2, lat2)
+
+    Returns
+    -------
+    initial_bearing : float
+        The initial bearing (azimuth direction) when heading out
+        from the start point towards the end point along a great circle.
+
+    notes
+    -----
+    see also : http://www.movable-type.co.uk/scripts/latlong.html
+
+    '''
+    rlon1 = np.radians(lon1)
+    rlat1 = np.radians(lat1)
+    rlon2 = np.radians(lon2)
+    rlat2 = np.radians(lat2)
+    deltalon = rlon2 - rlon1
+    bearing = np.arctan2(np.sin(rlon2 - rlon1) * np.cos(rlat2),
+                         np.cos(rlat1) * np.sin(rlat2) -
+                         np.sin(rlat1) * np.cos(rlat2) *
+                         np.cos(rlon2 - rlon1))
+    return mod(np.degrees(bearing) + 360, 360)
+

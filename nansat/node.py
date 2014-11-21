@@ -33,11 +33,16 @@ class Node(object):
     and a group of Nodes can be strung together using '+'.
 
     Create a node containing a value by saying
-    Node('tag', 'value')
+
+    >>> Node('tag', 'value')
+
     You can also give attributes to the node in the constructor:
-    Node('tag', 'value', attr1 = 'attr1', attr2 = 'attr2')
+
+    >>> Node('tag', 'value', attr1 = 'attr1', attr2 = 'attr2')
+
     or without a value:
-    Node('tag', attr1 = 'attr1', attr2 = 'attr2')
+
+    >>> Node('tag', attr1 = 'attr1', attr2 = 'attr2')
 
     To produce xml from a finished Node n, say n.xml() (for
     nicely formatted output) or n.rawxml().
@@ -81,69 +86,36 @@ class Node(object):
         if self.value:
             self.value = self.value.strip()
 
-    def getAttribute(self, name):
-        ''' Read XML attribute of this node. '''
-        return self.attributes[name]
-
-    def setAttribute(self, name, item):
-        ''' Modify XML attribute of this node. '''
-        self.attributes[name] = item
-
     def delAttribute(self, name):
-        ''' Remove XML attribute with this name. '''
-        del self.attributes[name]
+        ''' Remove XML attribute with this name.
 
-    def replaceAttribute(self, name, value):
-        ''' replace XML arrtibute of this node. '''
-        del self.attributes[name]
-        self.attributes[name] = value
+        parameters
+        ----------
+        name : string
 
-    def node(self, tag, elemNum=0):
-        ''' Recursively find the first subnode with this tag.
-
-        elemNum : int
-            if there are several same tag, specify which element to take.
+        modifies
+        --------
+        self.attributes
 
         '''
-        if self.tag == tag:
-            return self
-        ielm = 0
-        for child in self.children:
-            result = child.node(tag)
-            if result and ielm == elemNum:
-                return result
-            elif result:
-                ielm += 1
-        return False
-
-    def replaceNode(self, tag, elemNum=0, newNode=None):
-        ''' Find the first subnode with this tag and replace with given node.
-
-        tag : str
-            node tag
-        elemNum : int
-            number of subnode among other subnodes with similar tag
-
-        '''
-        status = False
-        elemi = 0
-        for i in range(len(self.children)):
-            if str(self.children[i].tag) == tag:
-                if elemi == elemNum:
-                    self.children[i] = newNode
-                    status = True
-                    break
-                else:
-                    elemi += 1
-        return status
+        del self.attributes[name]
 
     def delNode(self, tag, options=None):
         '''
         Recursively find the all subnodes with this tag and remove
         from self.children.
 
+        parameters
+        ----------
+        tag : string
+            tag name
+
         options : dictionary
             if there are several same tags, specify a node by their attributes.
+
+        modifies
+        --------
+        self.child : delete node
 
         '''
         for i, child in enumerate(self.children):
@@ -161,7 +133,21 @@ class Node(object):
                 child.delNode(tag)
 
     def find_dom_child(self, dom, tagName, n=0):
-        '''Recoursively find child of the dom'''
+        '''Recoursively find child of the dom
+
+        parameters
+        -----------
+        dom : dom object
+        tagName : string
+            tag name
+        n : int
+            number which indicates child node
+
+        returns
+        --------
+        theChild : node
+
+        '''
         children = dom.childNodes
         theChild = None
 
@@ -185,6 +171,196 @@ class Node(object):
 
         return theChild
 
+    def getAttribute(self, name):
+        ''' Read XML attribute of this node.
+
+        parameters
+        -----------
+        name : string
+            attribute name
+
+        returns
+        --------
+        self.attributes : string
+
+        '''
+        return self.attributes[name]
+
+    def getAttributeList(self):
+        ''' get attributes and valuse from the node and return their lists
+
+        returns
+        -------
+        nameList : list
+            names in the list
+        valList : list
+            values in the list
+
+        '''
+        nameList = []
+        valList = []
+        for key, val in self.attributes.items():
+            nameList.append(key)
+            valList.append(val)
+        return nameList, valList
+
+    def insert(self, contents):
+        ''' return Node of the node with inserted <contents>
+
+        parameters
+        -----------
+        contents : string
+
+        returns
+        --------
+        node : node
+
+        '''
+        dom2 = xdm.parseString(contents)
+        dom1 = xdm.parseString(self.dom().toxml())
+        dom1.childNodes[0].appendChild(dom1.importNode(dom2.childNodes[0],
+                                                       True))
+        return Node.create(dom1)
+
+    def node(self, tag, elemNum=0):
+        ''' Recursively find the first subnode with this tag.
+
+        parameters
+        -----------
+        tag : string
+            tag name
+        elemNum : int
+            if there are several same tag, specify which element to take.
+
+        returns
+        -------
+        result : node or bool
+
+        '''
+        if self.tag == tag:
+            return self
+        ielm = 0
+        for child in self.children:
+            result = child.node(tag)
+            if result and ielm == elemNum:
+                return result
+            elif result:
+                ielm += 1
+        return False
+
+
+    def nodeList(self, tag):
+        '''
+        Produce a list of subnodes with the same tag.
+
+        parameters
+        -----------
+        tag : string
+            tag name
+
+        returns
+        --------
+        list : list
+
+        notes
+        -----
+        It only makes sense to do this for the immediate
+        children of a node. If you went another level down,
+        the results would be ambiguous, so the user must
+        choose the node to iterate over.
+
+        '''
+        return [n for n in self.children if n.tag == tag]
+
+    def replaceAttribute(self, name, value):
+        ''' replace XML arrtibute of this node.
+
+        parameters
+        ----------
+        name : string
+        value : string or int or float
+
+        modifies
+        --------
+        self.attribute : modify the value
+
+        '''
+        del self.attributes[name]
+        self.attributes[name] = value
+
+    def replaceNode(self, tag, elemNum=0, newNode=None):
+        ''' Find the first subnode with this tag and replace with given node.
+
+        parameters
+        ----------
+        tag : str
+            node tag
+        elemNum : int
+            number of subnode among other subnodes with similar tag
+
+        returns
+        -------
+        status : bool
+
+        '''
+        status = False
+        elemi = 0
+        for i in range(len(self.children)):
+            if str(self.children[i].tag) == tag:
+                if elemi == elemNum:
+                    self.children[i] = newNode
+                    status = True
+                    break
+                else:
+                    elemi += 1
+        return status
+
+    def replaceTag(self, oldTag, newTag):
+        ''' Replace tag name
+
+        parameters
+        ----------
+        oldTag : srting
+        newTag : srting
+
+        modifies
+        --------
+        self.node().children[].tag : replace tag name
+
+        '''
+        tags = self.tagList()
+        for itag, itagName in enumerate(tags):
+            if itagName == oldTag:
+                self.node(self.tag).children[itag].tag = newTag
+
+    def setAttribute(self, name, item):
+        ''' Modify XML attribute of this node.
+
+        parameters
+        ----------
+        name : srting
+        item : srting
+
+        modifies
+        --------
+        self.attribute : add new attribute
+
+        '''
+        self.attributes[name] = item
+
+    def tagList(self):
+        ''' Produce a list of all tags of the immediate children
+
+        returns
+        --------
+        tagList : list
+
+        '''
+        taglist = []
+        for iTag in range(len(self.children)):
+            taglist.append(str(self.children[iTag].tag))
+        return taglist
+
     def _replace_dom_Node(self, tag, nodeNumber, contents):
         '''Replace child node with new contents'''
 
@@ -194,49 +370,6 @@ class Node(object):
         dom0.replaceChild(newChild, oldChild)
 
         return Node.create(dom0)
-
-    def nodeList(self, tag):
-        '''
-        Produce a list of subnodes with the same tag.
-        Note:
-        It only makes sense to do this for the immediate
-        children of a node. If you went another level down,
-        the results would be ambiguous, so the user must
-        choose the node to iterate over.
-
-        '''
-        return [n for n in self.children if n.tag == tag]
-
-    def tagList(self):
-        ''' Produce a list of all tags of the immediate children '''
-        taglist = []
-        for iTag in range(len(self.children)):
-            taglist.append(str(self.children[iTag].tag))
-        return taglist
-
-    def replaceTag(self, oldTag, newTag):
-        ''' Replace tag name '''
-        tags = self.tagList()
-        for itag, itagName in enumerate(tags):
-            if itagName == oldTag:
-                self.node(self.tag).children[itag].tag = newTag
-
-    def getAttributeList(self):
-        ''' get attributes and valuse from the node and return their lists '''
-        nameList = []
-        valList = []
-        for key, val in self.attributes.items():
-            nameList.append(key)
-            valList.append(val)
-        return nameList, valList
-
-    def insert(self, contents):
-        ''' return Node of the node with inserted <contents>'''
-        dom2 = xdm.parseString(contents)
-        dom1 = xdm.parseString(self.dom().toxml())
-        dom1.childNodes[0].appendChild(dom1.importNode(dom2.childNodes[0],
-                                                       True))
-        return Node.create(dom1)
 
     def __getitem__(self, tag):
         '''

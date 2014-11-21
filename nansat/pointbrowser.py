@@ -32,8 +32,8 @@ class PointBrowser():
         data : ndarray
             image to imshow
         draw_line : bool
-            if True, get transects / points
-            if False, get only points
+            | if True, get transects / points
+            | if False, get only points
         **kwargs : dict
             optional parameters for imshow
 
@@ -62,8 +62,32 @@ class PointBrowser():
         self.connect = []
         self.drawLine = draw_line
 
+    def get_points(self):
+        ''' Process click event
+
+        modifies
+        ---------
+        show plt
+
+        '''
+        self.fig.canvas.mpl_connect('button_press_event', self.onclick)
+        self.fig.axes[0].set_xlim([0, self.data.shape[1]])
+        self.fig.axes[0].set_ylim([0, self.data.shape[0]])
+        text = ('1. Please click on the figure and mark a point or '
+                'draw a line.\n2. Then close the figure.')
+        plt.text(0, int(self.data.shape[0]*1.05), text, fontsize=13,
+                 verticalalignment='top', horizontalalignment='left')
+        plt.gca().invert_yaxis()
+        plt.show()
+
     def onclick(self, event):
-        ''' Append onclick event '''
+        ''' Append onclick event
+
+        parameters
+        ----------
+        event : click event
+
+        '''
         if event.xdata is not None and event.ydata is not None:
             if str(event.key)=='alt+z' or str(event.key)=='z':
                 pass
@@ -105,14 +129,4 @@ class PointBrowser():
                        self.lines.append(line.set_data(tCoordinates))
                        line.figure.canvas.draw()
 
-    def get_points(self):
-        ''' Process click event '''
-        self.fig.canvas.mpl_connect('button_press_event', self.onclick)
-        self.fig.axes[0].set_xlim([0, self.data.shape[1]])
-        self.fig.axes[0].set_ylim([0, self.data.shape[0]])
-        text = ('1. Please click on the figure and mark a point or '
-                'draw a line.\n2. Then close the figure.')
-        plt.text(0, int(self.data.shape[0]*1.05), text, fontsize=13,
-                 verticalalignment='top', horizontalalignment='left')
-        plt.gca().invert_yaxis()
-        plt.show()
+

@@ -36,11 +36,12 @@ class Figure():
     '''Perform opeartions with graphical files: create, append legend, save.
 
     Figure instance is created in the Nansat.write_figure method
+
     The methods below are applied consequently in order to generate a figure
     from one or three bands, estimate min/max, apply logarithmic scaling,
     convert to uint8, append legend, save to a file
-    '''
 
+    '''
     # default values of ALL params of Figure
     cmin = [0.]
     cmax = [1.]
@@ -126,36 +127,36 @@ class Figure():
         fontRatio : positive float
             1, factor for changing the fontSize.
         fontSize : int
-            12, size of the font of title, caption and ticks.
-            If not given, fontSize is calculated using fontRatio:
-            fontSize = height / 45 * fontRatio.
-            fontSize has priority over fontRatio
+            | 12, size of the font of title, caption and ticks.
+            | If not given, fontSize is calculated using fontRatio:
+            | fontSize = height / 45 * fontRatio.
+            | fontSize has priority over fontRatio
         logarithm : boolean, defult = False
-            If True, tone curve is used to convert pixel values.
-            If False, linear.
+            | If True, tone curve is used to convert pixel values.
+            | If False, linear.
         legend : boolean, default = False
-            if True, information as textString, colorbar, longName and
-            units are added in the figure.
+            | if True, information as textString, colorbar, longName and
+              units are added in the figure.
         mask_array : 2D numpy array, int, the shape should be equal
             array.shape. If given this array is used for masking land,
             clouds, etc on the output image. Value of the array are
             indeces. LUT from mask_lut is used for coloring upon this
             indeces.
         mask_lut : dictionary
-            Look-Up-Table with colors for masking land, clouds etc. Used
-            tgether with mask_array:
-            {0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}
-            index 0 - will have black color
-                  1 - dark gray
-                  2 - light gray
-                  3 - blue
+            | Look-Up-Table with colors for masking land, clouds etc. Used
+              tgether with mask_array:
+            | {0, [0,0,0], 1, [100,100,100], 2: [150,150,150], 3: [0,0,255]}
+            | index 0 - will have black color
+            |      1 - dark gray
+            |      2 - light gray
+            |      3 - blue
         logoFileName : string
             name of the file with logo
         logoLocation : list of two int, default = [0,0]
-            X and Y offset of the image
-            If positive - offset is from left, upper edge
-            If Negative - from right, lower edge
-            Offset is calculated from the entire image legend inclusive
+            | X and Y offset of the image
+            | If positive - offset is from left, upper edge
+            | If Negative - from right, lower edge
+            | Offset is calculated from the entire image legend inclusive
         logoSize : list of two int
             desired X,Y size of logo. If None - original size is used
         latGrid : numpy array
@@ -171,7 +172,7 @@ class Figure():
             mask in Figure.save()
         default : None
 
-        Advanced parameters
+        Other parameters
         --------------------
         LEGEND_HEIGHT : float, [0 1]
             0.1, legend height relative to image height
@@ -199,7 +200,7 @@ class Figure():
             0.3, title  offset Y relative to legend height
         DEFAULT_EXTENSION : string
             '.png'
-        --------------------------------------------------
+
 
         Modifies
         ---------
@@ -208,9 +209,9 @@ class Figure():
         self.pilImg : PIL image
             figure
         self.pilImgLegend : PIL image
-            if pilImgLegend is None, legend is not added to the figure
-            if it is replaced, pilImgLegend includes text string, color-bar,
-            longName and units.
+            | if pilImgLegend is None, legend is not added to the figure
+            | if it is replaced, pilImgLegend includes text string, color-bar,
+              longName and units.
 
         '''
         # make a copy of nparray (otherwise a new reference to the same data is
@@ -237,93 +238,120 @@ class Figure():
                                          os.path.realpath(__file__)),
                                          'fonts/DejaVuSans.ttf')
 
-    def apply_logarithm(self, **kwargs):
-        '''Apply a tone curve to the array
+    def add_latlon_grids(self, **kwargs):
+        '''Add lat/lon grid lines into the PIL image
 
-        After the normalization of the values from 0 to 1, logarithm is applied
-        Then the values are converted to the normal scale.
+        | Compute step of the grid
+        | Make matrices with binarized lat/lon
+        | Find edge (make line)
+        | Convert to maks
+        | Add mask to PIL
 
         Parameters
-        -----------
-        Any of Figure__init__() parameters
+        ----------
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
+        latGrid : numpy array
+            array with values of latitudes
+        lonGrid : numpy array
+            array with values of longitudes
+        nGridLines : int
+            number of lines to draw
 
         Modifies
         ---------
-        self.array : numpy array
+        self.pilImg : pilImg
 
         '''
-        # modify default parameters
+        # modify default values
         self._set_defaults(kwargs)
+        # test availability of grids
+        if (self.latGrid is None or self.lonGrid is None or
+                self.nGridLines is None or self.nGridLines == 0):
+            return
+        # get number of grid lines
+        llSpacing = self.nGridLines
+        # get vectors for grid lines
+        latVec = np.linspace(self.latGrid.min(),
+                             self.latGrid.max(), llSpacing)
+        lonVec = np.linspace(self.lonGrid.min(),
+                             self.lonGrid.max(), llSpacing)
+        latI = np.zeros(self.latGrid.shape, 'int8')
+        lonI = np.zeros(self.latGrid.shape, 'int8')
+        # convert lat/lon to indeces
+        for i in range(len(latVec)):
+            latI[self.latGrid > latVec[i]] = i
+            lonI[self.lonGrid > lonVec[i]] = i
+        # find pixels on the rgid lines (binarize)
+        latI = np.diff(latI)
+        lonI = np.diff(lonI)
+        # make grid from both lat and lon
+        latI += lonI
+        latI[latI != 0] = 1
+        # add mask to the image
+        self.apply_mask(mask_array=latI, mask_lut={1: [255, 255, 255]})
 
-        # apply logarithm/gamme correction to pixel values
-        for iBand in range(self.array.shape[0]):
-            self.array[iBand, :, :] = (
-                (np.power((self.array[iBand, :, :] - self.cmin[iBand]) /
-                         (self.cmax[iBand] - self.cmin[iBand]),
-                          (1.0 / self.gamma))) *
-                (self.cmax[iBand] - self.cmin[iBand]) +
-                self.cmin[iBand])
+    def add_latlon_labels(self, **kwargs):
+        '''Add lat/lon labels along upper and left side
 
-    def apply_mask(self, **kwargs):
-        '''Apply mask for coloring land, clouds, etc
-
-        If mask_array and mask_lut are provided as input parameters
-        The pixels in self.array which have index equal to mask_lut kay
-        in mask_array will have color equal to mask_lut value
-
-        apply_mask should be called only after convert_palettesize
-        (i.e. to uint8 data)
+        | Compute step of lables
+        | Get lat/lon for these labels from latGrid, lonGrid
+        | Print lables to PIL
 
         Parameters
-        -----------
-        Any of Figure__init__() parameters
+        ----------
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
+        latGrid : numpy array
+        lonGrid : numpy array
+        latlonLabels : int
 
         Modifies
         ---------
-        self.array : numpy array
+        self.pilImg : pilImg
 
         '''
-        # modify default parameters
+        # modify default values
         self._set_defaults(kwargs)
+        # test availability of grids
+        if (self.latGrid is None or self.lonGrid is None or
+                self.latlonLabels == 0):
+            return
 
-        # get values of free indeces in the palette
-        availIndeces = range(self.numOfColor, 255 - 1)
+        draw = ImageDraw.Draw(self.pilImg)
+        font = ImageFont.truetype(self.fontFileName, self.fontSize)
 
-        # for all lut color indeces
-        for i, maskValue in enumerate(self.mask_lut):
-            if i < len(availIndeces):
-                # get color for that index
-                maskColor = self.mask_lut[maskValue]
-                # get indeces for that index
-                maskIndeces = self.mask_array == maskValue
-                # exchange colors
-                if self.array.shape[0] == 1:
-                    # in a indexed image
-                    self.array[0][maskIndeces] = availIndeces[i]
-                elif self.array.shape[0] == 3:
-                    # in RGB image
-                    for c in range(0, 3):
-                        self.array[c][maskIndeces] = maskColor[c]
+        # get number of labels; step of lables
+        llLabels = self.latlonLabels
+        llShape = self.latGrid.shape
+        latI = range(0, llShape[0], (llShape[0] / llLabels) - 1)
+        lonI = range(0, llShape[1], (llShape[1] / llLabels) - 1)
+        # get lons/lats from first row/column
+        #lats = self.latGrid[latI, 0]
+        #lons = self.lonGrid[0, lonI]
+        for i in range(len(latI)):
+            lat = self.latGrid[latI[i], 0]
+            lon = self.lonGrid[0, lonI[i]]
+            draw.text((0, 10 + latI[i]), '%4.2f' % lat, fill=255, font=font)
+            draw.text((50 + lonI[i], 0), '%4.2f' % lon, fill=255, font=font)
 
-                # exchage palette
-                self.palette[(availIndeces[i] * 3):
-                             (availIndeces[i] * 3 + 3)] = maskColor
 
     def add_logo(self, **kwargs):
         '''Insert logo into the PIL image
 
-        Read logo from file as PIL
-        Resize to the given size
-        Pan using the given location
-        Paste into pilImg
+        | Read logo from file as PIL
+        | Resize to the given size
+        | Pan using the given location
+        | Paste into pilImg
 
         Parameters
         ----------
-        Any of Figure__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
-        self.pilImg
+        self.pilImg : pilImg
 
         '''
         # set/get default parameters
@@ -363,112 +391,95 @@ class Figure():
         self.pilImg = self.pilImg.convert('RGB')
         self.pilImg.paste(logoImg, tuple(box))
 
-    def add_latlon_grids(self, **kwargs):
-        '''Add lat/lon grid lines into the PIL image
+    def apply_logarithm(self, **kwargs):
+        '''Apply a tone curve to the array
 
-        Compute step of the grid
-        Make matrices with binarized lat/lon
-        Find edge (make line)
-        Convert to maks
-        Add mask to PIL
+        | After the normalization of the values from 0 to 1,
+          logarithm is applied
+        | Then the values are converted to the normal scale.
 
         Parameters
-        ----------
-        Any of Figure__init__() parameters:
-        latGrid : numpy array
-            array with values of latitudes
-        lonGrid : numpy array
-            array with values of longitudes
-        nGridLines : int
-            number of lines to draw
+        -----------
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
-        self.pilImg
+        self.array : numpy array
 
         '''
-        # modify default values
+        # modify default parameters
         self._set_defaults(kwargs)
-        # test availability of grids
-        if (self.latGrid is None or self.lonGrid is None or
-                self.nGridLines is None or self.nGridLines == 0):
-            return
-        # get number of grid lines
-        llSpacing = self.nGridLines
-        # get vectors for grid lines
-        latVec = np.linspace(self.latGrid.min(),
-                             self.latGrid.max(), llSpacing)
-        lonVec = np.linspace(self.lonGrid.min(),
-                             self.lonGrid.max(), llSpacing)
-        latI = np.zeros(self.latGrid.shape, 'int8')
-        lonI = np.zeros(self.latGrid.shape, 'int8')
-        # convert lat/lon to indeces
-        for i in range(len(latVec)):
-            latI[self.latGrid > latVec[i]] = i
-            lonI[self.lonGrid > lonVec[i]] = i
-        # find pixels on the rgid lines (binarize)
-        latI = np.diff(latI)
-        lonI = np.diff(lonI)
-        # make grid from both lat and lon
-        latI += lonI
-        latI[latI != 0] = 1
-        # add mask to the image
-        self.apply_mask(mask_array=latI, mask_lut={1: [255, 255, 255]})
 
-    def add_latlon_labels(self, **kwargs):
-        '''Add lat/lon labels along upper and left side
+        # apply logarithm/gamme correction to pixel values
+        for iBand in range(self.array.shape[0]):
+            self.array[iBand, :, :] = (
+                (np.power((self.array[iBand, :, :] - self.cmin[iBand]) /
+                         (self.cmax[iBand] - self.cmin[iBand]),
+                          (1.0 / self.gamma))) *
+                (self.cmax[iBand] - self.cmin[iBand]) +
+                self.cmin[iBand])
 
-        Compute step of lables
-        Get lat/lon for these labels from latGrid, lonGrid
-        Print lables to PIL
+    def apply_mask(self, **kwargs):
+        '''Apply mask for coloring land, clouds, etc
+
+        | If mask_array and mask_lut are provided as input parameters
+        | The pixels in self.array which have index equal to mask_lut kay
+          in mask_array will have color equal to mask_lut value
+
+        | apply_mask should be called only after convert_palettesize
+          (i.e. to uint8 data)
 
         Parameters
-        ----------
-        Figure__init__() parameters:
-        latGrid : numpy array
-        lonGrid : numpy array
-        latlonLabels : int
+        -----------
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
-        self.pilImg
+        self.array : numpy array
 
         '''
-        # modify default values
+        # modify default parameters
         self._set_defaults(kwargs)
-        # test availability of grids
-        if (self.latGrid is None or self.lonGrid is None or
-                self.latlonLabels == 0):
-            return
 
-        draw = ImageDraw.Draw(self.pilImg)
-        font = ImageFont.truetype(self.fontFileName, self.fontSize)
+        # get values of free indeces in the palette
+        availIndeces = range(self.numOfColor, 255 - 1)
 
-        # get number of labels; step of lables
-        llLabels = self.latlonLabels
-        llShape = self.latGrid.shape
-        latI = range(0, llShape[0], (llShape[0] / llLabels) - 1)
-        lonI = range(0, llShape[1], (llShape[1] / llLabels) - 1)
-        # get lons/lats from first row/column
-        #lats = self.latGrid[latI, 0]
-        #lons = self.lonGrid[0, lonI]
-        for i in range(len(latI)):
-            lat = self.latGrid[latI[i], 0]
-            lon = self.lonGrid[0, lonI[i]]
-            draw.text((0, 10 + latI[i]), '%4.2f' % lat, fill=255, font=font)
-            draw.text((50 + lonI[i], 0), '%4.2f' % lon, fill=255, font=font)
+        # for all lut color indeces
+        for i, maskValue in enumerate(self.mask_lut):
+            if i < len(availIndeces):
+                # get color for that index
+                maskColor = self.mask_lut[maskValue]
+                # get indeces for that index
+                maskIndeces = self.mask_array == maskValue
+                # exchange colors
+                if self.array.shape[0] == 1:
+                    # in a indexed image
+                    self.array[0][maskIndeces] = availIndeces[i]
+                elif self.array.shape[0] == 3:
+                    # in RGB image
+                    for c in range(0, 3):
+                        self.array[c][maskIndeces] = maskColor[c]
+
+                # exchage palette
+                self.palette[(availIndeces[i] * 3):
+                             (availIndeces[i] * 3 + 3)] = maskColor
+
+
 
     def clim_from_histogram(self, **kwargs):
         '''Estimate min and max pixel values from histogram
 
-        if ratio=1.0, simply the minimum and maximum values are returned.
-        if 0 < ratio < 1.0, get the histogram of the pixel values.
-        Then get rid of (1.0-ratio)/2 from the both sides and
-        return the minimum and maximum values.
+        | if ratio=1.0, simply the minimum and maximum values are returned.
+        | if 0 < ratio < 1.0, get the histogram of the pixel values.
+        | Then get rid of (1.0-ratio)/2 from the both sides and
+          return the minimum and maximum values.
 
         Parameters
         -----------
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Returns
         --------
@@ -524,12 +535,13 @@ class Figure():
     def clip(self, **kwargs):
         '''Convert self.array to values between cmin and cmax
 
-        if pixel value < cmin, replaced to cmin.
-        if pixel value > cmax, replaced to cmax.
+        | if pixel value < cmin, replaced to cmin.
+        | if pixel value > cmax, replaced to cmax.
 
         Parameters
         -----------
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
@@ -557,8 +569,8 @@ class Figure():
 
         Parameters
         -----------
-
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
@@ -584,7 +596,8 @@ class Figure():
 
         Parameters
         -----------
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
@@ -674,16 +687,17 @@ class Figure():
     def create_pilImage(self, **kwargs):
         ''' self.create_pilImage is replaced from None to PIL image
 
-        If three images are given, create a image with RGB mode.
-            if self.pilImgLegend is not None, it is pasted.
-        If one image is given, create a image with P(palette) mode.
-            if self.pilImgLegend is not None,
-            self.array is extended before create the pilImag and
-            then paste pilImgLegend onto it.
+        | If three images are given, create a image with RGB mode.
+        |    if self.pilImgLegend is not None, it is pasted.
+        | If one image is given, create a image with P(palette) mode.
+        |    if self.pilImgLegend is not None,
+             self.array is extended before create the pilImag and
+             then paste pilImgLegend onto it.
 
         Parameters
         -----------
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         ---------
@@ -734,15 +748,16 @@ class Figure():
 
         Parameters
         -----------
-        Any of Figure.__init__() parameters
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
 
         Modifies
         --------
-        self.d
-        self.array
-        self.palette
-        self.pilImgLegend
-        self.pilImg
+        self.d : domain
+        self.array : np.array
+        self.palette : palette
+        self.pilImgLegend : pilImgLegend
+        self.pilImg : pilImg
 
         '''
         # modify default parameters
@@ -793,6 +808,37 @@ class Figure():
         if self.logoFileName is not None:
             self.add_logo()
 
+    def save(self, fileName, **kwargs):
+        ''' Save self.pilImg to a physical file
+
+        If given extension is JPG, convert the image mode from Palette to RGB
+
+        Parameters
+        ----------
+        fileName : string
+            name of outputfile
+        **kwargs : dictionary
+            Any of Figure__init__() parameters
+
+        Modifies
+        --------
+        self.pilImg : None
+
+        '''
+        # modify default values
+        self._set_defaults(kwargs)
+
+        if not((fileName.split('.')[-1] in self.extensionList)):
+            fileName = fileName + self.DEFAULT_EXTENSION
+
+        fileExtension = fileName.split('.')[-1]
+        if fileExtension in ['jpg', 'JPG', 'jpeg', 'JPEG']:
+            self.pilImg = self.pilImg.convert('RGB')
+
+        if self.transparency is not None:
+            self._make_transparent_color()
+        self.pilImg.save(fileName)
+
     def _make_transparent_color(self):
         ''' makes colors specified by self.transparency
         and self.reprojMask (if the image is reprojected) transparent
@@ -822,35 +868,6 @@ class Figure():
         img[:, :, 3][self.reprojMask] = 0
         self.pilImg = Image.fromarray(np.uint8(img))
 
-    def save(self, fileName, **kwargs):
-        ''' Save self.pilImg to a physical file
-
-        If given extension is JPG, convert the image mode from Palette to RGB
-
-        Parameters
-        ----------
-        fileName : string
-            name of outputfile
-        Any of Figure.__init__() parameters
-
-        Modifies
-        --------
-        self.pilImg : None
-
-        '''
-        # modify default values
-        self._set_defaults(kwargs)
-
-        if not((fileName.split('.')[-1] in self.extensionList)):
-            fileName = fileName + self.DEFAULT_EXTENSION
-
-        fileExtension = fileName.split('.')[-1]
-        if fileExtension in ['jpg', 'JPG', 'jpeg', 'JPEG']:
-            self.pilImg = self.pilImg.convert('RGB')
-
-        if self.transparency is not None:
-            self._make_transparent_color()
-        self.pilImg.save(fileName)
 
     def _create_palette(self):
         '''Create a palette based on Matplotlib colormap name

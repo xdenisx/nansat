@@ -82,13 +82,14 @@ class Nansatmap(Basemap):
             if colorbar is True, it is possible to put colorbar.
             e.g. contour_plots(contour_style='fill'), put_color()
         self.mpl : list
-            elements are matplotlib.contour.QuadContourSet instance,
-                         matplotlib.quiver.Quiver instance or
-                         matplotlib.collections.QuadMesh object
+            | elements are :
+            |    matplotlib.contour.QuadContourSet instance,
+            |    matplotlib.quiver.Quiver instance or
+            |    matplotlib.collections.QuadMesh object
 
-        See also
-        ----------
-        http://matplotlib.org/basemap/api/basemap_api.html
+        notes
+        ------
+        See also : http://matplotlib.org/basemap/api/basemap_api.html
 
         '''
         self.domain = domain
@@ -174,101 +175,33 @@ class Nansatmap(Basemap):
         plt.close()
         self.fig = plt.figure(**figKwargs)
 
-    def smooth(self, idata, mode, **kwargs):
-        '''Smooth data for contour() and contourf()
-
-        idata is smoothed by convolve, fourier_gaussian, spline or
-        gaussian (default). If contour_mode is 'convolve' and weight is None,
-        the weight matrix is created automatically.
+    def add_colorbar(self, fontsize=6, **kwargs):
+        '''Add color bar
 
         Parameters
-        -----------
-        idata : numpy 2D array
-            Input data
-        mode : string
-            'convolve','fourier','spline' or 'gaussian'
-
-        Returns
-        ---------
-        odata : numpy 2D array
-
-        See also
         ----------
-        http://docs.scipy.org/doc/scipy/reference/ndimage.html
+        fontsize : int
+        Parameters for matplotlib.pyplot.colorbar
+
+        Modifies
+        ---------
+        Adds colorbar to self.fig
 
         '''
-        # modify default parameter
-        self._set_defaults(kwargs)
+        if kwargs is None:
+            kwargs = {}
+        if not ('orientation' in kwargs.keys()):
+            kwargs['orientation'] = 'horizontal'
+        if not ('pad' in kwargs.keys()):
+            kwargs['pad'] = 0.01
 
-        if mode == 'convolve':
-            # if weight is None, create a weight matrix
-            if self.convolve_weights is None:
-                weights = np.ones((self.convolve_weightSize,
-                                   self.convolve_weightSize))
-                center = (self.convolve_weightSize - 1) / 2
-                for i in range(- (center), center + 1, 1):
-                    for j in range(- (center), center + 1, 1):
-                        weights[i][j] /= pow(2.0, max(abs(i), abs(j)))
-                self.convolve_weights = weights
-            odata = ndimage.convolve(idata,
-                                     weights=self.convolve_weights,
-                                     mode=self.convolve_mode,
-                                     cval=self.convolve_cval,
-                                     origin=self.convolve_origin)
-        elif mode == 'fourier':
-            odata = ndimage.fourier_gaussian(idata,
-                                             sigma=self.fourier_sigma,
-                                             n=self.fourier_n,
-                                             axis=self.fourier_axis)
-        elif mode == 'spline':
-            odata = ndimage.spline_filter1d(idata,
-                                            order=self.spline_order,
-                                            axis=self.spline_axis)
-        else:
-            if mode != 'gaussian':
-                print 'apply Gaussian filter in image_process()'
-            odata = ndimage.gaussian_filter(idata,
-                                            sigma=self.gaussian_sigma,
-                                            order=self.gaussian_order,
-                                            mode=self.gaussian_mode,
-                                            cval=self.gaussian_cval)
-        return odata
-
-    def _do_contour(self, bmfunc, data, v, smooth, mode, **kwargs):
-        ''' Prepare data and make contour or contourf plots
-
-        1. Smooth data
-        1. Add colormap
-        1. Append contour or contourf plot to self.mpl
-
-        bmfunc : Basemap function
-            Basemap.contour, Basemap.contourf
-        data : numpy 2D array
-            Input data
-        v : list with values
-            draw contour lines at the values specified in sequence v
-        smooth : Boolean
-            Apply smoothing?
-        mode : string
-            'gaussian', 'spline', 'fourier', 'convolve'
-            mname of smoothing algorithm to apply
-
-        '''
-        self._create_xy_grids()
-
-        # if cmap is given, set to self.cmap
-        if 'cmap' in kwargs.keys():
-            self.cmap = kwargs.pop('cmap')
-
-        # smooth data
-        if smooth:
-            data = self.smooth(data, mode, **kwargs)
-
-        # draw contour lines
-        if v is None:
-            self.mpl.append(bmfunc(self, self.x, self.y, data, **kwargs))
-        else:
-            self.mpl.append(bmfunc(self, self.x, self.y, data, v, **kwargs))
+        # add colorbar and set font size
+        if self.colorbar is not None:
+            cbar = self.fig.colorbar(self.mpl[self.colorbar], **kwargs)
+            imaxes = plt.gca()
+            plt.axes(cbar.ax)
+            plt.xticks(fontsize=fontsize)
+            plt.axes(imaxes)
 
     def contour(self, data, v=None, smooth=False, mode='gaussian',
                 label=True, **kwargs):
@@ -289,17 +222,17 @@ class Nansatmap(Basemap):
             mname of smoothing algorithm to apply
         label : boolean
             Add lables?
-        **kwargs:
-            Optional parameters for Nansatmap.smooth()
-            Optional parameters for pyplot.contour().
-            Optional parameters for pyplot.clabel()
+        **kwargs: dictionary
+            | Optional parameters for Nansatmap.smooth()
+            | Optional parameters for pyplot.contour().
+            | Optional parameters for pyplot.clabel()
 
         Modifies
         ---------
         self.mpl : list
             append QuadContourSet instance
-        '''
 
+        '''
         self._do_contour(Basemap.contour, data, v, smooth, mode, **kwargs)
 
         # add lables to the contour lines
@@ -321,12 +254,12 @@ class Nansatmap(Basemap):
         smooth : Boolean
             Apply smoothing?
         mode : string
-            'gaussian', 'spline', 'fourier', 'convolve'
-            mname of smoothing algorithm to apply
-        **kwargs:
-            cmap : colormap (e.g. cm.jet)
-            Optional parameters for Nansatmap.smooth()
-            Optional parameters for pyplot.contourf().
+            | mname of smoothing algorithm to apply
+            | e.g.) 'gaussian', 'spline', 'fourier', 'convolve'
+        **kwargs: dictionary
+            | cmap : colormap (e.g. cm.jet)
+            | Optional parameters for Nansatmap.smooth()
+            | Optional parameters for pyplot.contourf().
 
         Modifies
         ---------
@@ -337,6 +270,57 @@ class Nansatmap(Basemap):
         self._do_contour(Basemap.contourf, data, v, smooth, mode, **kwargs)
         self.colorbar = len(self.mpl) - 1
 
+    def drawgrid(self, fontsize=10, lat_num=5, lon_num=5,
+                 lat_labels=[True, False, False, False],
+                 lon_labels=[False, False, True, False]):
+        '''Draw and label parallels (lat and lon lines) for values (in degrees)
+
+        Parameters
+        -----------
+        fontsize : int
+        lat_num : int
+            Number of latitude lables
+        lon_num :
+            Number of longitude lables
+        lat_labels : list of Bool
+            Location of latitude labels
+        lon_labels : list of Bool
+            Location of longitude labels
+
+        notes
+        ------
+        See also: Basemap.drawparallels(), Basemap.drawmeridians()
+
+        '''
+        self.drawparallels(np.arange(self.latMin, self.latMax,
+                           (self.latMax - self.latMin) / lat_num),
+                           labels=lat_labels,
+                           fontsize=fontsize)
+        self.drawmeridians(np.arange(self.lonMin, self.lonMax,
+                           (self.lonMax - self.lonMin) / lon_num),
+                           labels=lon_labels,
+                           fontsize=fontsize)
+
+    def draw_continents(self, **kwargs):
+        ''' Draw continents
+
+        Parameters
+        ----------
+        **kwargs : dictionary
+            Parameters for basemap.fillcontinents
+
+        '''
+
+        if kwargs is None:
+            kwargs = {}
+        if not ('color' in kwargs.keys()):
+            kwargs['color'] = '#999999'
+        if not ('lake_color' in kwargs.keys()):
+            kwargs['lake_color'] = '#99ffff'
+
+        # draw continets
+        self.fillcontinents(**kwargs)
+
     def pcolormesh(self, data, **kwargs):
         '''Make a pseudo-color plot over the map
 
@@ -344,7 +328,7 @@ class Nansatmap(Basemap):
         ----------
         data : numpy 2D array
             Input data
-        **kwargs:
+        **kwargs: dictionary
             Parameters for Basemap.pcolormesh (e.g. vmin, vmax)
 
         Modifies
@@ -374,7 +358,8 @@ class Nansatmap(Basemap):
             Skip <step> pixels along both dimentions(alternative to quivectors)
         quivectors : int or (int,int)
             Number of vectors along both dimentions
-        Parameters for Basemap.quiver()
+        **kwargs: dictionary
+            Parameters for Basemap.quiver()
 
         Modifies
         ---------
@@ -429,82 +414,6 @@ class Nansatmap(Basemap):
         else:
             self.mpl.append(Q)
 
-    def add_colorbar(self, fontsize=6, **kwargs):
-        '''Add color bar
-
-        Parameters
-        ----------
-        fontsize : int
-        Parameters for matplotlib.pyplot.colorbar
-
-        Modifies
-        ---------
-        Adds colorbar to self.fig
-
-        '''
-        if kwargs is None:
-            kwargs = {}
-        if not ('orientation' in kwargs.keys()):
-            kwargs['orientation'] = 'horizontal'
-        if not ('pad' in kwargs.keys()):
-            kwargs['pad'] = 0.01
-
-        # add colorbar and set font size
-        if self.colorbar is not None:
-            cbar = self.fig.colorbar(self.mpl[self.colorbar], **kwargs)
-            imaxes = plt.gca()
-            plt.axes(cbar.ax)
-            plt.xticks(fontsize=fontsize)
-            plt.axes(imaxes)
-
-    def drawgrid(self, fontsize=10, lat_num=5, lon_num=5,
-                 lat_labels=[True, False, False, False],
-                 lon_labels=[False, False, True, False]):
-        '''Draw and label parallels (lat and lon lines) for values (in degrees)
-
-        Parameters
-        -----------
-        fontsize : int
-        lat_num : int
-            Number of latitude lables
-        lon_num :
-            Number of longitude lables
-        lat_labels : list of Bool
-            Location of latitude labels
-        lon_labels : list of Bool
-            Location of longitude labels
-
-        See also: Basemap.drawparallels(), Basemap.drawmeridians()
-
-        '''
-        self.drawparallels(np.arange(self.latMin, self.latMax,
-                           (self.latMax - self.latMin) / lat_num),
-                           labels=lat_labels,
-                           fontsize=fontsize)
-        self.drawmeridians(np.arange(self.lonMin, self.lonMax,
-                           (self.lonMax - self.lonMin) / lon_num),
-                           labels=lon_labels,
-                           fontsize=fontsize)
-
-    def draw_continents(self, **kwargs):
-        ''' Draw continents
-
-        Parameters
-        ----------
-        Parameters for basemap.fillcontinents
-
-        '''
-
-        if kwargs is None:
-            kwargs = {}
-        if not ('color' in kwargs.keys()):
-            kwargs['color'] = '#999999'
-        if not ('lake_color' in kwargs.keys()):
-            kwargs['lake_color'] = '#99ffff'
-
-        # draw continets
-        self.fillcontinents(**kwargs)
-
     def save(self, fileName, landmask=True, **kwargs):
         '''Draw continents and save
 
@@ -514,7 +423,8 @@ class Nansatmap(Basemap):
             name of outputfile
         landmask : Boolean
             Draw landmask?
-        Parameters for basemap.fillcontinents
+        **kwargs: dictionary
+            Parameters for basemap.fillcontinents
 
         '''
         if landmask:
@@ -524,6 +434,129 @@ class Nansatmap(Basemap):
         if not((fileName.split('.')[-1] in self.extensionList)):
             fileName = fileName + self.DEFAULT_EXTENSION
         self.fig.savefig(fileName)
+
+    def smooth(self, idata, mode, **kwargs):
+        '''Smooth data for contour() and contourf()
+
+        idata is smoothed by convolve, fourier_gaussian, spline or
+        gaussian (default). If contour_mode is 'convolve' and weight is None,
+        the weight matrix is created automatically.
+
+        Parameters
+        -----------
+        idata : numpy 2D array
+            Input data
+        mode : string
+            'convolve','fourier','spline' or 'gaussian'
+        **kwargs: dictionary
+
+        Returns
+        ---------
+        odata : numpy 2D array
+
+        notes
+        ----------
+        see also : http://docs.scipy.org/doc/scipy/reference/ndimage.html
+
+        '''
+        # modify default parameter
+        self._set_defaults(kwargs)
+
+        if mode == 'convolve':
+            # if weight is None, create a weight matrix
+            if self.convolve_weights is None:
+                weights = np.ones((self.convolve_weightSize,
+                                   self.convolve_weightSize))
+                center = (self.convolve_weightSize - 1) / 2
+                for i in range(- (center), center + 1, 1):
+                    for j in range(- (center), center + 1, 1):
+                        weights[i][j] /= pow(2.0, max(abs(i), abs(j)))
+                self.convolve_weights = weights
+            odata = ndimage.convolve(idata,
+                                     weights=self.convolve_weights,
+                                     mode=self.convolve_mode,
+                                     cval=self.convolve_cval,
+                                     origin=self.convolve_origin)
+        elif mode == 'fourier':
+            odata = ndimage.fourier_gaussian(idata,
+                                             sigma=self.fourier_sigma,
+                                             n=self.fourier_n,
+                                             axis=self.fourier_axis)
+        elif mode == 'spline':
+            odata = ndimage.spline_filter1d(idata,
+                                            order=self.spline_order,
+                                            axis=self.spline_axis)
+        else:
+            if mode != 'gaussian':
+                print 'apply Gaussian filter in image_process()'
+            odata = ndimage.gaussian_filter(idata,
+                                            sigma=self.gaussian_sigma,
+                                            order=self.gaussian_order,
+                                            mode=self.gaussian_mode,
+                                            cval=self.gaussian_cval)
+        return odata
+
+    def _create_lonlat_grids(self):
+        '''Generate grids with lon/lat coordinates in each cell
+
+        Modifies
+        ---------
+        self.lon : numpy array with lon coordinates
+        self.lat : numpy array with lat coordinates
+
+        '''
+        if self.lon is None or self.lat is None:
+            self.lon, self.lat = self.domain.get_geolocation_grids()
+
+    def _create_xy_grids(self):
+        '''Generate grids with x/y coordinates in each cell
+
+        Modifies
+        ---------
+        self.x : numpy array with X coordinates
+        self.y : numpy array with Y coordinates
+
+        '''
+        self._create_lonlat_grids()
+        if self.x is None or self.y is None:
+            self.x, self.y = self(self.lon, self.lat)
+
+    def _do_contour(self, bmfunc, data, v, smooth, mode, **kwargs):
+        ''' Prepare data and make contour or contourf plots
+
+        1. Smooth data
+        1. Add colormap
+        1. Append contour or contourf plot to self.mpl
+
+        bmfunc : Basemap function
+            Basemap.contour, Basemap.contourf
+        data : numpy 2D array
+            Input data
+        v : list with values
+            draw contour lines at the values specified in sequence v
+        smooth : Boolean
+            Apply smoothing?
+        mode : string
+            'gaussian', 'spline', 'fourier', 'convolve'
+            mname of smoothing algorithm to apply
+
+        '''
+        self._create_xy_grids()
+
+        # if cmap is given, set to self.cmap
+        if 'cmap' in kwargs.keys():
+            self.cmap = kwargs.pop('cmap')
+
+        # smooth data
+        if smooth:
+            data = self.smooth(data, mode, **kwargs)
+
+        # draw contour lines
+        if v is None:
+            self.mpl.append(bmfunc(self, self.x, self.y, data, **kwargs))
+        else:
+            self.mpl.append(bmfunc(self, self.x, self.y, data, v, **kwargs))
+
 
     def _set_defaults(self, idict):
         '''Check input params and set defaut values
@@ -545,25 +578,3 @@ class Nansatmap(Basemap):
             if hasattr(self, key):
                 setattr(self, key, idict[key])
 
-    def _create_lonlat_grids(self):
-        '''Generate grids with lon/lat coordinates in each cell
-
-        Modifies
-        ---------
-        self.lon : numpy array with lon coordinates
-        self.lat : numpy array with lat coordinates
-        '''
-        if self.lon is None or self.lat is None:
-            self.lon, self.lat = self.domain.get_geolocation_grids()
-
-    def _create_xy_grids(self):
-        '''Generate grids with x/y coordinates in each cell
-
-        Modifies
-        ---------
-        self.x : numpy array with X coordinates
-        self.y : numpy array with Y coordinates
-        '''
-        self._create_lonlat_grids()
-        if self.x is None or self.y is None:
-            self.x, self.y = self(self.lon, self.lat)

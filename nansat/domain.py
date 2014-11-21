@@ -34,42 +34,42 @@ from nansat.vrt import VRT
 class Domain(object):
     '''Container for geographical reference of a raster
 
-    A Domain object describes all attributes of geographical
-    reference of a raster:
-      * width and height (number of pixels)
-      * pixel size (e.g. in decimal degrees or in meters)
-      * relation between pixel/line coordinates and geographical
+    | A Domain object describes all attributes of geographical
+      reference of a raster:
+    |   width and height (number of pixels)
+    |   pixel size (e.g. in decimal degrees or in meters)
+    |   relation between pixel/line coordinates and geographical
         coordinates (e.g. a linear relation)
-      * type of data projection (e.g. geographical or stereographic)
+    |   type of data projection (e.g. geographical or stereographic)
 
-    The core of Domain is a GDAL Dataset. It has no bands, but only
-    georeference information: rasterXsize, rasterYsize, GeoTransform and
-    Projection or GCPs, etc. which fully describe dimentions and spatial
-    reference of the grid.
+    | The core of Domain is a GDAL Dataset. It has no bands, but only
+      georeference information: rasterXsize, rasterYsize, GeoTransform and
+    | Projection or GCPs, etc. which fully describe dimentions and spatial
+      reference of the grid.
 
-    There are three ways to store geo-reference in a GDAL dataset:
-      * Using GeoTransfrom to define linear relationship between raster
+    | There are three ways to store geo-reference in a GDAL dataset:
+    |   Using GeoTransfrom to define linear relationship between raster
         pixel/line and geographical X/Y coordinates
-      * Using GCPs (set of Ground Control Points) to define non-linear
+    |   Using GCPs (set of Ground Control Points) to define non-linear
         relationship between pixel/line and X/Y
-      * Using Geolocation Array - full grids of X/Y coordinates for
+    |   Using Geolocation Array - full grids of X/Y coordinates for
         each pixel of a raster
-    The relation between X/Y coordinates of the raster and latitude/longitude
-    coordinates is defined by projection type and projection parameters.
-    These pieces of information are therefore stored in Domain:
-      * Type and parameters of projection +
-        * GeoTransform, or
-        * GCPs, or
-        * GeolocationArrays
+    | The relation between X/Y coordinates of the raster and latitude/longitude
+      coordinates is defined by projection type and projection parameters.
+    | These pieces of information are therefore stored in Domain:
+    |   Type and parameters of projection +
+    |     GeoTransform, or
+    |     GCPs, or
+    |     GeolocationArrays
 
-    Domain has methods for basic operations with georeference information:
-      * creating georeference from input options;
-      * fetching corner, border or full grids of X/Y coordinates;
-      * making map of the georeferenced grid in a PNG or KML file;
-      * and some more...
+    | Domain has methods for basic operations with georeference information:
+    |    creating georeference from input options;
+    |      fetching corner, border or full grids of X/Y coordinates;
+    |      making map of the georeferenced grid in a PNG or KML file;
+    |      and some more...
 
-    The main attribute of Domain is a VRT object self.vrt.
-    Nansat inherits from Domain and adds bands to self.vrt
+    | The main attribute of Domain is a VRT object self.vrt.
+    | Nansat inherits from Domain and adds bands to self.vrt
 
     '''
     def __init__(self, srs=None, ext=None, ds=None, lon=None,
@@ -93,16 +93,16 @@ class Domain(object):
         srs : PROJ4 or EPSG or WKT or NSR or osr.SpatialReference()
             Input parameter for nansat.NSR()
         ext : string
-            some gdalwarp options + additional options
-            [http://www.gdal.org/gdalwarp.html]
-            Specifies extent, resolution / size
-            Available options: (('-te' or '-lle') and ('-tr' or '-ts'))
-            (e.g. '-lle -10 30 55 60 -ts 1000 1000' or
-            '-te 100 2000 300 10000 -tr 300 200')
-            -tr resolutionx resolutiony
-            -ts sizex sizey
-            -te xmin ymin xmax ymax
-            -lle lonmin latmin lonmax latmax
+            | some gdalwarp options + additional options
+            | [http://www.gdal.org/gdalwarp.html]
+            | Specifies extent, resolution / size
+            | Available options: (('-te' or '-lle') and ('-tr' or '-ts'))
+            | (e.g. '-lle -10 30 55 60 -ts 1000 1000' or
+              '-te 100 2000 300 10000 -tr 300 200')
+            | -tr resolutionx resolutiony
+            | -ts sizex sizey
+            | -te xmin ymin xmax ymax
+            | -lle lonmin latmin lonmax latmax
         ds : GDAL dataset
         lat : Numpy array
             Grid with latitudes
@@ -124,13 +124,13 @@ class Domain(object):
         self.vrt.datasetset : dataset in memory
             dataset is created based on the input arguments
 
-        See Also
+        notes
         ---------
-        Nansat.reproject()
-        [http://www.gdal.org/gdalwarp.html]
-        [http://trac.osgeo.org/proj/]
-        [http://spatialreference.org/]
-        [http://www.gdal.org/ogr/osr_tutorial.html]
+        | See also: Nansat.reproject()
+        | http://www.gdal.org/gdalwarp.html
+        | http://trac.osgeo.org/proj/
+        | http://spatialreference.org/
+        | http://www.gdal.org/ogr/osr_tutorial.html
 
         '''
         # set default attributes
@@ -196,36 +196,255 @@ class Domain(object):
 
         self.logger.debug('vrt.dataset: %s' % str(self.vrt.dataset))
 
-    def __repr__(self):
-        '''Creates string with basic info about the Domain object
+    def azimuth_y(self, reductionFactor=1):
+        '''Calculate the azimuth of 'upward' direction in each pixel
 
-        Modifies
-        ---------
-        Print size, projection and corner coordinates
+        Generaly speaking, azimuth is angle from the reference vector
+        (direction to North) to the chosen direction. Azimuth increases
+        clockwise from direction to North. http://en.wikipedia.org/wiki/Azimuth
+
+        Here we calcluate azimuth of 'upward' direction.
+        'Upward' direction coincides with Y-axis direction (and hence is
+        opposite to the ROW-axis direction). For lon-lat (cylindrical,
+        Plate Caree) and Mercator projections 'upward' direction coincides with
+        direction to North, hence azimuth is 0.
+
+        Parameters
+        -----------
+        reductionFactor : integer
+            factor by which the size of the output array is reduced
+
+        Returns
+        -------
+        azimuth : numpy array
+            Values of azimuth in degrees in range 0 - 360
 
         '''
-        outStr = 'Domain:[%d x %d]\n' % (self.vrt.dataset.RasterXSize,
-                                         self.vrt.dataset.RasterYSize)
-        outStr += '-' * 40 + '\n'
-        try:
-            corners = self.get_corners()
-        except:
-            self.logger.error('Cannot read projection from source!')
+
+        lon, lat = self.get_geolocation_grids(reductionFactor)
+        a = initial_bearing(lon[1:, :], lat[1:, :],
+                            lon[:-1:, :], lat[:-1:, :])
+        # Repeat last row once to match size of lon-lat grids
+        a = np.vstack((a, a[-1, :]))
+        return a
+
+    def get_border(self, nPoints=10):
+        '''Generate two vectors with values of lat/lon for the border of domain
+
+        Parameters
+        -----------
+        nPoints : int, optional
+            Number of points on each border
+
+        Returns
+        --------
+        lonVec, latVec : lists
+            vectors with lon/lat values for each point at the border
+
+        '''
+        # prepare vectors with pixels and lines for upper, left, lower
+        # and right borders
+        sizes = [self.vrt.dataset.RasterXSize, self.vrt.dataset.RasterYSize]
+
+        rcVector1 = [[], []]
+        rcVector2 = [[], []]
+        # loop for pixels and lines
+        for n in range(0, 2):
+            step = max(1, sizes[n] / nPoints)
+            rcVector1[n] = range(0, sizes[n], step)[0:nPoints]
+            rcVector1[n].append(sizes[n])
+            rcVector2[n] = rcVector1[n][:]
+            rcVector2[n].reverse()
+
+        # coumpund vectors of pixels (col) and lines (row)
+        colVector = (rcVector1[0] + [sizes[0]] * len(rcVector1[1]) +
+                     rcVector2[0] + [0] * len(rcVector1[1]))
+        rowVector = ([0] * len(rcVector1[0]) + rcVector1[1] +
+                     [sizes[1]] * len(rcVector1[0]) + rcVector2[1])
+
+        return self.transform_points(colVector, rowVector)
+
+    def get_border_geometry(self):
+        ''' Get OGR Geometry of the border Polygon
+
+        Returns
+        -------
+        OGR Geometry : type Polygon
+
+        '''
+        return ogr.CreateGeometryFromWkt(self.get_border_wkt())
+
+    def get_border_postgis(self):
+        ''' Get PostGIS formatted string of the border Polygon
+
+        Returns
+        -------
+        str : 'PolygonFromText(PolygonWKT)'
+
+        '''
+        return "PolygonFromText('%s')" % self.get_border_wkt()
+
+    def get_border_wkt(self):
+        '''Creates string with WKT representation of the border polygon
+
+        Returns
+        --------
+        WKTPolygon : string
+            string with WKT representation of the border polygon
+
+        '''
+        lonList, latList = self.get_border()
+
+        # apply > 180 deg correction to longitudes
+        for ilon, lon in enumerate(lonList):
+            lonList[ilon] = copysign(acos(cos(lon * pi / 180.)) / pi * 180,
+                                     sin(lon * pi / 180.))
+
+        polyCont = ','.join(str(lon) + ' ' + str(lat)
+                            for lon, lat in zip(lonList, latList))
+        # outer quotes have to be double and inner - single!
+        #wktPolygon = "PolygonFromText('POLYGON((%s))')" % polyCont
+        wkt = 'POLYGON((%s))' % polyCont
+        return wkt
+
+    def get_corners(self):
+        '''Get coordinates of corners of the Domain
+
+        Returns
+        --------
+        lonVec, latVec : lists
+            vectors with lon/lat values for each corner
+
+        '''
+
+        colVector = [0, 0, self.vrt.dataset.RasterXSize,
+                     self.vrt.dataset.RasterXSize]
+        rowVector = [0, self.vrt.dataset.RasterYSize, 0,
+                     self.vrt.dataset.RasterYSize]
+        return self.transform_points(colVector, rowVector)
+
+    def get_geolocation_grids(self, stepSize=1):
+        '''Get longitude and latitude grids representing the full data grid
+
+        | If GEOLOCATION is not present in the self.vrt.dataset then grids
+          are generated by converting pixel/line of each pixel into lat/lon
+        | If GEOLOCATION is present in the self.vrt.dataset then grids are read
+          from the geolocation bands.
+
+        Parameters
+        -----------
+        stepSize : int
+            Reduction factor if output is desired on a reduced grid size
+
+        Returns
+        --------
+        longitude : numpy array
+            grid with longitudes
+        latitude : numpy array
+            grid with latitudes
+
+        '''
+        X = range(0, self.vrt.dataset.RasterXSize, stepSize)
+        Y = range(0, self.vrt.dataset.RasterYSize, stepSize)
+        Xm, Ym = np.meshgrid(X, Y)
+
+        if len(self.vrt.geolocationArray.d) > 0:
+            # if the vrt dataset has geolocationArray
+            # read lon,lat grids from geolocationArray
+            lon, lat = self.vrt.geolocationArray.get_geolocation_grids()
+            longitude, latitude = lon[Ym, Xm], lat[Ym, Xm]
         else:
-            outStr += 'Projection:\n'
-            outStr += (NSR(self.vrt.get_projection()).ExportToPrettyWkt(1)
-                       + '\n')
-            outStr += '-' * 40 + '\n'
-            outStr += 'Corners (lon, lat):\n'
-            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][0],
-                                                               corners[1][0],
-                                                               corners[0][2],
-                                                               corners[1][2])
-            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][1],
-                                                               corners[1][1],
-                                                               corners[0][3],
-                                                               corners[1][3])
-        return outStr
+            # generate lon,lat grids using GDAL Transformer
+            lonVec, latVec = self.transform_points(Xm.flatten(), Ym.flatten())
+            longitude = lonVec.reshape(Xm.shape)
+            latitude = latVec.reshape(Xm.shape)
+
+        return longitude, latitude
+
+    def get_pixelsize_meters(self):
+        '''Returns the pixelsize (deltaX, deltaY) of the domain
+
+        | For projected domains, the exact result which is constant
+          over the domain is returned.
+        | For geographic (lon-lat) projections, or domains with no geotransform,
+          the haversine formula is used to calculate the pixel size
+          in the center of the domain.
+
+        Returns
+        --------
+        deltaX, deltaY : float
+        pixel size in X and Y directions given in meters
+
+        '''
+        srs = osr.SpatialReference(self.vrt.dataset.GetProjection())
+        if srs.IsProjected:
+            if srs.GetAttrValue('unit') == 'metre':
+                geoTransform = self.vrt.dataset.GetGeoTransform()
+                deltaX = abs(geoTransform[1])
+                deltaY = abs(geoTransform[5])
+                return deltaX, deltaY
+
+        # Estimate pixel size in center of domain using haversine formula
+        centerCol = round(self.vrt.dataset.RasterXSize/2)
+        centerRow = round(self.vrt.dataset.RasterYSize/2)
+        lon00, lat00 = self.transform_points([centerCol], [centerRow])
+        lon01, lat01 = self.transform_points([centerCol], [centerRow + 1])
+        lon10, lat10 = self.transform_points([centerCol + 1], [centerRow])
+
+        deltaX = haversine(lon00, lat00, lon01, lat01)
+        deltaY = haversine(lon00, lat00, lon10, lat10)
+        return deltaX[0], deltaY[0]
+
+    def reproject_GCPs(self, srsString):
+        '''Reproject all GCPs to a new spatial reference system
+
+        Necessary before warping an image if the given GCPs
+        are in a coordinate system which has a singularity
+        in (or near) the destination area (e.g. poles for lonlat GCPs)
+
+        Parameters
+        ----------
+        srsString : string
+            SRS given as Proj4 string
+
+        Modifies
+        --------
+        self.vrt : Reprojects all GCPs to new SRS and updates GCPProjection
+
+        '''
+        self.vrt.reproject_GCPs(srsString)
+
+
+    def shape(self):
+        '''Return Numpy-like shape of Domain object (ySize, xSize)
+
+        Returns
+        --------
+        shape : tuple of two INT
+            Numpy-like shape of Domain object (ySize, xSize)
+
+        '''
+        return self.vrt.dataset.RasterYSize, self.vrt.dataset.RasterXSize
+
+    def transform_points(self, colVector, rowVector, DstToSrc=0):
+
+        '''Transform given lists of X,Y coordinates into lon/lat or inverse
+
+        Parameters
+        -----------
+        colVector : lists
+            X and Y coordinates in pixel/line or lon/lat  coordinate system
+        DstToSrc : 0 or 1
+            | 0 - forward transform (pix/line => lon/lat)
+            | 1 - inverse transformation
+
+        Returns
+        --------
+        X, Y : lists
+            X and Y coordinates in lon/lat or pixel/line coordinate system
+
+        '''
+        return self.vrt.transform_points(colVector, rowVector, DstToSrc)
 
     def write_kml(self, xmlFileName=None, kmlFileName=None):
         '''Write KML file with domains
@@ -305,26 +524,27 @@ class Domain(object):
 
         Examples
         ---------
-        # First of all, reproject an image into Lat/Lon WGS84
+        | First of all, reproject an image into Lat/Lon WGS84
           (Simple Cylindrical) projection
-        # 1. Cancel previous reprojection
-        # 2. Get corners of the image and the pixel resolution
-        # 3. Create Domain with stereographic projection,
-        #    corner coordinates and resolution 1000m
-        # 4. Reproject
-        # 5. Write image
-        # 6. Write KML for the image
-        n.reproject() # 1.
-        lons, lats = n.get_corners() # 2.
-        srsString = '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
-        extentString = '-lle %f %f %f %f -ts 3000 3000'
-        % (min(lons), min(lats), max(lons), max(lats))
-        d = Domain(srs=srsString, ext=extentString) # 3.
-        n.reproject(d) # 4.
-        n.write_figure(fileName=figureName, bands=[3], clim=[0,0.15],
-                       cmapName='gray', transparency=0) # 5.
-        n.write_kml_image(kmlFileName=oPath + fileName + '.kml',
-                          kmlFigureName=figureName) # 6.
+        | 1. Cancel previous reprojection
+        | 2. Get corners of the image and the pixel resolution
+        | 3. Create Domain with stereographic projection,
+        |    corner coordinates and resolution 1000m
+        | 4. Reproject
+        | 5. Write image
+        | 6. Write KML for the image
+
+        >>> n.reproject() # 1.
+        >>> lons, lats = n.get_corners() # 2.
+        >>> srsString = '+proj=latlong +datum=WGS84 +ellps=WGS84 +no_defs'
+        >>> extentString = '-lle %f %f %f %f -ts 3000 3000'
+        >>> % (min(lons), min(lats), max(lons), max(lats))
+        >>> d = Domain(srs=srsString, ext=extentString) # 3.
+        >>> n.reproject(d) # 4.
+        >>> n.write_figure(fileName=figureName, bands=[3], clim=[0,0.15],
+        >>>               cmapName='gray', transparency=0) # 5.
+        >>> n.write_kml_image(kmlFileName=oPath + fileName + '.kml',
+        >>>                  kmlFigureName=figureName) # 6.
 
         '''
         # test input options
@@ -369,52 +589,133 @@ class Domain(object):
         kmlFile.write('</kml>')
         kmlFile.close()
 
-    def get_geolocation_grids(self, stepSize=1):
-        '''Get longitude and latitude grids representing the full data grid
 
-        If GEOLOCATION is not present in the self.vrt.dataset then grids
-        are generated by converting pixel/line of each pixel into lat/lon
-        If GEOLOCATION is present in the self.vrt.dataset then grids are read
-        from the geolocation bands.
+    def write_map(self, outputFileName,
+                  lonVec=None, latVec=None, lonBorder=10., latBorder=10.,
+                  figureSize=(6, 6), dpi=50, projection='cyl', resolution='c',
+                  continetsColor='coral', meridians=10, parallels=10,
+                  pColor='r', pLine='k', pAlpha=0.5, padding=0.,
+                  merLabels=[False, False, False, False],
+                  parLabels=[False, False, False, False],
+                  pltshow=False):
+        ''' Create an image with a map of the domain
+
+        | Uses Basemap to create a World Map
+        | Adds a semitransparent patch with outline of the Domain
+        | Writes to an image file
 
         Parameters
         -----------
-        stepSize : int
-            Reduction factor if output is desired on a reduced grid size
+        outputFileName : string
+            name of the output file name
+        lonBorder : float
+            10, horisontal border around patch (degrees of longitude)
+        latBorder : float
+            10, vertical border around patch (degrees of latitude)
+        figureSize : tuple of two integers
+            (6, 6), size of the generated figure in inches
+        dpi: int
+            50, resolution of the output figure (size 6,6 and dpi 50
+            produces 300 x 300 figure)
+        projection : string, one of Basemap projections
+            'cyl', projection of the map
+        resolution : string, resolution of the map
+            | 'c', crude
+            | 'l', low
+            | 'i', intermediate
+            | 'h', high
+            | 'f', full
+        continetsColor : string or any matplotlib color representation
+            'coral', color of continets
+        meridians : int
+            10, number of meridians to draw
+        parallels : int
+            10, number of parallels to draw
+        pColor : string or any matplotlib color representation
+            'r', color of the Domain patch
+        pLine : string or any matplotlib color representation
+            'k', color of the Domain outline
+        pAlpha : float 0 - 1
+            0.5, transparency of Domain patch
+        padding : float
+            0., width of white padding around the map
+        merLabels : list of 4 booleans
+            where to put meridian labels, see also Basemap.drawmeridians()
+        parLables : list of 4 booleans
+            where to put parallel labels, see also Basemap.drawparallels()
 
-        Returns
-        --------
-        longitude : numpy array
-            grid with longitudes
-        latitude : numpy array
-            grid with latitudes
         '''
+        # if lat/lon vectors are not given as input
+        if lonVec is None or latVec is None or len(lonVec) != len(latVec):
+            try:
+                # get lon/lat from Domain/Nansat object
+                lonVec, latVec = self.get_border()
+            except:
+                print('Domain/Nansat object is not given'
+                      'and lat/lon vectors=None')
+                return
 
-        X = range(0, self.vrt.dataset.RasterXSize, stepSize)
-        Y = range(0, self.vrt.dataset.RasterYSize, stepSize)
-        Xm, Ym = np.meshgrid(X, Y)
+        # convert vectors to numpy arrays
+        lonVec = np.array(lonVec)
+        latVec = np.array(latVec)
 
-        if len(self.vrt.geolocationArray.d) > 0:
-            # if the vrt dataset has geolocationArray
-            # read lon,lat grids from geolocationArray
-            lon, lat = self.vrt.geolocationArray.get_geolocation_grids()
-            longitude, latitude = lon[Ym, Xm], lat[Ym, Xm]
+        # estimate mean/min/max values of lat/lon of the shown area
+        # (real lat min max +/- latBorder) and (real lon min max +/- lonBorder)
+        minLon = max(-180, lonVec.min() - lonBorder)
+        maxLon = min(180, lonVec.max() + lonBorder)
+        minLat = max(-90, latVec.min() - latBorder)
+        maxLat = min(90, latVec.max() + latBorder)
+        meanLon = lonVec.mean()
+        meanLat = latVec.mean()
+
+        # generate template map (can be also tmerc)
+        plt.figure(num=1, figsize=figureSize, dpi=dpi)
+        bmap = Basemap(projection=projection,
+                       lat_0=meanLat, lon_0=meanLon,
+                       llcrnrlon=minLon, llcrnrlat=minLat,
+                       urcrnrlon=maxLon, urcrnrlat=maxLat,
+                       resolution=resolution)
+
+        # add content: coastline, continents, meridians, parallels
+        bmap.drawcoastlines()
+        bmap.fillcontinents(color=continetsColor)
+        bmap.drawmeridians(np.linspace(minLon, maxLon, meridians))
+        bmap.drawparallels(np.linspace(minLat, maxLat, parallels))
+
+        # convert input lat/lon vectors to arrays of vectors with one row
+        # if only one vector was given
+        if len(lonVec.shape) == 1:
+            lonVec = lonVec.reshape(1, lonVec.shape[0])
+            latVec = latVec.reshape(1, latVec.shape[0])
+
+        for lonSubVec, latSubVec in zip(lonVec, latVec):
+            # convert lat/lons to map units
+            mapX, mapY = bmap(list(lonSubVec.flat), list(latSubVec.flat))
+
+            # from x/y vectors create a Patch to be added to map
+            boundary = Polygon(zip(mapX, mapY),
+                               alpha=pAlpha, ec=pLine, fc=pColor)
+
+            # add patch to the map
+            plt.gca().add_patch(boundary)
+            plt.gca().set_aspect('auto')
+
+        # save figure and close
+        plt.savefig(outputFileName, bbox_inches='tight',
+                    dpi=dpi, pad_inches=padding)
+        if pltshow:
+            plt.show()
         else:
-            # generate lon,lat grids using GDAL Transformer
-            lonVec, latVec = self.transform_points(Xm.flatten(), Ym.flatten())
-            longitude = lonVec.reshape(Xm.shape)
-            latitude = latVec.reshape(Xm.shape)
-
-        return longitude, latitude
+            plt.close('all')
 
     def _convert_extentDic(self, dstSRS, extentDic):
         '''Convert -lle option (lat/lon) to -te (proper coordinate system)
 
-        Source SRS from LAT/LON projection and target SRS from dstWKT.
-        Create osr.CoordinateTransformation based on these SRSs and
-        convert given values in degrees to the destination coordinate
-        system given by WKT.
-        Add key 'te' and the converted values into the extentDic.
+        | Source SRS from LAT/LON projection and target SRS from dstWKT.
+        | Create osr.CoordinateTransformation based on these SRSs and
+          convert given values in degrees to the destination coordinate
+          system given by WKT.
+        | Add key 'te' and the converted values into the extentDic.
 
         Parameters
         -----------
@@ -597,42 +898,6 @@ class Domain(object):
                               '"-ts" or "-tr" should be chosen.')
         return extentDic
 
-    def get_border(self, nPoints=10):
-        '''Generate two vectors with values of lat/lon for the border of domain
-
-        Parameters
-        -----------
-        nPoints : int, optional
-            Number of points on each border
-
-        Returns
-        --------
-        lonVec, latVec : lists
-            vectors with lon/lat values for each point at the border
-
-        '''
-        # prepare vectors with pixels and lines for upper, left, lower
-        # and right borders
-        sizes = [self.vrt.dataset.RasterXSize, self.vrt.dataset.RasterYSize]
-
-        rcVector1 = [[], []]
-        rcVector2 = [[], []]
-        # loop for pixels and lines
-        for n in range(0, 2):
-            step = max(1, sizes[n] / nPoints)
-            rcVector1[n] = range(0, sizes[n], step)[0:nPoints]
-            rcVector1[n].append(sizes[n])
-            rcVector2[n] = rcVector1[n][:]
-            rcVector2[n].reverse()
-
-        # coumpund vectors of pixels (col) and lines (row)
-        colVector = (rcVector1[0] + [sizes[0]] * len(rcVector1[1]) +
-                     rcVector2[0] + [0] * len(rcVector1[1]))
-        rowVector = ([0] * len(rcVector1[0]) + rcVector1[1] +
-                     [sizes[1]] * len(rcVector1[0]) + rcVector2[1])
-
-        return self.transform_points(colVector, rowVector)
-
     def _get_border_kml(self):
         '''Generate Placemark entry for KML
 
@@ -666,100 +931,6 @@ class Domain(object):
                     '</outerBoundaryIs></Polygon></Placemark>\n'
 
         return kmlEntry
-
-    def get_border_wkt(self):
-        '''Creates string with WKT representation of the border polygon
-
-        Returns
-        --------
-        WKTPolygon : string
-            string with WKT representation of the border polygon
-
-        '''
-        lonList, latList = self.get_border()
-
-        # apply > 180 deg correction to longitudes
-        for ilon, lon in enumerate(lonList):
-            lonList[ilon] = copysign(acos(cos(lon * pi / 180.)) / pi * 180,
-                                     sin(lon * pi / 180.))
-
-        polyCont = ','.join(str(lon) + ' ' + str(lat)
-                            for lon, lat in zip(lonList, latList))
-        # outer quotes have to be double and inner - single!
-        #wktPolygon = "PolygonFromText('POLYGON((%s))')" % polyCont
-        wkt = 'POLYGON((%s))' % polyCont
-        return wkt
-
-    def get_border_geometry(self):
-        ''' Get OGR Geometry of the border Polygon
-
-        Returns
-        -------
-        OGR Geometry, type Polygon
-
-        '''
-
-        return ogr.CreateGeometryFromWkt(self.get_border_wkt())
-
-    def get_border_postgis(self):
-        ''' Get PostGIS formatted string of the border Polygon
-
-        Returns
-        -------
-        str : 'PolygonFromText(PolygonWKT)'
-
-        '''
-
-        return "PolygonFromText('%s')" % self.get_border_wkt()
-
-    def get_corners(self):
-        '''Get coordinates of corners of the Domain
-
-        Returns
-        --------
-        lonVec, latVec : lists
-            vectors with lon/lat values for each corner
-
-        '''
-
-        colVector = [0, 0, self.vrt.dataset.RasterXSize,
-                     self.vrt.dataset.RasterXSize]
-        rowVector = [0, self.vrt.dataset.RasterYSize, 0,
-                     self.vrt.dataset.RasterYSize]
-        return self.transform_points(colVector, rowVector)
-
-    def get_pixelsize_meters(self):
-        '''Returns the pixelsize (deltaX, deltaY) of the domain
-
-        For projected domains, the exact result which is constant
-        over the domain is returned.
-        For geographic (lon-lat) projections, or domains with no geotransform,
-        the haversine formula is used to calculate the pixel size
-        in the center of the domain.
-        Returns
-        --------
-        deltaX, deltaY : float
-        pixel size in X and Y directions given in meters
-        '''
-
-        srs = osr.SpatialReference(self.vrt.dataset.GetProjection())
-        if srs.IsProjected:
-            if srs.GetAttrValue('unit') == 'metre':
-                geoTransform = self.vrt.dataset.GetGeoTransform()
-                deltaX = abs(geoTransform[1])
-                deltaY = abs(geoTransform[5])
-                return deltaX, deltaY
-
-        # Estimate pixel size in center of domain using haversine formula
-        centerCol = round(self.vrt.dataset.RasterXSize/2)
-        centerRow = round(self.vrt.dataset.RasterYSize/2)
-        lon00, lat00 = self.transform_points([centerCol], [centerRow])
-        lon01, lat01 = self.transform_points([centerCol], [centerRow + 1])
-        lon10, lat10 = self.transform_points([centerCol + 1], [centerRow])
-
-        deltaX = haversine(lon00, lat00, lon01, lat01)
-        deltaY = haversine(lon00, lat00, lon10, lat10)
-        return deltaX[0], deltaY[0]
 
     def _get_geotransform(self, extentDic):
         '''
@@ -819,201 +990,35 @@ class Domain(object):
 
         return coordinates, int(rasterXSize), int(rasterYSize)
 
-    def transform_points(self, colVector, rowVector, DstToSrc=0):
-
-        '''Transform given lists of X,Y coordinates into lon/lat or inverse
-
-        Parameters
-        -----------
-        colVector : lists
-            X and Y coordinates in pixel/line or lon/lat  coordinate system
-        DstToSrc : 0 or 1
-            0 - forward transform (pix/line => lon/lat)
-            1 - inverse transformation
-
-        Returns
-        --------
-        X, Y : lists
-            X and Y coordinates in lon/lat or pixel/line coordinate system
-
-        '''
-        return self.vrt.transform_points(colVector, rowVector, DstToSrc)
-
-    def azimuth_y(self, reductionFactor=1):
-        '''Calculate the azimuth of 'upward' direction in each pixel
-
-        Generaly speaking, azimuth is angle from the reference vector
-        (direction to North) to the chosen direction. Azimuth increases
-        clockwise from direction to North. http://en.wikipedia.org/wiki/Azimuth
-
-        Here we calcluate azimuth of 'upward' direction.
-        'Upward' direction coincides with Y-axis direction (and hence is
-        opposite to the ROW-axis direction). For lon-lat (cylindrical,
-        Plate Caree) and Mercator projections 'upward' direction coincides with
-        direction to North, hence azimuth is 0.
-
-        Parameters
-        -----------
-        reductionFactor : integer
-            factor by which the size of the output array is reduced
-
-        Returns
-        -------
-        azimuth        : numpy array
-            Values of azimuth in degrees in range 0 - 360
-
-        '''
-
-        lon, lat = self.get_geolocation_grids(reductionFactor)
-        a = initial_bearing(lon[1:, :], lat[1:, :],
-                            lon[:-1:, :], lat[:-1:, :])
-        # Repeat last row once to match size of lon-lat grids
-        a = np.vstack((a, a[-1, :]))
-        return a
-
-    def shape(self):
-        '''Return Numpy-like shape of Domain object (ySize, xSize)
-
-        Returns
-        --------
-        shape : tuple of two INT
-            Numpy-like shape of Domain object (ySize, xSize)
-
-        '''
-        return self.vrt.dataset.RasterYSize, self.vrt.dataset.RasterXSize
-
-    def write_map(self, outputFileName,
-                  lonVec=None, latVec=None, lonBorder=10., latBorder=10.,
-                  figureSize=(6, 6), dpi=50, projection='cyl', resolution='c',
-                  continetsColor='coral', meridians=10, parallels=10,
-                  pColor='r', pLine='k', pAlpha=0.5, padding=0.,
-                  merLabels=[False, False, False, False],
-                  parLabels=[False, False, False, False],
-                  pltshow=False):
-        ''' Create an image with a map of the domain
-
-        Uses Basemap to create a World Map
-        Adds a semitransparent patch with outline of the Domain
-        Writes to an image file
-
-        Parameters
-        -----------
-        outputFileName : string
-            name of the output file name
-        lonBorder : float
-            10, horisontal border around patch (degrees of longitude)
-        latBorder : float
-            10, vertical border around patch (degrees of latitude)
-        figureSize : tuple of two integers
-            (6, 6), size of the generated figure in inches
-        dpi: int
-            50, resolution of the output figure (size 6,6 and dpi 50
-            produces 300 x 300 figure)
-        projection : string, one of Basemap projections
-            'cyl', projection of the map
-        resolution : string, resolution of the map
-            'c', crude
-            'l', low
-            'i', intermediate
-            'h', high
-            'f', full
-        continetsColor : string or any matplotlib color representation
-            'coral', color of continets
-        meridians : int
-            10, number of meridians to draw
-        parallels : int
-            10, number of parallels to draw
-        pColor : string or any matplotlib color representation
-            'r', color of the Domain patch
-        pLine : string or any matplotlib color representation
-            'k', color of the Domain outline
-        pAlpha : float 0 - 1
-            0.5, transparency of Domain patch
-        padding : float
-            0., width of white padding around the map
-        merLabels : list of 4 booleans
-            where to put meridian labels, see also Basemap.drawmeridians()
-        parLables : list of 4 booleans
-            where to put parallel labels, see also Basemap.drawparallels()
-
-        '''
-        # if lat/lon vectors are not given as input
-        if lonVec is None or latVec is None or len(lonVec) != len(latVec):
-            try:
-                # get lon/lat from Domain/Nansat object
-                lonVec, latVec = self.get_border()
-            except:
-                print('Domain/Nansat object is not given'
-                      'and lat/lon vectors=None')
-                return
-
-        # convert vectors to numpy arrays
-        lonVec = np.array(lonVec)
-        latVec = np.array(latVec)
-
-        # estimate mean/min/max values of lat/lon of the shown area
-        # (real lat min max +/- latBorder) and (real lon min max +/- lonBorder)
-        minLon = max(-180, lonVec.min() - lonBorder)
-        maxLon = min(180, lonVec.max() + lonBorder)
-        minLat = max(-90, latVec.min() - latBorder)
-        maxLat = min(90, latVec.max() + latBorder)
-        meanLon = lonVec.mean()
-        meanLat = latVec.mean()
-
-        # generate template map (can be also tmerc)
-        plt.figure(num=1, figsize=figureSize, dpi=dpi)
-        bmap = Basemap(projection=projection,
-                       lat_0=meanLat, lon_0=meanLon,
-                       llcrnrlon=minLon, llcrnrlat=minLat,
-                       urcrnrlon=maxLon, urcrnrlat=maxLat,
-                       resolution=resolution)
-
-        # add content: coastline, continents, meridians, parallels
-        bmap.drawcoastlines()
-        bmap.fillcontinents(color=continetsColor)
-        bmap.drawmeridians(np.linspace(minLon, maxLon, meridians))
-        bmap.drawparallels(np.linspace(minLat, maxLat, parallels))
-
-        # convert input lat/lon vectors to arrays of vectors with one row
-        # if only one vector was given
-        if len(lonVec.shape) == 1:
-            lonVec = lonVec.reshape(1, lonVec.shape[0])
-            latVec = latVec.reshape(1, latVec.shape[0])
-
-        for lonSubVec, latSubVec in zip(lonVec, latVec):
-            # convert lat/lons to map units
-            mapX, mapY = bmap(list(lonSubVec.flat), list(latSubVec.flat))
-
-            # from x/y vectors create a Patch to be added to map
-            boundary = Polygon(zip(mapX, mapY),
-                               alpha=pAlpha, ec=pLine, fc=pColor)
-
-            # add patch to the map
-            plt.gca().add_patch(boundary)
-            plt.gca().set_aspect('auto')
-
-        # save figure and close
-        plt.savefig(outputFileName, bbox_inches='tight',
-                    dpi=dpi, pad_inches=padding)
-        if pltshow:
-            plt.show()
-        else:
-            plt.close('all')
-
-    def reproject_GCPs(self, srsString):
-        '''Reproject all GCPs to a new spatial reference system
-
-        Necessary before warping an image if the given GCPs
-        are in a coordinate system which has a singularity
-        in (or near) the destination area (e.g. poles for lonlat GCPs)
-
-        Parameters
-        ----------
-        srsString : string
-            SRS given as Proj4 string
+    def __repr__(self):
+        '''Creates string with basic info about the Domain object
 
         Modifies
-        --------
-            Reprojects all GCPs to new SRS and updates GCPProjection
+        ---------
+        Print size, projection and corner coordinates
+
         '''
-        self.vrt.reproject_GCPs(srsString)
+        outStr = 'Domain:[%d x %d]\n' % (self.vrt.dataset.RasterXSize,
+                                         self.vrt.dataset.RasterYSize)
+        outStr += '-' * 40 + '\n'
+        try:
+            corners = self.get_corners()
+        except:
+            self.logger.error('Cannot read projection from source!')
+        else:
+            outStr += 'Projection:\n'
+            outStr += (NSR(self.vrt.get_projection()).ExportToPrettyWkt(1)
+                       + '\n')
+            outStr += '-' * 40 + '\n'
+            outStr += 'Corners (lon, lat):\n'
+            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][0],
+                                                               corners[1][0],
+                                                               corners[0][2],
+                                                               corners[1][2])
+            outStr += '\t (%6.2f, %6.2f)  (%6.2f, %6.2f)\n' % (corners[0][1],
+                                                               corners[1][1],
+                                                               corners[0][3],
+                                                               corners[1][3])
+        return outStr
+
+

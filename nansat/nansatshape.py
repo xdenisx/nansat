@@ -25,8 +25,9 @@ class Nansatshape():
     ''' Nansatshape class reads and writes ESRI-shape files
 
         The core of Nansatshape is a OGR. the main functions of the class are
-        1. Create empty object in memory and add data (fields and geometory).
-        2. Open shape file and read the data.
+
+        #. Create empty object in memory and add data (fields and geometory).
+        #. Open shape file and read the data.
 
         Nansatshape support points, but not line, ploygons, mupti-polygons
 
@@ -35,24 +36,24 @@ class Nansatshape():
                  wkbStyle=ogr.wkbPoint):
         '''Create Nansatshape object
 
-        if <fileName> is given:
-            Open OGR datasource and copy to self.datasource in memory
-            Read a layer from self.datasource and add it to self.layer
-        if <fileName> is not given:
-            Create empty OGR datasource in memory
-            Add empty layer to self.layer
+        | if <fileName> is given:
+        |    Open OGR datasource and copy to self.datasource in memory
+        |    Read a layer from self.datasource and add it to self.layer
+        | if <fileName> is not given:
+        |    Create empty OGR datasource in memory
+        |    Add empty layer to self.layer
 
         Parameters
         -----------
         fileName : string
             location of a shape file
         layer : int or string
-            if int and a shapefile is given, it is a layer number to read
-            if string, it is layer name to created or open
+            | if int and a shapefile is given, it is a layer number to read
+            | if string, it is layer name to created or open
         srs : SpatialReference object
         wkbStyle : ogr.wkbPoint, ogr.wkbPoint25D
 
-        Creates
+        Modifies
         --------
         self.datasource : ogr data source in memory
         self.layer : ogr layer
@@ -90,7 +91,7 @@ class Nansatshape():
 
         Parameters
         ----------
-        values :  2-D structured numpy array (aka record array)
+        values : 2-D structured numpy array (aka record array)
             data to be stored in the vector layer. Names of the fields
             in the array will become fields in the layer.
 
@@ -152,13 +153,13 @@ class Nansatshape():
             self.layer.CreateFeature(feature)
             feature.Destroy()
 
+    def export(self, fileName):
+        '''Save as ESRI shape-file'''
+        shapeDriver = ogr.GetDriverByName("ESRI Shapefile")
+        shapeDriver.CopyDataSource(self.datasource, fileName)
+
     def get_points(self, latlon=True):
         '''Get points (geometries of featuers) in the layer
-
-        !!NB!!
-        if shapefile has SRS, assume that geometry is lon/lat
-        if not, assume that the geometry is given in pix/lin
-        only ogr.wkbPoint or ogr.wkbPoint25D is supported
 
         Parameters
         ----------
@@ -170,6 +171,12 @@ class Nansatshape():
         points : tuple or None
             elements of tuple are X-Y coordinates
         latlon : bool
+
+        notes
+        -----
+        | if shapefile has SRS, assume that geometry is lon/lat
+        | if not, assume that the geometry is given in pix/lin
+          only ogr.wkbPoint or ogr.wkbPoint25D is supported
 
         '''
         # get srs from the layer
@@ -198,7 +205,4 @@ class Nansatshape():
             points = tuple(points)
         return points, latlon
 
-    def export(self, fileName):
-        '''Save as ESRI shape-file'''
-        shapeDriver = ogr.GetDriverByName("ESRI Shapefile")
-        shapeDriver.CopyDataSource(self.datasource, fileName)
+
