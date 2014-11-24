@@ -3,13 +3,20 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Nansat 0.6dev documentation
+Nansat 0.6 documentation
 =====================
 .. toctree::
    :maxdepth: 4
 
 
-Scientist friendly Python toolbox for processing 2D satellite Earth observation data.
+NANSAT is the **Nan** sen Center **Sat** ellite data processing framework
+which is developed as a scientific-friendly tool
+for processing  2D satellite Earth observation data.
+
+NANSAT is developed based on GDAL and using other moduleds and libraries
+( `Numpy <http://www.numpy.org/>`_ , `Scipy <http://www.scipy.org/>`_ ,
+`Matplitlib <http://matplotlib.org/>`_ , `Proj4 <http://trac.osgeo.org/proj/>`_ ,
+`NetCDF <http://www.unidata.ucar.edu/software/netcdf/>`_ etc...) in Python.
 
 
 The main **goal** of Nansat is to facilitate:
@@ -23,16 +30,24 @@ The main **goal** of Nansat is to facilitate:
 
 Nansat is a **framework** which:
 
-* Reads geospatial data from different Earth Observation satellites and from models;
+* Reads geospatial data from different Earth Observation satellites (more than 40) and from models
 
-* Adds scientific meaning to the data stored in files;
+* Adds scientific meaning to the data stored in files
 
-* Performs basic operations with geospatial data: geo-referencing, visualization, averaging, etc;
+* Performs basic operations with geospatial data:
 
-* Exports data to figures and NetCDF/CF-files
+    * geo-referencing
+    * visualization
+    * averaging
+    * resize
+    * reprojet
+    * get transect etc...
+
+* Exports data to figures, NetCDF/CF-files and GeoTiff
 
 
-About Nansat:
+About Nansat
+-------------
 
 * `Nansat Wiki <https://github.com/nansencenter/nansat/wiki>`_
 
@@ -40,11 +55,11 @@ About Nansat:
 
 
 Classes & Methods
-==================
+---------------------
 
 +------------------------------------------------------------------+-------------------------------------------------------------+
 | Class                                                            |  Methods                                                    |
-+------------------------------------------------------------------+-------------------------------------------------------------+
++==================================================================+=============================================================+
 | `Domain class <classes/nansat.domain.html>`_                     | `Domain methods <nansat.domain.html>`_                      |
 +------------------------------------------------------------------+-------------------------------------------------------------+
 | `Nansat class <classes/nansat.nansat.html>`_                     | `Nansat methods <nansat.nansat.html>`_                      |
@@ -72,7 +87,7 @@ Classes & Methods
 
 
 Indices and tables
-==================
+-------------------
 
 * :ref:`genindex`
 * :ref:`modindex`

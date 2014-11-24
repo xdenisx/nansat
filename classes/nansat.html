@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
     
-    <title>nansat package &mdash; Nansat 0.6dev documentation</title>
+    <title>nansat package &mdash; Nansat 0.6 documentation</title>
     
     <link rel="stylesheet" type="text/css" href="_static/css/spc-bootstrap.css">
     <link rel="stylesheet" type="text/css" href="_static/css/spc-extend.css">
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    './',
-        VERSION:     '0.6dev',
+        VERSION:     '0.6',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -24,7 +24,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <script type="text/javascript" src="_static/js/copybutton.js"></script>
-    <link rel="top" title="Nansat 0.6dev documentation" href="index.html" >
+    <link rel="top" title="Nansat 0.6 documentation" href="index.html" >
     <link rel="next" title="Domain class" href="nansat.domain.html" >
     <link rel="prev" title="Welcome to nansat’s documentation!" href="index.html" > 
   </head>
@@ -53,7 +53,7 @@
     <ul class="nav nav-pills pull-left">
         <li class="active"><a href="https://github.com/nansencenter/nansat/">GitHub</a></li>
 	
-        <li class="active"><a href="../index.html">Nansat 0.6dev documentation</a></li>
+        <li class="active"><a href="../index.html">Nansat 0.6 documentation</a></li>
 	 
     </ul>
 		  </div>
@@ -99,16 +99,15 @@
 <dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">object</span></tt></p>
 <p>Container for geographical reference of a raster</p>
 <div class="line-block">
-<div class="line">A Domain object describes all attributes of geographical</div>
-</div>
-<p>reference of a raster:
-|   width and height (number of pixels)
-|   pixel size (e.g. in decimal degrees or in meters)
-|   relation between pixel/line coordinates and geographical</p>
-<blockquote>
-<div>coordinates (e.g. a linear relation)</div></blockquote>
+<div class="line">A Domain object describes all attributes of geographical
+reference of a raster:</div>
 <div class="line-block">
+<div class="line">width and height (number of pixels)</div>
+<div class="line">pixel size (e.g. in decimal degrees or in meters)</div>
+<div class="line">relation between pixel/line coordinates and geographical
+coordinates (e.g. a linear relation)</div>
 <div class="line">type of data projection (e.g. geographical or stereographic)</div>
+</div>
 </div>
 <div class="line-block">
 <div class="line">The core of Domain is a GDAL Dataset. It has no bands, but only
@@ -1585,12 +1584,10 @@ however, write_figure uses PIL which does not allow</div>
 <dt id="nansat.Figure">
 <em class="property">class </em><tt class="descclassname">nansat.</tt><tt class="descname">Figure</tt><big>(</big><em>nparray</em>, <em>**kwargs</em><big>)</big><a class="headerlink" href="#nansat.Figure" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform opeartions with graphical files: create, append legend, save.</p>
-<div class="line-block">
-<div class="line">Figure instance is created in the Nansat.write_figure method</div>
-<div class="line">The methods below are applied consequently in order to generate a figure
+<p>Figure instance is created in the Nansat.write_figure method</p>
+<p>The methods below are applied consequently in order to generate a figure
 from one or three bands, estimate min/max, apply logarithmic scaling,
-convert to uint8, append legend, save to a file</div>
-</div>
+convert to uint8, append legend, save to a file</p>
 <dl class="attribute">
 <dt id="nansat.Figure.CAPTION_LOCATION_X">
 <tt class="descname">CAPTION_LOCATION_X</tt><em class="property"> = 0.1</em><a class="headerlink" href="#nansat.Figure.CAPTION_LOCATION_X" title="Permalink to this definition">¶</a></dt>
@@ -2184,7 +2181,7 @@ save to a file.</p>
 
 <dl class="attribute">
 <dt id="nansat.Nansatmap.cmap">
-<tt class="descname">cmap</tt><em class="property"> = &lt;matplotlib.colors.LinearSegmentedColormap object at 0x03CB6B50&gt;</em><a class="headerlink" href="#nansat.Nansatmap.cmap" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">cmap</tt><em class="property"> = &lt;matplotlib.colors.LinearSegmentedColormap object at 0x03D26B30&gt;</em><a class="headerlink" href="#nansat.Nansatmap.cmap" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
