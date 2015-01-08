@@ -36,6 +36,7 @@ import numpy as np
 import matplotlib
 from matplotlib import cm
 import matplotlib.pyplot as plt
+from itertools import chain
 
 from nansat.nsr import NSR
 from nansat.domain import Domain
@@ -1837,8 +1838,10 @@ class Nansat(Domain):
                     if len(oneLine) == 1:
                         oneLine.append(oneLine[-1])
                     points.append(oneLine)
-        pixlinCoordDic = {}
-        gpiDic = {}
+
+        pixlinCoordList = []
+        gpiList =[]
+
         for i, iShape in enumerate (points):
             pixlinCoord = np.array([[], []])
             for j in range(len(iShape) - 1):
@@ -1864,59 +1867,58 @@ class Nansat(Domain):
                 if length == 0:
                     length = 1
                 # get sequential coordinates on pix/lin between two points
-                pixVector = list(np.linspace(point0[0],
-                                             point1[0],
-                                             length).astype(int))
-                linVector = list(np.linspace(point0[1],
-                                             point1[1],
-                                             length).astype(int))
+                pixVector = list(np.rint(np.linspace(point0[0],
+                                                     point1[0],
+                                                     length)).astype(int))
+                linVector = list(np.rint(np.linspace(point0[1],
+                                                     point1[1],
+                                                     length)).astype(int))
                 pixlinCoord = np.append(pixlinCoord,
                                         [pixVector, linVector],
-                                        axis=1)
-            pixlinCoordDic['shape%d' %i] = pixlinCoord
+                                        axis=1).astype(int)
+            pixlinCoordList.append(pixlinCoord)
 
             # truncate out-of-image points
-            gpiDic['shape%d' %i] = ((pixlinCoordDic['shape%d' %i][0] >= 0) *
-                                    (pixlinCoordDic['shape%d' %i][1] >= 0) *
-                                    (pixlinCoordDic['shape%d' %i][0] <
-                                     self.vrt.dataset.RasterXSize) *
-                                    (pixlinCoordDic['shape%d' %i][1] <
-                                     self.vrt.dataset.RasterYSize))
+            gpiList.append(((pixlinCoordList[i][0] >= 0) *
+                            (pixlinCoordList[i][1] >= 0) *
+                            (pixlinCoordList[i][0] <
+                             self.vrt.dataset.RasterXSize) *
+                            (pixlinCoordList[i][1] <
+                             self.vrt.dataset.RasterYSize)))
+
+        for i in range(len(pixlinCoordList)):
+            pixlinCoordList[i] = pixlinCoordList[i][:, gpiList[i]].tolist()
 
         if onlypixline:
-            for iKey, iPixlinCoord in pixlinCoordDic.iteritems():
-                pixlinCoordDic[iKey] = iPixlinCoord[:, gpiDic[iKey]]
-            return pixlinCoordDic
+            return pixlinCoordList
 
         if smoothRadius:
-            pixlinCoordSmoothDic = {}
-            for iShapeKey, iShapePoints in pixlinCoordDic.items():
+            pixlinCoordList0 = []
+            pixlinCoordList1 = []
+            gpiList =[]
+            for iLine in range(len(pixlinCoordList)):
                 # get start/end coordinates of subwindows
-                pixlinCoordSmoothDic[iShapeKey+'_0'] = iShapePoints - smoothRadius
-                pixlinCoordSmoothDic[iShapeKey+'_1'] = iShapePoints + smoothRadius
+                pixlinCoordList0.append(pixlinCoordList[iLine] - smoothRadius)
+                pixlinCoordList1.append(pixlinCoordList[iLine] + smoothRadius)
                 # truncate out-of-image points
-                gpi = ((pixlinCoordSmoothDic[iShapeKey+'_0'][0] >= 0) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_0'][1] >= 0) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_1'][0] >= 0) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_1'][1] >= 0) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_0'][0] < self.vrt.dataset.RasterXSize) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_0'][1] < self.vrt.dataset.RasterYSize) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_1'][0] < self.vrt.dataset.RasterXSize) *
-                       (pixlinCoordSmoothDic[iShapeKey+'_1'][1] < self.vrt.dataset.RasterYSize))
-                pixlinCoordSmoothDic[iShapeKey+'_0'] = pixlinCoordSmoothDic[iShapeKey+'_0'][:, gpi]
-                pixlinCoordSmoothDic[iShapeKey+'_1'] = pixlinCoordSmoothDic[iShapeKey+'_1'][:, gpi]
-
-        for iKey, iPixlinCoord in pixlinCoordDic.iteritems():
-            pixlinCoordDic[iKey] = iPixlinCoord[:, gpiDic[iKey]]
+                gpiList.append((pixlinCoordList0[iLine][0] >= 0) *
+                               (pixlinCoordList0[iLine][1] >= 0) *
+                               (pixlinCoordList1[iLine][0] >= 0) *
+                               (pixlinCoordList1[iLine][1] >= 0) *
+                               (pixlinCoordList0[iLine][0] < self.vrt.dataset.RasterXSize) *
+                               (pixlinCoordList0[iLine][1] < self.vrt.dataset.RasterYSize) *
+                               (pixlinCoordList1[iLine][0] < self.vrt.dataset.RasterXSize) *
+                               (pixlinCoordList1[iLine][1] < self.vrt.dataset.RasterYSize))
+                pixlinCoordList0[iLine] = pixlinCoordList0[:, gpiList[iLine]]
+                pixlinCoordList1[iLine] = pixlinCoordList1[:, gpiList[iLine]]
 
         # convert pix/lin into lon/lat
-        vectorsDict = {}
-        for iShapeKey, iShapePoints in pixlinCoordDic.items():
-            lonVector, latVector = self.transform_points(iShapePoints[0],
-                                                         iShapePoints[1],
+        vectorsList = []
+        for iLine in range(len(pixlinCoordList)):
+            lonVector, latVector = self.transform_points(pixlinCoordList[iLine][0],
+                                                         pixlinCoordList[iLine][1],
                                                          DstToSrc=0)
-            vectorsDict[iShapeKey] = {'longitude': lonVector,
-                                      'latitude': latVector}
+            vectorsList.append([lonVector.tolist(), latVector.tolist()])
 
         # if smoothRadius, create a mask to extract circular area
         # from a box area
@@ -1927,80 +1929,87 @@ class Nansat(Domain):
                         (ygrid - smoothRadius) ** 2) ** 0.5
             mask = distance <= smoothRadius
 
-        transectDict = {}
+        transectList = []
         # get data
         for iBand in bandList:
-            tmpDic = {}
             if type(iBand) == str:
                 iBand = self._get_band_number(iBand)
             if data is None:
                 data = self[iBand]
             # extract values
-            for iShapeKey, iShapePoints in pixlinCoordDic.items():
+            tmpList = []
+            for iLine in range(len(pixlinCoordList)):
                 if smoothRadius:
                     transect0 = []
                     for xmin, xmax, ymin, ymax in zip(
-                        pixlinCoordSmoothDic[iShapeKey+'_0'][1],
-                        pixlinCoordSmoothDic[iShapeKey+'_1'][1],
-                        pixlinCoordSmoothDic[iShapeKey+'_0'][0],
-                        pixlinCoordSmoothDic[iShapeKey+'_1'][0]):
+                        pixlinCoordList0[iLine][1],
+                        pixlinCoordList1[iLine][1],
+                        pixlinCoordList0[iLine][0],
+                        pixlinCoordList1[iLine][0]):
                         subdata = data[int(xmin):int(xmax + 1),
                                        int(ymin):int(ymax + 1)]
                         transect0.append(smooth_function(subdata[mask]))
-                    tmpDic[iShapeKey] = transect0
+                    tmpList.append(transect0)
                 else:
-                    tmpDic[iShapeKey] = data[list(iShapePoints[1]),
-                                             list(iShapePoints[0])].tolist()
-            #transectDict['band%d' %iBand]= tmpDic
-            transectDict[str(iBand)+':'+bandNameDict[iBand]] = tmpDic
+                    tmpList.append(data[list(pixlinCoordList[iLine][1]),
+                                        list(pixlinCoordList[iLine][0])])
+            transectList.append(tmpList)
             data = None
 
         if returnOGR:
             # Lists for field names and datatype
             names = ['X (pixel)', 'Y (line)']
             formats = ['i4', 'i4']
-            for iBand in transectDict.keys():
-                names.append('transect_' + str(iBand))
+            for iBand in bandList:
+                names.append(self.get_metadata(bandID=iBand)['name'])
                 formats.append('f8')
+
             # Create zeros structured numpy array
             pixel = np.array([])
             line = np.array([])
             longitude = np.array([])
             latitude = np.array([])
-            transect = {}
 
-            for iShape, iCoords in pixlinCoordDic.items():
-                pixel = np.append(pixel, iCoords[0])
-                line =  np.append(line, iCoords[1])
-                longitude = np.append(longitude,
-                                      vectorsDict[iShape]['longitude'])
-                latitude =  np.append(latitude,
-                                      vectorsDict[iShape]['latitude'])
-                for iBand in transectDict.keys():
-                    if not (iBand in transect.keys()):
-                        transect[iBand] = np.array([])
-                    transect[iBand] = np.append(transect[iBand],
-                                                transectDict[iBand][iShape])
+            for iLine in range(len(pixlinCoordList)):
+                pixel = np.append(pixel, pixlinCoordList[iLine][0])
+                line =  np.append(line, pixlinCoordList[iLine][1])
+                longitude = np.append(longitude, vectorsList[iLine][0])
+                latitude = np.append(latitude, vectorsList[iLine][1])
+
+            transects = {}
+            for jBand in range(len(transectList)):
+                jBandTransects = np.array([])
+                for iLine in range(len(pixlinCoordList)):
+                    jBandTransects = np.append(jBandTransects,
+                                               transectList[jBand][iLine])
+                bandName = self.get_metadata(bandID=bandList[jBand])['name']
+                transects[bandName] = jBandTransects
 
             fieldValues = np.zeros(len(line), dtype={'names': names,
                                                      'formats': formats})
             # Set values into the structured numpy array
             fieldValues['X (pixel)'] = pixel
             fieldValues['Y (line)'] = line
-            for iBand in transect.keys():
-                fieldValues['transect_'+iBand] = transect[iBand]
+            for iBand in transects.keys():
+                fieldValues[iBand] = transects[iBand]
 
             # Create Nansatshape object
             NansatOGR = Nansatshape(srs=NSR(self.vrt.get_projection()))
             # Set features and geometries into the Nansatshape
-            NansatOGR.add_features(coordinates=np.array([lonVector,
-                                                         latVector]),
-                                   values=fieldValues)
+            trsVecList = map(list, zip(*vectorsList))
+            lonVector = list(chain.from_iterable(trsVecList[0]))
+            latVector = list(chain.from_iterable(trsVecList[1]))
+            NansatOGR.add_features(values=fieldValues,
+                                   coordinates=np.array([lonVector,
+                                                         latVector]))
             # Return Nansatshape object
             return NansatOGR
-        else:
-            return transectDict, vectorsDict, pixlinCoordDic
 
+        else:
+            if len(vectorsList) == 1:
+                vectorsList = vectorsList[0]
+                pixlinCoordList = pixlinCoordList[0]
+            return map(list, zip(*transectList)), vectorsList, pixlinCoordList
 
     def crop(self, xOff=0, yOff=0, xSize=None, ySize=None,
              lonlim=None, latlim=None):
