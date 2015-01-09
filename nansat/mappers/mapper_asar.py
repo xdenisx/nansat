@@ -88,6 +88,7 @@ class Mapper(VRT, Envisat):
             shortName = 'RawCounts_%s' %iPolarization['channel']
             bandName = shortName
             dstName = 'raw_counts_%s' % iPolarization['channel']
+
             if (8 <= dtype and dtype < 12):
                 bandName = shortName+'_complex'
                 dstName = dstName + '_complex'
@@ -97,13 +98,14 @@ class Mapper(VRT, Envisat):
                              'dst': {'name': dstName}})
 
 
-            '''
+            """
             metaDict.append({'src': {'SourceFilename': fileName,
                                      'SourceBand': iPolarization['bandNum']},
                              'dst': {'name': 'raw_counts_%s'
                                      % iPolarization['channel']}})
-            '''
+            """
             # if raw data is complex, add the intensity band
+
             if (8 <= dtype and dtype < 12):
                 # choose pixelfunction type
                 if (dtype == 8 or dtype == 9):
