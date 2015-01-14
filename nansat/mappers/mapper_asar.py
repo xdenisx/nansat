@@ -88,43 +88,10 @@ class Mapper(VRT, Envisat):
             shortName = 'RawCounts_%s' %iPolarization['channel']
             bandName = shortName
             dstName = 'raw_counts_%s' % iPolarization['channel']
-
-            if (8 <= dtype and dtype < 12):
-                bandName = shortName+'_complex'
-                dstName = dstName + '_complex'
-
-            metaDict.append({'src': {'SourceFilename': fileName,
-                                     'SourceBand': iPolarization['bandNum']},
-                             'dst': {'name': dstName}})
-
-
-            """
             metaDict.append({'src': {'SourceFilename': fileName,
                                      'SourceBand': iPolarization['bandNum']},
                              'dst': {'name': 'raw_counts_%s'
                                      % iPolarization['channel']}})
-            """
-            # if raw data is complex, add the intensity band
-
-            if (8 <= dtype and dtype < 12):
-                # choose pixelfunction type
-                if (dtype == 8 or dtype == 9):
-                    pixelFunctionType = 'IntensityInt'
-                else:
-                    pixelFunctionType = 'intensity'
-                # get data type of the intensity band
-                intensityDataType = {'8': 3, '9': 4,
-                                     '10': 5, '11': 6}.get(str(dtype), 4)
-                # add intensity band
-                metaDict.append(
-                    {'src': {'SourceFilename': fileName,
-                             'SourceBand': iPolarization['bandNum'],
-                             'DataType': dtype},
-                     'dst': {'name': 'raw_counts_%s'
-                                     % iPolarization['channel'],
-                             'PixelFunctionType': pixelFunctionType,
-                             'SourceTransferType': gdal.GetDataTypeName(dtype),
-                             'dataType': intensityDataType}})
 
         #####################################################################
         # Add incidence angle and look direction through small VRT objects
@@ -160,6 +127,7 @@ class Mapper(VRT, Envisat):
                                         gdalDataset.RasterYSize)
         lookVRT = lookVRT.get_resized_vrt(gdalDataset.RasterXSize,
                                           gdalDataset.RasterYSize)
+
         # Store VRTs so that they are accessible later
         self.bandVRTs = {'incVRT': incVRT,
                         'look_u_VRT': look_u_VRT,
@@ -178,6 +146,29 @@ class Mapper(VRT, Envisat):
                          'dst': {'wkv': 'sensor_azimuth_angle',
                                  'name': 'SAR_look_direction'}})
 
+        # Create S0 coefficient band(s) and add to self.bandVRTs
+        for iPolarization in polarization:
+            iBand = gdalDataset.GetRasterBand(iPolarization['bandNum'])
+            dtype = iBand.DataType
+            pixelfunctionNames = ['S0CoeffReal']
+            if (8 <= dtype and dtype < 12):
+                pixelfunctionNames.append('S0CoeffImag')
+            for iPixelfunction in pixelfunctionNames:
+                S0CoeffVRT = VRT(gdalDataset = gdalDataset)
+                pixelfuncDict = {'PixelFunctionType': iPixelfunction}
+                # if complex, append 'SourceTransferType' option
+                if (8 <= dtype and dtype < 12):
+                    pixelfuncDict['SourceTransferType'] = gdal.GetDataTypeName(dtype),
+
+                # create band for Sigma0 coefficients
+                S0CoeffVRT._create_band([{'SourceFilename': fileName,
+                                            'SourceBand': iPolarization['bandNum']}],
+                                            pixelfuncDict)
+                S0CoeffVRT.dataset.FlushCache()
+
+                vrtName = '%s_%s_VRT' % (iPixelfunction, iPolarization['channel'])
+                self.bandVRTs[vrtName] = S0CoeffVRT
+
         ####################
         # Add Sigma0-bands
         ####################
@@ -191,7 +182,10 @@ class Mapper(VRT, Envisat):
                     'surface_backwards_scattering_coefficient_of_radar_wave_normalized_over_ice',
                     'surface_backwards_scattering_coefficient_of_radar_wave_normalized_over_water']
                 sphPass = [gdalMetadata['SPH_PASS'], '', '']
-                sourceFileNames = [fileName, incFileName]
+
+                vrtName = 'S0CoeffReal_%s_VRT' % iPolarization['channel']
+                S0CoeffRealFileName = self.bandVRTs[vrtName].fileName
+                sourceFileNames = [S0CoeffRealFileName, incFileName]
 
                 pixelFunctionTypes = ['RawcountsIncidenceToSigma0',
                                       'Sigma0NormalizedIce']
@@ -200,31 +194,50 @@ class Mapper(VRT, Envisat):
                 elif iPolarization['channel'] == 'VV':
                     pixelFunctionTypes.append('Sigma0VVNormalizedWater')
 
-                # add pixelfunction bands to metaDict
-                for iPixFunc in range(len(pixelFunctionTypes)):
-                    srcFiles = []
-                    for j, jFileName in enumerate(sourceFileNames):
-                        sourceFile = {'SourceFilename': jFileName}
-                        if j == 0:
-                            sourceFile['SourceBand'] = iPolarization['bandNum']
-                            # if ASA_full_incAng,
-                            # set 'ScaleRatio' into source file dict
-                            sourceFile['ScaleRatio'] = np.sqrt(
-                                1.0 / iPolarization['calibrationConst'])
-                        else:
-                            sourceFile['SourceBand'] = 1
-                        srcFiles.append(sourceFile)
+                # if 'raw_counts' is complex data ...
+                band = gdalDataset.GetRasterBand(iPolarization['bandNum'])
+                dtype = band.DataType
+                # Add Complex Sigma0 pixelfunction
+                if(8 <= dtype and dtype < 12):
+                    pixelFunctionTypes.append('CRawcountsIncidenceToSigma0')
+                    short_names.append('sigma0_complex')
+                    wkt.append('surface_backwards_scattering_coefficient_of_radar_wave_complex')
+                    sphPass.append(gdalMetadata['SPH_PASS'])
+                    vrtName = 'S0CoeffImag_%s_VRT' % iPolarization['channel']
+                    S0CoeffVRTFileName = self.bandVRTs[vrtName].fileName
 
-                    metaDict.append({
-                        'src': srcFiles,
-                        'dst': {'short_name': short_names[iPixFunc],
+                # add pixelfunction bands to metaDict
+                for iPixFunc, iPixFuncType in enumerate(pixelFunctionTypes):
+                    srcFiles = []
+                    dstFile = {'short_name': short_names[iPixFunc],
                                 'wkv': wkt[iPixFunc],
-                                'PixelFunctionType': (
-                                pixelFunctionTypes[iPixFunc]),
+                                'PixelFunctionType': (iPixFuncType),
                                 'polarization': iPolarization['channel'],
                                 'suffix': iPolarization['channel'],
                                 'pass': sphPass[iPixFunc],
-                                'dataType': 6}})
+                                'dataType': 7}
+
+                    scaleRatio = np.sqrt(1.0 / iPolarization['calibrationConst'])
+                    for j, jFileName in enumerate(sourceFileNames):
+                        sourceFile = {'SourceFilename': jFileName,
+                                      'SourceBand': 1  }
+                        # if coefficients from raw_counts,
+                        # set 'ScaleRatio' into source file dict
+                        if jFileName == S0CoeffRealFileName:
+                            sourceFile['ScaleRatio'] = scaleRatio
+
+                        srcFiles.append(sourceFile)
+
+                    # if 'raw_counts' is complex, add a source file of imaginary parts
+                    if iPixFuncType == 'CRawcountsIncidenceToSigma0':
+                        sourceFile = {'SourceFilename': S0CoeffVRTFileName,
+                                      'SourceBand': 1,
+                                      'ScaleRatio' : scaleRatio}
+                        srcFiles.append(sourceFile)
+                        dstFile['dataType'] = 10
+                        dstFile['name'] = 'sigma0_%s_complex' %iPolarization['channel']
+
+                    metaDict.append({'src': srcFiles, 'dst': dstFile})
 
         # add bands with metadata and corresponding values to the empty VRT
         self._create_bands(metaDict)
