@@ -375,11 +375,19 @@ class NansatTest(unittest.TestCase):
 
         self.assertTrue(os.path.exists(tmpfilename))
 
-    def test_write_figure_clim(self):
+    def test_write_figure_clim_legend(self):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path,
                                    'nansat_write_figure_legend.png')
         n1.write_figure(tmpfilename, 3, clim='hist', legend=True)
+
+        self.assertTrue(os.path.exists(tmpfilename))
+
+    def test_write_figure_legend(self):
+        n1 = Nansat(self.test_file_stere, logLevel=40)
+        tmpfilename = os.path.join(ntd.tmp_data_path,
+                                   'nansat_write_legend.png')
+        n1.write_figure(tmpfilename, 3, image=False, legend=True)
 
         self.assertTrue(os.path.exists(tmpfilename))
 

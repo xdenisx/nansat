@@ -54,6 +54,7 @@ class Figure():
     caption = ''
     fontRatio = 1
     fontSize = None
+    image = True
     logarithm = False
     legend = False
     mask_array = None
@@ -71,6 +72,7 @@ class Figure():
     transparency = None
 
     LEGEND_HEIGHT = 0.1
+    LEGEND_WIDTH = 1.0
     CBAR_HEIGHTMIN = 5
     CBAR_HEIGHT = 0.15
     CBAR_WIDTH = 0.8
@@ -228,6 +230,11 @@ class Figure():
         # note swaping of axis by PIL
         self.width = self.array.shape[2]
         self.height = self.array.shape[1]
+
+        # if 'image' is False, set pilLegend height bigger
+        if (('image' in kwargs.keys()) and not(kwargs['image']) and
+             not('LEGEND_HEIGHT' in kwargs.keys())):
+            kwargs['LEGEND_HEIGHT'] = 0.3
 
         # modify the default values using input values
         self._set_defaults(kwargs)
@@ -594,11 +601,16 @@ class Figure():
         # modify default parameters
         self._set_defaults(kwargs)
 
+        # if add legend under the image, self.LEGEND_WIDTH must be 1.0
+        if self.image and self.LEGEND_WIDTH != 1.0:
+            self.LEGEND_WIDTH = 1.0
+
         # set fonts size for colorbar
         font = ImageFont.truetype(self.fontFileName, self.fontSize)
 
         # create a pilImage for the legend
-        self.pilImgLegend = Image.new('P', (self.width,
+        self.pilImgLegend = Image.new('P', (int(self.width *
+                                                self.LEGEND_WIDTH),
                                             int(self.height *
                                                 self.LEGEND_HEIGHT)), 255)
         draw = ImageDraw.Draw(self.pilImgLegend)
@@ -702,19 +714,24 @@ class Figure():
                                          self.width), 'uint8')
             self.array = np.append(self.array, appendArray, 1)
 
-        # create a new PIL image from three bands (RGB) or from one (palette)
-        if self.array.shape[0] == 3:
-            self.pilImg = Image.merge('RGB',
-                                      (Image.fromarray(self.array[0, :, :]),
-                                       Image.fromarray(self.array[1, :, :]),
-                                       Image.fromarray(self.array[2, :, :])))
-        else:
-            self.pilImg = Image.fromarray(self.array[0, :, :])
-            self.pilImg.putpalette(self.palette)
+        if self.image:
+            # create a new PIL image from three bands (RGB) or from one (palette)
+            if self.array.shape[0] == 3:
+                self.pilImg = Image.merge('RGB',
+                                          (Image.fromarray(self.array[0, :, :]),
+                                           Image.fromarray(self.array[1, :, :]),
+                                           Image.fromarray(self.array[2, :, :])))
+            else:
+                self.pilImg = Image.fromarray(self.array[0, :, :])
+                self.pilImg.putpalette(self.palette)
 
-        # append legend
-        if self.pilImgLegend is not None:
-            self.pilImg.paste(self.pilImgLegend, (0, self.height))
+            # append legend
+            if self.pilImgLegend is not None:
+                self.pilImg.paste(self.pilImgLegend, (0, self.height))
+        else:
+            # create pilImg with only legend / colorbar
+            self.pilImg = self.pilImgLegend
+            self.pilImg.putpalette(self.palette)
 
         # remove array from memory
         #self.array = None
