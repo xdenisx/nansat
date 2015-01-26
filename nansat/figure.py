@@ -414,13 +414,19 @@ class Figure():
             latI[self.latGrid > latVec[i]] = i
             lonI[self.lonGrid > lonVec[i]] = i
         # find pixels on the rgid lines (binarize)
-        latI = np.diff(latI)
+        latI = np.diff(latI, axis=0)
         lonI = np.diff(lonI)
+        # adjust the size of grid lines
+        latI = np.append(latI, latI[-1].reshape(1, len(latI[-1])),
+                         axis = 0)
+        lonI = np.append(lonI, lonI[:, -1].reshape(len(lonI[:, -1]), 1),
+                         axis = 1)
         # make grid from both lat and lon
         latI += lonI
         latI[latI != 0] = 1
         # add mask to the image
         self.apply_mask(mask_array=latI, mask_lut={1: [255, 255, 255]})
+
 
     def add_latlon_labels(self, **kwargs):
         '''Add lat/lon labels along upper and left side
