@@ -391,6 +391,15 @@ class NansatTest(unittest.TestCase):
 
         self.assertTrue(os.path.exists(tmpfilename))
 
+    def test_write_figure_grids(self):
+        n1 = Nansat(self.test_file_stere, logLevel=40)
+        tmpfilename = os.path.join(ntd.tmp_data_path,
+                                   'nansat_write_figure_grids.png')
+        n1.write_figure(tmpfilename, 3, latTicks = 6, lonTicks=5,
+                        latlonLabels=True, fontSize=10)
+
+        self.assertTrue(os.path.exists(tmpfilename))
+
     def test_write_geotiffimage(self):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path,

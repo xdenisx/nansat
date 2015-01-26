@@ -489,6 +489,11 @@ class Figure():
         latI.pop(0)
         lonI.pop(0)
 
+        if len(latI) >= (self.latTicks - 1):
+            latI.pop(-1)
+        if len(lonI) >= (self.lonTicks - 1):
+            lonI.pop(-1)
+
         for i in range(len(latI)):
             text = '%4.2f' % self.latGrid[latI[i], 0]
             fontSize = font.getsize(text)
