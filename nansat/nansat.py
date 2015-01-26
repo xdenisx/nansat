@@ -1256,16 +1256,15 @@ class Nansat(Domain):
         #write only RGB image, color limits from histogram
         n.write_figure('test_rgb_hist.jpg', clim='hist', bands=[1, 2, 3])
         #write indexed image, apply log scaling and gamma correction,
-        #add legend and type in title 'Title', increase font size and put 15
-        tics
+        #add legend and type in title 'Title', increase font size,
+        put 7 ticks for latitude 8 tics for longitude and show latlon labels.
         n.write_figure('r09_log3_leg.jpg', logarithm=True, legend=True,
                                 gamma=3, titleString='Title', fontSize=30,
-                                numOfTicks=15)
+                                latTicks=7, lonTicks=6, latlonLabels=True)
         # write an image to png with transparent Mask set to color
         transparency=[0,0,0], following PIL alpha mask
         n.write_figure(fileName='transparent.png', bands=[3],
-               mask_array=wmArray,
-               mask_lut={0: [0,0,0]},
+               mask_array=wmArray, mask_lut={0: [0,0,0]},
                clim=[0,0.15], cmapName='gray', transparency=[0,0,0])
 
         See also

@@ -67,9 +67,9 @@ class Figure():
     latGrid = None
     lonGrid = None
     nGridLines = 10
-    latTicks = None,
-    lonTicks = None,
-    latlonLabels = 0
+    latTicks = None
+    lonTicks = None
+    latlonLabels = False
 
     transparency = None
 
@@ -168,8 +168,8 @@ class Figure():
             full size array with longitudes. For adding lat/lon grid lines
         nGridLines : int
             number of lat/lon grid lines to show
-        latlonLabels : int
-            number of lat/lon labels to show along each side.
+        latlonLabels : bool
+            if Trus, show lon/lat labels along each side.
         transparency : int
             transparency of the image background(mask), set for PIL alpha
             mask in Figure.save()
@@ -372,7 +372,7 @@ class Figure():
         self.pilImg = self.pilImg.convert('RGB')
         self.pilImg.paste(logoImg, tuple(box))
 
-    def add_latlon_grids(self, latTicks=None, lonTicks=None, **kwargs):
+    def add_latlon_grids(self, **kwargs):
         '''Add lat/lon grid lines into the PIL image
 
         Compute step of the grid
@@ -403,14 +403,15 @@ class Figure():
                 self.nGridLines is None or self.nGridLines == 0):
             return
         # get number of grid lines
-        if latTics is None:
-            latTicks = self.nGridLines
-        else:
+        if self.latTicks is not None:
             latTicks = self.latTicks
-        if lonTics is None:
-            lonTicks = self.nGridLines
         else:
+            latTicks = self.nGridLines
+
+        if self.lonTicks is not None:
             lonTicks = self.lonTicks
+        else:
+            lonTicks = self.nGridLines
 
         # get vectors for grid lines
         latVec = np.linspace(self.latGrid.min(),
@@ -422,6 +423,7 @@ class Figure():
         # convert lat/lon to indeces
         for i in range(len(latVec)):
             latI[self.latGrid > latVec[i]] = i
+        for i in range(len(lonVec)):
             lonI[self.lonGrid > lonVec[i]] = i
         # find pixels on the rgid lines (binarize)
         latI = np.diff(latI, axis=0)
@@ -450,7 +452,7 @@ class Figure():
         Figure__init__() parameters:
         latGrid : numpy array
         lonGrid : numpy array
-        latlonLabels : int
+        latlonLabels : bool
 
         Modifies
         ---------
@@ -461,25 +463,43 @@ class Figure():
         self._set_defaults(kwargs)
         # test availability of grids
         if (self.latGrid is None or self.lonGrid is None or
-                self.latlonLabels == 0):
+            not(self.latlonLabels) or
+            ((self.lonTicks is None or self.latTicks is None) and
+             (self.nGridLines is None or self.nGridLines <= 0))):
             return
 
         draw = ImageDraw.Draw(self.pilImg)
         font = ImageFont.truetype(self.fontFileName, self.fontSize)
 
         # get number of labels; step of lables
-        llLabels = self.latlonLabels
+        if self.lonTicks is not None:
+            lonLabels = self.lonTicks
+        else:
+            lonLabels = self.nGridLines
+
+        if self.latTicks is not None:
+            latLabels = self.latTicks
+        else:
+            latLabels = self.nGridLines
+
         llShape = self.latGrid.shape
-        latI = range(0, llShape[0], (llShape[0] / llLabels) - 1)
-        lonI = range(0, llShape[1], (llShape[1] / llLabels) - 1)
-        # get lons/lats from first row/column
-        #lats = self.latGrid[latI, 0]
-        #lons = self.lonGrid[0, lonI]
+        latI = range(0, llShape[0], (llShape[0] / (latLabels - 1)))
+        lonI = range(0, llShape[1], (llShape[1] / (lonLabels - 1)))
+
+        latI.pop(0)
+        lonI.pop(0)
+
         for i in range(len(latI)):
-            lat = self.latGrid[latI[i], 0]
-            lon = self.lonGrid[0, lonI[i]]
-            draw.text((0, 10 + latI[i]), '%4.2f' % lat, fill=255, font=font)
-            draw.text((50 + lonI[i], 0), '%4.2f' % lon, fill=255, font=font)
+            text = '%4.2f' % self.latGrid[latI[i], 0]
+            fontSize = font.getsize(text)
+            draw.text((0, latI[i] - fontSize[1]),
+                      text, fill=255, font=font)
+
+        for i in range(len(lonI)):
+            text = '%4.2f' % self.lonGrid[0, lonI[i]]
+            fontSize = font.getsize(text)
+            draw.text((lonI[i] - fontSize[0] * 0.5, 0),
+                      text, fill=255, font=font)
 
     def clim_from_histogram(self, **kwargs):
         '''Estimate min and max pixel values from histogram
@@ -819,7 +839,7 @@ class Figure():
 
         # add labels with lats/lons
         if (self.latGrid is not None and self.lonGrid is not None and
-                self.latlonLabels > 0):
+            self.latlonLabels):
             self.add_latlon_labels()
 
         # add logo
