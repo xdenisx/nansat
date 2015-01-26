@@ -67,6 +67,8 @@ class Figure():
     latGrid = None
     lonGrid = None
     nGridLines = 10
+    latTicks = None,
+    lonTicks = None,
     latlonLabels = 0
 
     transparency = None
@@ -370,7 +372,7 @@ class Figure():
         self.pilImg = self.pilImg.convert('RGB')
         self.pilImg.paste(logoImg, tuple(box))
 
-    def add_latlon_grids(self, **kwargs):
+    def add_latlon_grids(self, latTicks=None, lonTicks=None, **kwargs):
         '''Add lat/lon grid lines into the PIL image
 
         Compute step of the grid
@@ -401,12 +403,20 @@ class Figure():
                 self.nGridLines is None or self.nGridLines == 0):
             return
         # get number of grid lines
-        llSpacing = self.nGridLines
+        if latTics is None:
+            latTicks = self.nGridLines
+        else:
+            latTicks = self.latTicks
+        if lonTics is None:
+            lonTicks = self.nGridLines
+        else:
+            lonTicks = self.lonTicks
+
         # get vectors for grid lines
         latVec = np.linspace(self.latGrid.min(),
-                             self.latGrid.max(), llSpacing)
+                             self.latGrid.max(), latTicks)
         lonVec = np.linspace(self.lonGrid.min(),
-                             self.lonGrid.max(), llSpacing)
+                             self.lonGrid.max(), lonTicks)
         latI = np.zeros(self.latGrid.shape, 'int8')
         lonI = np.zeros(self.latGrid.shape, 'int8')
         # convert lat/lon to indeces
