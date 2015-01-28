@@ -242,6 +242,11 @@ class Domain(object):
         kmlFileName : string, optional
             Name of the KML-file to generate from the current Domain
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, kml is created
+
         '''
         # test input options
         if xmlFileName is not None and kmlFileName is None:
@@ -291,6 +296,8 @@ class Domain(object):
         kmlFile.write('        </Folder></Document></kml>\n')
         kmlFile.close()
 
+        return 0
+
     def write_kml_image(self, kmlFileName=None, kmlFigureName=None):
         '''Create KML file for already projected image
 
@@ -302,6 +309,11 @@ class Domain(object):
             Name of the KML-file to generate from the current Domain
         kmlFigureName : string, optional
             Name of the projected image stored in .png format
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, kml is created
 
         Examples
         ---------
@@ -368,6 +380,8 @@ class Domain(object):
         kmlFile.write('</GroundOverlay>\n')
         kmlFile.write('</kml>')
         kmlFile.close()
+
+        return 0
 
     def get_geolocation_grids(self, stepSize=1):
         '''Get longitude and latitude grids representing the full data grid
@@ -688,6 +702,7 @@ class Domain(object):
         # outer quotes have to be double and inner - single!
         #wktPolygon = "PolygonFromText('POLYGON((%s))')" % polyCont
         wkt = 'POLYGON((%s))' % polyCont
+
         return wkt
 
     def get_border_geometry(self, *args, **kwargs):
@@ -752,6 +767,7 @@ class Domain(object):
                      self.vrt.dataset.RasterXSize]
         rowVector = [0, self.vrt.dataset.RasterYSize, 0,
                      self.vrt.dataset.RasterYSize]
+
         return self.transform_points(colVector, rowVector)
 
     def get_pixelsize_meters(self):
@@ -785,6 +801,7 @@ class Domain(object):
 
         deltaX = haversine(lon00, lat00, lon01, lat01)
         deltaY = haversine(lon00, lat00, lon10, lat10)
+
         return deltaX[0], deltaY[0]
 
     def _get_geotransform(self, extentDic):
@@ -885,16 +902,16 @@ class Domain(object):
 
         Returns
         -------
-        azimuth        : numpy array
+        azimuth : numpy array
             Values of azimuth in degrees in range 0 - 360
 
         '''
-
         lon, lat = self.get_geolocation_grids(reductionFactor)
         a = initial_bearing(lon[1:, :], lat[1:, :],
                             lon[:-1:, :], lat[:-1:, :])
         # Repeat last row once to match size of lon-lat grids
         a = np.vstack((a, a[-1, :]))
+
         return a
 
     def shape(self):
@@ -962,6 +979,11 @@ class Domain(object):
         parLables : list of 4 booleans
             where to put parallel labels, see also Basemap.drawparallels()
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, an image with a map was created
+
         '''
         # if lat/lon vectors are not given as input
         if lonVec is None or latVec is None or len(lonVec) != len(latVec):
@@ -1026,6 +1048,8 @@ class Domain(object):
         else:
             plt.close('all')
 
+        return 0
+
     def reproject_GCPs(self, srsString):
         '''Reproject all GCPs to a new spatial reference system
 
@@ -1038,8 +1062,17 @@ class Domain(object):
         srsString : string
             SRS given as Proj4 string
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, GCPs were reprojected
+
         Modifies
         --------
             Reprojects all GCPs to new SRS and updates GCPProjection
+
         '''
         self.vrt.reproject_GCPs(srsString)
+
+        return 0
+
