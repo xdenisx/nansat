@@ -3,7 +3,7 @@
 # Purpose:      Test the Nansat class
 #
 # Author:       Morten Wergeland Hansen, Anton Korosov, Asuka Yamakawa
-# Modified: Morten Wergeland Hansen
+# Modified:     Morten Wergeland Hansen
 #
 # Created:      18.06.2014
 # Last modified:18.11.2014 11:48
@@ -140,6 +140,14 @@ class NansatTest(unittest.TestCase):
 
         self.assertTrue(os.path.exists(tmpfilename))
 
+    def test_export_complex(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        tmpfilename = os.path.join(ntd.tmp_data_path,
+                                   'nansat_export_complex.nc')
+        n.export(tmpfilename)
+
+        self.assertTrue(os.path.exists(tmpfilename))
+
     def test_export_gtiff(self):
         n = Nansat(self.test_file_gcps, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path, 'nansat_export.tif')
@@ -167,7 +175,6 @@ class NansatTest(unittest.TestCase):
         n.export2thredds(tmpfilename, ['L_469'])
 
         self.assertTrue(os.path.exists(tmpfilename))
-
 
     def test_export2thredds_stere_many_bands(self):
         # skip the test if anaconda is used
@@ -342,6 +349,51 @@ class NansatTest(unittest.TestCase):
         self.assertEqual(n1.shape()[1], n2.shape()[1]*2)
         self.assertEqual(type(n1[1]), np.ndarray)
 
+    def test_reproject_complex_alg0(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        d = Domain(4326, "-te 27 70 30 72 -ts 180 180")
+        n.reproject(d, eResampleAlg=0)
+
+        self.assertEqual(n.shape(), (180, 180))
+        self.assertEqual(type(n[1]), np.ndarray)
+        self.assertEqual(n[1].dtype, np.complex64)
+
+    def test_reproject_complex_alg1(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        d = Domain(4326, "-te 27 70 30 72 -ts 180 180")
+        n.reproject(d, eResampleAlg=1)
+
+        self.assertEqual(n.shape(), (180, 180))
+        self.assertEqual(type(n[1]), np.ndarray)
+        self.assertEqual(n[1].dtype, np.complex64)
+
+    def test_reproject_complex_alg2(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        d = Domain(4326, "-te 27 70 30 72 -ts 180 180")
+        n.reproject(d, eResampleAlg=2)
+
+        self.assertEqual(n.shape(), (180, 180))
+        self.assertEqual(type(n[1]), np.ndarray)
+        self.assertEqual(n[1].dtype, np.complex64)
+
+    def test_reproject_complex_alg3(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        d = Domain(4326, "-te 27 70 30 72 -ts 180 180")
+        n.reproject(d, eResampleAlg=3)
+
+        self.assertEqual(n.shape(), (180, 180))
+        self.assertEqual(type(n[1]), np.ndarray)
+        self.assertEqual(n[1].dtype, np.complex64)
+
+    def test_reproject_complex_alg4(self):
+        n = Nansat(self.test_file_complex, logLevel=40)
+        d = Domain(4326, "-te 27 70 30 72 -ts 180 180")
+        n.reproject(d, eResampleAlg=4)
+
+        self.assertEqual(n.shape(), (180, 180))
+        self.assertEqual(type(n[1]), np.ndarray)
+        self.assertEqual(n[1].dtype, np.complex64)
+
     def test_undo(self):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         shape1 = n1.shape()
@@ -501,9 +553,9 @@ class NansatTest(unittest.TestCase):
         import matplotlib.pyplot as plt
         plt.ion()
         n1 = Nansat(self.test_file_gcps, logLevel=40)
-        noneResult = n1.get_transect()
+        status = n1.get_transect()
 
-        self.assertEqual(noneResult, None)
+        self.assertEqual(status, 1)
         plt.ioff()
 
     def test_crop(self):

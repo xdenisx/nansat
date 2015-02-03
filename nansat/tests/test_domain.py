@@ -70,9 +70,20 @@ class DomainTest(unittest.TestCase):
     def test_write_kml(self):
         d = Domain(4326, "-te 25 70 35 72 -ts 500 500")
         tmpfilename = os.path.join(ntd.tmp_data_path, 'domain_write_kml.kml')
-        d.write_kml(kmlFileName=tmpfilename)
+        status = d.write_kml(kmlFileName=tmpfilename)
 
         self.assertTrue(os.path.exists(tmpfilename))
+        self.assertEqual(status, 0)
+
+    def test_write_kml_image(self):
+        d = Domain(4326, "-te 25 70 35 72 -ts 500 500")
+        tmpfilename = os.path.join(ntd.tmp_data_path,
+                                   'domain_write_kml_image.kml')
+        status = d.write_kml(kmlFileName=tmpfilename,
+                             kmlFigureName='kml_image')
+
+        self.assertTrue(os.path.exists(tmpfilename))
+        self.assertEqual(status, 0)
 
     def test_get_geolocation_grids(self):
         d = Domain(4326, "-te 25 70 35 72 -ts 500 500")
@@ -81,6 +92,14 @@ class DomainTest(unittest.TestCase):
         self.assertEqual(type(lon), np.ndarray)
         self.assertEqual(type(lat), np.ndarray)
         self.assertEqual(lat.shape, (500, 500))
+
+    def test_get_geolocation_grids_set_stepsize(self):
+        d = Domain(4326, "-te 25 70 35 72 -ts 500 500")
+        lon, lat = d.get_geolocation_grids(stepSize=2)
+
+        self.assertEqual(type(lon), np.ndarray)
+        self.assertEqual(type(lat), np.ndarray)
+        self.assertEqual(lat.shape, (250, 250))
 
     def test_get_border(self):
         d = Domain(4326, "-te 25 70 35 72 -ts 500 500")

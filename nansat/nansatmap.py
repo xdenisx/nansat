@@ -30,7 +30,6 @@ class Nansatmap(Basemap):
     '''Perform opeartions with graphical files: create,
     add legend and geolocation_grids, save.
 
-    NansatMap instance is created in the Nansat.write_map method.
     The methods below are applied consequently in order to get projection,
     generate a basemap from array(s), add legend and geolocation grids,
     save to a file.
@@ -254,6 +253,7 @@ class Nansatmap(Basemap):
             mname of smoothing algorithm to apply
 
         '''
+
         self._create_xy_grids()
 
         # if cmap is given, set to self.cmap
@@ -294,6 +294,11 @@ class Nansatmap(Basemap):
             Optional parameters for pyplot.contour().
             Optional parameters for pyplot.clabel()
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, contour() was succeeded
+
         Modifies
         ---------
         self.mpl : list
@@ -305,6 +310,8 @@ class Nansatmap(Basemap):
         # add lables to the contour lines
         if label:
             plt.clabel(self.mpl[-1], **kwargs)
+
+        return 0
 
     def contourf(self, data, v=None,
                  smooth=False, mode='gaussian', **kwargs):
@@ -328,6 +335,11 @@ class Nansatmap(Basemap):
             Optional parameters for Nansatmap.smooth()
             Optional parameters for pyplot.contourf().
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, contourf() was succeeded
+
         Modifies
         ---------
         self.mpl : list
@@ -336,6 +348,8 @@ class Nansatmap(Basemap):
         '''
         self._do_contour(Basemap.contourf, data, v, smooth, mode, **kwargs)
         self.colorbar = len(self.mpl) - 1
+
+        return 0
 
     def imshow(self, data, extent=None, **kwargs):
         ''' Make RGB plot over the map
@@ -346,6 +360,11 @@ class Nansatmap(Basemap):
             [Xmin, Xmax, Ymin, Ymax]
         **kwargs:
             Parameters for Basemap.imshow
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, imshow() was succeded
 
         Modifies
         ---------
@@ -365,6 +384,8 @@ class Nansatmap(Basemap):
 
         self.colorbar = len(self.mpl) - 1
 
+        return 0
+
     def pcolormesh(self, data, **kwargs):
         '''Make a pseudo-color plot over the map
 
@@ -374,6 +395,11 @@ class Nansatmap(Basemap):
             Input data
         **kwargs:
             Parameters for Basemap.pcolormesh (e.g. vmin, vmax)
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, pcolormesh() was succeded
 
         Modifies
         ---------
@@ -389,6 +415,8 @@ class Nansatmap(Basemap):
                                            **kwargs))
         self.colorbar = len(self.mpl) - 1
 
+        return 0
+
     def quiver(self, dataX, dataY, step=None, quivectors=None, **kwargs):
         '''Draw quiver plots
 
@@ -403,6 +431,11 @@ class Nansatmap(Basemap):
         quivectors : int or (int,int)
             Number of vectors along both dimentions
         Parameters for Basemap.quiver()
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, quiver() was succeded
 
         Modifies
         ---------
@@ -457,6 +490,8 @@ class Nansatmap(Basemap):
         else:
             self.mpl.append(Q)
 
+        return 0
+
     def add_colorbar(self, fontsize=6, **kwargs):
         '''Add color bar
 
@@ -464,6 +499,11 @@ class Nansatmap(Basemap):
         ----------
         fontsize : int
         Parameters for matplotlib.pyplot.colorbar
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, add_colorbar() was succeded
 
         Modifies
         ---------
@@ -485,6 +525,8 @@ class Nansatmap(Basemap):
             plt.xticks(fontsize=fontsize)
             plt.axes(imaxes)
 
+        return 0
+
     def drawgrid(self, fontsize=10, lat_num=5, lon_num=5,
                  lat_labels=[True, False, False, False],
                  lon_labels=[False, False, True, False]):
@@ -504,6 +546,11 @@ class Nansatmap(Basemap):
 
         See also: Basemap.drawparallels(), Basemap.drawmeridians()
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, drawgrid() was succeded
+
         '''
         self.drawparallels(np.arange(self.latMin, self.latMax,
                            (self.latMax - self.latMin) / lat_num),
@@ -513,6 +560,7 @@ class Nansatmap(Basemap):
                            (self.lonMax - self.lonMin) / lon_num),
                            labels=lon_labels,
                            fontsize=fontsize)
+        return 0
 
     def draw_continents(self, **kwargs):
         ''' Draw continents
@@ -522,7 +570,6 @@ class Nansatmap(Basemap):
         Parameters for basemap.fillcontinents
 
         '''
-
         if kwargs is None:
             kwargs = {}
         if not ('color' in kwargs.keys()):
@@ -544,6 +591,11 @@ class Nansatmap(Basemap):
             Draw landmask?
         Parameters for basemap.fillcontinents
 
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, a file was saved
+
         '''
         if landmask:
             self.draw_continents(**kwargs)
@@ -552,6 +604,8 @@ class Nansatmap(Basemap):
         if not((fileName.split('.')[-1] in self.extensionList)):
             fileName = fileName + self.DEFAULT_EXTENSION
         self.fig.savefig(fileName)
+
+        return 0
 
     def _set_defaults(self, idict):
         '''Check input params and set defaut values
