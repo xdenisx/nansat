@@ -70,6 +70,7 @@ class Nansatshape():
             if layer == 0:
                 layer = 'NansatLayer'
             self.layer = self.datasource.CreateLayer(layer, srs, wkbStyle)
+
         # if filename is given, open the file and copy the datasource in memory
         else:
             # Open shapefile and copy the datasource into memory
