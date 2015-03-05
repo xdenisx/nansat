@@ -3,10 +3,10 @@
 # Purpose:      Test the nansat module
 #
 # Author:       Morten Wergeland Hansen, Asuka Yamakawa, Anton Korosov
-# Modified:	Morten Wergeland Hansen
+# Modified:	    Morten Wergeland Hansen, Asuka Yamakawa
 #
 # Created:      18.06.2014
-# Last modified:03.03.2015 15:10
+# Last modified:05.03.2015 17:40
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -107,14 +107,19 @@ class TestRadarsat(object):
 
     def test_export(self, rsfile):
         ncfile = 'test.nc'
+
         orig = Nansat(rsfile)
-        orig.export(ncfile)
-        copy = Nansat(ncfile)
         inc0 = orig['incidence_angle']
+        orig.export(ncfile, bands=[orig._get_band_number('incidence_angle')])
+        orig = None
+
+        copy = Nansat(ncfile)
         inc1 = copy['incidence_angle']
-        np.testing.assert_allclose(inc0, inc1)
+        copy = None
+
+        np.testing.assert_allclose(inc0[1::5, 1::5], inc1[1::5, 1::5])
         os.unlink(ncfile)
-        
+
     def test_incidence_angle(self, rsfile):
         n = Nansat(rsfile)
         inc_min = float(n.get_metadata()['NEAR_RANGE_INCIDENCE_ANGLE'])
@@ -122,6 +127,7 @@ class TestRadarsat(object):
         inc = n['incidence_angle']
         assert np.all(np.greater_equal(inc[np.isnan(inc)==False], inc_min))
         assert np.all(np.less_equal(inc[np.isnan(inc)==False], inc_max))
+
 
     #def test_export_netcdf(self):
 

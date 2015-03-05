@@ -207,11 +207,6 @@ class Nansat(Domain):
         if '_FillValue' in band.GetMetadata():
             fillValue = float(band.GetMetadata()['_FillValue'])
             bandData[bandData == fillValue] = np.nan
-            # quick hack to avoid problem with wrong _FillValue - see issue
-            # #123
-            if fillValue == 9.96921e+36:
-                altFillValue = -10000.
-                bandData[bandData == altFillValue] = np.nan
 
         if np.size(np.where(np.isinf(bandData)))>0:
             bandData[np.isinf(bandData)] = np.nan
