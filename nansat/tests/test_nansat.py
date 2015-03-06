@@ -34,6 +34,7 @@ class NansatTest(unittest.TestCase):
     def setUp(self):
         self.test_file_gcps = os.path.join(ntd.test_data_path, 'gcps.tif')
         self.test_file_stere = os.path.join(ntd.test_data_path, 'stere.tif')
+        self.test_file_nan = os.path.join(ntd.test_data_path, 'nan.nc')
         self.test_file_complex = os.path.join(ntd.test_data_path, 'complex.nc')
         plt.switch_backend('Agg')
 
@@ -267,6 +268,41 @@ class NansatTest(unittest.TestCase):
 
         self.assertTrue(np.any(n[1].imag!=0))
 
+    def test_resize_nan_algAverage(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+
+        self.assertRaises(ValueError, n.resize, 0.5)
+
+    def test_resize_nan_alg0(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+        n.resize(0.5, eResampleAlg=0)
+
+        self.assertTrue(np.isnan(n[1]).any())
+
+    def test_resize_nan_alg1(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+        n.resize(0.5, eResampleAlg=1)
+
+        self.assertTrue(np.isnan(n[1]).any())
+
+    def test_resize_nan_alg2(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+        n.resize(0.5, eResampleAlg=2)
+
+        self.assertTrue(np.isnan(n[1]).any())
+
+    def test_resize_nan_alg3(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+        n.resize(0.5, eResampleAlg=3)
+
+        self.assertTrue(np.isnan(n[1]).any())
+
+    def test_resize_nan_alg4(self):
+        n = Nansat(self.test_file_nan, logLevel=40)
+        n.resize(0.5, eResampleAlg=4)
+
+        self.assertTrue(np.isnan(n[1]).any())
+
     def test_get_GDALRasterBand(self):
         n = Nansat(self.test_file_gcps, logLevel=40)
         b = n.get_GDALRasterBand(1)
@@ -491,7 +527,6 @@ class NansatTest(unittest.TestCase):
         self.assertEqual(n1.shape(), (111, 110))
         self.assertEqual(ext, (31, 89, 110, 111))
         self.assertEqual(type(n1[1]), np.ndarray)
-
 
 if __name__ == "__main__":
     unittest.main()
