@@ -41,7 +41,6 @@
  #include <bits/nan.h>
 #endif
 
-
 void GenericPixelFunction(double f(double*), void **papoSources, 
 		int nSources, void *pData, int nXSize, int nYSize,
         GDALDataType eSrcType, GDALDataType eBufType,
@@ -838,9 +837,9 @@ CPLErr BetaSigmaToIncidence(void **papoSources, int nSources, void *pData,
 			sigma0 = SRCVAL(papoSources[1], eSrcType, ii);
 
 			if (beta0 != 0) incidence = asin(sigma0/beta0)*180/PI
-			else incidence = NAN;
+			else incidence = NAN; 
 
-            GDALCopyWords(&incidence, GDT_Float64, 0,
+                        GDALCopyWords(&incidence, GDT_Float64, 0,
 			              ((GByte *)pData) + nLineSpace * iLine + iCol * nPixelSpace,
 			              eBufType, nPixelSpace, 1);
 		}

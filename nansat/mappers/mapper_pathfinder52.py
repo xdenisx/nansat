@@ -75,8 +75,10 @@ class Mapper(vrt.VRT):
             qualArray = qualDataset.ReadAsArray()
             qualArray[qualArray < minQual] = 1
             qualArray[qualArray >= minQual] = 128
-            self.subVRTs = {'maskVRT': vrt.VRT(array=qualArray.astype('int8'))}
-            metaDict.append({'src': {'SourceFilename': self.subVRTs['maskVRT'].fileName,
+            self.bandVRTs = {'maskVRT': vrt.VRT(array=qualArray.astype('int8'))}
+            metaDict.append({'src': {'SourceFilename': (self.
+                                                        bandVRTs['maskVRT'].
+                                                        fileName),
                                      'SourceBand': 1,
                                      'SourceType': 'SimpleSource',
                                      'DataType': 1},

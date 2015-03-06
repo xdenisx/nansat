@@ -12,6 +12,7 @@ from scipy.io import loadmat
 from nansat.vrt import VRT
 from nansat.tools import gdal, ogr, WrongMapperError
 
+
 class Mapper(VRT):
     ''' MApper for Matlab files with SMOS data '''
 
@@ -28,7 +29,8 @@ class Mapper(VRT):
 
         # get geolocation
         geolocArray = matFile['geolocation'][0]
-        srcProj4 = '+proj=stere +lon_0=%f +lat_0=%f +datum=WGS84 +ellps=WGS84 +units=km +no_defs' % (geolocArray[0], geolocArray[1])
+        srcProj4 = ('+proj=stere +lon_0=%f +lat_0=%f +datum=WGS84 +ellps=WGS84 +units=km +no_defs'
+                    % (geolocArray[0], geolocArray[1]))
         srcProjection = osr.SpatialReference()
         srcProjection.ImportFromProj4(srcProj4)
         srcProjection = srcProjection.ExportToWkt()
@@ -52,13 +54,12 @@ class Mapper(VRT):
                     'Control_Flags_3', 'Control_Flags_4',
                     'Science_Flags_1', 'Science_Flags_2',
                     'Science_Flags_3', 'Science_Flags_4']
-        self.subVRTs = {}
         metaDict = []
         for varName in varNames:
             var = matFile[varName]
-            self.subVRTs[varName] = VRT(array=var)
+            self.bandVRTs[varName] = VRT(array=var)
             metaDict.append({'src': {'SourceFilename':
-                                     self.subVRTs[varName].fileName,
+                                     self.bandVRTs[varName].fileName,
                                      'sourceBand': 1},
                             'dst': {'name': varName}})
 
@@ -77,9 +78,9 @@ class Mapper(VRT):
                                         np.power(2, cloudBit))
                 mask[bitMap > 0] = 1
 
-        self.subVRTs['mask'] = VRT(array=mask)
+        self.bandVRTs['mask'] = VRT(array=mask)
         metaDict.append({'src': {'SourceFilename':
-                                 self.subVRTs['mask'].fileName,
+                                 self.bandVRTs['mask'].fileName,
                                  'sourceBand': 1},
                         'dst': {'name': 'mask'}})
 

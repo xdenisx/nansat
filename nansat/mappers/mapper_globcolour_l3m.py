@@ -104,10 +104,11 @@ class Mapper(VRT, Globcolour):
                 mask[np.bitwise_and(flags, np.power(2, 0)) > 0] = 1
                 mask[np.bitwise_and(flags, np.power(2, 3)) > 0] = 2
 
-        self.subVRTs = {'maskVRT': VRT(array=mask)}
+        self.bandVRTs = {'maskVRT': VRT(array=mask)}
 
         metaDict.append(
-            {'src': {'SourceFilename': self.subVRTs['maskVRT'].fileName, 'SourceBand': 1},
+            {'src': {'SourceFilename': self.bandVRTs['maskVRT'].fileName,
+                     'SourceBand': 1},
              'dst': {'name': 'mask'}})
 
         # create empty VRT dataset with geolocation only
