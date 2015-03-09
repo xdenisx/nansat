@@ -882,15 +882,8 @@ class Nansat(Domain):
         self.logger.info('New size/factor: (%f, %f)/%f' %
                         (newRasterXSize, newRasterYSize, factor))
 
+        # check if all bands have no NaN if eResampleAlg == -1
         if eResampleAlg <= 0:
-            # check if all bands have no NaN
-            for iBand in range(self.vrt.dataset.RasterCount):
-                if np.isnan(self[iBand + 1]).any():
-                    raise ValueError('The data has Nan value. '\
-                                     'Use other algorithms. ' \
-                                     'e.g. eResampleAlg=0 (NearestNeighbour) ' \
-                                     'eResampleAlg=1 (Bilinear) ... ')
-
             self.vrt = self.vrt.get_subsampled_vrt(newRasterXSize,
                                                    newRasterYSize,
                                                    factor,
