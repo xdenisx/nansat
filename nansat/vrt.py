@@ -1600,7 +1600,8 @@ class VRT(object):
 
     def get_subsampled_vrt(self, newRasterXSize, newRasterYSize,
                             factor, eResampleAlg):
-        '''Create VRT and replace step in the source'''
+        ''' Create VRT and replace step in the source.
+            Make sure that all bands do not include NaN values. '''
 
         subsamVRT = self.get_super_vrt()
 
@@ -1635,16 +1636,6 @@ class VRT(object):
                         'are lost when resampling by averaging ' \
                         '(eResampleAlg=-1)' %iNode1.getAttribute('band')
                     )
-                # if method=-1 and FillValue is in the data, return error
-                bandID = int(iNode1.getAttribute('band'))
-                metadata = self.dataset.GetRasterBand(bandID).GetMetadata()
-                if '_FillValue' in metadata.keys():
-                    array = self.dataset.GetRasterBand(bandID).ReadAsArray()
-                    if float(metadata['_FillValue']) in array:
-                        raise ValueError('The data has Nan value. '\
-                                     'Use other algorithms. ' \
-                                     'e.g. eResampleAlg=0 (NearestNeighbour) ' \
-                                     'eResampleAlg=1 (Bilinear) ... ')
 
         # Write the modified elemements into VRT
         subsamVRT.write_xml(node0.rawxml())
