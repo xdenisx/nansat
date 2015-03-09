@@ -1600,9 +1600,7 @@ class VRT(object):
 
     def get_subsampled_vrt(self, newRasterXSize, newRasterYSize,
                             factor, eResampleAlg):
-        ''' Create VRT and replace step in the source.
-            Make sure that all bands do not include NaN values
-            if eResampleAlg == -1. '''
+        ''' Create VRT and replace step in the source.'''
 
         subsamVRT = self.get_super_vrt()
 
