@@ -1346,6 +1346,7 @@ CPLErr Sigma0HHNormalizedWater(void **papoSources,
     return CE_None;
 }
 
+
 CPLErr CRawcountsIncidenceToSigma0(void **papoSources, int nSources, void *pData,
                     int nXSize, int nYSize,
                     GDALDataType eSrcType, GDALDataType eBufType,

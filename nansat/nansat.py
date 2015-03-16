@@ -1483,6 +1483,16 @@ class Nansat(Domain):
         else:
             return time
 
+
+    def get_bandNames(self):
+        ''' Return a list of band names '''
+        bandNames = []
+        for i in range(self.vrt.dataset.RasterCount):
+            bandNames.append(self.get_metadata(key='name', bandID=i+1))
+        return bandNames
+
+
+
     def get_metadata(self, key=None, bandID=None):
         ''' Get metadata from self.vrt.dataset
 

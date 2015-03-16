@@ -15,6 +15,7 @@
 import os, warnings, time
 
 
+
 class DataForTestingMappers(object):
     ''' Download test data and keep info about each file '''
     mapperData = None
@@ -161,4 +162,5 @@ class DataForTestingMappers(object):
                 self.mapperData[mapperName].append(mapperFName)
             else:
                 self.mapperData[mapperName] = [mapperFName]
+
 
