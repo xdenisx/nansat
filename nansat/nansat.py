@@ -210,15 +210,15 @@ class Nansat(Domain):
         # Set invalid and missing data to np.nan
         if '_FillValue' in band.GetMetadata():
             fillValue = float(band.GetMetadata()['_FillValue'])
-            try:
-                bandData[bandData == fillValue] = np.nan
-            except ValueError:
-                self.logger.info('Cannot replace _FillValue values '
-                                 'with np.NAN in %s!' % bandID)
-        try:
+            bandData[bandData == fillValue] = np.nan
+            # quick hack to avoid problem with wrong _FillValue - see issue
+            # #123
+            if fillValue == 9.96921e+36:
+                altFillValue = -10000.
+                bandData[bandData == altFillValue] = np.nan
+
+        if np.size(np.where(np.isinf(bandData)))>0:
             bandData[np.isinf(bandData)] = np.nan
-        except ValueError:
-            self.logger.info('Cannot replace inf values with np.NAN!')
 
         return bandData
 
@@ -406,12 +406,17 @@ class Nansat(Domain):
         exportVRT.imag = []
 
         # delete unnecessary bands
+        rmBands = []
+        selfBands = self.bands()
         if bands is not None:
-            srcBands = np.arange(self.vrt.dataset.RasterCount) + 1
-            dstBands = np.array(bands)
-            mask = np.in1d(srcBands, dstBands)
-            rmBands = srcBands[mask==False]
-            exportVRT.delete_bands(rmBands.tolist())
+            for selfBand in selfBands:
+                # if band number or band name is not listed: mark for removal
+                if (selfBand not in bands and
+                    selfBands[selfBand]['name'] not in bands):
+                    rmBands.append(selfBand)
+            # delete bands from VRT
+            #import ipdb; ipdb.set_trace()
+            exportVRT.delete_bands(rmBands)
 
         # Find complex data band
         complexBands = []
