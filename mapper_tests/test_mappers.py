@@ -16,6 +16,7 @@ import unittest, warnings
 import os, sys, glob
 from types import ModuleType, FloatType
 import numpy as np
+import fnmatch
 
 from nansat import Nansat, Domain
 from nansat.nansat import _import_mappers
@@ -132,7 +133,7 @@ class TestRadarsat(object):
         inc1 = copy['incidence_angle']
         np.testing.assert_allclose(inc0, inc1)
         os.unlink(ncfile)
-        
+
     def test_incidence_angle(self, rsfile):
         n = Nansat(rsfile)
         inc_min = float(n.get_metadata()['NEAR_RANGE_INCIDENCE_ANGLE'])
@@ -142,6 +143,29 @@ class TestRadarsat(object):
         assert np.all(np.less_equal(inc[np.isnan(inc)==False], inc_max))
 
     #def test_export_netcdf(self):
+
+class TestAsar(object):
+
+    def test_all_asar_files(self):
+        testData = DataForTestingMappers()
+        testData.download_all_test_data()
+        for asarfile in testData.mapperData['asar']:
+            yield self.test_sigma0, asarfile
+
+    def test_sigma0(self, asarfile):
+        n = Nansat(asarfile)
+        nameList = n.get_bandNames()
+
+        bandID = fnmatch.filter(nameList, 'sigma0_??')[0]
+        assert n[bandID].dtype == np.float64
+
+        bandID = fnmatch.filter(nameList, 'raw_counts_??')[0]
+        dtype = int(n.get_metadata(key = 'dataType', bandID=bandID))
+        if (8 <= dtype and dtype < 12):
+            bandID = fnmatch.filter(nameList, 'sigma0_??_complex')[0]
+            assert n[bandID].dtype == np.complex64
+
+
 
 
 ## Test Generator with unittests:
