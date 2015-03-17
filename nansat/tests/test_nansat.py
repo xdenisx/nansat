@@ -570,6 +570,28 @@ class NansatTest(unittest.TestCase):
         self.assertEqual(ext, (31, 89, 110, 111))
         self.assertEqual(type(n1[1]), np.ndarray)
 
+    def test_update_band(self):
+        n = Nansat(self.test_file_gcps, logLevel=40)
+        array0 = n['L_645'] * 10
+        n.update_band(array0, 'L_645')
+        array1 = n['L_645']
+
+        np.testing.assert_array_almost_equal(array0, array1)
+
+    def test_update_bands(self):
+        n = Nansat(self.test_file_gcps, logLevel=40)
+        array0_469 = n['L_469'] * 10
+        array0_645 = n['L_645'] * 10
+        array0 = np.append(array0_469.reshape((1,200,200)),
+                           array0_645.reshape((1,200,200)), axis=0)
+
+        n.update_band(array0, ['L_469', 'L_645'])
+        array1_469 = n['L_469']
+        array1_645 = n['L_645']
+
+        np.testing.assert_array_almost_equal(array0_469, array1_469)
+        np.testing.assert_array_almost_equal(array0_645, array1_645)
+
     def test_watermask(self):
         ''' if watermask data exists: should fetch array with watermask
             else:                     should raise an error'''

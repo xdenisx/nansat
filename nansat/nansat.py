@@ -2218,6 +2218,45 @@ class Nansat(Domain):
 
         return 0, extent
 
+    def update_band(self, array, bandID, metaData=None):
+        '''
+        Parameters
+        ----------
+            array : numpy array with dimension 2 or 3
+            bandID : int, string, or a list of int /string
+
+        Modifies
+        --------
+            self.vrt
+
+        '''
+        # if band ID is not a list, make the list
+        if type(bandID) != list:
+            bandID = [bandID]
+        # if bandID is given by name, get band No
+        for i, iBand in enumerate(bandID):
+            if type(iBand) == str:
+                bandID[i] = self._get_band_number(iBand)
+
+        # if array is 2D, make 3D array
+        arrayShape = array.shape
+        if len(arrayShape) == 2:
+            array = array.reshape((1, arrayShape[0], arrayShape[1]))
+
+        # make a dictionary with key=bandNo and value=array
+        dicTmp = {}
+        for i, iBand in enumerate(bandID):
+            dicTmp[iBand] = array[i, :, :]
+
+        # delete band with descending order
+        for iBand in sorted(dicTmp, reverse=True):
+            if metaData is None:
+                bandMetaData = self.get_metadata(bandID=iBand)
+            else:
+                bandMetaData = metaData
+            self.vrt.delete_band(iBand)
+            self.add_band(array = dicTmp[iBand], parameters=bandMetaData)
+
 
 def _import_mappers(logLevel=None):
     ''' Import available mappers into a dictionary
