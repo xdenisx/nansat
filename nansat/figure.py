@@ -489,9 +489,9 @@ class Figure():
         latI.pop(0)
         lonI.pop(0)
 
-        if len(latI) >= (self.latTicks - 1):
+        if self.latTicks is not None and len(latI) >= (self.latTicks - 1):
             latI.pop(-1)
-        if len(lonI) >= (self.lonTicks - 1):
+        if self.lonTicks is not None and len(lonI) >= (self.lonTicks - 1):
             lonI.pop(-1)
 
         for i in range(len(latI)):
