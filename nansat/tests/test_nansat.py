@@ -395,7 +395,10 @@ class NansatTest(unittest.TestCase):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path,
                                    'nansat_write_figure_grids.png')
-        n1.write_figure(tmpfilename, 3, latTicks = 6, lonTicks=5,
+        longitude, latitude = n1.get_geolocation_grids()
+        n1.write_figure(tmpfilename, 3,
+                        latGrid = latitude, lonGrid = longitude,
+                        latTicks = 6, lonTicks=5,
                         latlonLabels=True, fontSize=10)
 
         self.assertTrue(os.path.exists(tmpfilename))
