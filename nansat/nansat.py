@@ -1259,8 +1259,9 @@ class Nansat(Domain):
         #add legend and type in title 'Title', increase font size,
         put 7 ticks for latitude 8 tics for longitude and show latlon labels.
         n.write_figure('r09_log3_leg.jpg', logarithm=True, legend=True,
-                                gamma=3, titleString='Title', fontSize=30,
-                                latTicks=7, lonTicks=6, latlonLabels=True)
+                        gamma=3, titleString='Title', fontSize=30,
+                        latGrid = latitudeArray, lonGrid=longutudeArray,
+                        latTicks=7, lonTicks=6, latlonLabels=True)
         # write an image to png with transparent Mask set to color
         transparency=[0,0,0], following PIL alpha mask
         n.write_figure(fileName='transparent.png', bands=[3],
