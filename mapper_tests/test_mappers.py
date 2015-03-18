@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:18.03.2015 14:03
+# Last modified:18.03.2015 16:47
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -171,7 +171,7 @@ class TestSar(object):
                 assert n[cband].dtype == np.complex64
                 num = n._get_band_number({'standard_name':
                     'surface_backwards_scattering_coefficient_of_radar_wave',
-                    'polarization': n.get_metadata(bandID=band)['polarization'],
+                    'polarization': n.get_metadata(bandID=cband)['polarization'],
                     'dataType': '7'})
                 assert n[num].dtype == np.float64
         except OptionError:
