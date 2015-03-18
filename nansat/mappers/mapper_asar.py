@@ -201,7 +201,7 @@ class Mapper(VRT, Envisat):
                 if(8 <= dtype and dtype < 12):
                     pixelFunctionTypes.append('CRawcountsIncidenceToSigma0')
                     short_names.append('sigma0_complex')
-                    wkt.append('surface_backwards_scattering_coefficient_of_radar_wave_complex')
+                    wkt.append('surface_backwards_scattering_coefficient_of_radar_wave')
                     sphPass.append(gdalMetadata['SPH_PASS'])
                     vrtName = 'S0CoeffImag_%s_VRT' % iPolarization['channel']
                     S0CoeffVRTFileName = self.bandVRTs[vrtName].fileName
