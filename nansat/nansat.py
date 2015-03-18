@@ -1706,10 +1706,10 @@ class Nansat(Domain):
 
         Returns
         --------
-        int : absolute band number
+        int or list (of): absolute band number(s)
 
         '''
-        bandNumber = 0
+        bandNumber = []
         # if bandID is str: create simple dict with seraching criteria
         if type(bandID) == str:
             bandID = {'name': bandID}
@@ -1724,21 +1724,23 @@ class Nansat(Domain):
                             bandID[key] == bandsMeta[b][key]):
                         numCorrectKeys = numCorrectKeys + 1
                     if numCorrectKeys == len(bandID):
-                        bandNumber = b
-                        break
+                        bandNumber.append(b)
 
         # if bandID is int and with bounds: return this number
         if (type(bandID) == int and bandID >= 1 and
                 bandID <= self.vrt.dataset.RasterCount):
-            bandNumber = bandID
+            bandNumber.append(bandID)
 
         # if no bandNumber found - raise error
-        if bandNumber == 0:
+        if len(bandNumber) == 0:
             raise OptionError('Cannot find band %s! '
                               'bandNumber is from 1 to %s'
                               % (str(bandID), self.vrt.dataset.RasterCount))
 
-        return bandNumber
+        if len(bandNumber)==1:
+            return bandNumber[0]
+        else:
+            return bandNumber
 
     def get_transect(self, points=None, bandList=[1], latlon=True,
                            returnOGR=False, layerNum=0,
