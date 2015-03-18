@@ -1639,8 +1639,9 @@ class VRT(object):
                 bandID = int(iNode1.getAttribute('band'))
                 metadata = self.dataset.GetRasterBand(bandID).GetMetadata()
                 array = self.dataset.GetRasterBand(bandID).ReadAsArray()
-                errorMessage = ("Using eResampleAlg=-1 (averaging) with invalid data. \
-                                 GDAL sets zero to np.NaN and np.inf upon averaging.")
+                errorMessage = ('Cannot use eResampleAlg=-1 (averaging) with invalid data \
+                                (i.e., equal to FillValue, np.nan, or np.inf) \
+                                since GDAL sets these values to zero before averaging')
 
                 if '_FillValue' in metadata.keys():
                     if float(metadata['_FillValue']) in array:
