@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:03.03.2015 16:34
+# Last modified:18.03.2015 14:03
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -19,6 +19,7 @@ import numpy as np
 import fnmatch
 
 from nansat import Nansat, Domain
+from nansat.tools import OptionError
 from nansat.nansat import _import_mappers
 from mapper_test_archive import DataForTestingMappers
 
@@ -144,29 +145,37 @@ class TestRadarsat(object):
 
     #def test_export_netcdf(self):
 
-class TestAsar(object):
+class TestSar(object):
 
-    def test_all_asar_files(self):
+    def test_all_sar_files(self):
         testData = DataForTestingMappers()
         testData.download_all_test_data()
-        for asarfile in testData.mapperData['asar']:
-            yield self.test_sigma0, asarfile
+        sarfiles = testData.mapperData['asar'] + \
+                    testData.mapperData['radarsat2'] #+ \
+                    #testData.mapperData['sentinel1']
+        for sarfile in sarfiles:
+            yield self.test_sigma0_complex_real, sarfile
 
-    def test_sigma0(self, asarfile):
-        n = Nansat(asarfile)
-        nameList = n.get_bandNames()
-
-        bandID = fnmatch.filter(nameList, 'sigma0_??')[0]
-        assert n[bandID].dtype == np.float64
-
-        bandID = fnmatch.filter(nameList, 'raw_counts_??')[0]
-        dtype = int(n.get_metadata(key = 'dataType', bandID=bandID))
-        if (8 <= dtype and dtype < 12):
-            bandID = fnmatch.filter(nameList, 'sigma0_??_complex')[0]
-            assert n[bandID].dtype == np.complex64
-
-
-
+    def test_sigma0_complex_real(self, sarfile):
+        n = Nansat(sarfile)
+        # Test each polarization for complex data and make sure there is a
+        # non-complex version - using the standard_name it is not so important
+        # if mappers don't follow the name-convention suggested in issue #39
+        try:
+            cbands = n._get_band_number({'standard_name':
+                'surface_backwards_scattering_coefficient_of_radar_wave',
+                'dataType': '10'})
+            if not type(cbands) == list:
+                cbands = [cbands]
+            for cband in cbands:
+                assert n[cband].dtype == np.complex64
+                num = n._get_band_number({'standard_name':
+                    'surface_backwards_scattering_coefficient_of_radar_wave',
+                    'polarization': n.get_metadata(bandID=band)['polarization'],
+                    'dataType': '7'})
+                assert n[num].dtype == np.float64
+        except OptionError:
+            pass
 
 ## Test Generator with unittests:
 ## http://stackoverflow.com/questions/32899/how-to-generate-dynamic-parametrized-unit-tests-in-python
