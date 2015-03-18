@@ -1639,18 +1639,15 @@ class VRT(object):
                 bandID = int(iNode1.getAttribute('band'))
                 metadata = self.dataset.GetRasterBand(bandID).GetMetadata()
                 array = self.dataset.GetRasterBand(bandID).ReadAsArray()
+                errorMessage = ("Using eResampleAlg=-1 (averaging) with invalid data. \
+                                 GDAL sets zero to np.NaN and np.inf upon averaging.")
+
                 if '_FillValue' in metadata.keys():
                     if float(metadata['_FillValue']) in array:
-                        raise ValueError('The data has Nan value. '\
-                                     'Use other algorithms. ' \
-                                     'e.g. eResampleAlg=0 (NearestNeighbour) ' \
-                                     'eResampleAlg=1 (Bilinear) ... ')
+                        raise ValueError(errorMessage)
 
                 if np.isinf(array).any():
-                    raise ValueError('The data has Nan value. '\
-                                 'Use other algorithms. ' \
-                                 'e.g. eResampleAlg=0 (NearestNeighbour) ' \
-                                 'eResampleAlg=1 (Bilinear) ... ')
+                    raise ValueError(errorMessage)
 
         # Write the modified elemements into VRT
         subsamVRT.write_xml(node0.rawxml())
