@@ -151,8 +151,9 @@ class TestSar(object):
         testData = DataForTestingMappers()
         testData.download_all_test_data()
         sarfiles = testData.mapperData['asar'] + \
-                   testData.mapperData['radarsat2'] #+ \
+                    testData.mapperData['radarsat2'] #+ \
                     #testData.mapperData['sentinel1']
+
         for sarfile in sarfiles:
             yield self.test_sigma0_complex_real, sarfile
 
@@ -165,24 +166,28 @@ class TestSar(object):
             cbands = n._get_band_number({'standard_name':
                 'surface_backwards_scattering_coefficient_of_radar_wave',
                 'dataType': '10'})
+        except:
+            pass
+        else:
             if not type(cbands) == list:
                 cbands = [cbands]
+
             for cband in cbands:
-                num = n._get_band_number({'standard_name':
-                    'surface_backwards_scattering_coefficient_of_radar_wave',
-                    'polarization': n.get_metadata(bandID=cband)['polarization']})
+                assert n[cband].dtype == np.complex64
 
-                for iNum in num:
-                    dtype = n.get_metadata(key='dataType', bandID=iNum)
-                    if int(dtype) == 10:
-                        assert n[iNum].dtype == np.complex64
-                    elif int(dtype) == 6:
-                        assert n[iNum].dtype == np.float32
-                    elif int(dtype) == 7:
-                        assert n[iNum].dtype == np.float64
+                try:
+                    num = n._get_band_number({'standard_name':
+                        'surface_backwards_scattering_coefficient_of_radar_wave',
+                        'polarization': n.get_metadata(bandID=cband)['polarization'],
+                        'dataType': '7'})
+                    assert n[num].dtype == np.float64
+                except:
+                    num = n._get_band_number({'standard_name':
+                        'surface_backwards_scattering_coefficient_of_radar_wave',
+                        'polarization': n.get_metadata(bandID=cband)['polarization'],
+                        'dataType': '6'})
+                    assert n[num].dtype == np.float32
 
-        except OptionError:
-            pass
 
 ## Test Generator with unittests:
 ## http://stackoverflow.com/questions/32899/how-to-generate-dynamic-parametrized-unit-tests-in-python

@@ -1737,6 +1737,7 @@ class Nansat(Domain):
                               'bandNumber is from 1 to %s'
                               % (str(bandID), self.vrt.dataset.RasterCount))
 
+
         if len(bandNumber)==1:
             return bandNumber[0]
         else:
