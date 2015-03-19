@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:19.03.2015 12:45
+# Last modified:19.03.2015 13:16
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -289,8 +289,6 @@ class NansatTest(unittest.TestCase):
                 n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
         self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
         self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
-        import ipdb
-        ipdb.set_trace()
         n.resize(0.5, eResampleAlg=1)
         self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())

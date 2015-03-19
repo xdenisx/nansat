@@ -3,10 +3,10 @@
 # Purpose:      Test the nansat module
 #
 # Author:       Morten Wergeland Hansen, Asuka Yamakawa, Anton Korosov
-# Modified:	    Morten Wergeland Hansen, Asuka Yamakawa
+# Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:05.03.2015 17:40
+# Last modified:19.03.2015 13:25
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -92,8 +92,10 @@ class TestRadarsat(object):
         testData.download_all_test_data()
         for rsfile in testData.mapperData['radarsat2']:
             yield self.test_incidence_angle, rsfile
-            #yield self.test_export2thredds, rsfile
             yield self.test_export, rsfile
+            yield self.test_export_band, rsfile
+            #yield self.test_export2thredds, rsfile
+            yield self.test_resize, rsfile
 
     def test_export2thredds(self, rsfile):
         ncfile = 'test.nc'
@@ -105,19 +107,24 @@ class TestRadarsat(object):
         np.testing.assert_allclose(inc0, inc1)
         os.unlink(ncfile)
 
+    def test_export_band(self, rsfile):
+        orig = Nansat(rsfile)
+        ncfile = 'test.nc'
+        orig.export(ncfile, bands=[orig._get_band_number('incidence_angle')])
+        copy = Nansat(ncfile)
+        inc0 = orig['incidence_angle']
+        inc1 = copy['incidence_angle']
+        np.testing.assert_allclose(inc0, inc1)
+        os.unlink(ncfile)
+
     def test_export(self, rsfile):
         ncfile = 'test.nc'
-
         orig = Nansat(rsfile)
-        inc0 = orig['incidence_angle']
-        orig.export(ncfile, bands=[orig._get_band_number('incidence_angle')])
-        orig = None
-
+        orig.export(ncfile)
         copy = Nansat(ncfile)
+        inc0 = orig['incidence_angle']
         inc1 = copy['incidence_angle']
-        copy = None
-
-        np.testing.assert_allclose(inc0[1::5, 1::5], inc1[1::5, 1::5])
+        np.testing.assert_allclose(inc0, inc1)
         os.unlink(ncfile)
 
     def test_incidence_angle(self, rsfile):
@@ -128,9 +135,25 @@ class TestRadarsat(object):
         assert np.all(np.greater_equal(inc[np.isnan(inc)==False], inc_min))
         assert np.all(np.less_equal(inc[np.isnan(inc)==False], inc_max))
 
-
-    #def test_export_netcdf(self):
-
+    def test_resize(self, rsfile):
+        n = Nansat(rsfile)
+        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
+        n.resize(0.5, eResampleAlg=0)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        n.undo()
+        n.resize(0.5, eResampleAlg=1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        n.undo()
+        n.resize(0.5, eResampleAlg=2)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        n.undo()
+        n.resize(0.5, eResampleAlg=3)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        n.undo()
+        n.resize(0.5, eResampleAlg=4)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        n.undo()
+        
 if __name__=='__main__':
     unittest.main()
 
