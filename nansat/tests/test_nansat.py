@@ -3,10 +3,10 @@
 # Purpose:      Test the Nansat class
 #
 # Author:       Morten Wergeland Hansen, Asuka Yamakawa
-# Modified: Morten Wergeland Hansen
+# Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:18.11.2014 11:48
+# Last modified:19.03.2015 12:45
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -275,32 +275,54 @@ class NansatTest(unittest.TestCase):
 
     def test_resize_nan_alg0(self):
         n = Nansat(self.test_file_nan, logLevel=40)
+        max_as_read_with_GDAL = np.max(
+                n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
+        self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         n.resize(0.5, eResampleAlg=0)
-
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())
 
     def test_resize_nan_alg1(self):
         n = Nansat(self.test_file_nan, logLevel=40)
+        max_as_read_with_GDAL = np.max(
+                n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
+        self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
+        import ipdb
+        ipdb.set_trace()
         n.resize(0.5, eResampleAlg=1)
-
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())
 
     def test_resize_nan_alg2(self):
         n = Nansat(self.test_file_nan, logLevel=40)
+        max_as_read_with_GDAL = np.max(
+                n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
+        self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         n.resize(0.5, eResampleAlg=2)
-
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())
 
     def test_resize_nan_alg3(self):
         n = Nansat(self.test_file_nan, logLevel=40)
+        max_as_read_with_GDAL = np.max(
+                n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
+        self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         n.resize(0.5, eResampleAlg=3)
-
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())
 
     def test_resize_nan_alg4(self):
         n = Nansat(self.test_file_nan, logLevel=40)
+        max_as_read_with_GDAL = np.max(
+                n.vrt.dataset.GetRasterBand(1).ReadAsArray() )
+        self.assertLess(np.nanmax(n[1]), np.max(max_as_read_with_GDAL))
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         n.resize(0.5, eResampleAlg=4)
-
+        self.assertLess(np.nanmax(n[1]), 60) # this is SAR incidence angles..
         self.assertTrue(np.isnan(n[1]).any())
 
     def test_get_GDALRasterBand(self):
