@@ -151,7 +151,7 @@ class TestSar(object):
         testData = DataForTestingMappers()
         testData.download_all_test_data()
         sarfiles = testData.mapperData['asar'] + \
-                    testData.mapperData['radarsat2'] #+ \
+                   testData.mapperData['radarsat2'] #+ \
                     #testData.mapperData['sentinel1']
         for sarfile in sarfiles:
             yield self.test_sigma0_complex_real, sarfile
@@ -168,12 +168,19 @@ class TestSar(object):
             if not type(cbands) == list:
                 cbands = [cbands]
             for cband in cbands:
-                assert n[cband].dtype == np.complex64
                 num = n._get_band_number({'standard_name':
                     'surface_backwards_scattering_coefficient_of_radar_wave',
-                    'polarization': n.get_metadata(bandID=cband)['polarization'],
-                    'dataType': '7'})
-                assert n[num].dtype == np.float64
+                    'polarization': n.get_metadata(bandID=cband)['polarization']})
+
+                for iNum in num:
+                    dtype = n.get_metadata(key='dataType', bandID=iNum)
+                    if int(dtype) == 10:
+                        assert n[iNum].dtype == np.complex64
+                    elif int(dtype) == 6:
+                        assert n[iNum].dtype == np.float32
+                    elif int(dtype) == 7:
+                        assert n[iNum].dtype == np.float64
+
         except OptionError:
             pass
 
