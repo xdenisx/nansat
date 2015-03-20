@@ -109,7 +109,7 @@ except:
     warnings.warn('Cannot generate and register the OBPG colormap!')
 
 
-class OptionError(Exception):
+class OptionError(ValueError):
     '''Error for improper options (arguments) '''
     pass
 

@@ -166,6 +166,8 @@ class TestSar(object):
             cbands = n._get_band_number({'standard_name':
                 'surface_backwards_scattering_coefficient_of_radar_wave',
                 'dataType': '10'})
+        except OptionError:
+            pass
         except:
             pass
         else:
@@ -173,20 +175,20 @@ class TestSar(object):
                 cbands = [cbands]
 
             for cband in cbands:
-                assert n[cband].dtype == np.complex64
-
                 try:
                     num = n._get_band_number({'standard_name':
                         'surface_backwards_scattering_coefficient_of_radar_wave',
                         'polarization': n.get_metadata(bandID=cband)['polarization'],
                         'dataType': '7'})
-                    assert n[num].dtype == np.float64
                 except:
-                    num = n._get_band_number({'standard_name':
-                        'surface_backwards_scattering_coefficient_of_radar_wave',
-                        'polarization': n.get_metadata(bandID=cband)['polarization'],
-                        'dataType': '6'})
-                    assert n[num].dtype == np.float32
+                    try:
+                        num = n._get_band_number({'standard_name':
+                            'surface_backwards_scattering_coefficient_of_radar_wave',
+                            'polarization': n.get_metadata(bandID=cband)['polarization'],
+                            'dataType': '6'})
+                    except OptionError:
+                        num = None
+                assert isinstance(num, int)
 
 
 ## Test Generator with unittests:
