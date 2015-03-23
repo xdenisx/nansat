@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:19.03.2015 13:25
+# Last modified:19.03.2015 14:16
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -139,19 +139,20 @@ class TestRadarsat(object):
         n = Nansat(rsfile)
         inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
         n.resize(0.5, eResampleAlg=0)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        inc_max = np.ones(n.shape())*(inc_max+.1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=1)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=2)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=3)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=4)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max+0.1)
+        np.testing.assert_array_less(n['incidence_angle'], inc_max)
         n.undo()
         
 if __name__=='__main__':
