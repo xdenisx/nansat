@@ -150,8 +150,10 @@ class TestSar(object):
     def test_all_sar_files(self):
         testData = DataForTestingMappers()
         testData.download_all_test_data()
+        # mapper_s1a_l1 is not ready yet.
+        # But this test should be worked after adapting to complex data.
         sarfiles = testData.mapperData['asar'] + \
-                    testData.mapperData['radarsat2'] #+ \
+                   testData.mapperData['radarsat2'] #+ \
                     #testData.mapperData['sentinel1']
 
         for sarfile in sarfiles:
@@ -179,12 +181,14 @@ class TestSar(object):
                     num = n._get_band_number({'standard_name':
                         'surface_backwards_scattering_coefficient_of_radar_wave',
                         'polarization': n.get_metadata(bandID=cband)['polarization'],
+                        'name': n.get_metadata(bandID=cband)['name'].replace('_complex', ''),
                         'dataType': '7'})
                 except:
                     try:
                         num = n._get_band_number({'standard_name':
                             'surface_backwards_scattering_coefficient_of_radar_wave',
                             'polarization': n.get_metadata(bandID=cband)['polarization'],
+                            'name': n.get_metadata(bandID=cband)['name'].replace('_complex', ''),
                             'dataType': '6'})
                     except OptionError:
                         num = None
