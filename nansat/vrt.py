@@ -1766,7 +1766,6 @@ class VRT(object):
             band = self.dataset.GetRasterBand(iBand)
             bandMetadata = band.GetMetadata()
             if '_FillValue' in bandMetadata.keys():
-                print '** ', iBand
                 fillValue = float(bandMetadata.pop('_FillValue'))
                 bandName = bandMetadata.pop('name')
                 array = band.ReadAsArray()
@@ -1783,7 +1782,6 @@ class VRT(object):
                 self.dataset.GetRasterBand(self.dataset.RasterCount).SetMetadataItem('name', bandName)
                 # required after adding bands
                 self.dataset.FlushCache()
-                print 'FlushCache'
 
         # update size and GeoTranform in XML of the warped VRT object
         warpedVRT = self.get_warped_vrt(xSize=xSize, ySize=ySize,
