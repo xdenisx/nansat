@@ -29,7 +29,6 @@ import nansat_test_data as ntd
 
 IS_CONDA = 'conda' in os.environ['PATH']
 
-
 class NansatTest(unittest.TestCase):
     def setUp(self):
         self.test_file_gcps = os.path.join(ntd.test_data_path, 'gcps.tif')

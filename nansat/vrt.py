@@ -1761,6 +1761,30 @@ class VRT(object):
                         0,
                         - float(self.dataset.RasterYSize - 1.0) / float(ySize))
 
+        # replace '_FillValue' in bands to numpy.nan
+        for iBand in range(self.dataset.RasterCount, 0, -1):
+            band = self.dataset.GetRasterBand(iBand)
+            bandMetadata = band.GetMetadata()
+            if '_FillValue' in bandMetadata.keys():
+                print '** ', iBand
+                fillValue = float(bandMetadata.pop('_FillValue'))
+                bandName = bandMetadata.pop('name')
+                array = band.ReadAsArray()
+                array[array == fillValue] = np.nan
+                bandVRT = VRT(array = array)
+                self.bandVRTs[bandName] = bandVRT
+                # add a band which is replaced '_FillValue' to np.nan
+                self._create_band({'SourceFilename': bandVRT.fileName,
+                                   'SourceBand': 1},
+                                   bandMetadata)
+                # delete the band with '_FillValue'
+                self.delete_band(iBand)
+                # set band name to the new band
+                self.dataset.GetRasterBand(self.dataset.RasterCount).SetMetadataItem('name', bandName)
+                # required after adding bands
+                self.dataset.FlushCache()
+                print 'FlushCache'
+
         # update size and GeoTranform in XML of the warped VRT object
         warpedVRT = self.get_warped_vrt(xSize=xSize, ySize=ySize,
                                         geoTransform=geoTransform,

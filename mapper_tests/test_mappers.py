@@ -86,7 +86,6 @@ class TestAllMappers(object):
         assert type(n) == Nansat
 
 class TestRadarsat(object):
-
     def test_all_rs2_files(self):
         testData = DataForTestingMappers()
         testData.download_all_test_data()
@@ -139,22 +138,21 @@ class TestRadarsat(object):
         n = Nansat(rsfile)
         inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
         n.resize(0.5, eResampleAlg=0)
-        inc_max = np.ones(n.shape())*(inc_max+.1)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max)
+        assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=1)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max)
+        assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=2)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max)
+        assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=3)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max)
+        assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
         n.resize(0.5, eResampleAlg=4)
-        np.testing.assert_array_less(n['incidence_angle'], inc_max)
+        assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
-        
+
 if __name__=='__main__':
     unittest.main()
 
