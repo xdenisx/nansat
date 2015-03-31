@@ -54,7 +54,6 @@ class Figure():
     caption = ''
     fontRatio = 1
     fontSize = None
-    image = True
     logarithm = False
     legend = False
     mask_array = None
@@ -72,14 +71,11 @@ class Figure():
     transparency = None
 
     LEGEND_HEIGHT = 0.1
-    LEGEND_WIDTH = 1.0
     CBAR_HEIGHTMIN = 5
     CBAR_HEIGHT = 0.15
     CBAR_WIDTH = 0.8
     CBAR_LOCATION_X = 0.1
     CBAR_LOCATION_Y = 0.5
-    CBTICK_LOC_ADJUST_X = 5
-    CBTICK_LOC_ADJUST_Y = 3
     CAPTION_LOCATION_X = 0.1
     CAPTION_LOCATION_Y = 0.25
     TITLE_LOCATION_X = 0.1
@@ -187,10 +183,6 @@ class Figure():
             0.1, colorbar offset X  relative to legend width
         CBAR_LOCATION_Y : float [0 1]
             0.5,  colorbar offset Y  relative to legend height
-        CBTICK_LOC_ADJUST_X : int
-            5,  colorbar tick label offset X, pixels
-        CBTICK_LOC_ADJUST_Y : int
-            3,  colorbar tick label offset Y, pixels
         CAPTION_LOCATION_X : float, [0 1]
             0.1, caption offset X relative to legend width
         CAPTION_LOCATION_Y : float, [0 1]
@@ -230,11 +222,6 @@ class Figure():
         # note swaping of axis by PIL
         self.width = self.array.shape[2]
         self.height = self.array.shape[1]
-
-        # if 'image' is False, set pilLegend height bigger
-        if (('image' in kwargs.keys()) and not(kwargs['image']) and
-             not('LEGEND_HEIGHT' in kwargs.keys())):
-            kwargs['LEGEND_HEIGHT'] = 0.3
 
         # modify the default values using input values
         self._set_defaults(kwargs)
@@ -601,16 +588,11 @@ class Figure():
         # modify default parameters
         self._set_defaults(kwargs)
 
-        # if add legend under the image, self.LEGEND_WIDTH must be 1.0
-        if self.image and self.LEGEND_WIDTH != 1.0:
-            self.LEGEND_WIDTH = 1.0
-
         # set fonts size for colorbar
         font = ImageFont.truetype(self.fontFileName, self.fontSize)
 
         # create a pilImage for the legend
-        self.pilImgLegend = Image.new('P', (int(self.width *
-                                                self.LEGEND_WIDTH),
+        self.pilImgLegend = Image.new('P', (self.width,
                                             int(self.height *
                                                 self.LEGEND_HEIGHT)), 255)
         draw = ImageDraw.Draw(self.pilImgLegend)
@@ -659,12 +641,21 @@ class Figure():
                                   (self.CBAR_LOCATION_Y +
                                    self.CBAR_HEIGHT)) - 1)
                 draw.line(box, fill=black)
-                box = (coordX + self.CBTICK_LOC_ADJUST_X,
+
+                # get text size in pixel
+                textSize = font.getsize(scaleArray[iTick])
+                cBarBox = (coordX - int(textSize[0] * 0.5),
                        int(self.pilImgLegend.size[1] *
-                           (self.CBAR_LOCATION_Y +
-                            self.CBAR_HEIGHT)) +
-                       self.CBTICK_LOC_ADJUST_Y)
-                draw.text(box, scaleArray[iTick], fill=black, font=font)
+                           (self.CBAR_LOCATION_Y + self.CBAR_HEIGHT))
+                       + int(textSize[1] * 0.5))
+
+                draw.text(cBarBox, scaleArray[iTick], fill=black, font=font)
+
+
+        # draw text (caption + title string)
+        textList = self.titleString.splitlines()[0]
+        textList.append(str(self.caption))
+        oneLineTextSize = font.getsize(textList[0])
 
         # draw longname and units
         box = (int(self.pilImgLegend.size[0] * self.CAPTION_LOCATION_X),
@@ -714,27 +705,49 @@ class Figure():
                                          self.width), 'uint8')
             self.array = np.append(self.array, appendArray, 1)
 
-        if self.image:
-            # create a new PIL image from three bands (RGB) or from one (palette)
-            if self.array.shape[0] == 3:
-                self.pilImg = Image.merge('RGB',
-                                          (Image.fromarray(self.array[0, :, :]),
-                                           Image.fromarray(self.array[1, :, :]),
-                                           Image.fromarray(self.array[2, :, :])))
-            else:
-                self.pilImg = Image.fromarray(self.array[0, :, :])
-                self.pilImg.putpalette(self.palette)
-
-            # append legend
-            if self.pilImgLegend is not None:
-                self.pilImg.paste(self.pilImgLegend, (0, self.height))
+        # create a new PIL image from three bands (RGB) or from one (palette)
+        if self.array.shape[0] == 3:
+            self.pilImg = Image.merge('RGB',
+                                      (Image.fromarray(self.array[0, :, :]),
+                                       Image.fromarray(self.array[1, :, :]),
+                                       Image.fromarray(self.array[2, :, :])))
         else:
-            # create pilImg with only legend / colorbar
-            self.pilImg = self.pilImgLegend
+            self.pilImg = Image.fromarray(self.array[0, :, :])
             self.pilImg.putpalette(self.palette)
+
+        # append legend
+        if self.pilImgLegend is not None:
+            self.pilImg.paste(self.pilImgLegend, (0, self.height))
 
         # remove array from memory
         #self.array = None
+
+    def get_legend(self, **kwargs):
+
+        if not('LEGEND_HEIGHT' in kwargs.keys()):
+            kwargs['LEGEND_HEIGHT'] = 0.5
+
+        if not('TITLE_LOCATION_Y' in kwargs.keys()):
+            kwargs['TITLE_LOCATION_Y'] = 0.3
+
+        if not('fontSize' in kwargs.keys()):
+            kwargs['fontSize'] = 8
+
+        # modify default parameters
+        self._set_defaults(kwargs)
+
+        # convert to uint8
+        self.convert_palettesize()
+
+        # create the paletter
+        self._create_palette()
+
+        # create the legend
+        self.create_legend()
+
+        self.pilImg = self.pilImgLegend
+        self.pilImg.putpalette(self.palette)
+
 
     def process(self, **kwargs):
         '''Do all common operations for preparation of a figure for saving
