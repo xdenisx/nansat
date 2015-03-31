@@ -79,7 +79,6 @@ class Figure():
     CAPTION_LOCATION_X = 0.1
     CAPTION_LOCATION_Y = 0.25
     TITLE_LOCATION_X = 0.1
-    TITLE_LOCATION_Y = 0.05
     DEFAULT_EXTENSION = '.png'
 
     palette = None
@@ -189,8 +188,6 @@ class Figure():
             0.1, caption offset Y relative to legend height
         TITLE_LOCATION_X : float, [0 1]
             0.1, title offset X relative to legend width
-        TITLE_LOCATION_Y :
-            0.3, title  offset Y relative to legend height
         DEFAULT_EXTENSION : string
             '.png'
         --------------------------------------------------
@@ -644,35 +641,29 @@ class Figure():
 
                 # get text size in pixel
                 textSize = font.getsize(scaleArray[iTick])
-                cBarBox = (coordX - int(textSize[0] * 0.5),
+                box = (coordX - int(textSize[0] * 0.5),
                        int(self.pilImgLegend.size[1] *
                            (self.CBAR_LOCATION_Y + self.CBAR_HEIGHT))
                        + int(textSize[1] * 0.5))
 
-                draw.text(cBarBox, scaleArray[iTick], fill=black, font=font)
-
+                draw.text(box, scaleArray[iTick], fill=black, font=font)
 
         # draw text (caption + title string)
-        textList = self.titleString.splitlines()[0]
+        textList = self.titleString.splitlines()
         textList.append(str(self.caption))
+        numLines = len(textList)
         oneLineTextSize = font.getsize(textList[0])
+        textSize = [oneLineTextSize[0], oneLineTextSize[1] * numLines]
 
-        # draw longname and units
-        box = (int(self.pilImgLegend.size[0] * self.CAPTION_LOCATION_X),
-               int(self.pilImgLegend.size[1] * self.CAPTION_LOCATION_Y))
-        draw.text(box, str(self.caption), fill=black, font=font)
+        textHeight = (int(self.pilImgLegend.size[1] * self.CBAR_LOCATION_Y)
+                      - textSize[1] - int(oneLineTextSize[1] * 0.5))
 
-        # if titleString is given, draw it
-        if self.titleString != '':
-            # write text each line onto pilImgCanvas
-            textHeight = int(self.pilImgLegend.size[1] *
-                             self.TITLE_LOCATION_Y)
-            for line in self.titleString.splitlines():
-                draw.text((int(self.pilImgLegend.size[0] *
-                               self.TITLE_LOCATION_X),
-                           textHeight), line, fill=black, font=font)
-                text = draw.textsize(line, font=font)
-                textHeight += text[1]
+        for line in textList:
+            draw.text((int(self.pilImgLegend.size[0] * self.CBAR_LOCATION_X),
+                       textHeight),
+                       line, fill=black, font=font)
+            text = draw.textsize(line, font=font)
+            textHeight += oneLineTextSize[1]
 
     def create_pilImage(self, **kwargs):
         ''' self.create_pilImage is replaced from None to PIL image
@@ -724,14 +715,12 @@ class Figure():
 
     def get_legend(self, **kwargs):
 
+        # set parameters for only legend image
         if not('LEGEND_HEIGHT' in kwargs.keys()):
             kwargs['LEGEND_HEIGHT'] = 0.5
 
-        if not('TITLE_LOCATION_Y' in kwargs.keys()):
-            kwargs['TITLE_LOCATION_Y'] = 0.3
-
         if not('fontSize' in kwargs.keys()):
-            kwargs['fontSize'] = 8
+            kwargs['fontSize'] = int(self.array.shape[1] / 30. * self.fontRatio)
 
         # modify default parameters
         self._set_defaults(kwargs)
