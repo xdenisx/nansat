@@ -387,7 +387,9 @@ class NansatTest(unittest.TestCase):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path,
                                    'nansat_write_legend.png')
-        n1.write_figure(tmpfilename, 3, image=False, legend=True)
+        fig = n1.write_figure(None)
+        fig.get_legend()
+        fig.save(tmpfilename)
 
         self.assertTrue(os.path.exists(tmpfilename))
 
