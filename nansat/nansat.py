@@ -2218,12 +2218,12 @@ class Nansat(Domain):
 
         return 0, extent
 
-    def update_band(self, array, bandID, metaData=None):
+    def update_bands(self, array, bands, metaData={}):
         '''
         Parameters
         ----------
             array : numpy array with dimension 2 or 3
-            bandID : int, string, or a list of int /string
+            bands : int, string, or a list of int /string
 
         Modifies
         --------
@@ -2231,12 +2231,12 @@ class Nansat(Domain):
 
         '''
         # if band ID is not a list, make the list
-        if type(bandID) != list:
-            bandID = [bandID]
-        # if bandID is given by name, get band No
-        for i, iBand in enumerate(bandID):
+        if type(bands)!= list:
+            bands = [bands]
+        # if bands is given by name, get band No
+        for i, iBand in enumerate(bands):
             if type(iBand) == str:
-                bandID[i] = self._get_band_number(iBand)
+                bands[i] = self._get_band_number(iBand)
 
         # if array is 2D, make 3D array
         arrayShape = array.shape
@@ -2245,18 +2245,21 @@ class Nansat(Domain):
 
         # make a dictionary with key=bandNo and value=array
         dicTmp = {}
-        for i, iBand in enumerate(bandID):
+        for i, iBand in enumerate(bands):
             dicTmp[iBand] = array[i, :, :]
 
         # delete band with descending order
         for iBand in sorted(dicTmp, reverse=True):
-            if metaData is None:
-                bandMetaData = self.get_metadata(bandID=iBand)
-            else:
-                bandMetaData = metaData
-            self.vrt.delete_band(iBand)
-            self.add_band(array = dicTmp[iBand], parameters=bandMetaData)
+            bandMetaData = self.get_metadata(bandID=iBand)
+            iName = bandMetaData['name']
 
+            for jKey, jValue in metaData.items():
+                bandMetaData[jKey] = jValue
+
+            self.add_band(array = dicTmp[iBand], parameters=bandMetaData)
+            self.vrt.delete_band(iBand)
+            self.set_metadata(key = 'name', value = iName,
+                              bandID = self.vrt.dataset.RasterCount)
 
 def _import_mappers(logLevel=None):
     ''' Import available mappers into a dictionary

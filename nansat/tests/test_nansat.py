@@ -573,7 +573,7 @@ class NansatTest(unittest.TestCase):
     def test_update_band(self):
         n = Nansat(self.test_file_gcps, logLevel=40)
         array0 = n['L_645'] * 10
-        n.update_band(array0, 'L_645')
+        n.update_bands(array0, 'L_645')
         array1 = n['L_645']
 
         np.testing.assert_array_almost_equal(array0, array1)
@@ -585,7 +585,7 @@ class NansatTest(unittest.TestCase):
         array0 = np.append(array0_469.reshape((1,200,200)),
                            array0_645.reshape((1,200,200)), axis=0)
 
-        n.update_band(array0, ['L_469', 'L_645'])
+        n.update_bands(array0, ['L_469', 'L_645'])
         array1_469 = n['L_469']
         array1_645 = n['L_645']
 
