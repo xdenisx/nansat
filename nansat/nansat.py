@@ -420,6 +420,7 @@ class Nansat(Domain):
                 bandMetadataR.pop('dataType')
                 try:
                     bandMetadataR.pop('PixelFunctionType')
+                    bandMetadataR.pop('SourceTransferType')
                 except:
                     pass
                 # Copy metadata and modify 'name' for real and imag bands
