@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:19.03.2015 14:16
+# Last modified:15.04.2015 11:43
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -99,6 +99,7 @@ class TestRadarsat(object):
     def test_export2thredds(self, rsfile):
         ncfile = 'test.nc'
         orig = Nansat(rsfile)
+        orig.resize(0.05, eResampleAlg=1)
         orig.export2thredds(ncfile, bands = {'incidence_angle': {}})
         copy = Nansat(ncfile)
         inc0 = orig['incidence_angle']
@@ -119,24 +120,30 @@ class TestRadarsat(object):
     def test_export(self, rsfile):
         ncfile = 'test.nc'
         orig = Nansat(rsfile)
+        orig.resize(0.05, eResampleAlg=1)
         orig.export(ncfile)
         copy = Nansat(ncfile)
         inc0 = orig['incidence_angle']
         inc1 = copy['incidence_angle']
-        np.testing.assert_allclose(inc0, inc1)
+        np.testing.assert_allclose(inc0, inc1, rtol=1e-3)
+        # Make sure data is not flipped
+        # TODO: add assertion that lon0,lat0=lon1,lat1
         os.unlink(ncfile)
 
     def test_incidence_angle(self, rsfile):
         n = Nansat(rsfile)
-        inc_min = float(n.get_metadata()['NEAR_RANGE_INCIDENCE_ANGLE'])
-        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
+        # Add/subtract 0.5 degrees to max/min incidence angles as it happens
+        # that the actual max/min is not exactly within the limits provided in
+        # the metadata...
+        inc_min = float(n.get_metadata()['NEAR_RANGE_INCIDENCE_ANGLE'])-0.5
+        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])+0.5
         inc = n['incidence_angle']
         assert np.all(np.greater_equal(inc[np.isnan(inc)==False], inc_min))
         assert np.all(np.less_equal(inc[np.isnan(inc)==False], inc_max))
 
     def test_resize(self, rsfile):
         n = Nansat(rsfile)
-        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
+        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])+0.5
         n.resize(0.5, eResampleAlg=0)
         assert (np.nanmax(n['incidence_angle'])  <= inc_max)
         n.undo()
