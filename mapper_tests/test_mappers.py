@@ -6,7 +6,7 @@
 # Modified:	Morten Wergeland Hansen
 #
 # Created:      18.06.2014
-# Last modified:03.03.2015 15:10
+# Last modified:17.04.2015 10:23
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -63,12 +63,11 @@ class TestAllMappers(object):
             mapperFiles = testData.mapperData[mapper]
             for mapperFile in mapperFiles:
                 print mapperFile
+                # OBS: do not yield functions that have the word 'test' in
+                # their names - these are run automatically by nose...
                 yield self.open_with_automatic_mapper, mapperFile
-
-    def open_with_automatic_mapper(self, mapperFile):
-        ''' Perform call to Nansat with each file as a separate test '''
-        n = Nansat(mapperFile)
-        assert type(n) == Nansat
+                yield self.geolocation_of_exportedNC_vs_original, \
+                        mapperFile
 
     def test_specific_mapper(self):
         ''' Should open all downloaded files with automatically selected mapper '''
@@ -78,52 +77,30 @@ class TestAllMappers(object):
             mapperFiles = testData.mapperData[mapperName]
             for mapperFile in mapperFiles:
                 print mapperName, '->', mapperFile
+                # OBS: do not yield functions that have the word 'test' in
+                # their names - these are run automatically by nose...
                 yield self.open_with_specific_mapper, mapperFile, mapperName
+
+    def geolocation_of_exportedNC_vs_original(self, file):
+        orig = Nansat(file)
+        testFile = 'test.nc'
+        orig.export(testFile)
+        copy = Nansat(testFile)
+        lon0, lat0 = orig.get_geolocation_grids()
+        lon1, lat1 = copy.get_geolocation_grids()
+        np.testing.assert_allclose(lon0, lon1) 
+        np.testing.assert_allclose(lat0, lat1)
+        os.unlink(ncfile)
+
+    def open_with_automatic_mapper(self, mapperFile):
+        ''' Perform call to Nansat with each file as a separate test '''
+        n = Nansat(mapperFile)
+        assert type(n) == Nansat
 
     def open_with_specific_mapper(self, mapperFile, mapperName):
         ''' Perform call to Nansat with each file as a separate test '''
         n = Nansat(mapperFile, mapperName=mapperName)
         assert type(n) == Nansat
-
-class TestRadarsat(object):
-
-    def test_all_rs2_files(self):
-        testData = DataForTestingMappers()
-        testData.download_all_test_data()
-        for rsfile in testData.mapperData['radarsat2']:
-            yield self.test_incidence_angle, rsfile
-            #yield self.test_export2thredds, rsfile
-            yield self.test_export, rsfile
-
-    def test_export2thredds(self, rsfile):
-        ncfile = 'test.nc'
-        orig = Nansat(rsfile)
-        orig.export2thredds(ncfile, bands = {'incidence_angle': {}})
-        copy = Nansat(ncfile)
-        inc0 = orig['incidence_angle']
-        inc1 = copy['incidence_angle']
-        np.testing.assert_allclose(inc0, inc1)
-        os.unlink(ncfile)
-
-    def test_export(self, rsfile):
-        ncfile = 'test.nc'
-        orig = Nansat(rsfile)
-        orig.export(ncfile)
-        copy = Nansat(ncfile)
-        inc0 = orig['incidence_angle']
-        inc1 = copy['incidence_angle']
-        np.testing.assert_allclose(inc0, inc1)
-        os.unlink(ncfile)
-        
-    def test_incidence_angle(self, rsfile):
-        n = Nansat(rsfile)
-        inc_min = float(n.get_metadata()['NEAR_RANGE_INCIDENCE_ANGLE'])
-        inc_max = float(n.get_metadata()['FAR_RANGE_INCIDENCE_ANGLE'])
-        inc = n['incidence_angle']
-        assert np.all(np.greater_equal(inc[np.isnan(inc)==False], inc_min))
-        assert np.all(np.less_equal(inc[np.isnan(inc)==False], inc_max))
-
-    #def test_export_netcdf(self):
 
 if __name__=='__main__':
     unittest.main()
