@@ -160,8 +160,8 @@ class VRT(object):
                 <ScaleOffset>$ScaleOffset</ScaleOffset>
                 <ScaleRatio>$ScaleRatio</ScaleRatio>
                 <LUT>$LUT</LUT>
-                <SrcRect xOff="0" yOff="0" xSize="$srcXSize" ySize="$srcYSize"/>
-                <DstRect xOff="0" yOff="0" xSize="$dstXSize" ySize="$dstYSize"/>
+                <SrcRect xOff="$xOff" yOff="$yOff" xSize="$xSize" ySize="$ySize"/>
+                <DstRect xOff="0" yOff="0" xSize="$xSize" ySize="$ySize"/>
             </$SourceType> ''')
 
     RawRasterBandSource = Template('''
@@ -186,7 +186,7 @@ class VRT(object):
     # main sub VRT
     vrt = None
     # other sub VRTs
-    subVRTs = {}
+    bandVRTs = None
     # use Thin Spline Transformation of the VRT has GCPs?
     tps = False
 
@@ -236,7 +236,7 @@ class VRT(object):
             grid with longitudes
         lat : Numpy array
             grid with latitudes
-        subVRTs : dict
+        bandVRTs : dict
             dictionary with VRTs that are used inside VRT
 
         Modifies
@@ -250,6 +250,8 @@ class VRT(object):
         self.logger = add_logger('Nansat')
         self.fileName = self._make_filename(nomem=nomem)
         self.vrtDriver = gdal.GetDriverByName('VRT')
+        if self.bandVRTs is None:
+            self.bandVRTs = {}
 
         # open and parse wkv.xml
         fileNameWKV = os.path.join(os.path.dirname(
@@ -482,6 +484,7 @@ class VRT(object):
                 self.logger.debug('SRC[DataType]: %d' % src['DataType'])
 
             srcDs = gdal.Open(src['SourceFilename'])
+
             # create XML for each source
             src['XML'] = self.ComplexSource.substitute(
                 Dataset=src['SourceFilename'],
@@ -491,10 +494,10 @@ class VRT(object):
                 ScaleOffset=src['ScaleOffset'],
                 ScaleRatio=src['ScaleRatio'],
                 LUT=src['LUT'],
-                srcXSize=srcDs.RasterXSize,
-                srcYSize=srcDs.RasterYSize,
-                dstXSize=srcDs.RasterXSize,
-                dstYSize=srcDs.RasterYSize)
+                xSize=src.get('xSize', srcDs.RasterXSize),
+                ySize=src.get('ySize', srcDs.RasterYSize),
+                xOff=src.get('xOff', 0),
+                yOff=src.get('yOff', 0),)
 
         # create destination options
         if 'PixelFunctionType' in dst and len(dst['PixelFunctionType']) > 0:
@@ -597,6 +600,25 @@ class VRT(object):
 
         # return name of the created band
         return dst['name']
+
+    def _add_swath_mask_band(self):
+        ''' Create a new band where all values = 1
+
+        Modifies
+        ---------
+        Single band 'swathmask' with ones is added to the self.dataset
+
+        '''
+        self._create_band(
+            src=[{
+                'SourceFilename': self.fileName,
+                'SourceBand':  1,
+                'DataType': gdal.GDT_Byte}],
+            dst={
+                'dataType' : gdal.GDT_Byte,
+                'wkv' : 'swath_binary_mask',
+                'PixelFunctionType': 'OnesPixelFunc',
+            })
 
     def _set_time(self, time):
         ''' Set time of dataset and/or its bands
@@ -817,9 +839,9 @@ class VRT(object):
             vrt = VRT(gdalDataset=self.dataset,
                       geolocationArray=self.geolocationArray)
 
-        # add subVRTs: dictionary with several VRTs generated in mappers
+        # add bandVRTs: dictionary with several VRTs generated in mappers
         # or with added bands
-        vrt.subVRTs = self.subVRTs
+        vrt.bandVRTs = self.bandVRTs
 
         # set TPS flag
         vrt.tps = bool(self.tps)
@@ -884,83 +906,6 @@ class VRT(object):
         node1 = node0.delNode('GeoTransform')
         # Write the modified elemements back into temporary VRT
         self.write_xml(node0.rawxml())
-
-    def _add_gcp_metadata(self, bottomup=True):
-        '''Add GCPs to metadata (required e.g. by Nansat.export())
-
-        Creates string representation of GCPs line/pixel/X/Y
-        Adds these string to metadata
-
-        Modifies
-        ---------
-        Add self.vrd.dataset.Metadata
-
-        '''
-        gcpNames = ['GCPPixel', 'GCPLine', 'GCPX', 'GCPY']
-        gcps = self.dataset.GetGCPs()
-        srs = self.dataset.GetGCPProjection()
-        chunkLength = 5000
-
-        # exit if no GCPs
-        if len(gcps) == 0:
-            return
-
-        # add GCP Projection
-        self.dataset.SetMetadataItem('NANSAT_GCPProjection',
-                                     srs.replace(',',  '|').replace('"', '&'))
-
-        # make empty strings
-        gspStrings = ['', '', '', '']
-
-        column = 0
-        for gcp in gcps:
-            if gcps[0].GCPLine == gcp.GCPLine:
-                column += 1
-            else:
-                break
-
-        # change the shape of gcps. (from 1D to 2D)
-        row = len(gcps) / column
-        gcps = list(gcps)
-        gcps = zip(*[iter(gcps)]*column)
-
-        # fill string with values
-        for iRow in range(row):
-            for jColumn in range(column):
-                gspStrings[0] = ('%s%05d| ' %
-                                 (gspStrings[0],
-                                  int(gcps[iRow][jColumn].GCPPixel)))
-                gspStrings[1] = ('%s%05d| ' %
-                                 (gspStrings[1],
-                                  int(gcps[iRow][jColumn].GCPLine)))
-                # if bottomup is True (=image is filpped), gcps are flipped
-                if bottomup:
-                    gspStrings[2] = ('%s%012.8f| ' %
-                                     (gspStrings[2],
-                                      gcps[row-iRow-1][jColumn].GCPX))
-                    gspStrings[3] = ('%s%012.8f| ' %
-                                     (gspStrings[3],
-                                      gcps[row-iRow-1][jColumn].GCPY))
-                else:
-                    gspStrings[2] = ('%s%012.8f| ' %
-                                     (gspStrings[2],
-                                      gcps[iRow][jColumn].GCPX))
-                    gspStrings[3] = ('%s%012.8f| ' %
-                                     (gspStrings[3],
-                                      gcps[iRow][jColumn].GCPY))
-
-        for i, gspString in enumerate(gspStrings):
-            #split string into chunks
-            numberOfChunks = int(float(len(gspString)) / chunkLength)
-            chunki = 0
-            for chunki in range(0, numberOfChunks + 1):
-                chunk = gspString[(chunki * chunkLength):
-                                  min(((chunki + 1) * chunkLength),
-                                      len(gspString))]
-                # add chunk to metadata
-                self.dataset.SetMetadataItem('NANSAT_%s_%03d'
-                                             % (gcpNames[i], chunki),
-                                             chunk)
 
     def get_warped_vrt(self, dstSRS=None, eResampleAlg=0,
                        xSize=0, ySize=0, blockSize=None,
@@ -1372,6 +1317,7 @@ class VRT(object):
         '''
         node0 = Node.create(self.read_xml())
         node0.delNode('VRTRasterBand', options={'band': bandNum})
+        node0.delNode('BandMapping', options={'src': bandNum})
         self.write_xml(node0.rawxml())
 
     def delete_bands(self, bandNums):
@@ -1383,8 +1329,7 @@ class VRT(object):
             elements are int
 
         '''
-        bandNums.sort()
-        bandNums.reverse()
+        bandNums.sort(reverse=True)
         for iBand in bandNums:
             self.delete_band(iBand)
 
@@ -1596,8 +1541,7 @@ class VRT(object):
 
         return superVRT
 
-    def get_subsampled_vrt(self, newRasterXSize, newRasterYSize,
-                            factor, eResampleAlg):
+    def get_subsampled_vrt(self, newRasterXSize, newRasterYSize, eResampleAlg):
         '''Create VRT and replace step in the source'''
 
         subsamVRT = self.get_super_vrt()
@@ -1629,8 +1573,10 @@ class VRT(object):
                 # if the values are complex number, give a warning
                 if iNode1.getAttribute('dataType').startswith('C'):
                     warnings.warn(
-        'Band %s :Imaginary parts of the complex number are lost' % (
-                                        iNode1.getAttribute('band')))
+                        'Band %s : The imaginary parts of complex numbers ' \
+                        'are lost when resampling by averaging ' \
+                        '(eResampleAlg=-1)' %iNode1.getAttribute('band')
+                    )
 
         # Write the modified elemements into VRT
         subsamVRT.write_xml(node0.rawxml())

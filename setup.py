@@ -61,9 +61,9 @@ AUTHOR              = ("Asuka Yamakawa, Anton Korosov, Morten W. Hansen, Kunt-Fr
 AUTHOR_EMAIL        = "nansat-dev@googlegroups.com"
 PLATFORMS           = ["UNKNOWN"]
 MAJOR               = 0
-MINOR               = 6
+MINOR               = 7
 MICRO               = 0
-ISRELEASED          = False
+ISRELEASED          = True
 VERSION             = '%d.%d-dev.%d' % (MAJOR, MINOR, MICRO) # Remember to remove "dev" when releasing
 REQS                = [
                         "Pillow",
@@ -193,10 +193,10 @@ def run_setup(skip_compile):
             ])
 
 
-    # remove nansat_tests from installed packages
+    # remove mapper_tests from installed packages
     packages = find_packages()
-    if 'mapper_tests' in packages:
-        packages.remove('mapper_tests')
+    #if 'mapper_tests' in packages:
+    #    packages.remove('mapper_tests')
 
     setup(
         name=NAME,
@@ -213,7 +213,8 @@ def run_setup(skip_compile):
         author_email=AUTHOR_EMAIL,
         platforms=PLATFORMS,
         packages=packages,
-        package_data={NAME:['wkv.xml', "fonts/*.ttf", 'mappers/*.pl', 'tests/data/*']},
+        package_data={NAME:['wkv.xml', "fonts/*.ttf", 'mappers/*.pl',
+            'tests/data/*.*']},
         scripts=[os.path.join('utilities', name) for name in
                     ['nansatinfo',
                      'nansat_add_coastline',
@@ -223,6 +224,7 @@ def run_setup(skip_compile):
                      ]],
         cmdclass = {'install_scripts': my_install_scripts},
         install_requires=REQS,
+        test_suite="nansat.tests",
         **kw
         )
 

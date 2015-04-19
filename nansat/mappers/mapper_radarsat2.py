@@ -165,12 +165,12 @@ class Mapper(VRT):
         lookVRT = lookVRT.get_resized_vrt(gdalDataset.RasterXSize,
                                           gdalDataset.RasterYSize)
         # Store VRTs so that they are accessible later
-        self.subVRTs['look_u_VRT'] = look_u_VRT
-        self.subVRTs['look_v_VRT'] = look_v_VRT
-        self.subVRTs['lookVRT'] = lookVRT
+        self.bandVRTs['look_u_VRT'] = look_u_VRT
+        self.bandVRTs['look_v_VRT'] = look_v_VRT
+        self.bandVRTs['lookVRT'] = lookVRT
 
         # Add band to full sized VRT
-        lookFileName = self.subVRTs['lookVRT'].fileName
+        lookFileName = self.bandVRTs['lookVRT'].fileName
         metaDict.append({'src': {'SourceFilename': lookFileName,
                                  'SourceBand': 1},
                          'dst': {'wkv': 'sensor_azimuth_angle',
@@ -248,3 +248,5 @@ class Mapper(VRT):
         self.dataset.SetMetadataItem('sensor', 'SAR')
         self.dataset.SetMetadataItem('satellite', 'Radarsat2')
         self.dataset.SetMetadataItem('mapper', 'radarsat2')
+
+        self._add_swath_mask_band()

@@ -8,7 +8,9 @@
 
 import numpy as np
 import scipy.ndimage
+from osgeo import gdal
 from dateutil.parser import parse
+
 
 from nansat.vrt import VRT
 from envisat import Envisat
@@ -81,10 +83,46 @@ class Mapper(VRT, Envisat):
         # add dictionary for raw counts
         metaDict = []
         for iPolarization in polarization:
+            iBand = gdalDataset.GetRasterBand(iPolarization['bandNum'])
+            dtype = iBand.DataType
+            shortName = 'RawCounts_%s' %iPolarization['channel']
+            bandName = shortName
+            dstName = 'raw_counts_%s' % iPolarization['channel']
+            if (8 <= dtype and dtype < 12):
+                bandName = shortName+'_complex'
+                dstName = dstName + '_complex'
+
+            metaDict.append({'src': {'SourceFilename': fileName,
+                                     'SourceBand': iPolarization['bandNum']},
+                             'dst': {'name': dstName}})
+
+
+            '''
             metaDict.append({'src': {'SourceFilename': fileName,
                                      'SourceBand': iPolarization['bandNum']},
                              'dst': {'name': 'raw_counts_%s'
                                      % iPolarization['channel']}})
+            '''
+            # if raw data is complex, add the intensity band
+            if (8 <= dtype and dtype < 12):
+                # choose pixelfunction type
+                if (dtype == 8 or dtype == 9):
+                    pixelFunctionType = 'IntensityInt'
+                else:
+                    pixelFunctionType = 'intensity'
+                # get data type of the intensity band
+                intensityDataType = {'8': 3, '9': 4,
+                                     '10': 5, '11': 6}.get(str(dtype), 4)
+                # add intensity band
+                metaDict.append(
+                    {'src': {'SourceFilename': fileName,
+                             'SourceBand': iPolarization['bandNum'],
+                             'DataType': dtype},
+                     'dst': {'name': 'raw_counts_%s'
+                                     % iPolarization['channel'],
+                             'PixelFunctionType': pixelFunctionType,
+                             'SourceTransferType': gdal.GetDataTypeName(dtype),
+                             'dataType': intensityDataType}})
 
         #####################################################################
         # Add incidence angle and look direction through small VRT objects
@@ -121,14 +159,14 @@ class Mapper(VRT, Envisat):
         lookVRT = lookVRT.get_resized_vrt(gdalDataset.RasterXSize,
                                           gdalDataset.RasterYSize)
         # Store VRTs so that they are accessible later
-        self.subVRTs = {'incVRT': incVRT,
+        self.bandVRTs = {'incVRT': incVRT,
                         'look_u_VRT': look_u_VRT,
                         'look_v_VRT': look_v_VRT,
                         'lookVRT': lookVRT}
 
         # Add band to full sized VRT
-        incFileName = self.subVRTs['incVRT'].fileName
-        lookFileName = self.subVRTs['lookVRT'].fileName
+        incFileName = self.bandVRTs['incVRT'].fileName
+        lookFileName = self.bandVRTs['lookVRT'].fileName
         metaDict.append({'src': {'SourceFilename': incFileName,
                                  'SourceBand': 1},
                          'dst': {'wkv': 'angle_of_incidence',
@@ -193,10 +231,10 @@ class Mapper(VRT, Envisat):
         # ASAR is always right-looking
         self.dataset.SetMetadataItem('ANTENNA_POINTING', 'RIGHT')
         self.dataset.SetMetadataItem('ORBIT_DIRECTION',
-                                     gdalMetadata['SPH_PASS'].upper())
+                        gdalMetadata['SPH_PASS'].upper().strip())
 
         ###################################################################
-        # Add sigma0_VV
+        # Estimate sigma0_VV from sigma0_HH
         ###################################################################
         polarizations = []
         for pp in polarization:

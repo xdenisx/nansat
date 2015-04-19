@@ -17,14 +17,18 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 from __future__ import absolute_import
 import os
+import glob
 import sys
 import tempfile
 import datetime
 import dateutil.parser
-import warnings
-import collections
 import pkgutil
 import warnings
+import collections
+if hasattr(collections, 'OrderedDict'):
+    from collections import OrderedDict
+else:
+    from ordereddict import OrderedDict
 
 import scipy
 from scipy.io.netcdf import netcdf_file
@@ -39,13 +43,19 @@ from nansat.figure import Figure
 from nansat.vrt import VRT
 from nansat.nansatshape import Nansatshape
 from nansat.tools import add_logger, gdal
-from nansat.tools import OptionError, WrongMapperError, Error, GDALError
+from nansat.tools import OptionError, WrongMapperError, NansatReadError, GDALError
 from nansat.node import Node
 from nansat.pointbrowser import PointBrowser
 
 # container for all mappers
 nansatMappers = None
 
+def test_openable(fname):
+    try:
+        f = open(fname,'r')
+    except IOError:
+        raise
+    f.close()
 
 class Nansat(Domain):
     '''Container for geospatial data, performs all high-level operations
@@ -161,6 +171,7 @@ class Nansat(Domain):
             # Set current VRT object
             self.vrt = VRT(gdalDataset=domain.vrt.dataset)
             self.domain = domain
+            self.mapper = ''
             if array is not None:
                 # add a band from array
                 self.add_band(array=array, parameters=parameters)
@@ -188,22 +199,33 @@ class Nansat(Domain):
         expression = band.GetMetadata().get('expression', '')
         # get data
         bandData = band.ReadAsArray()
+        if bandData is None:
+            raise GDALError('Cannot read array from band %s' % str(bandID))
+
         # execute expression if any
         if expression != '':
             bandData = eval(expression)
 
-        # Set invalid and missing data to np.nan
-        if '_FillValue' in band.GetMetadata():
+        # Set invalid and missing data to np.nan (for floats only)
+        if ('_FillValue' in band.GetMetadata() and
+             bandData.dtype.char in np.typecodes['AllFloat']):
             fillValue = float(band.GetMetadata()['_FillValue'])
-            try:
-                bandData[bandData == fillValue] = np.nan
-            except:
-                self.logger.info('Cannot replace _FillValue values '
-                                 'with np.NAN in %s!' % bandID)
-        try:
+            bandData[bandData == fillValue] = np.nan
+            # quick hack to avoid problem with wrong _FillValue - see issue
+            # #123
+            if fillValue == 9.96921e+36:
+                altFillValue = -10000.
+                bandData[bandData == altFillValue] = np.nan
+
+        # replace infs with np.NAN
+        if np.size(np.where(np.isinf(bandData))) > 0:
             bandData[np.isinf(bandData)] = np.nan
-        except:
-            self.logger.info('Cannot replace inf values with np.NAN!')
+
+        # erase out-of-swath pixels with np.Nan (if not integer)
+        if  (self.has_band('swathmask') and
+             bandData.dtype.char in np.typecodes['AllFloat']):
+            swathmask = self.get_GDALRasterBand('swathmask').ReadAsArray()
+            bandData[swathmask == 0] = np.nan
 
         return bandData
 
@@ -224,7 +246,7 @@ class Nansat(Domain):
         '''Add band from the array to self.vrt
 
         Create VRT object which contains VRT and RAW binary file and append it
-        to self.vrt.subVRTs
+        to self.vrt.bandVRTs
 
         Parameters
         -----------
@@ -255,7 +277,7 @@ class Nansat(Domain):
         '''Add band from the array to self.vrt
 
         Create VRT object which contains VRT and RAW binary file and append it
-        to self.vrt.subVRTs
+        to self.vrt.bandVRTs
 
         Parameters
         -----------
@@ -291,7 +313,7 @@ class Nansat(Domain):
                 {'SourceFilename': bandVRT.fileName,
                  'SourceBand': 1},
                 params)
-            self.vrt.subVRTs[bandName] = bandVRT
+            self.vrt.bandVRTs[bandName] = bandVRT
 
         self.vrt.dataset.FlushCache()  # required after adding bands
 
@@ -391,12 +413,17 @@ class Nansat(Domain):
         exportVRT.imag = []
 
         # delete unnecessary bands
+        rmBands = []
+        selfBands = self.bands()
         if bands is not None:
-            srcBands = np.arange(self.vrt.dataset.RasterCount) + 1
-            dstBands = np.array(bands)
-            mask = np.in1d(srcBands, dstBands)
-            rmBands = srcBands[mask==False]
-            exportVRT.delete_bands(rmBands.tolist())
+            for selfBand in selfBands:
+                # if band number or band name is not listed: mark for removal
+                if (selfBand not in bands and
+                    selfBands[selfBand]['name'] not in bands):
+                    rmBands.append(selfBand)
+            # delete bands from VRT
+            #import ipdb; ipdb.set_trace()
+            exportVRT.delete_bands(rmBands)
 
         # Find complex data band
         complexBands = []
@@ -412,10 +439,8 @@ class Nansat(Domain):
             for i in complexBands:
                 bandMetadataR = self.get_metadata(bandID=i)
                 bandMetadataR.pop('dataType')
-                try:
+                if 'PixelFunctionType' in bandMetadataR:
                     bandMetadataR.pop('PixelFunctionType')
-                except:
-                    pass
                 # Copy metadata and modify 'name' for real and imag bands
                 bandMetadataI = bandMetadataR.copy()
                 bandMetadataR['name'] = bandMetadataR.pop('name') + '_real'
@@ -448,24 +473,6 @@ class Nansat(Domain):
                  'SourceBand': int(self.vrt.geolocationArray.d['Y_BAND'])},
                 {'wkv': 'latitude',
                  'name': 'GEOLOCATION_Y_DATASET'})
-
-        gcps = exportVRT.dataset.GetGCPs()
-        if addGCPs and len(gcps) > 0:
-            # add GCPs in VRT metadata and remove geotransform
-            exportVRT._add_gcp_metadata(bottomup)
-            exportVRT._remove_geotransform()
-
-        # add projection metadata
-        srs = self.vrt.dataset.GetProjection()
-        exportVRT.dataset.SetMetadataItem('NANSAT_Projection',
-                                          srs.replace(',',
-                                                      '|').replace('"', '&'))
-
-        # add GeoTransform metadata
-        geoTransformStr = str(self.vrt.dataset.GetGeoTransform()).replace(',',
-                                                                          '|')
-        exportVRT.dataset.SetMetadataItem('NANSAT_GeoTransform',
-                                          geoTransformStr)
 
         # manage metadata for each band
         for iBand in range(exportVRT.dataset.RasterCount):
@@ -521,16 +528,77 @@ class Nansat(Domain):
         else:
             options += ['WRITE_BOTTOMUP=YES']
 
+        # if GCPs should be added
+        gcps = exportVRT.dataset.GetGCPs()
+        srs = exportVRT.get_projection()
+        addGCPs = addGCPs and driver=='netCDF' and len(gcps) > 0
+        if addGCPs:
+            #  remove GeoTransform
+            exportVRT._remove_geotransform()
+            exportVRT.dataset.SetMetadataItem(
+                'NANSAT_GCPProjection', srs.replace(',', '|').replace('"', '&'))
+        else:
+            # add projection metadata
+            exportVRT.dataset.SetMetadataItem(
+                'NANSAT_Projection', srs.replace(',','|').replace('"', '&'))
+
+            # add GeoTransform metadata
+            geoTransformStr = str(
+                    self.vrt.dataset.GetGeoTransform()).replace(',', '|')
+            exportVRT.dataset.SetMetadataItem(
+                    'NANSAT_GeoTransform', geoTransformStr)
+
         # Create an output file using GDAL
         self.logger.debug('Exporting to %s using %s and %s...' % (fileName,
                                                                   driver,
                                                                   options))
+
         dataset = gdal.GetDriverByName(driver).CreateCopy(fileName,
                                                           exportVRT.dataset,
                                                           options=options)
+
+        # add GCPs into netCDF file as separate float variables
+        if addGCPs:
+            self._add_gcps(fileName, gcps, bottomup)
+
         self.logger.debug('Export - OK!')
 
-    def export2thredds(self, fileName, bands=None, metadata=None,
+    def _add_gcps(self, fileName, gcps, bottomup):
+        ''' Add 4 variables with gcps to the generated netCDF file '''
+        gcpVariables = ['GCPX', 'GCPY', 'GCPZ', 'GCPPixel', 'GCPLine', ]
+
+        # check if file exists
+        if not os.path.exists(fileName):
+            self.logger.warning('Cannot add GCPs! %s doesn''t exist!' % fileName)
+            return 1
+
+        # open output file for adding GCPs
+        try:
+            ncFile = netcdf_file(fileName, 'a')
+        except TypeError as e:
+            self.logger.warning('%s' % e)
+            return 1
+
+        # get GCP values into single array from GCPs
+        gcpValues = np.zeros((5, len(gcps)))
+        for i, gcp in enumerate(gcps):
+            gcpValues[0, i] = gcp.GCPX
+            gcpValues[1, i] = gcp.GCPY
+            gcpValues[2, i] = gcp.GCPZ
+            gcpValues[3, i] = gcp.GCPPixel
+            gcpValues[4, i] = gcp.GCPLine
+
+        # make gcps dimentions
+        ncFile.createDimension('gcps', len(gcps))
+        # make gcps variables and add data
+        for i, var in enumerate(gcpVariables):
+            var = ncFile.createVariable(var, 'f', ('gcps',))
+            var[:] = gcpValues[i]
+
+        # write data, close file
+        ncFile.close()
+
+    def export2thredds(self, fileName, bands, metadata=None,
                        maskName=None, rmMetadata=[],
                        time=None, createdTime=None):
         ''' Export data into a netCDF formatted for THREDDS server
@@ -570,18 +638,28 @@ class Nansat(Domain):
 
         Examples
         --------
-        n.export2thredds(filename)
         # create THREDDS formatted netcdf file with all bands and time variable
+        n.export2thredds(filename)
 
-        n.export2thredds(filename, [1], {'description': 'example'})
         # export only the first band and add global metadata
+        n.export2thredds(filename, ['L_469'], {'description': 'example'})
+
+        # export several bands and modify type, scale and offset
+        bands = {'L_645' : {'type': '>i2', 'scale': 0.1, 'offset': 0},
+                 'L_555' : {'type': '>i2', 'scale': 0.1, 'offset': 0}}
+        n.export2thredds(filename, bands)
+
         '''
+        # raise error if self is not projected (has GCPs)
+        if len(self.vrt.dataset.GetGCPs()) > 0:
+            raise OptionError('Cannot export dataset with GCPS for THREDDS!')
+
+        # replace bands as list with bands as dict
+        if type(bands) is list:
+            bands = dict.fromkeys(bands, {})
+
         # Create temporary empty Nansat object with self domain
         data = Nansat(domain=self)
-
-        # check some input data
-        if bands is None:
-            bands = {}
 
         # get mask (if exist)
         if maskName is not None:
@@ -589,27 +667,25 @@ class Nansat(Domain):
 
         # add required bands to data
         dstBands = {}
+        srcBands = [self.bands()[b]['name'] for b in self.bands()]
         for iband in bands:
-            try:
-                array = self[iband]
-            except:
-                self.logger.error('%s is not found' % str(iBand))
+            # skip non exiting bands
+            if iband not in srcBands:
+                self.logger.error('%s is not found' % str(iband))
                 continue
+
+            array = self[iband]
+
+            # catch None band error
+            if array is None:
+                raise GDALError('%s is None' % str(iband))
 
             # set type, scale and offset from input data or by default
             dstBands[iband] = {}
-            if 'type' in bands[iband]:
-                dstBands[iband]['type'] = bands[iband]['type']
-            else:
-                dstBands[iband]['type'] = array.dtype.str.replace('u', 'i')
-            if 'scale' in bands[iband]:
-                dstBands[iband]['scale'] = float(bands[iband]['scale'])
-            else:
-                dstBands[iband]['scale'] = 1.0
-            if 'offset' in bands[iband]:
-                dstBands[iband]['offset'] = float(bands[iband]['offset'])
-            else:
-                dstBands[iband]['offset'] = 0.0
+            dstBands[iband]['type'] = bands[iband].get('type',
+                                             array.dtype.str.replace('u', 'i'))
+            dstBands[iband]['scale'] = float(bands[iband].get('scale', 1.0))
+            dstBands[iband]['offset'] = float(bands[iband].get('offset', 0.0))
             if '_FillValue' in bands[iband]:
                 dstBands[iband]['_FillValue'] = float(
                     bands[iband]['_FillValue'])
@@ -716,7 +792,7 @@ class Nansat(Domain):
                                             ncIVar.dimensions)
             elif ncIVarName == gridMappingVarName:
                 # create projection var
-                ncOVar = ncO.createVariable(ncIVarName, ncIVar.typecode(),
+                ncOVar = ncO.createVariable(gridMappingName, ncIVar.typecode(),
                                             ncIVar.dimensions)
             elif 'name' in ncIVar._attributes and ncIVar.name in dstBands:
                 # dont add time-axis to lon/lat grids
@@ -830,7 +906,7 @@ class Nansat(Domain):
             A factor is calculated from ratio of the
             current pixelsize to the desired pixelsize.
         eResampleAlg : int (GDALResampleAlg), optional
-               -1 : Average,
+               -1 : Average (default),
                 0 : NearestNeighbour
                 1 : Bilinear,
                 2 : Cubic,
@@ -871,7 +947,6 @@ class Nansat(Domain):
         if eResampleAlg <= 0:
             self.vrt = self.vrt.get_subsampled_vrt(newRasterXSize,
                                                    newRasterYSize,
-                                                   factor,
                                                    eResampleAlg)
         else:
             # update size and GeoTranform in XML of the warped VRT object
@@ -965,7 +1040,8 @@ class Nansat(Domain):
             return outString
 
     def reproject(self, dstDomain=None, eResampleAlg=0, blockSize=None,
-                  WorkingDataType=None, tps=None, **kwargs):
+                  WorkingDataType=None, tps=None, skip_gcps=1, addmask=True,
+                  **kwargs):
         ''' Change projection of the object based on the given Domain
 
         Create superVRT from self.vrt with AutoCreateWarpedVRT() using
@@ -1002,6 +1078,9 @@ class Nansat(Domain):
             If not given explicitly, 'skip_gcps' is fetched from the
             metadata of self, or from dstDomain (as set by mapper or user).
             [defaults to 1 if not specified, i.e. using all GCPs]
+        addmask : bool
+            If True, add band 'swathmask'. 1 - valid data, 0 no-data.
+            This band is used to replace no-data values with np.nan
 
         Modifies
         ---------
@@ -1067,12 +1146,16 @@ class Nansat(Domain):
         # when using TPS (if requested)
         src_skip_gcps = self.vrt.dataset.GetMetadataItem('skip_gcps')
         dst_skip_gcps = dstDomain.vrt.dataset.GetMetadataItem('skip_gcps')
-        if not 'skip_gcps' in kwargs.keys():  # If not given explicitly...
-            kwargs['skip_gcps'] = 1  # default (use all GCPs)
-            if dst_skip_gcps is not None:  # ...or use setting from dst
-                kwargs['skip_gcps'] = int(dst_skip_gcps)
-            if src_skip_gcps is not None:  # ...or use setting from src
-                kwargs['skip_gcps'] = int(src_skip_gcps)
+        kwargs['skip_gcps'] = skip_gcps  # default (use all GCPs)
+        if dst_skip_gcps is not None:  # ...or use setting from dst
+            kwargs['skip_gcps'] = int(dst_skip_gcps)
+        if src_skip_gcps is not None:  # ...or use setting from src
+            kwargs['skip_gcps'] = int(src_skip_gcps)
+
+        # add band that masks valid values with 1 and nodata with 0
+        # after reproject
+        if addmask:
+            self.vrt._add_swath_mask_band()
 
         # create Warped VRT
         self.vrt = self.vrt.get_warped_vrt(dstSRS=dstSRS,
@@ -1162,19 +1245,18 @@ class Nansat(Domain):
         self.logger.debug('MODPATH: %s' % mod44path)
 
         if not mod44DataExist:
-            # MOD44W data does not exist generate empty matrix
-            watermaskArray = np.zeros([self.vrt.dataset.RasterXSize,
-                                      self.vrt.dataset.RasterYSize])
-            watermask = Nansat(domain=self, array=watermaskArray)
+            raise IOError('250 meters resolution watermask from MODIS ' \
+                    '44W Product does not exist - see Nansat ' \
+                    'documentation to get it (the path is %s)' %mod44path)
+
+        # MOD44W data does exist: open the VRT file in Nansat
+        watermask = Nansat(mod44path + '/MOD44W.vrt', mapperName='MOD44W',
+                            logLevel=self.logger.level)
+        # reproject on self or given Domain
+        if dstDomain is None:
+            watermask.reproject(self, **kwargs)
         else:
-            # MOD44W data does exist: open the VRT file in Nansat
-            watermask = Nansat(mod44path + '/MOD44W.vrt', mapperName='MOD44W',
-                               logLevel=self.logger.level)
-            # reproject on self or given Domain
-            if dstDomain is None:
-                watermask.reproject(self, **kwargs)
-            else:
-                watermask.reproject(dstDomain, **kwargs)
+            watermask.reproject(dstDomain, **kwargs)
 
         return watermask
 
@@ -1542,9 +1624,18 @@ class Nansat(Domain):
 
         Raises
         --------
-        Error : occurs if given mapper cannot open the input file
+        IOError : occurs if the input file does not exist
+        OptionError : occurs if given mapper cannot open the input file
+        NansatReadError : occurs if no mapper fits the input file
 
         '''
+        if os.path.isfile(self.fileName):
+            # Make sure file exists and can be opened for reading before proceeding
+            test_openable(self.fileName)
+        else:
+            ff = glob.glob(os.path.join(self.fileName,'*.*'))
+            for f in ff:
+                test_openable(f)
         # lazy import of nansat mappers
         # if nansat mappers were not imported yet
         global nansatMappers
@@ -1576,7 +1667,7 @@ class Nansat(Domain):
                                                                     '').lower()
             # check if the mapper is available
             if mapperName not in nansatMappers:
-                raise Error('Mapper ' + mapperName + ' not found')
+                raise OptionError('Mapper ' + mapperName + ' not found')
 
             # check if mapper is importbale or raise an ImportError error
             if isinstance(nansatMappers[mapperName], tuple):
@@ -1634,7 +1725,8 @@ class Nansat(Domain):
             # check if given data file exists
             if not os.path.isfile(self.fileName):
                 raise IOError('%s: File does not exist' % (self.fileName))
-            raise GDALError('NANSAT can not open the file ' + self.fileName)
+            raise NansatReadError('%s: File cannot be read with NANSAT - ' \
+                    'consider writing a mapper' %self.fileName)
 
         return tmpVRT
 
@@ -1693,9 +1785,6 @@ class Nansat(Domain):
 
         return bandNumber
 
-    def process(self, opts=None):
-        '''Default L2 processing of Nansat object. Overloaded in childs.'''
-
     def get_transect(self, points=None, bandList=[1], latlon=True,
                      returnOGR=False, layerNum=0, smoothRadius=0,
                      smoothAlg=0, onlypixline=False, **kwargs):
@@ -1715,6 +1804,7 @@ class Nansat(Domain):
                   ((col31, row31)),                                       # point1
                   ((col41, row41)),                                       # point2
                  )
+
         bandList : list of int or string
             elements of the list are band number or band Name
         latlon : bool
@@ -1730,6 +1820,9 @@ class Nansat(Domain):
             pixel as the median or mean value in a circule with radius
             equal to the given number.
         smoothAlg: 0 or 1 for median or mean
+        transect : bool
+            used if a shape file name is given as the input.
+            If True, return the transect. If False, return the points.
         vmin, vmax : int (optional)
             minimum and maximum pixel values of an image shown
             in case points is None.
@@ -1739,10 +1832,20 @@ class Nansat(Domain):
         if returnOGR:
             transect : OGR object with points coordinates and values
         else:
-            transect : list or
-                values of the transect or OGR object with the transect values
-            [lonVector, latVector] : list with longitudes, latitudes
-            pixlinCoord : numpy array with pixels and lines coordinates
+            transectDict: dictionary
+                key is band name.
+                Value is a dictionary of the transect values of each shape.
+            vectorsDict: dictionary
+                keys are shape ID. values are dictionaries
+                with longitude and latitude lists of each shape.
+            pixlinCoordDic: dictionary
+                keys are shape ID. values are numpy array
+                with pixels and lines coordinates
+
+        NB
+        ----
+        If points are given from GUI,
+        it is possible to select multiple shapes by pressing any key
 
         '''
         if matplotlib.is_interactive() and points is None:
@@ -1759,20 +1862,23 @@ class Nansat(Domain):
         # if shapefile is given, get corner points from it
         if type(points) == str:
             nansatOGR = Nansatshape(fileName=points)
-            #nansatOGR = NansatOGR(fileName=points, layerNum=layerNum)
-            points, latlon = nansatOGR.get_corner_points(latlon)
+            points, latlon = nansatOGR.get_points(latlon)
+            if transect:
+                points = [points]
+
+        bandNameDict ={}
+        bandsMeta = self.bands()
+        for iKey in bandsMeta.keys():
+            bandNameDict[iKey] = bandsMeta[iKey]['name']
 
         # if points is not given, get points from GUI ...
         if points is None:
-            firstBand = bandList[0]
-            if type(firstBand) == str:
-                firstBand = self._get_band_number(firstBand)
-            data = self[firstBand]
-
-            browser = PointBrowser(data, **kwargs)
-            browser.get_points()
-            points = tuple(browser.coordinates)
             latlon = False
+            data = self[bandList[0]]
+            browser = PointBrowser(data, transect, **kwargs)
+            browser.get_points()
+            points = []
+            oneLine = []
 
         pixlinCoord = []
         gpiList = []
@@ -1880,6 +1986,7 @@ class Nansat(Domain):
         # get data
         transect = []
         for iBand in bandList:
+            tmpDic = {}
             if type(iBand) == str:
                 iBand = self._get_band_number(iBand)
             if data is None:
@@ -1910,6 +2017,7 @@ class Nansat(Domain):
             # Lists for field names and datatype
             names = ['X (pixel)', 'Y (line)']
             formats = ['i4', 'i4']
+
             for iBand in bandList:
                 names.append('band_' + str(iBand))
                 formats.append('f8')
@@ -2183,7 +2291,7 @@ def _import_mappers(logLevel=None):
         mappersPackages = [nansat_mappers, nansat.mappers]
 
     # create ordered dict for mappers
-    nansatMappers = collections.OrderedDict()
+    nansatMappers = OrderedDict()
 
     for mappersPackage in mappersPackages:
         logger.debug('From package: %s' % mappersPackage.__path__)

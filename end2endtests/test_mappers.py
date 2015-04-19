@@ -6,7 +6,7 @@
 # Modified:     Anton Korosov
 #
 # Created:      18.06.2014
-# Last modified:06.10.2014
+# Last modified:17.04.2015 12:23
 # Copyright:    (c) NERSC
 # Licence:      This file is part of NANSAT. You can redistribute it or modify
 #               under the terms of GNU General Public License, v.3
@@ -46,49 +46,50 @@ class TestDataForTestingMappers(unittest.TestCase):
         ''' Should download the selected file and put into mapperData'''
         t = DataForTestingMappers()
         t.download_test_file(
-                'ftp://ftp.nersc.no/pub/python_test_data/ncep/gfs.t00z.master.grbf00',
+                'ftp://ftp.nersc.no/pub/python_test_data/ncep/gfs20120328.t00z.master.grbf00',
                 'ncep')
         self.assertTrue('ncep' in t.mapperData)
         self.assertEqual(type(t.mapperData['ncep']), list)
-        for ifile in t.mapperData['ncep']:
+        for ifile, kwa in t.mapperData['ncep']:
             self.assertTrue(os.path.exists(ifile))
 
-
+# https://nose.readthedocs.org/en/latest/writing_tests.html#test-generators
 class TestAllMappers(object):
-    def test_automatic_mapper(self):
-        ''' Should open all downloaded files with automatically selected mapper '''
-        testData = DataForTestingMappers()
-        testData.download_all_test_data()
-        for mapper in testData.mapperData:
-            mapperFiles = testData.mapperData[mapper]
-            for mapperFile in mapperFiles:
-                print mapperFile
-                yield self.open_with_automatic_mapper, mapperFile
 
-    def open_with_automatic_mapper(self, mapperFile):
+    @classmethod
+    def setup_class(cls):
+        ''' Download testing data '''
+        cls.testData = DataForTestingMappers()
+        cls.testData.download_all_test_data()
+
+    def test_mappers(self):
+        ''' Run similar tests for all mappers '''
+        for mapperName in self.testData.mapperData:
+            mapperParams = self.testData.mapperData[mapperName]
+            for fileName, kwargs in mapperParams:
+                print mapperName, '->', fileName
+                # Test call to Nansat, mapper not specified
+                yield self.open_with_automatic_mapper, fileName, kwargs
+                # Test call to Nansat, mapper specified
+                yield self.open_with_specific_mapper, fileName, mapperName, kwargs
+
+    def open_with_automatic_mapper(self, mapperFile, kwargs):
         ''' Perform call to Nansat with each file as a separate test '''
-        n = Nansat(mapperFile)
+        n = Nansat(mapperFile, **kwargs)
+        n.logger.error('Generic mapper for %s ' % mapperFile)
         assert type(n) == Nansat
 
-    def test_specific_mapper(self):
-        ''' Should open all downloaded files with automatically selected mapper '''
-        testData = DataForTestingMappers()
-        testData.download_all_test_data()
-        for mapperName in testData.mapperData:
-            mapperFiles = testData.mapperData[mapperName]
-            for mapperFile in mapperFiles:
-                print mapperName, '->', mapperFile
-                yield self.open_with_specific_mapper, mapperFile, mapperName
-
-    def open_with_specific_mapper(self, mapperFile, mapperName):
+    def open_with_specific_mapper(self, mapperFile, mapperName, kwargs):
         ''' Perform call to Nansat with each file as a separate test '''
-        n = Nansat(mapperFile, mapperName=mapperName)
+        n = Nansat(mapperFile, mapperName=mapperName, **kwargs)
+        n.logger.error('Mapper %s for %s ' % (mapperName, mapperFile))
         assert type(n) == Nansat
 
 
 if __name__=='__main__':
+    #for mapper in nansatMappers:
+    #    test_name = 'test_%s'%mapper
     unittest.main()
-
 
 
 

@@ -62,7 +62,7 @@ class Mapper(VRT):
                 'false_northing': '+y_0',
             },
             'latitude_longitude': {
-                0: '+longlat ',
+                0: '+proj=longlat ',
             }
         }
 
@@ -81,7 +81,7 @@ class Mapper(VRT):
     def __init__(self, fileName, gdalDataset, gdalMetadata, **kwargs):
         ''' Create VRT from OpenDAP dataset'''
         # quit if file is not online
-        if fileName[:7] != 'http://':
+        if fileName[:7] not in  ['http://', 'https:/']:
             raise WrongMapperError
 
         # open file through OpenDAP using netCDF4 library

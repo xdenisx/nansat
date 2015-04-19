@@ -633,7 +633,7 @@ class Domain(object):
 
         return self.transform_points(colVector, rowVector)
 
-    def _get_border_kml(self):
+    def _get_border_kml(self, *args, **kwargs):
         '''Generate Placemark entry for KML
 
         Returns
@@ -642,7 +642,7 @@ class Domain(object):
             String with the Placemark entry
 
         '''
-        domainLon, domainLat = self.get_border()
+        domainLon, domainLat = self.get_border(*args, **kwargs)
 
         # convert Border coordinates into KML-like string
         coordinates = ''
@@ -667,7 +667,7 @@ class Domain(object):
 
         return kmlEntry
 
-    def get_border_wkt(self):
+    def get_border_wkt(self, *args, **kwargs):
         '''Creates string with WKT representation of the border polygon
 
         Returns
@@ -676,7 +676,7 @@ class Domain(object):
             string with WKT representation of the border polygon
 
         '''
-        lonList, latList = self.get_border()
+        lonList, latList = self.get_border(*args, **kwargs)
 
         # apply > 180 deg correction to longitudes
         for ilon, lon in enumerate(lonList):
@@ -690,7 +690,7 @@ class Domain(object):
         wkt = 'POLYGON((%s))' % polyCont
         return wkt
 
-    def get_border_geometry(self):
+    def get_border_geometry(self, *args, **kwargs):
         ''' Get OGR Geometry of the border Polygon
 
         Returns
@@ -699,7 +699,33 @@ class Domain(object):
 
         '''
 
-        return ogr.CreateGeometryFromWkt(self.get_border_wkt())
+        return ogr.CreateGeometryFromWkt(self.get_border_wkt(*args, **kwargs))
+
+    def overlaps(self, anotherDomain):
+        ''' Checks if this Domain overlaps another Domain
+
+        Returns
+        -------
+        overlaps : bool
+            True if Domains overlaps, False otherwise
+
+        '''
+
+        return self.get_border_geometry().Intersects(
+                anotherDomain.get_border_geometry())
+
+    def contains(self, anotherDomain):
+        ''' Checks if this Domain fully covers another Domain
+
+        Returns
+        -------
+        contains : bool
+            True if this Domain fully covers another Domain, False otherwise
+
+        '''
+
+        return self.get_border_geometry().Contains(
+                anotherDomain.get_border_geometry())
 
     def get_border_postgis(self):
         ''' Get PostGIS formatted string of the border Polygon
@@ -888,7 +914,8 @@ class Domain(object):
                   continetsColor='coral', meridians=10, parallels=10,
                   pColor='r', pLine='k', pAlpha=0.5, padding=0.,
                   merLabels=[False, False, False, False],
-                  parLabels=[False, False, False, False]):
+                  parLabels=[False, False, False, False],
+                  pltshow=False):
         ''' Create an image with a map of the domain
 
         Uses Basemap to create a World Map
@@ -970,8 +997,8 @@ class Domain(object):
         # add content: coastline, continents, meridians, parallels
         bmap.drawcoastlines()
         bmap.fillcontinents(color=continetsColor)
-        bmap.drawmeridians(np.linspace(minLon, maxLon, meridians), labels=merLabels)
-        bmap.drawparallels(np.linspace(minLat, maxLat, parallels), labels=parLabels)
+        bmap.drawmeridians(np.linspace(minLon, maxLon, meridians))
+        bmap.drawparallels(np.linspace(minLat, maxLat, parallels))
 
         # convert input lat/lon vectors to arrays of vectors with one row
         # if only one vector was given
@@ -994,7 +1021,10 @@ class Domain(object):
         # save figure and close
         plt.savefig(outputFileName, bbox_inches='tight',
                     dpi=dpi, pad_inches=padding)
-        plt.close('all')
+        if pltshow:
+            plt.show()
+        else:
+            plt.close('all')
 
     def reproject_GCPs(self, srsString):
         '''Reproject all GCPs to a new spatial reference system

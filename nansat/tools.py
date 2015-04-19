@@ -109,23 +109,26 @@ except:
     warnings.warn('Cannot generate and register the OBPG colormap!')
 
 
-class Error(Exception):
-    '''Base class for exceptions in this module.'''
-    pass
-
-
-class OptionError(Error):
+class OptionError(Exception):
     '''Error for improper options (arguments) '''
     pass
 
 
-class ProjectionError(Error):
+class ProjectionError(Exception):
     '''Cannot get the projection'''
     pass
 
 
-class GDALError(Error):
+class GDALError(Exception):
     '''Error from GDAL '''
+    pass
+
+class NansatReadError(Exception):
+    '''Exception if a file cannot be read with Nansat'''
+    pass
+
+class NansatReadError(Exception):
+    '''Exception if a file cannot be read with Nansat'''
     pass
 
 

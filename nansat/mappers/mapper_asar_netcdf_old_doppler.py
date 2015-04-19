@@ -1,13 +1,13 @@
 #------------------------------------------------------------------------------
-# Name:		mapper_asar_netcdf_old_doppler.py
+# Name:     mapper_asar_netcdf_old_doppler.py
 # Purpose:      To read previously processed ASAR WS Doppler data saved as
 #               netcdf files
 #
 # Author:       Morten Wergeland Hansen
-# Modified:	Morten Wergeland Hansen
+# Modified: Morten Wergeland Hansen
 #
-# Created:	09.10.2014
-# Last modified:13.10.2014 17:09
+# Created:  09.10.2014
+# Last modified:25.11.2014 20:49
 # Copyright:    (c) NERSC
 # License:
 #------------------------------------------------------------------------------
@@ -52,12 +52,14 @@ class Mapper(VRT):
         subDatasets = gdalDataset.GetSubDatasets()
         filenames = [f[0] for f in subDatasets]
 
-        lon = [(gdal.Open(filenames.pop(ii)).ReadAsArray()
-                for ii, fn in enumerate(filenames)
-                if 'lon' in fn)][0]
-        lat = [(gdal.Open(filenames.pop(ii)).ReadAsArray()
-                for ii, fn in enumerate(filenames)
-                if 'lat' in fn)][0]
+        for ii, fn in enumerate(filenames):
+            if 'lon' in fn:
+                break
+        lon = gdal.Open(filenames.pop(ii)).ReadAsArray()
+        for ii, fn in enumerate(filenames):
+            if 'lat' in fn:
+                break
+        lat = gdal.Open(filenames.pop(ii)).ReadAsArray()
 
         # create empty VRT dataset with geolocation only
         VRT.__init__(self, lon=lon, lat=lat)
@@ -100,6 +102,8 @@ class Mapper(VRT):
             bandMetadata = subBand.GetMetadata_Dict()
             bandNo[bandMetadata.get('NETCDF_VARNAME')] = i + 1
             # generate dst metadata
+            if not bandMetadata.get('NETCDF_VARNAME') in name2wkv_dict.keys():
+                continue
             dst = {'wkv': name2wkv_dict[bandMetadata.get('NETCDF_VARNAME')],
                    'name': bandMetadata.get('NETCDF_VARNAME'),
                    }
@@ -126,9 +130,9 @@ class Mapper(VRT):
         mask[azibias > 10000] = 0.
         maskVRT = VRT(array=mask, lat=lat, lon=lon)
 
-        self.subVRTs['fdgVRT'] = fdgVRT
+        self.bandVRTs['fdgVRT'] = fdgVRT
         metaDict.append({'src': {'SourceFilename': (
-                                 self.subVRTs['fdgVRT'].fileName),
+                                 self.bandVRTs['fdgVRT'].fileName),
                                  'SourceBand': 1
                                  },
                          'dst': {'name': 'fdg',
@@ -137,9 +141,9 @@ class Mapper(VRT):
                                  'units': 'Hz',
                                  }
                          })
-        self.subVRTs['maskVRT'] = maskVRT
+        self.bandVRTs['maskVRT'] = maskVRT
         metaDict.append({'src': {'SourceFilename': (
-                                 self.subVRTs['maskVRT'].fileName),
+                                 self.bandVRTs['maskVRT'].fileName),
                                  'SourceBand': 1
                                  },
                         'dst': {'name': 'mask',

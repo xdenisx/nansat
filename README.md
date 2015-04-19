@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/nansencenter/nansat.svg?branch=develop)](https://travis-ci.org/nansencenter/nansat)
+[![Coverage Status](https://coveralls.io/repos/nansencenter/nansat/badge.svg)](https://coveralls.io/r/nansencenter/nansat)
+
 ![NANSAT](http://nansencenter.github.io/nansat/images/nansat_logo.png)
 nansat
 ======
@@ -14,7 +17,7 @@ We appreciate acknowledments of Nansat. Please add "The image analysis was perfo
 the open-source NanSat (https://github.com/nansencenter/nansat) python package" (or equivalent)
 if you use Nansat in scientific publications.
 
-Downlodad
+Download
 =========
 https://github.com/nansencenter/nansat/wiki/Download
 

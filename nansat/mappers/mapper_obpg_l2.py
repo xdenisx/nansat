@@ -41,6 +41,9 @@ class Mapper(VRT):
         except:
             raise WrongMapperError
 
+        if title not in titles:
+            raise WrongMapperError
+
         # get subdataset and parse to VRT.__init__()
         # for retrieving geo-metadata
         # but NOT from longitude or latitude because it can be smaller!
@@ -164,6 +167,7 @@ class Mapper(VRT):
                 bandNo += 1
 
                 if subBandName == 'Rrs':
+                    rrsSubDataset = subDataset[0]
                     metaEntryRrsw = {
                         'src': [{
                             'SourceFilename': subDataset[0],
