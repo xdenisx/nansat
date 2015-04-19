@@ -242,6 +242,13 @@ class Domain(object):
         kmlFileName : string, optional
             Name of the KML-file to generate from the current Domain
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, write KML-file
+            1 - if Either xmlFileName or kmlFileNamecrop are wrong,
+                KML-file is not processed
+
         '''
         # test input options
         if xmlFileName is not None and kmlFileName is None:
@@ -269,6 +276,7 @@ class Domain(object):
             # otherwise it is potentially error
             raise OptionError('Either xmlFileName(%s)\
              or kmlFileName(%s) are wrong' % (xmlFileName, kmlFileName))
+            return 1
 
         # open KML, write header
         kmlFile = file(kmlFileName, 'wt')
@@ -291,6 +299,8 @@ class Domain(object):
         kmlFile.write('        </Folder></Document></kml>\n')
         kmlFile.close()
 
+        return 0
+
     def write_kml_image(self, kmlFileName=None, kmlFigureName=None):
         '''Create KML file for already projected image
 
@@ -302,6 +312,13 @@ class Domain(object):
             Name of the KML-file to generate from the current Domain
         kmlFigureName : string, optional
             Name of the projected image stored in .png format
+
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, KLM file is created
+            1 - if kmlFileName is wrong, KLM file is NOT created
+            2 - if kmlFigureName is not specified, KLM file is NOT created
 
         Examples
         ---------
@@ -335,10 +352,12 @@ class Domain(object):
         else:
             # otherwise it is potentially error
             raise OptionError('kmlFileName(%s) is wrong' % (kmlFileName))
+            return 1
 
         if kmlFigureName is None:
             raise OptionError('kmlFigureName(%s) is not specified'
                               % (kmlFigureName))
+            return 2
 
         # open KML, write header
         kmlFile = file(kmlFileName, 'wt')
@@ -368,6 +387,8 @@ class Domain(object):
         kmlFile.write('</GroundOverlay>\n')
         kmlFile.write('</kml>')
         kmlFile.close()
+
+        return 0
 
     def get_geolocation_grids(self, stepSize=1):
         '''Get longitude and latitude grids representing the full data grid
@@ -474,6 +495,14 @@ class Domain(object):
         extentDic : dictionary
             has key ('te' or 'lle') and ('tr' or 'ts') and their values.
 
+        status : int
+            1 - '-tr' parameter is wrong
+            2 - '-ts' parameter is wrong
+            3 - '-te' parameter is wrong
+            4 - '-lle' parameter is wrong
+            5 - extentString is wrong
+            6 - parameter combination is wrong
+
         Raises
         -------
         OptionError : occurs when the extentString is improper
@@ -492,6 +521,7 @@ class Domain(object):
                 raise OptionError('Domain._create_extentDic():'
                                   '-tr is used as'
                                   '"-tr xResolution yResolution"')
+                return 1
             # Add the key and value to extentDic
             extentString = extentString.replace(str_tr[0], '')
             trElem = str(str_tr).split(None)
@@ -514,6 +544,7 @@ class Domain(object):
             if len(elms_str) != 3 or elms_str[2] == '-':
                 raise OptionError('Domain._create_extentDic(): '
                                   '"-ts" is used as "-ts width height"')
+                return 2
             # Add the key and value to extentDic
             extentString = extentString.replace(str_ts[0], '')
             tsElem = str(str_ts).split(None)
@@ -537,6 +568,7 @@ class Domain(object):
             if len(elms_str) != 5:
                 raise OptionError('Domain._create_extentDic():'
                                   '-te is used as "-te xMin yMin xMax yMax"')
+                return 3
             # Add the key and value to extentDic
             extentString = extentString.replace(str_te[0], '')
             teElem = str(str_te).split(None)
@@ -561,6 +593,7 @@ class Domain(object):
                 raise OptionError('Domain._create_extentDic():'
                                   '-lle is used as '
                                   '"-lle minlon minlat maxlon maxlat"')
+                return 4
             # Add the key and value to extentDic
             extentString = extentString.replace(str_lle[0], '')
             lleElem = str(str_lle).split(None)
@@ -579,22 +612,27 @@ class Domain(object):
             raise OptionError('Domain._create_extentDic():'
                               'extentString is not redable :',
                               extentString)
+            return 5
 
         # check if one of '-te' and '-lle' is given
         if ('lle' not in extentDic) and ('te' not in extentDic):
             raise OptionError('Domain._create_extentDic():'
                               '"-lle" or "-te" is required.')
+            return 6
         elif ('lle' in extentDic) and ('te' in extentDic):
             raise OptionError('Domain._create_extentDic():'
                               '"-lle" or "-te" should be chosen.')
+            return 6
 
         # check if one of '-ts' and '-tr' is given
         if ('ts' not in extentDic) and ('tr' not in extentDic):
             raise OptionError('Domain._create_extentDic():'
                               '"-ts" or "-tr" is required.')
+            return 6
         elif ('ts' in extentDic) and ('tr' in extentDic):
             raise OptionError('Domain._create_extentDic():'
                               '"-ts" or "-tr" should be chosen.')
+            return 6
         return extentDic
 
     def get_border(self, nPoints=10):
@@ -962,6 +1000,12 @@ class Domain(object):
         parLables : list of 4 booleans
             where to put parallel labels, see also Basemap.drawparallels()
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, create an image with a map
+            1 - geolocational information is not given, image is NOT created
+
         '''
         # if lat/lon vectors are not given as input
         if lonVec is None or latVec is None or len(lonVec) != len(latVec):
@@ -971,7 +1015,7 @@ class Domain(object):
             except:
                 print('Domain/Nansat object is not given'
                       'and lat/lon vectors=None')
-                return
+                return 1
 
         # convert vectors to numpy arrays
         lonVec = np.array(lonVec)
@@ -1026,6 +1070,8 @@ class Domain(object):
         else:
             plt.close('all')
 
+        return 0
+
     def reproject_GCPs(self, srsString):
         '''Reproject all GCPs to a new spatial reference system
 
@@ -1041,5 +1087,13 @@ class Domain(object):
         Modifies
         --------
             Reprojects all GCPs to new SRS and updates GCPProjection
+
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, all GCPs are reprojected
+
         '''
         self.vrt.reproject_GCPs(srsString)
+
+        return 0

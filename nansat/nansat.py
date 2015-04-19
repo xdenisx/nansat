@@ -261,6 +261,11 @@ class Nansat(Domain):
         Creates VRT object with VRT-file and RAW-file
         Adds band to the self.vrt
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, a new band is added
+
         Examples
         --------
         n.add_band(a, p)
@@ -272,6 +277,8 @@ class Nansat(Domain):
         # temporarli on disk intead of memory
         '''
         self.add_bands([array], [parameters], nomem)
+
+        return 0
 
     def add_bands(self, arrays, parameters=None, nomem=False):
         '''Add band from the array to self.vrt
@@ -291,6 +298,12 @@ class Nansat(Domain):
         ---------
         Creates VRT object with VRT-file and RAW-file
         Adds band to the self.vrt
+
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, new bands are added
+
 
         Examples
         --------
@@ -316,6 +329,8 @@ class Nansat(Domain):
             self.vrt.bandVRTs[bandName] = bandVRT
 
         self.vrt.dataset.FlushCache()  # required after adding bands
+
+        return 0
 
     def bands(self):
         ''' Make a dictionary with all metadata from all bands
@@ -380,10 +395,14 @@ class Nansat(Domain):
             ['OPT1=VAL1', 'OP2='VAL2']
             See also http://www.gdal.org/frmt_netcdf.html
 
-
         Modifies
         ---------
         Create a netCDF file
+
+        Returns
+        --------
+        status : int
+            0 - everyhting is OK, data is exported
 
         !! NB
         ------
@@ -563,6 +582,8 @@ class Nansat(Domain):
 
         self.logger.debug('Export - OK!')
 
+        return 0
+
     def _add_gcps(self, fileName, gcps, bottomup):
         ''' Add 4 variables with gcps to the generated netCDF file '''
         gcpVariables = ['GCPX', 'GCPY', 'GCPZ', 'GCPPixel', 'GCPLine', ]
@@ -598,6 +619,8 @@ class Nansat(Domain):
         # write data, close file
         ncFile.close()
 
+        return 0
+
     def export2thredds(self, fileName, bands, metadata=None,
                        maskName=None, rmMetadata=[],
                        time=None, createdTime=None):
@@ -630,6 +653,11 @@ class Nansat(Domain):
             aqcuisition time of original data. That value will be in time dim
         createdTime : datetime
             date of creation. Will be in metadata 'created'
+
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, data are exported to a netCDF file
 
         !! NB
         ------
@@ -1086,6 +1114,11 @@ class Nansat(Domain):
         ---------
         self.vrt : VRT object with dataset replaced to warpedVRT dataset
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, projection is repojected
+
         !! NB !!
         ---------
         - Integer data is returnd by integer. Round off to decimal place.
@@ -1172,6 +1205,8 @@ class Nansat(Domain):
         subMetaData.pop('fileName')
         self.set_metadata(subMetaData)
 
+        return 0
+
     def undo(self, steps=1):
         '''Undo reproject, resize, add_band or crop of Nansat object
 
@@ -1182,6 +1217,12 @@ class Nansat(Domain):
         steps : int
             How many steps back to undo
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, self.vrt is replaced to sub_vrt
+
+
         Modifies
         --------
         self.vrt
@@ -1189,6 +1230,8 @@ class Nansat(Domain):
         '''
 
         self.vrt = self.vrt.get_sub_vrt(steps)
+
+        return 0
 
     def watermask(self, mod44path=None, dstDomain=None, **kwargs):
         ''' Create numpy array with watermask (water=1, land=0)
@@ -1463,6 +1506,11 @@ class Nansat(Domain):
         fileName : string
         bandID : integer or string(default = 1)
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, create geotiffimage
+
         '''
         bandNo = self._get_band_number(bandID)
         band = self.get_GDALRasterBand(bandID)
@@ -1507,6 +1555,8 @@ class Nansat(Domain):
             print colorTable
         outDataset = None
         self.vrt.copyproj(fileName)
+
+        return 0
 
     def get_time(self, bandID=None):
         ''' Get time for dataset and/or its bands
@@ -1585,6 +1635,11 @@ class Nansat(Domain):
         ---------
         self.vrt.dataset : sets metadata in GDAL current dataset
 
+        Returns
+        -------
+        status : int
+            0 - everyhting is OK, set metadata
+
         '''
         # set all metadata to the dataset or to the band
         if bandID is None:
@@ -1599,6 +1654,8 @@ class Nansat(Domain):
                 metaReceiverVRT.SetMetadataItem(k, key[k])
         else:
             metaReceiverVRT.SetMetadataItem(key, value)
+
+        return 0
 
     def _get_mapper(self, mapperName, **kwargs):
         ''' Create VRT file in memory (VSI-file) with variable mapping
@@ -2089,19 +2146,20 @@ class Nansat(Domain):
 
         Modifies
         --------
-            self.vrt : VRT
-                superVRT is created with modified SrcRect and DstRect
+        self.vrt : VRT
+            superVRT is created with modified SrcRect and DstRect
+
         Returns
         -------
-            status : int
-                0 - everyhting is OK, image is cropped
-                1 - if crop is totally outside, image is NOT cropped
-                2 - crop area is too large and crop is not needed
-            extent : (xOff, yOff, xSize, ySize)
-                xOff  - X offset in the original dataset
-                yOff  - Y offset in the original dataset
-                xSize - width of the new dataset
-                ySize - height of the new dataset
+        status : int
+            0 - everyhting is OK, image is cropped
+            1 - if crop is totally outside, image is NOT cropped
+            2 - crop area is too large and crop is not needed
+        extent : (xOff, yOff, xSize, ySize)
+            xOff  - X offset in the original dataset
+            yOff  - Y offset in the original dataset
+            xSize - width of the new dataset
+            ySize - height of the new dataset
 
         Examples
         --------
