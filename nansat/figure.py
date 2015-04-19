@@ -71,6 +71,7 @@ class Figure(object):
     transparency = None
 
     LEGEND_HEIGHT = 0.1
+    LEGEND_WIDTH = 1.0
     CBAR_HEIGHTMIN = 5
     CBAR_HEIGHT = 0.15
     CBAR_WIDTH = 0.8
@@ -78,8 +79,8 @@ class Figure(object):
     CBAR_LOCATION_Y = 0.5
     CBTICK_LOC_ADJUST_X = 5
     CBTICK_LOC_ADJUST_Y = 3
-    CAPTION_LOCATION_X = 0.1
-    CAPTION_LOCATION_Y = 0.25
+    TEXT_LOCATION_X = 1.0
+    TEXT_LOCATION_Y = 0.25
     TITLE_LOCATION_X = 0.1
     TITLE_LOCATION_Y = 0.05
     DEFAULT_EXTENSION = '.png'
@@ -175,6 +176,8 @@ class Figure(object):
         --------------------
         LEGEND_HEIGHT : float, [0 1]
             0.1, legend height relative to image height
+        LEGEND_HEIGHT : float
+            1.0, legend width relative to image width
         CBAR_HEIGHTMIN : int
             5, minimum colorbar height, pixels
         CBAR_HEIGHT : float, [0 1]
@@ -189,14 +192,10 @@ class Figure(object):
             5,  colorbar tick label offset X, pixels
         CBTICK_LOC_ADJUST_Y : int
             3,  colorbar tick label offset Y, pixels
-        CAPTION_LOCATION_X : float, [0 1]
-            0.1, caption offset X relative to legend width
-        CAPTION_LOCATION_Y : float, [0 1]
-            0.1, caption offset Y relative to legend height
-        TITLE_LOCATION_X : float, [0 1]
-            0.1, title offset X relative to legend width
-        TITLE_LOCATION_Y :
-            0.3, title  offset Y relative to legend height
+        TEXT_LOCATION_X : float,
+            1.0, text offset X relative to colorbar positionX
+        TEXT_LOCATION_Y : float,
+            0.2, text  offset Y relative to colorbar positionY
         DEFAULT_EXTENSION : string
             '.png'
         --------------------------------------------------
@@ -680,9 +679,9 @@ class Figure(object):
         font = ImageFont.truetype(self.fontFileName, self.fontSize)
 
         # create a pilImage for the legend
-        self.pilImgLegend = Image.new('P', (self.width,
-                                            int(self.height *
-                                                self.LEGEND_HEIGHT)), 255)
+        self.pilImgLegend = Image.new('P', (int(self.width * self.LEGEND_WIDTH),
+                                            int(self.height * self.LEGEND_HEIGHT)),
+                                            255)
         draw = ImageDraw.Draw(self.pilImgLegend)
 
         # set black color
@@ -702,11 +701,10 @@ class Figure(object):
             # create a colorbar pil Image
             pilImgCbar = Image.fromarray(np.uint8(bar))
             # paste the colorbar pilImage on Legend pilImage
-            self.pilImgLegend.paste(pilImgCbar,
-                                    (int(self.pilImgLegend.size[0] *
-                                         self.CBAR_LOCATION_X),
-                                     int(self.pilImgLegend.size[1] *
-                                         self.CBAR_LOCATION_Y)))
+            box0 = (int(self.pilImgLegend.size[0] * self.CBAR_LOCATION_X),
+                    int(self.pilImgLegend.size[1] * self.CBAR_LOCATION_Y))
+
+            self.pilImgLegend.paste(pilImgCbar, box0)
             # create a scale for the colorbar
             scaleLocation = np.linspace(0, 1, self.numOfTicks)
             scaleArray = scaleLocation
@@ -720,15 +718,11 @@ class Figure(object):
             for iTick in range(self.numOfTicks):
                 coordX = int(scaleLocation[iTick] *
                              self.pilImgLegend.size[0] *
-                             self.CBAR_WIDTH +
-                             int(self.pilImgLegend.size[0] *
-                                 self.CBAR_LOCATION_X))
+                             self.CBAR_WIDTH + box0[0])
 
-                box = (coordX, int(self.pilImgLegend.size[1] *
-                                   self.CBAR_LOCATION_Y),
-                       coordX, int(self.pilImgLegend.size[1] *
-                                  (self.CBAR_LOCATION_Y +
-                                   self.CBAR_HEIGHT)) - 1)
+                box = (coordX, box0[1],
+                       coordX, box0[1] + int(self.pilImgLegend.size[1] *
+                                             self.CBAR_HEIGHT) - 1)
                 draw.line(box, fill=black)
                 textSize = font.getsize(scaleArray[iTick])
                 box = (coordX - int(textSize[0] / 2),
@@ -737,22 +731,19 @@ class Figure(object):
                         + int(int(textSize[1] / 2))))
                 draw.text(box, scaleArray[iTick], fill=black, font=font)
 
-        # draw longname and units
-        box = (int(self.pilImgLegend.size[0] * self.CAPTION_LOCATION_X),
-               int(self.pilImgLegend.size[1] * self.CAPTION_LOCATION_Y))
-        draw.text(box, str(self.caption), fill=black, font=font)
+        self.titleString = self.titleString + '\n' + str(self.caption)
 
-        # if titleString is given, draw it
-        if self.titleString != '':
-            # write text each line onto pilImgCanvas
-            textHeight = int(self.pilImgLegend.size[1] *
-                             self.TITLE_LOCATION_Y)
-            for line in self.titleString.splitlines():
-                draw.text((int(self.pilImgLegend.size[0] *
-                               self.TITLE_LOCATION_X),
-                           textHeight), line, fill=black, font=font)
-                text = draw.textsize(line, font=font)
-                textHeight += text[1]
+        lineNum = 0
+        for line in self.titleString.splitlines():
+            lineNum += 1
+        textSize = font.getsize(self.caption)
+
+        box = (int(box0[0] * self.TEXT_LOCATION_X),
+               int(box0[1] - textSize[1] * (lineNum + self.TEXT_LOCATION_Y)))
+
+        for line in self.titleString.splitlines():
+            draw.text(box, line, fill=black, font=font)
+            box = (box0[0], box[1] + textSize[1])
 
     def create_pilImage(self, **kwargs):
         ''' self.create_pilImage is replaced from None to PIL image
