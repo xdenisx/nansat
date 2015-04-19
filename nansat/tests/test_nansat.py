@@ -380,42 +380,79 @@ class NansatTest(unittest.TestCase):
 
     def test_get_transect(self):
         n1 = Nansat(self.test_file_gcps, logLevel=40)
-        v, xy, pl = n1.get_transect(((28.31299128, 70.93709219),
-                                     (28.93691525, 70.69646524)))
+        v, xy, pl = n1.get_transect((((28.31299128, 70.93709219),
+                                      (28.93691525, 70.69646524)),
+                                     (28.65, 70.82)))
         tmpfilename = os.path.join(ntd.tmp_data_path,
                                    'nansat_get_transect.png')
-        plt.plot(v[0], xy[0])
+        plt.plot(v[0][0], xy[0][0])
         plt.savefig(tmpfilename)
         plt.close('all')
 
-        self.assertTrue(len(v[0]) > 50)
-        self.assertEqual(len(v[0]), len(xy[0]))
-        self.assertEqual(len(v[0]), len(pl[0]))
-        self.assertEqual(type(xy[0]), np.ndarray)
-        self.assertEqual(type(pl), np.ndarray)
+        self.assertTrue(len(v[0][0]) > 50)
+        self.assertTrue(len(v[1][0]) == 1)
+        self.assertEqual(len(v[0][0]), len(xy[0][0]))
+        self.assertEqual(len(v[0][0]), len(pl[0][0]))
+        self.assertEqual(type(xy[0][0]), list)
+        self.assertEqual(type(pl[0]), list)
 
     def test_get_transect_outside(self):
         n1 = Nansat(self.test_file_gcps, logLevel=40)
-        v, xy, pl = n1.get_transect(((28.31299128, 70.93709219),
-                                     (0., 0.)))
+        v, xy, pl = n1.get_transect((((28.31299128, 70.93709219), (0., 0.)),))
 
-        self.assertTrue(len(v[0]) > 50)
-        self.assertEqual(len(v[0]), len(xy[0]))
-        self.assertEqual(len(v[0]), len(pl[0]))
-        self.assertEqual(type(xy[0]), np.ndarray)
-        self.assertEqual(type(pl), np.ndarray)
+        self.assertTrue(len(v[0][0]) > 50)
+        self.assertEqual(len(v[0][0]), len(xy[0][0]))
+        self.assertEqual(len(v[0][0]), len(pl[0][0]))
+        self.assertEqual(type(xy[0][0]), list)
+        self.assertEqual(type(pl[0]), list)
 
-    def test_get_transect_false(self):
+    def test_get_transect_points(self):
         n1 = Nansat(self.test_file_gcps, logLevel=40)
         v, xy, pl = n1.get_transect(((28.31299128, 70.93709219),
-                                     (28.93691525, 70.69646524)),
-                                    transect=False)
+                                     (28.93691525, 70.69646524)))
 
-        self.assertEqual(len(v[0]), 2)
-        self.assertEqual(len(v[0]), len(xy[0]))
-        self.assertEqual(len(v[0]), len(pl[0]))
-        self.assertEqual(type(xy[0]), np.ndarray)
-        self.assertEqual(type(pl), np.ndarray)
+        self.assertEqual(len(v), 2)
+        self.assertEqual(len(v), len(xy))
+        self.assertEqual(len(v), len(pl))
+        self.assertEqual(type(xy[0]), list)
+        self.assertEqual(type(pl[0]), list)
+
+    def test_get_transect_pixline(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        v, xy, pl = n1.get_transect((((57,119), (122, 152)),), latlon=False)
+
+        self.assertTrue(len(v[0][0]) > 50)
+        self.assertEqual(len(v[0][0]), len(xy[0][0]))
+        self.assertEqual(len(v[0][0]), len(pl[0][0]))
+        self.assertEqual(type(v[0][0]), list)
+        self.assertEqual(type(xy[0][0]), list)
+        self.assertEqual(type(pl[0][0]), list)
+
+    def test_get_transect_bands(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        v, xy, pl = n1.get_transect((((28.31299128, 70.93709219),
+                                      (28.93691525, 70.69646524)),),
+                                     bandList=[1,2,3])
+
+        self.assertTrue(len(v[0][0]) > 50)
+        self.assertTrue(len(v[0]) == 3)
+        self.assertEqual(len(v[0][0]), len(v[0][1]), len(v[0][2]))
+        self.assertEqual(len(v[0][0]), len(xy[0][0]))
+        self.assertEqual(len(v[0][0]), len(pl[0][0]))
+        self.assertEqual(type(v[0][0]), list)
+        self.assertEqual(type(xy[0][0]), list)
+        self.assertEqual(type(pl[0][0]), list)
+
+    def test_get_transect_ogr(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        NansatOGR = n1.get_transect((((28.31299128, 70.93709219),
+                                      (28.93691525, 70.69646524)),),
+                                     bandList=[1,2], returnOGR=True)
+
+        lyr = NansatOGR.layer
+        featDefn = lyr.GetLayerDefn()
+        self.assertTrue(featDefn.GetFieldCount() == 4)
+        self.assertTrue(lyr.GetFeatureCount() > 50)
 
     def test_get_no_transect_interactive(self):
         import matplotlib.pyplot as plt
