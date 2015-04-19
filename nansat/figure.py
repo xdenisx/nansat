@@ -715,6 +715,7 @@ class Figure(object):
             scaleArray = (scaleArray * (self.cmax[0] -
                           self.cmin[0]) + self.cmin[0])
             scaleArray = map(self._round_number, scaleArray)
+
             # draw scales and lines on the legend pilImage
             for iTick in range(self.numOfTicks):
                 coordX = int(scaleLocation[iTick] *
@@ -729,11 +730,11 @@ class Figure(object):
                                   (self.CBAR_LOCATION_Y +
                                    self.CBAR_HEIGHT)) - 1)
                 draw.line(box, fill=black)
-                box = (coordX + self.CBTICK_LOC_ADJUST_X,
+                textSize = font.getsize(scaleArray[iTick])
+                box = (coordX - int(textSize[0] / 2),
                        int(self.pilImgLegend.size[1] *
-                           (self.CBAR_LOCATION_Y +
-                            self.CBAR_HEIGHT)) +
-                       self.CBTICK_LOC_ADJUST_Y)
+                           (self.CBAR_LOCATION_Y + self.CBAR_HEIGHT)
+                        + int(int(textSize[1] / 2))))
                 draw.text(box, scaleArray[iTick], fill=black, font=font)
 
         # draw longname and units
