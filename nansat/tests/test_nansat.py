@@ -491,6 +491,35 @@ class NansatTest(unittest.TestCase):
 
         self.assertEqual(shape1, shape2)
 
+    def test_update_band(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        array = n1['L_645'] * 2
+        bandMeta = n1.get_metadata(bandID='L_645')
+        n1.update_bands(array, bands='L_645')
+
+        self.assertTrue(n1.has_band('L_645'))
+        self.assertEqual(type(n1['L_645']), np.ndarray)
+        self.assertEqual(set(n1.get_metadata(bandID='L_645')), set(bandMeta))
+        np.testing.assert_array_equal(n1['L_645'], array)
+
+    def test_update_bands(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        bandMeta1 = n1.get_metadata(bandID='L_645')
+        bandMeta2 = n1.get_metadata(bandID='L_469')
+        array1 = n1['L_645'] * 2
+        array2 = n1['L_469'] * 3
+        array = np.array([array1, array2])
+        n1.update_bands(array, bands=['L_645', 'L_469'])
+
+        self.assertTrue(n1.has_band('L_645'))
+        self.assertTrue(n1.has_band('L_469'))
+        self.assertEqual(type(n1['L_645']), np.ndarray)
+        self.assertEqual(type(n1['L_469']), np.ndarray)
+        self.assertEqual(set(n1.get_metadata(bandID='L_645')), set(bandMeta1))
+        self.assertEqual(set(n1.get_metadata(bandID='L_469')), set(bandMeta2))
+        np.testing.assert_array_equal(n1['L_645'], array1)
+        np.testing.assert_array_equal(n1['L_469'], array2)
+
     def test_write_figure(self):
         n1 = Nansat(self.test_file_stere, logLevel=40)
         tmpfilename = os.path.join(ntd.tmp_data_path,

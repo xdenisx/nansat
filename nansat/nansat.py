@@ -1190,6 +1190,42 @@ class Nansat(Domain):
 
         self.vrt = self.vrt.get_sub_vrt(steps)
 
+    def update_bands(self, array, bands=[1]):
+        ''' Update band data(array)
+
+        Parameters
+        -----------
+        array : numpy array (2D or 3D)
+        bands : list, int or string
+
+        Modifies
+        --------
+        self[i] : update band data
+
+        '''
+        # convert <bands> from integer, or string, or list of strings
+        # into list of integers
+        if isinstance(bands, list):
+            for i, band in enumerate(bands):
+                bands[i] = self._get_band_number(band)
+        else:
+            bands = [self._get_band_number(bands)]
+
+        if len(array.shape) == 2:
+            array = array.reshape((1, array.shape[0], array.shape[1]))
+
+        # make a dictionary with key=bandNo and value=array
+        dataDict = {}
+        for i, iBand in enumerate(bands):
+            dataDict[iBand] = array[i, :, :]
+
+        # delete band with descending order
+        for iBand in sorted(dataDict, reverse=True):
+            bandMetadata = self.get_metadata(bandID = iBand)
+            self.set_metadata(key='name', value='del', bandID=iBand)
+            self.add_band(dataDict[iBand], parameters=bandMetadata)
+            self.vrt.delete_band(iBand)
+
     def watermask(self, mod44path=None, dstDomain=None, **kwargs):
         ''' Create numpy array with watermask (water=1, land=0)
 
