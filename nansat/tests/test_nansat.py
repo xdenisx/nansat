@@ -531,6 +531,16 @@ class NansatTest(unittest.TestCase):
 
         self.assertTrue(os.path.exists(tmpfilename))
 
+    def test_write_legend(self):
+        n1 = Nansat(self.test_file_stere, logLevel=40)
+        tmpfilename = os.path.join(ntd.tmp_data_path,
+                                   'nansat_write_legend.png')
+        fig = n1.write_figure()
+        fig.get_legend()
+        fig.save(tmpfilename)
+
+        self.assertTrue(os.path.exists(tmpfilename))
+
     def test_get_time(self):
         n1 = Nansat(self.test_file_gcps, logLevel=40)
         t = n1.get_time()

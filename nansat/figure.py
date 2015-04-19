@@ -872,6 +872,34 @@ class Figure(object):
         if self.logoFileName is not None:
             self.add_logo()
 
+    def get_legend(self, **kwargs):
+        ''' makes legend image
+
+        Modifies
+        --------
+        self.pilImg : PIL image
+            Set PIL image which has only legend
+
+        '''
+        # if sizes for legend image is not specified, set the default sizes
+        if not('LEGEND_HEIGHT' in kwargs.keys()):
+            kwargs['LEGEND_HEIGHT'] = 0.5
+        if not('fontSize' in kwargs.keys()):
+            kwargs['fontSize'] = int(self.array.shape[1] / 30. * self.fontRatio)
+
+        # modify default parameters
+        self._set_defaults(kwargs)
+        # convert to uint8
+        self.convert_palettesize()
+        # create the paletter
+        self._create_palette()
+        # create legend
+        self.create_legend()
+        # set pilImgLegend to pilImg
+        self.pilImg = self.pilImgLegend
+        # set palette to self.pilImg
+        self.pilImg.putpalette(self.palette)
+
     def _make_transparent_color(self):
         ''' makes colors specified by self.transparency
         and self.reprojMask (if the image is reprojected) transparent
