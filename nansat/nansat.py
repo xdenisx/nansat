@@ -1786,7 +1786,7 @@ class Nansat(Domain):
         return bandNumber
 
     def get_transect(self, points=None, bandList=[1], latlon=True,
-                     returnOGR=False, layerNum=0, smoothRadius=0,
+                     returnOGR=False, layerNum=0, transect=True, smoothRadius=0,
                      smoothAlg=0, onlypixline=False, **kwargs):
 
         '''Get transect from two poins and retun the values by numpy array
@@ -1866,19 +1866,21 @@ class Nansat(Domain):
             if transect:
                 points = [points]
 
-        bandNameDict ={}
-        bandsMeta = self.bands()
-        for iKey in bandsMeta.keys():
-            bandNameDict[iKey] = bandsMeta[iKey]['name']
-
         # if points is not given, get points from GUI ...
         if points is None:
             latlon = False
             data = self[bandList[0]]
-            browser = PointBrowser(data, transect, **kwargs)
+            browser = PointBrowser(data, **kwargs)
             browser.get_points()
             points = []
-            oneLine = []
+            iSegPoints = []
+            for i, iPoint in enumerate(browser.connect):
+                if (i == 0) or (iPoint == 1):
+                    iSegPoints.append(browser.coordinates[i])
+                else:
+                    points.append(iSegPoints)
+                    iSegPoints = [browser.coordinates[i]]
+            points.append(iSegPoints)
 
         pixlinCoord = []
         gpiList = []

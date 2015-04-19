@@ -37,6 +37,7 @@ class NansatTest(unittest.TestCase):
         self.test_file_gcps = os.path.join(ntd.test_data_path, 'gcps.tif')
         self.test_file_stere = os.path.join(ntd.test_data_path, 'stere.tif')
         self.test_file_complex = os.path.join(ntd.test_data_path, 'complex.nc')
+        self.test_file_shp = os.path.join(ntd.test_data_path, 'points.shp')
         plt.switch_backend('Agg')
 
         if not os.path.exists(self.test_file_gcps):
@@ -664,6 +665,28 @@ class NansatTest(unittest.TestCase):
 
         self.assertEqual(noneResult, None)
         plt.ioff()
+
+    def test_get_transect_shp(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        v, xy, pl = n1.get_transect(self.test_file_shp)
+
+        self.assertTrue(len(v[0][0]) > 20)
+        self.assertEqual(len(v[0][0]), len(xy[0][0]))
+        self.assertEqual(len(v[0][0]), len(pl[0][0]))
+        self.assertEqual(type(v[0][0]), list)
+        self.assertEqual(type(xy[0][0]), list)
+        self.assertEqual(type(pl[0][0]), list)
+
+    def test_get_transect_shp_points(self):
+        n1 = Nansat(self.test_file_gcps, logLevel=40)
+        v, xy, pl = n1.get_transect(self.test_file_shp, transect=False)
+
+        self.assertTrue(len(v) == 4)
+        self.assertEqual(len(v), len(xy))
+        self.assertEqual(len(v), len(pl))
+        self.assertEqual(type(v), list)
+        self.assertEqual(type(xy), list)
+        self.assertEqual(type(pl), list)
 
     def test_crop(self):
         n1 = Nansat(self.test_file_gcps, logLevel=40)
